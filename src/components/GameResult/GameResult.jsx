@@ -4,6 +4,7 @@ const GameResult = (props) => {
   return (
     <div>
       <div>Game Result</div>
+      <div></div>
     </div>
   );
 };
