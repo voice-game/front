@@ -6,6 +6,7 @@ import { createLogger } from "redux-logger";
 import { BrowserRouter as Router } from "react-router-dom";
 import App from "./App";
 import reducer from "./reducers";
+import AuthService from "./api/auth_service.js";
 
 const middleware = [];
 
@@ -14,11 +15,12 @@ if (process.env.NODE_ENV !== "production") {
 }
 
 const store = createStore(reducer, applyMiddleware(...middleware));
+const authService = new AuthService();
 
 ReactDOM.render(
   <Provider store={store}>
     <Router>
-      <App />
+      <App authService={authService} />
     </Router>
   </Provider>,
   document.getElementById("root")
