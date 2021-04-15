@@ -1,7 +1,7 @@
 import getActionTypes from "../actions/actionTypes";
 
 export const initialState = {
-  isLoggedIn: false,
+  isLoggedIn: true,
   playerData: null,
 };
 
