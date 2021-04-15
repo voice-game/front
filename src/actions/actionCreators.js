@@ -1,8 +1,14 @@
 import ACTION_TYPES from "./actionTypes.js";
 
-export const sampleAction = () => {
+export const playerLogin = (playerData) => {
   return {
-    type: ACTION_TYPES.ACTION_NAME,
-    payload: "",
+    type: ACTION_TYPES.PLAYER_LOGIN,
+    payload: playerData,
+  };
+};
+
+export const playerLogout = () => {
+  return {
+    type: ACTION_TYPES.PLAYER_LOGOUT,
   };
 };

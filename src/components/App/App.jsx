@@ -1,34 +1,32 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import { useSelector } from "react-redux";
 
-import Login from "./components/Login/Login";
-import Logout from "./components/Logout/Logout";
-import GameList from "./components/GameList/GameList";
+import Login from "../Login/Login";
+import Logout from "../Logout/Logout";
+import GameList from "../GameList/GameList";
 import GameRoomList from "../GameRoomList/GameRoomList";
 import RoadRoller from "../RoadRoller/RoadRoller";
 import FlappyBird from "../FlappyBird/FlappyBird";
 import EnergyBattle from "../EnergyBattle/EnergyBattle";
 import ErrorPage from "../ErrorPage/ErrorPage";
 
-const App = () => {
-  const [isAuthorized, setIsAuthorized] = useState(false);
-
-  useEffect(() => {
-    setIsAuthorized(false);
-  }, []);
+const App = ({ authService }) => {
+  const { isLoggedIn } = useSelector((state) => state.authReducer);
+  console.log(isLoggedIn);
 
   return (
     <Router>
       <Switch>
-        {!isAuthorized ? (
-          <Login />
+        {!isLoggedIn ? (
+          <Login authService={authService} />
         ) : (
           <>
             <Route exact path="/">
               <GameList />
             </Route>
 
-            <Route path="/games">
+            <Route exact path="/games">
               <GameList />
             </Route>
 
@@ -40,7 +38,7 @@ const App = () => {
               <FlappyBird />
             </Route>
 
-            <Route path="/games/energy-battle">
+            <Route exact path="/games/energy-battle">
               <GameRoomList />
             </Route>
 
