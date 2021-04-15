@@ -14,8 +14,9 @@ const FighterAttackFrame = ({ isPlay }) => {
 
   const canvasRef = useRef(null);
 
-  const visualizer = (data, ctx) => {
-    console.log("visualizer");
+  const visualizer = (analyser, ctx) => {
+    const data = new Uint8Array(analyser.frequencyBinCount);
+    analyser.getByteFrequencyData(data);
     ctx.fillStyle = "gray";
     ctx.clearRect(0, 0, 300, 300);
     ctx.fillRect(0, 0, 20, 20);
@@ -33,17 +34,15 @@ const FighterAttackFrame = ({ isPlay }) => {
       return;
     }
 
-    const { processor, data } = audioProcessor(stream);
+    const { processor, analyser } = audioProcessor(stream);
     const ctx = canvasRef.current.getContext("2d");
-    const handler = () => visualizer(data, ctx);
+    const visualListener = () => visualizer(analyser, ctx);
 
     if (isPlay) {
-      processor.addEventListener("audioprocess", handler);
+      processor.addEventListener("audioprocess", visualListener);
     }
 
-    return () => {
-      processor.removeEventListener("audioprocess", handler);
-    };
+    return () => processor.removeEventListener("audioprocess", visualListener);
   }, [stream, isPlay]);
 
   return <Canvas ref={canvasRef} />;

@@ -12,8 +12,5 @@ export default function audioProcessor(audioStream) {
   analyser.connect(processor);
   processor.connect(context.destination);
 
-  const data = new Uint8Array(analyser.frequencyBinCount);
-  analyser.getByteFrequencyData(data);
-
-  return { processor, data };
+  return { processor, analyser };
 }
