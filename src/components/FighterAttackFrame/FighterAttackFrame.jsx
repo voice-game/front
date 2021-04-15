@@ -1,5 +1,7 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
+import getMedia from "../../utils/getMedia";
+import audioProcessor from "../../utils/audioProcessor";
 
 const Canvas = styled.canvas`
   width: 800px;
@@ -7,33 +9,10 @@ const Canvas = styled.canvas`
   border: 1px solid red;
 `;
 
-const FighterAttackFrame = () => {
+const FighterAttackFrame = ({ isPlay }) => {
+  const [stream, setStream] = useState(null);
+
   const canvasRef = useRef(null);
-
-  async function getMedia(constraints) {
-    const mediaStream = await navigator.mediaDevices.getUserMedia(constraints);
-    return mediaStream;
-  }
-
-  const audioProcessor = (audioStream) => {
-    const context = new AudioContext();
-    const source = context.createMediaStreamSource(audioStream);
-    const analyser = context.createAnalyser();
-    const processor = context.createScriptProcessor(2048, 1, 1);
-
-    analyser.minDecibels = -60;
-    analyser.fftSize = 1024;
-    analyser.smoothingTimeConstant = 0.9;
-
-    source.connect(analyser);
-    analyser.connect(processor);
-    processor.connect(context.destination);
-
-    const data = new Uint8Array(analyser.frequencyBinCount);
-    analyser.getByteFrequencyData(data);
-
-    return { processor, data };
-  };
 
   const visualizer = (data, ctx) => {
     console.log("visualizer");
@@ -43,19 +22,31 @@ const FighterAttackFrame = () => {
   };
 
   useEffect(() => {
-    const ctx = canvasRef.current.getContext("2d");
     (async () => {
-      const audioStream = await getMedia({ audio: true });
-      const { processor, data } = audioProcessor(audioStream);
-      processor.onaudioprocess = () => visualizer(data, ctx);
+      const stream = await getMedia({ audio: true });
+      setStream(stream);
     })();
   }, []);
 
-  return (
-    <>
-      <Canvas ref={canvasRef} />
-    </>
-  );
+  useEffect(() => {
+    if (!stream) {
+      return;
+    }
+
+    const { processor, data } = audioProcessor(stream);
+    const ctx = canvasRef.current.getContext("2d");
+    const handler = () => visualizer(data, ctx);
+
+    if (isPlay) {
+      processor.addEventListener("audioprocess", handler);
+    }
+
+    return () => {
+      processor.removeEventListener("audioprocess", handler);
+    };
+  }, [stream, isPlay]);
+
+  return <Canvas ref={canvasRef} />;
 };
 
 export default FighterAttackFrame;
