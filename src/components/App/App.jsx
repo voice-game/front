@@ -7,7 +7,7 @@ import Logout from "../Logout/Logout";
 import GameList from "../GameList/GameList";
 import GameRoomList from "../GameRoomList/GameRoomList";
 import RoadRoller from "../RoadRoller/RoadRoller";
-import FlappyBird from "../FlappyBird/FlappyBird";
+import FighterAttack from "../FighterAttack/FighterAttack";
 import EnergyBattle from "../EnergyBattle/EnergyBattle";
 import ErrorPage from "../ErrorPage/ErrorPage";
 
@@ -34,8 +34,8 @@ const App = ({ authService }) => {
               <RoadRoller />
             </Route>
 
-            <Route path="/games/flappy-bird">
-              <FlappyBird />
+            <Route path="/games/fighter-attack">
+              <FighterAttack />
             </Route>
 
             <Route exact path="/games/energy-battle">
