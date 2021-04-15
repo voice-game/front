@@ -1,11 +1,13 @@
-import ACTION_TYPES from "../actions/actionTypes";
+import getActionTypes from "../actions/actionTypes";
 
 export const initialState = {
-  isLoggedIn: true,
+  isLoggedIn: false,
   playerData: null,
 };
 
 const authReducer = (state = initialState, action) => {
+  const ACTION_TYPES = getActionTypes();
+
   switch (action.type) {
     case ACTION_TYPES.PLAYER_LOGIN:
       return {
