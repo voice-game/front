@@ -1,8 +1,33 @@
 import React from "react";
 import { useHistory } from "react-router-dom";
-import useErrorMessage from "../../hooks/useErrorMessage";
+import styled from "styled-components";
+
 import ErrorMessage from "../ErrorMessage/ErrorMessage";
 import GameCard from "../GameCard/GameCard";
+import useErrorMessage from "../../hooks/useErrorMessage";
+import GameOption from "../GameOption/GameOption";
+
+const MainPage = styled.section`
+  width: 100vw;
+  height: 100vh;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`;
+
+const MainTitle = styled.h1`
+  width: 100vw;
+  margin-top: 5vh;
+  text-align: center;
+`;
+
+const GameCardContainer = styled.div`
+  width: 90%;
+  margin-top: 5vh;
+  display: flex;
+  justify-content: space-between;
+`;
 
 const GameList = (props) => {
   const history = useHistory();
@@ -28,10 +53,11 @@ const GameList = (props) => {
   };
 
   return (
-    <section>
-      <h1> Game List </h1>
+    <MainPage>
       {error.length > 0 && <ErrorMessage />}
-      <div>
+      <MainTitle> Game List </MainTitle>
+      <GameOption />
+      <GameCardContainer>
         <GameCard
           onClick={selectGame}
           title="Road Roller"
@@ -47,8 +73,8 @@ const GameList = (props) => {
           title="Energy Battle"
           imgSrc="https://images-na.ssl-images-amazon.com/images/I/81InK8W1PAL.png"
         />
-      </div>
-    </section>
+      </GameCardContainer>
+    </MainPage>
   );
 };
 
