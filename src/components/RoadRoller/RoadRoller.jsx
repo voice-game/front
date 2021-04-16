@@ -1,15 +1,16 @@
 import React from "react";
-import Canvas from "../../games/roadRoller";
+import Game from "../../games/roadRoller";
 import useCanvas from "../../hooks/useCanvas";
 import GameFrame from "../GameFrame/GameFrame";
+import GameOption from "../GameOption/GameOption";
 import GameResult from "../GameResult/GameResult";
 
 const RoadRoller = (props) => {
-  const game = useCanvas(Canvas);
+  const game = useCanvas(Game);
 
   return (
     <div>
-      <div>Road Roller</div>
+      <GameOption />
       <GameFrame canvasRef={game} />
       <GameResult />
     </div>

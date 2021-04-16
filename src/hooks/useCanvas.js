@@ -1,4 +1,5 @@
 import { useEffect, useRef } from "react";
+import { removeEventHelper } from "../utils/eventListHelper";
 
 const useCanvas = (CanvasGenerator) => {
   const canvasRef = useRef();
@@ -8,6 +9,7 @@ const useCanvas = (CanvasGenerator) => {
 
     return () => {
       window.cancelAnimationFrame(myCanvas.animationFrameId);
+      removeEventHelper(myCanvas.eventList);
     };
   },[CanvasGenerator]);
 
