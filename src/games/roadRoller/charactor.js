@@ -1,9 +1,12 @@
 import { addEventHelper } from "../../utils/eventListHelper";
 
-function Charactor(eventList, x, y) {
+function Charactor(eventList, dots, x, y) {
   this.eventList = eventList;
+  this.dots = dots;
   this.x = x;
   this.y = y;
+  this.charactorWidth = 20;
+  this.charactorHeight = 20;
   this.charactorMove = {
     left: false,
     right: false,
@@ -13,6 +16,7 @@ function Charactor(eventList, x, y) {
   this.KEY_CODE = {
     A: 65,
     D: 68,
+    W: 87,
   };
 
   addEventHelper(this.eventList, window, "keydown", this.handleKeyEvent.bind(this));
@@ -21,7 +25,12 @@ function Charactor(eventList, x, y) {
 
 Charactor.prototype.draw = function (ctx) {
   ctx.fillStyle = "#0095DD";
-  ctx.fillRect(this.x, this.y - 220, 20, 20);
+  ctx.fillRect(
+    this.x,
+    this.dots[this.x] - this.charactorHeight,
+    this.charactorWidth,
+    this.charactorHeight
+  );
   this.moveCharactor();
 };
 
@@ -41,19 +50,17 @@ Charactor.prototype.handleKeyEvent = function (event) {
 }
 
 Charactor.prototype.moveCharactor = function () {
-  if (this.charactorMove.left) {
-    this.x -= this.charactorMove.speed;
-  }
+    if (this.charactorMove.left) {
+      if (this.dots[this.x - 1]) {
+        this.x -= this.charactorMove.speed;
+      }
+    }
 
-  if (this.charactorMove.right) {
-    this.x += this.charactorMove.speed;
-  }
-};
-
-Charactor.prototype.handleJumping = function () {
-  if (!this.charactorMove.jump) {
-    this.charactorMove.jump = true;
-  }
+    if (this.charactorMove.right) {
+      if (this.dots[this.x + this.charactorWidth + 1]) {
+        this.x += this.charactorMove.speed;
+      }
+    }
 };
 
 export default Charactor;

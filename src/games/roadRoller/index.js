@@ -6,8 +6,8 @@ function Game(ref) {
   this.ctx = this.canvas.getContext("2d");
   this.eventList = [];
   this.dots = new Array(this.canvas.width);
-  this.backGround = new Background(this.canvas.width, this.canvas.height);
-  this.charactor = new Charactor(this.eventList, 20, this.canvas.height);
+  this.backGround = new Background(this.dots, this.canvas.width, this.canvas.height);
+  this.charactor = new Charactor(this.eventList, this.dots, 40, this.canvas.height);
 
   this.animate();
 }
