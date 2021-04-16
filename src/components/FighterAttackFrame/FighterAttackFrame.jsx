@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 import getMedia from "../../utils/getMedia";
-import audioProcessor from "../../utils/audioProcessor";
+import VolumeMeter from "../../utils/VolumeMeter";
 
 const Canvas = styled.canvas`
   border: 1px solid black;
@@ -11,25 +11,7 @@ const FighterAttackFrame = ({ isPlay }) => {
   const [stream, setStream] = useState(null);
   const canvasRef = useRef(null);
   const posY = useRef(0);
-
-  const visualizer = (analyser, ctx) => {
-    const data = new Uint8Array(analyser.frequencyBinCount);
-    analyser.getByteFrequencyData(data);
-    const average = data.reduce((acc, item) => acc + item) / data.length;
-
-    if (average > 2) {
-      posY.current += 1;
-    } else {
-      posY.current -= 2;
-    }
-
-    ctx.clearRect(0, 0, 500, 500);
-    ctx.beginPath();
-    ctx.arc(400, 200 - posY.current, 25, 0, Math.PI * 2);
-    ctx.fillStyle = "gray";
-    ctx.fill();
-    ctx.closePath();
-  };
+  const animationId = useRef(null);
 
   useEffect(() => {
     (async () => {
@@ -43,15 +25,33 @@ const FighterAttackFrame = ({ isPlay }) => {
       return;
     }
 
-    const { processor, analyser } = audioProcessor(stream);
-    const ctx = canvasRef.current.getContext("2d");
-    const visualListener = () => visualizer(analyser, ctx);
-
     if (isPlay) {
-      processor.addEventListener("audioprocess", visualListener);
+      const volumeMeter = new VolumeMeter(stream);
+      volumeMeter.audioProcessor();
+      const ctx = canvasRef.current.getContext("2d");
+
+      function draw() {
+        const volume = volumeMeter.getVolume();
+
+        if (volume > 2) {
+          posY.current += 1;
+        } else {
+          posY.current -= 1;
+        }
+
+        ctx.clearRect(0, 0, 500, 500);
+        ctx.beginPath();
+        ctx.arc(400, 200 - posY.current, 25, 0, Math.PI * 2);
+        ctx.fillStyle = "gray";
+        ctx.fill();
+        ctx.closePath();
+        animationId.current = requestAnimationFrame(draw);
+      }
+
+      draw();
     }
 
-    return () => processor.removeEventListener("audioprocess", visualListener);
+    return () => cancelAnimationFrame(animationId.current);
   }, [stream, isPlay]);
 
   return <Canvas ref={canvasRef} width={800} height={500} />;
