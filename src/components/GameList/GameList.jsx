@@ -1,8 +1,33 @@
 import React from "react";
 import { useHistory } from "react-router-dom";
-import useErrorMessage from "../../hooks/useErrorMessage";
+import styled from "styled-components";
+
 import ErrorMessage from "../ErrorMessage/ErrorMessage";
 import GameCard from "../GameCard/GameCard";
+import useErrorMessage from "../../hooks/useErrorMessage";
+import GameOption from "../GameOption/GameOption";
+
+const MainPage = styled.section`
+  width: 100vw;
+  height: 100vh;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`;
+
+const MainTitle = styled.h1`
+  width: 100vw;
+  margin-top: 5vh;
+  text-align: center;
+`;
+
+const GameCardContainer = styled.div`
+  width: 90%;
+  margin-top: 5vh;
+  display: flex;
+  justify-content: space-between;
+`;
 
 const GameList = (props) => {
   const history = useHistory();
@@ -14,8 +39,8 @@ const GameList = (props) => {
         history.push("/games/road-roller");
         break;
 
-      case "Flappy Bird":
-        history.push("/games/flappy-bird");
+      case "Fighter Attack":
+        history.push("/games/fighter-attack");
         break;
 
       case "Energy Battle":
@@ -28,10 +53,11 @@ const GameList = (props) => {
   };
 
   return (
-    <section>
-      <h1> Game List </h1>
+    <MainPage>
       {error.length > 0 && <ErrorMessage />}
-      <div>
+      <MainTitle> Game List </MainTitle>
+      <GameOption />
+      <GameCardContainer>
         <GameCard
           onClick={selectGame}
           title="Road Roller"
@@ -39,7 +65,7 @@ const GameList = (props) => {
         />
         <GameCard
           onClick={selectGame}
-          title="Flappy Bird"
+          title="Fighter Attack"
           imgSrc="https://lh3.googleusercontent.com/qgotsceXqd0uMmfMjRNgm09jxGkIgAmCcwwe8uFCNb_-9xi3uei8iEcwcaFB8uBKnratsMU7wgSyGBkB8V5vJkSbrQ=w640-h400-e365-rj-sc0x00ffffff"
         />
         <GameCard
@@ -47,8 +73,8 @@ const GameList = (props) => {
           title="Energy Battle"
           imgSrc="https://images-na.ssl-images-amazon.com/images/I/81InK8W1PAL.png"
         />
-      </div>
-    </section>
+      </GameCardContainer>
+    </MainPage>
   );
 };
 
