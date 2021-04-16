@@ -7,7 +7,7 @@ const useCanvas = (CanvasGenerator) => {
     const myCanvas = new CanvasGenerator(canvasRef);
 
     return () => {
-      cancelAnimationFrame(myCanvas.animationFrameId);
+      window.cancelAnimationFrame(myCanvas.animationFrameId);
     };
   },[CanvasGenerator]);
 
