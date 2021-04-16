@@ -1,19 +1,16 @@
-import React, { useEffect, useRef } from "react";
-import Game from "../../games/roadRoller";
+import React from "react";
+import Canvas from "../../games/roadRoller";
+import useCanvas from "../../hooks/useCanvas";
 import GameFrame from "../GameFrame/GameFrame";
 import GameResult from "../GameResult/GameResult";
 
 const RoadRoller = (props) => {
-  const canvasRef = useRef();
-
-  useEffect(() => {
-      new Game(canvasRef);
-  },[]);
+  const game = useCanvas(Canvas);
 
   return (
     <div>
       <div>Road Roller</div>
-      <GameFrame canvasRef={canvasRef} />
+      <GameFrame canvasRef={game} />
       <GameResult />
     </div>
   );
