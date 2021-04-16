@@ -5,15 +5,18 @@ function VolumeMeter(stream) {
   this.processor = null;
 }
 
-VolumeMeter.prototype.audioProcessor = function audioProcessor() {
+VolumeMeter.prototype.audioProcessor = function audioProcessor(option) {
+  const { bufferSize, minDecibels, maxDecibels, timeConstant } = option;
+
   const context = new AudioContext();
   const source = context.createMediaStreamSource(this.stream);
   const analyser = context.createAnalyser();
-  const processor = context.createScriptProcessor(2048, 1, 1);
+  const processor = context.createScriptProcessor(bufferSize, 1, 1);
 
-  analyser.fftSize = 1024;
-  analyser.minDecibels = -60;
-  analyser.smoothingTimeConstant = 0.9;
+  analyser.fftSize = bufferSize / 2;
+  analyser.minDecibels = minDecibels;
+  analyser.maxDecibels = maxDecibels;
+  analyser.smoothingTimeConstant = timeConstant;
 
   source.connect(analyser);
   analyser.connect(processor);

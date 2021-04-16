@@ -27,13 +27,19 @@ const FighterAttackFrame = ({ isPlay }) => {
 
     if (isPlay) {
       const volumeMeter = new VolumeMeter(stream);
-      volumeMeter.audioProcessor();
+      volumeMeter.audioProcessor({
+        bufferSize: 2048,
+        minDecibels: -60,
+        maxDecibels: -30,
+        timeConstant: 0.9,
+      });
+
       const ctx = canvasRef.current.getContext("2d");
 
-      function draw() {
+      const draw = () => {
         const volume = volumeMeter.getVolume();
 
-        if (volume > 2) {
+        if (volume > 3) {
           posY.current += 1;
         } else {
           posY.current -= 1;
@@ -45,8 +51,9 @@ const FighterAttackFrame = ({ isPlay }) => {
         ctx.fillStyle = "gray";
         ctx.fill();
         ctx.closePath();
+
         animationId.current = requestAnimationFrame(draw);
-      }
+      };
 
       draw();
     }
