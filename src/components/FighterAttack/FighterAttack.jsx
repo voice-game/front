@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import FighterAttackFrame from "../FighterAttackFrame/FighterAttackFrame";
 import GameResult from "../GameResult/GameResult";
+import GameOption from "../GameOption/GameOption";
 
 const FighterAttack = (props) => {
   const [isPlay, setIsPlay] = useState(false);
@@ -16,6 +17,7 @@ const FighterAttack = (props) => {
   return (
     <div>
       <div>Fighter Attack</div>
+      <GameOption />
       <FighterAttackFrame isPlay={isPlay} />
       <GameResult />
       <button onClick={handlePlayClick}>Play</button>

@@ -2,15 +2,22 @@ import React, { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 import getMedia from "../../utils/getMedia";
 import VolumeMeter from "../../utils/VolumeMeter";
+import Fighter from "../../games/fighterAttack/Fighter";
+import Obstacle from "../../games/fighterAttack/Obstacle";
 
 const Canvas = styled.canvas`
   border: 1px solid black;
 `;
 
+const canvasWidth = document.body.clientWidth * 0.6;
+const canvasHeight = document.body.clientWidth * 0.3;
+console.log(canvasWidth, canvasHeight);
+
 const FighterAttackFrame = ({ isPlay }) => {
   const [stream, setStream] = useState(null);
   const canvasRef = useRef(null);
   const posY = useRef(0);
+  const time = useRef(0);
   const animationId = useRef(null);
 
   useEffect(() => {
@@ -36,21 +43,21 @@ const FighterAttackFrame = ({ isPlay }) => {
 
       const ctx = canvasRef.current.getContext("2d");
 
+      const fighter = new Fighter(ctx, 50, 50, 1, "black");
+      const tree = new Obstacle(50, 50, 1);
+      const cloud = new Obstacle(50, 50, 1);
+
       const draw = () => {
         const volume = volumeMeter.getVolume();
 
         if (volume > 3) {
-          posY.current += 1;
+          posY.current += canvasHeight / 1000;
         } else {
-          posY.current -= 1;
+          posY.current -= canvasHeight / 1000;
         }
 
-        ctx.clearRect(0, 0, 500, 500);
-        ctx.beginPath();
-        ctx.arc(400, 200 - posY.current, 25, 0, Math.PI * 2);
-        ctx.fillStyle = "gray";
-        ctx.fill();
-        ctx.closePath();
+        ctx.clearRect(0, 0, canvasWidth, canvasHeight);
+        fighter.animate(canvasWidth, canvasHeight, posY.current);
 
         animationId.current = requestAnimationFrame(draw);
       };
@@ -61,7 +68,7 @@ const FighterAttackFrame = ({ isPlay }) => {
     return () => cancelAnimationFrame(animationId.current);
   }, [stream, isPlay]);
 
-  return <Canvas ref={canvasRef} width={800} height={500} />;
+  return <Canvas ref={canvasRef} width={canvasWidth} height={canvasHeight} />;
 };
 
 export default FighterAttackFrame;
