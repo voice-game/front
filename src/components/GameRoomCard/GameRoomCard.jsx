@@ -1,6 +1,8 @@
 import React from "react";
-import { useHistory } from "react-router-dom";
 import styled from "styled-components";
+
+import useErrorMessage from "../../hooks/useErrorMessage";
+import ErrorMessage from "../ErrorMessage/ErrorMessage";
 
 const GameRoomCardContainer = styled.div`
   position: relative;
@@ -21,24 +23,37 @@ const GameRoomStatus = styled.div`
 `;
 
 const GameRoomCard = ({
-  roomData: { _id, players, createdBy, createdAt, isPlaying },
+  roomData: { _id, players, createdBy, createdAt, status },
   onClick,
 }) => {
+  const [error, showErrorMessage] = useErrorMessage("");
+
+  const handleClick = () => {
+    if (status === "Join") {
+      return onClick();
+    }
+
+    showErrorMessage("입장이 불가능합니다.");
+  };
+
   return (
-    <GameRoomCardContainer onClick={onClick}>
-      <div>{_id}</div>
-      <div>
-        <div>참여자</div>
-        {players.map((player) => (
-          <div key={player._id}>{player.email}</div>
-        ))}
-      </div>
-      <div>
-        <div>아이콘</div>
-        <div>{players.length}</div>
-      </div>
-      <GameRoomStatus>{isPlaying ? "게임중" : "입장가능"}</GameRoomStatus>
-    </GameRoomCardContainer>
+    <>
+      {error.length > 0 && <ErrorMessage error={error} />}
+      <GameRoomCardContainer onClick={handleClick}>
+        <div>{_id}</div>
+        <div>
+          <div>참여자</div>
+          {players.map((player) => (
+            <div key={player._id}>{player.email}</div>
+          ))}
+        </div>
+        <div>
+          <div>아이콘</div>
+          <div>{players.length}</div>
+        </div>
+        <GameRoomStatus>{status}</GameRoomStatus>
+      </GameRoomCardContainer>
+    </>
   );
 };
 

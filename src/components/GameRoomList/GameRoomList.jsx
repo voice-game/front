@@ -34,7 +34,7 @@ const mockRoomData = [
       },
     },
     createdAt: Date.now(),
-    isPlaying: true,
+    status: "Playing",
   },
   {
     _id: uuidv4(),
@@ -55,7 +55,7 @@ const mockRoomData = [
       },
     },
     createdAt: Date.now(),
-    isPlaying: false,
+    status: "Join",
   },
   {
     _id: uuidv4(),
@@ -83,7 +83,7 @@ const mockRoomData = [
       },
     },
     createdAt: Date.now(),
-    isPlaying: true,
+    status: "Full",
   },
   {
     _id: uuidv4(),
@@ -104,7 +104,7 @@ const mockRoomData = [
       },
     },
     createdAt: Date.now(),
-    isPlaying: false,
+    status: "Join",
   },
 ];
 
@@ -120,24 +120,18 @@ const GameRoomGrid = styled.div`
 const GameRoomList = (props) => {
   const dispatch = useDispatch();
   const history = useHistory();
-  const fetchRooms = useCallback(() => {});
   const location = useLocation();
 
   useEffect(() => {
     fetchRooms();
   }, []);
 
+  const fetchRooms = useCallback(() => {});
+
   const createRoom = useCallback(() => {
     // new Room Logic
     history.push(`${location.pathname}/${uuidv4()}`);
   }, [history, location.pathname]);
-
-  const enterRoom = useCallback(
-    (roomId) => {
-      history.push(`${location.pathname}/${roomId}`);
-    },
-    [history, location.pathname]
-  );
 
   const enterRandom = useCallback(() => {}, []);
 
@@ -153,7 +147,7 @@ const GameRoomList = (props) => {
         {mockRoomData.map((data) => (
           <GameRoomCard
             key={data._id}
-            onClick={() => enterRoom(data._id)}
+            onClick={() => history.push(`${location.pathname}/${data._id}`)}
             roomData={data}
           />
         ))}

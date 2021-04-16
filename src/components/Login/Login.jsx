@@ -35,13 +35,13 @@ const LogIn = ({ authService }) => {
       const loginData = await authService.login(event.target.name);
       dispatch(playerLogin(loginData));
     } catch {
-      showErrorMessage("Login Fail");
+      showErrorMessage("로그인에 실패하였습니다.");
     }
   };
 
   return (
     <LoginContainer>
-      {error.length > 0 && <ErrorMessage />}
+      {error.length > 0 && <ErrorMessage error={error} />}
       <h1>Log In</h1>
       <LoginButton name="Google" onClick={onLogIn}>
         구글 로그인

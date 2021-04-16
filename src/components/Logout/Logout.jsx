@@ -58,13 +58,13 @@ const Logout = ({ authService }) => {
       dispatch(playerLogout());
       history.push("/");
     } catch {
-      showErrorMessage("Logout Fail");
+      showErrorMessage("로그아웃에 실패하였습니다.");
     }
   };
 
   return (
     <LogoutContainer>
-      {error.length > 0 && <ErrorMessage />}
+      {error.length > 0 && <ErrorMessage error={error} />}
       <LogoutMessage>로그아웃 하시겠습니까?</LogoutMessage>
       <LogoutButton onClick={onLogIn}>로그아웃</LogoutButton>
       <CancelButton

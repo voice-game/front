@@ -17,11 +17,10 @@ const ErrorMessageContainer = styled.div`
     rgba(0, 0, 0, 0.08) 0px 0px 0px 1px;
 `;
 
-const ErrorMessage = ({ message }) => {
+const ErrorMessage = ({ error }) => {
   return (
     <ErrorMessageContainer>
-      <div>{message}</div>
-      <div>무엇인가 잘못되었습니다.</div>
+      <div>{error.length > 0 ? error : "무엇인가 잘못되었습니다."}</div>
     </ErrorMessageContainer>
   );
 };
