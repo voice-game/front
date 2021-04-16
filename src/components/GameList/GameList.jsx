@@ -5,6 +5,7 @@ import styled from "styled-components";
 import ErrorMessage from "../ErrorMessage/ErrorMessage";
 import GameCard from "../GameCard/GameCard";
 import useErrorMessage from "../../hooks/useErrorMessage";
+import GameOption from "../GameOption/GameOption";
 
 const MainPage = styled.section`
   width: 100vw;
@@ -53,8 +54,9 @@ const GameList = (props) => {
 
   return (
     <MainPage>
-      <MainTitle> Game List </MainTitle>
       {error.length > 0 && <ErrorMessage />}
+      <MainTitle> Game List </MainTitle>
+      <GameOption />
       <GameCardContainer>
         <GameCard
           onClick={selectGame}

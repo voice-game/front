@@ -6,7 +6,7 @@ import { playerLogin } from "../../actions/actionCreators";
 import useErrorMessage from "../../hooks/useErrorMessage";
 import ErrorMessage from "../ErrorMessage/ErrorMessage";
 
-const LoginWrapper = styled.section`
+const LoginContainer = styled.section`
   width: 100vw;
   height: 100vh;
   display: flex;
@@ -40,7 +40,7 @@ const LogIn = ({ authService }) => {
   };
 
   return (
-    <LoginWrapper>
+    <LoginContainer>
       {error.length > 0 && <ErrorMessage />}
       <h1>Log In</h1>
       <LoginButton name="Google" onClick={onLogIn}>
@@ -52,7 +52,7 @@ const LogIn = ({ authService }) => {
       <LoginButton name="Facebook" onClick={onLogIn}>
         페이스북 로그인
       </LoginButton>
-    </LoginWrapper>
+    </LoginContainer>
   );
 };
 

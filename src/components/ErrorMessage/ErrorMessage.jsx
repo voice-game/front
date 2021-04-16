@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 
-const ErrorMessageWrapper = styled.div`
+const ErrorMessageContainer = styled.div`
   position: absolute;
   width: 300px;
   padding: 20px;
@@ -19,10 +19,10 @@ const ErrorMessageWrapper = styled.div`
 
 const ErrorMessage = ({ message }) => {
   return (
-    <ErrorMessageWrapper>
+    <ErrorMessageContainer>
       <div>{message}</div>
       <div>무엇인가 잘못되었습니다.</div>
-    </ErrorMessageWrapper>
+    </ErrorMessageContainer>
   );
 };
 

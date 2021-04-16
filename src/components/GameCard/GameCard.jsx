@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 
-const GameCardWrapper = styled.div`
+const GameCardContainer = styled.div`
   height: 75vh;
   width: 28vw;
   display: flex;
@@ -33,12 +33,12 @@ const GameThumbnailImage = styled.img`
 
 const GameCard = ({ title, imgSrc, onClick }) => {
   return (
-    <GameCardWrapper onClick={() => onClick(title)}>
+    <GameCardContainer onClick={() => onClick(title)}>
       <GameTitle>{title}</GameTitle>
       <GameThumbnailContainer>
         <GameThumbnailImage src={imgSrc} alt="gameThumbnail" />
       </GameThumbnailContainer>
-    </GameCardWrapper>
+    </GameCardContainer>
   );
 };
 
