@@ -26,11 +26,11 @@ const LoginButton = styled.button`
   cursor: pointer;
 `;
 
-const LogIn = ({ authService }) => {
+const Login = ({ authService }) => {
   const [error, showErrorMessage] = useErrorMessage("");
   const dispatch = useDispatch();
 
-  const onLogIn = async (event) => {
+  const onLogin = async (event) => {
     try {
       const loginData = await authService.login(event.target.name);
       dispatch(playerLogin(loginData));
@@ -43,17 +43,14 @@ const LogIn = ({ authService }) => {
     <LoginContainer>
       {error.length > 0 && <ErrorMessage error={error} />}
       <h1>Log In</h1>
-      <LoginButton name="Google" onClick={onLogIn}>
+      <LoginButton name="Google" onClick={onLogin}>
         구글 로그인
       </LoginButton>
-      <LoginButton name="Github" onClick={onLogIn}>
+      <LoginButton name="Github" onClick={onLogin}>
         깃허브 로그인
-      </LoginButton>
-      <LoginButton name="Facebook" onClick={onLogIn}>
-        페이스북 로그인
       </LoginButton>
     </LoginContainer>
   );
 };
 
-export default LogIn;
+export default Login;

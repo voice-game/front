@@ -1,16 +1,21 @@
-import { useState, useCallback } from "react";
+import { useState, useEffect, useCallback } from "react";
 
 const useErrorMessage = (initialValue = "") => {
   const [error, setError] = useState(initialValue);
 
-  const handler = useCallback((errMessage) => {
+  const showMessage = useCallback((errMessage) => {
     setError(errMessage);
-    setTimeout(() => {
-      setError("");
-    }, 2000);
   }, []);
 
-  return [error, handler];
+  useEffect(() => {
+    const hideMessage = setTimeout(() => {
+      setError("");
+    }, 2000);
+
+    return () => clearTimeout(hideMessage);
+  }, [error]);
+
+  return [error, showMessage];
 };
 
 export default useErrorMessage;
