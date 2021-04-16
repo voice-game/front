@@ -1,8 +1,8 @@
-const ACTION_TYPES = {
+const getActionTypes = () => ({
   PLAYER_LOGIN: "PLAYER_LOGIN",
   PLAYER_LOGOUT: "PLAYER_LOGOUT",
 
-  GAME_ACTION_SAMPLY: "GAME_ACTION_SAMPLE",
-};
+  GAME_ACTION_SAMPLE: "GAME_ACTION_SAMPLE",
+});
 
-export default ACTION_TYPES;
+export default getActionTypes;

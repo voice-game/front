@@ -13,7 +13,6 @@ import ErrorPage from "../ErrorPage/ErrorPage";
 
 const App = ({ authService }) => {
   const { isLoggedIn } = useSelector((state) => state.authReducer);
-  console.log(isLoggedIn);
 
   return (
     <Router>
@@ -47,7 +46,7 @@ const App = ({ authService }) => {
             </Route>
 
             <Route path="/logout">
-              <Logout />
+              <Logout authService={authService} />
             </Route>
 
             <Route path="/error">

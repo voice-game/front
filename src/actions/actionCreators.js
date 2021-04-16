@@ -1,14 +1,12 @@
-import ACTION_TYPES from "./actionTypes.js";
+import getActionTypes from "./actionTypes.js";
 
-export const playerLogin = (playerData) => {
-  return {
-    type: ACTION_TYPES.PLAYER_LOGIN,
-    payload: playerData,
-  };
-};
+export const playerLogin = (playerData) => ({
+  type: getActionTypes().PLAYER_LOGIN,
+  payload: playerData,
+});
 
 export const playerLogout = () => {
   return {
-    type: ACTION_TYPES.PLAYER_LOGOUT,
+    type: getActionTypes().PLAYER_LOGOUT,
   };
 };
