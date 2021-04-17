@@ -13,8 +13,6 @@ const RoadRoller = (props) => {
   const mediaStream = useMediaStream(useAudio, { audio: true, video: false });
   const game = useCanvas(Game);
 
-  console.log(game);
-
   return (
     <div>
       <GameOption />
