@@ -1,4 +1,4 @@
-import tree1 from "../../images/fighterAttack/tree1.png";
+// import tree1 from "../../images/fighterAttack/tree1.png";
 
 function Obstacle(canvasWidth, canvasHeight, speed) {
   this.canvasWidth = canvasWidth;
@@ -6,10 +6,14 @@ function Obstacle(canvasWidth, canvasHeight, speed) {
   this.speed = speed;
 }
 
-Obstacle.prototype.loadImage = function () {
-  const img = new Image();
-  img.src = tree1;
-  this.img = img;
+Obstacle.prototype.loadImage = function (ctx, images) {
+  this.images = [];
+
+  images.forEach((image) => {
+    const img = new Image();
+    img.src = image;
+    this.images.push(img);
+  });
   // img.onload = () => {
   //   this.img = img;
   // };
@@ -22,6 +26,12 @@ Obstacle.prototype.getObstacleHeight = function () {
   return minHeight + Math.random() * deviation;
 };
 
+Obstacle.prototype.getObstacleImage = function () {
+  const index = Math.round(Math.random() * (this.images.length - 1));
+
+  return this.images[index];
+};
+
 Obstacle.prototype.setObstacleLayouts = function (total) {
   this.gap = this.canvasWidth / (total - 1);
   this.layouts = [];
@@ -32,6 +42,7 @@ Obstacle.prototype.setObstacleLayouts = function (total) {
       x: i * this.gap, //+ 0.3 * Math.random() * this.gap,
       y: this.canvasHeight - height,
       height: height,
+      image: this.getObstacleImage(),
     };
   }
 };
@@ -48,6 +59,7 @@ Obstacle.prototype.animate = function (ctx) {
       x: this.canvasWidth + this.gap,
       y: this.canvasHeight - height,
       height: height,
+      image: this.getObstacleImage(),
     });
   } else if (endX <= -this.gap) {
     this.layouts.shift();
@@ -57,7 +69,9 @@ Obstacle.prototype.animate = function (ctx) {
     const posX = this.layouts[i].x;
     const posY = this.layouts[i].y;
     const height = this.layouts[i].height;
-    ctx.drawImage(this.img, posX, posY, 50, height);
+    const image = this.layouts[i].image;
+
+    ctx.drawImage(image, posX, posY, 50, height);
   }
 };
 

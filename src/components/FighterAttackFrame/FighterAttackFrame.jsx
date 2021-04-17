@@ -5,6 +5,8 @@ import VolumeMeter from "../../utils/VolumeMeter";
 import Fighter from "../../games/fighterAttack/Fighter";
 import Obstacle from "../../games/fighterAttack/Obstacle";
 import Mountain from "../../games/fighterAttack/Mountain";
+import tree1 from "../../images/fighterAttack/tree1.png";
+import tree2 from "../../images/fighterAttack/tree2.png";
 
 const Canvas = styled.canvas`
   border: 1px solid black;
@@ -53,9 +55,9 @@ const FighterAttackFrame = ({ isPlay }) => {
       mountain.setPeakPoint();
 
       const tree = new Obstacle(canvasWidth, canvasHeight, 1);
+      tree.loadImage(ctx, [tree1, tree2]);
       tree.setObstacleLayouts(10);
       const cloud = new Obstacle(50, 50, 1);
-      tree.loadImage(ctx, 1);
 
       const draw = () => {
         const volume = volumeMeter.getVolume();
