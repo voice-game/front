@@ -1,5 +1,3 @@
-// import tree1 from "../../images/fighterAttack/tree1.png";
-
 function Obstacle(type, minHeight, maxHeight, minPosY, maxPosY) {
   this.type = type;
   this.minHeight = minHeight;
@@ -8,17 +6,17 @@ function Obstacle(type, minHeight, maxHeight, minPosY, maxPosY) {
   this.maxPosY = maxPosY;
 }
 
-Obstacle.prototype.loadImage = function (ctx, images) {
+Obstacle.prototype.loadImages = function (images, setLayout) {
   this.images = [];
 
   images.forEach((image) => {
     const img = new Image();
+    img.onload = () => {
+      this.images.push(img);
+      setLayout();
+    };
     img.src = image;
-    this.images.push(img);
   });
-  // img.onload = () => {
-  //   this.img = img;
-  // };
 };
 
 Obstacle.prototype.getObstacleImage = function () {
@@ -52,12 +50,14 @@ Obstacle.prototype.setObstacleLayouts = function (
 
   for (let i = 0; i < total; i++) {
     const { height, posY } = this.getObstacleHeightAndPosY(canvasHeight);
+    const image = this.getObstacleImage();
 
     this.layouts[i] = {
       x: i * this.gap + 0.5 * Math.random() * this.gap,
       y: posY,
+      width: height * (image.width / image.height),
       height: height,
-      image: this.getObstacleImage(),
+      image: image,
     };
   }
 };
@@ -70,11 +70,14 @@ Obstacle.prototype.animate = function (ctx, canvasWidth, canvasHeight, speed) {
 
   if (startX <= canvasWidth) {
     const { height, posY } = this.getObstacleHeightAndPosY(canvasHeight);
+    const image = this.getObstacleImage();
+
     this.layouts.push({
       x: canvasWidth + this.gap,
       y: posY,
+      width: height * (image.width / image.height),
       height: height,
-      image: this.getObstacleImage(),
+      image: image,
     });
   } else if (endX <= -this.gap) {
     this.layouts.shift();
@@ -83,10 +86,11 @@ Obstacle.prototype.animate = function (ctx, canvasWidth, canvasHeight, speed) {
   for (let i = 0; i < this.layouts.length; i++) {
     const posX = this.layouts[i].x;
     const posY = this.layouts[i].y;
+    const width = this.layouts[i].width;
     const height = this.layouts[i].height;
     const image = this.layouts[i].image;
 
-    ctx.drawImage(image, posX, posY, 50, height);
+    ctx.drawImage(image, posX, posY, width, height);
   }
 };
 
