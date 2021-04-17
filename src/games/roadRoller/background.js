@@ -10,6 +10,7 @@ Background.prototype.draw = function (ctx) {
   ctx.fillStyle = "black";
   this.drawGround(0, this.y - 200, 200, 200);
   this.drawGround(this.x - 200, this.y - 200, 200, 200);
+  this.drawGround(140, this.y - 210, 40, 10);
 
   return this.dots;
 };

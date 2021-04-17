@@ -25,11 +25,10 @@ function Character(eventList) {
 }
 
 Character.prototype.draw = function (ctx, dots) {
-  const maxY = dots[this.x] - this.characterHeight;
+  this.maxY = dots[this.x + (this.characterWidth / 2)] - this.characterHeight;
 
-  if (this.y === undefined || this.y > maxY) {
-    this.y = dots[this.x] - this.characterHeight;
-    this.gravity = 0;
+  if (this.y === undefined || this.y >= this.maxY) {
+    this.y = this.maxY;
     this.characterMove.isJumping = false;
   }
 
@@ -49,12 +48,16 @@ Character.prototype.handleKeyEvent = function (event) {
   switch (event.keyCode) {
     case this.KEY_CODE.A:
       this.characterMove.left = isKeyDown;
+
       break;
     case this.KEY_CODE.D:
       this.characterMove.right = isKeyDown;
+
       break;
     case this.KEY_CODE.W:
       this.characterMove.jump = isKeyDown;
+
+      break;
     default:
       break;
   }
@@ -62,23 +65,23 @@ Character.prototype.handleKeyEvent = function (event) {
 
 Character.prototype.handleCharacterMovement = function (dots) {
   if (this.characterMove.left) {
-    if (dots[this.x - 1]) {
+    if (dots[this.x - this.characterMove.speed]) {
       this.x -= this.characterMove.speed;
     }
   }
 
   if (this.characterMove.right) {
-    if (dots[this.x + this.characterWidth + 1]) {
+    if (dots[this.x + this.characterWidth]) {
       this.x += this.characterMove.speed;
     }
   }
 
   if (this.characterMove.jump && !this.characterMove.isJumping) {
     this.characterMove.isJumping = true;
-    this.gravity -= 20;
+    this.gravity -= 30;
   }
 
-  this.y += this.gravity;
+  this.y += Math.floor(this.gravity);
   this.gravity += 1.5;
   this.gravity *= 0.9;
 };
