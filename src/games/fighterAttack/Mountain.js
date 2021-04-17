@@ -1,25 +1,42 @@
-function Mountain(peakNum, width, height, color, speed) {
+function Mountain(peakNum, width, height, color) {
   this.peakNum = peakNum;
-  this.color = color;
-  this.speed = speed;
-  this.points = [];
   this.width = width;
   this.height = height;
+  this.color = color;
+  this.points = [];
+  this.peakGap = 0;
 }
 
 Mountain.prototype.setPeakPoint = function () {
-  const peakGap = this.width / (this.peakNum - 1);
+  this.peakGap = this.width / (this.peakNum - 1);
 
   for (let i = 0; i < this.peakNum; i++) {
-    this.points[i] = { x: i * peakGap, y: this.height - this.getPeakHeight() };
+    this.points[i] = {
+      x: i * this.peakGap,
+      y: this.height - this.getPeakHeight(),
+    };
   }
 };
 
-Mountain.prototype.animate = function (ctx) {
-  let currentX = this.points[0].x;
-  let currentY = this.points[0].y;
+Mountain.prototype.animate = function (ctx, speed) {
+  this.points.forEach((point) => (point.x += speed));
+
+  const startX = this.points[0].x;
+  const endX = this.points[this.points.length - 1].x;
+
+  if (startX >= -this.peakGap) {
+    this.points.unshift({
+      x: -this.peakGap * 2,
+      y: this.height - this.getPeakHeight(),
+    });
+  } else if (endX >= this.width + 2 * this.peakGap) {
+    this.points.splice(-1);
+  }
 
   ctx.beginPath();
+
+  let currentX = this.points[0].x;
+  let currentY = this.points[0].y;
 
   ctx.moveTo(currentX, currentY);
 

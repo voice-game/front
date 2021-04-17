@@ -45,7 +45,7 @@ const FighterAttackFrame = ({ isPlay }) => {
       const ctx = canvasRef.current.getContext("2d");
 
       const fighter = new Fighter(50, 50, 1, "black");
-      const mountain = new Mountain(10, canvasWidth, canvasHeight, "green", 1);
+      const mountain = new Mountain(10, canvasWidth, canvasHeight, "green");
       mountain.setPeakPoint();
 
       const tree = new Obstacle(50, 50, 1);
@@ -62,7 +62,7 @@ const FighterAttackFrame = ({ isPlay }) => {
 
         ctx.clearRect(0, 0, canvasWidth, canvasHeight);
         fighter.animate(ctx, canvasWidth, canvasHeight, posY.current);
-        mountain.animate(ctx);
+        mountain.animate(ctx, 1);
 
         animationId.current = requestAnimationFrame(draw);
       };
