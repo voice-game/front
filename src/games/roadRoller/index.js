@@ -7,7 +7,7 @@ function Game(ref) {
   this.eventList = [];
   this.dots = new Array(this.canvas.width);
   this.backGround = new Background(this.dots, this.canvas.width, this.canvas.height);
-  this.charactor = new Charactor(this.eventList, this.dots, 40, this.canvas.height);
+  this.charactor = new Charactor(this.eventList, this.dots);
 
   this.animate();
 }

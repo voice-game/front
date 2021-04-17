@@ -5,13 +5,15 @@ function Background(dots, x, y) {
 }
 
 Background.prototype.draw = function (ctx) {
+  this.ctx = ctx;
+
   ctx.fillStyle = "black";
-  this.drawGround(ctx, 0, this.y - 200, 200, 200);
-  this.drawGround(ctx, this.x - 200, this.y - 200, 200, 200);
+  this.drawGround(0, this.y - 200, 200, 200);
+  this.drawGround(this.x - 200, this.y - 200, 200, 200);
 };
 
-Background.prototype.drawGround = function (ctx, x, y, width, height) {
-  ctx.fillRect(x, y, width, height);
+Background.prototype.drawGround = function (x, y, width, height) {
+  this.ctx.fillRect(x, y, width, height);
   this.dots.fill(y, x, x + width);
 };
 
