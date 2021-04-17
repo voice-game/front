@@ -7,9 +7,13 @@ import Obstacle from "../../games/fighterAttack/Obstacle";
 import Mountain from "../../games/fighterAttack/Mountain";
 import tree1 from "../../images/fighterAttack/tree1.png";
 import tree2 from "../../images/fighterAttack/tree2.png";
+import bird1 from "../../images/fighterAttack/bird1.png";
+import bird2 from "../../images/fighterAttack/bird2.png";
+import cloud1 from "../../images/fighterAttack/cloud1.png";
 
 const Canvas = styled.canvas`
   border: 1px solid black;
+  background-color: skyblue;
 `;
 
 const canvasWidth = document.body.clientWidth * 0.8;
@@ -54,10 +58,33 @@ const FighterAttackFrame = ({ isPlay }) => {
       const mountain = new Mountain(10, canvasWidth, canvasHeight, "green");
       mountain.setPeakPoint();
 
-      const tree = new Obstacle(canvasWidth, canvasHeight, 1);
+      const tree = new Obstacle(
+        "onGround",
+        0.2 * canvasHeight,
+        0.3 * canvasHeight,
+      );
       tree.loadImage(ctx, [tree1, tree2]);
-      tree.setObstacleLayouts(10);
-      const cloud = new Obstacle(50, 50, 1);
+      tree.setObstacleLayouts(canvasWidth, canvasHeight, 10);
+
+      const bird = new Obstacle(
+        "onAir",
+        0.05 * canvasHeight,
+        0.05 * canvasHeight,
+        0.2 * canvasHeight,
+        0.6 * canvasHeight,
+      );
+      bird.loadImage(ctx, [bird1, bird2]);
+      bird.setObstacleLayouts(canvasWidth, canvasHeight, 5);
+
+      const cloud = new Obstacle(
+        "onAir",
+        0.3 * canvasHeight,
+        0.3 * canvasHeight,
+        -0.2 * canvasHeight,
+        0.0 * canvasHeight,
+      );
+      cloud.loadImage(ctx, [cloud1]);
+      cloud.setObstacleLayouts(canvasWidth, canvasHeight, 5);
 
       const draw = () => {
         const volume = volumeMeter.getVolume();
@@ -70,8 +97,9 @@ const FighterAttackFrame = ({ isPlay }) => {
 
         ctx.clearRect(0, 0, canvasWidth, canvasHeight);
         fighter.animate(ctx, canvasWidth, canvasHeight, posY.current);
-        // mountain.animate(ctx, 1);
-        tree.animate(ctx);
+        tree.animate(ctx, canvasWidth, canvasHeight, 2);
+        bird.animate(ctx, canvasWidth, canvasHeight, 1);
+        cloud.animate(ctx, canvasWidth, canvasHeight, 0.5);
 
         animationId.current = requestAnimationFrame(draw);
       };

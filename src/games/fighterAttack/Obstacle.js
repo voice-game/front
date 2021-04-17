@@ -1,9 +1,11 @@
 // import tree1 from "../../images/fighterAttack/tree1.png";
 
-function Obstacle(canvasWidth, canvasHeight, speed) {
-  this.canvasWidth = canvasWidth;
-  this.canvasHeight = canvasHeight;
-  this.speed = speed;
+function Obstacle(type, minHeight, maxHeight, minPosY, maxPosY) {
+  this.type = type;
+  this.minHeight = minHeight;
+  this.maxHeight = maxHeight;
+  this.minPosY = minPosY;
+  this.maxPosY = maxPosY;
 }
 
 Obstacle.prototype.loadImage = function (ctx, images) {
@@ -19,45 +21,58 @@ Obstacle.prototype.loadImage = function (ctx, images) {
   // };
 };
 
-Obstacle.prototype.getObstacleHeight = function () {
-  const minHeight = this.canvasHeight / 10;
-  const deviation = (this.canvasWidth - minHeight) / 5;
-
-  return minHeight + Math.random() * deviation;
-};
-
 Obstacle.prototype.getObstacleImage = function () {
   const index = Math.round(Math.random() * (this.images.length - 1));
 
   return this.images[index];
 };
 
-Obstacle.prototype.setObstacleLayouts = function (total) {
-  this.gap = this.canvasWidth / (total - 1);
+Obstacle.prototype.getObstacleHeightAndPosY = function (canvasHeight) {
+  const deviationHeight = Math.random() * (this.maxHeight - this.minHeight);
+  const height = this.minHeight + deviationHeight;
+  let posY;
+
+  if (this.type === "onGround") {
+    posY = canvasHeight - height;
+  } else if (this.type === "onAir") {
+    const deviationPosY = Math.random() * (this.maxPosY - this.minPosY);
+    posY = this.minPosY + deviationPosY;
+  }
+
+  return { height, posY };
+};
+
+Obstacle.prototype.setObstacleLayouts = function (
+  canvasWidth,
+  canvasHeight,
+  total,
+) {
+  this.gap = canvasWidth / (total - 1);
   this.layouts = [];
 
   for (let i = 0; i < total; i++) {
-    const height = this.getObstacleHeight();
+    const { height, posY } = this.getObstacleHeightAndPosY(canvasHeight);
+
     this.layouts[i] = {
-      x: i * this.gap, //+ 0.3 * Math.random() * this.gap,
-      y: this.canvasHeight - height,
+      x: i * this.gap + 0.5 * Math.random() * this.gap,
+      y: posY,
       height: height,
       image: this.getObstacleImage(),
     };
   }
 };
 
-Obstacle.prototype.animate = function (ctx) {
-  this.layouts.forEach((layout) => (layout.x -= this.speed));
+Obstacle.prototype.animate = function (ctx, canvasWidth, canvasHeight, speed) {
+  this.layouts.forEach((layout) => (layout.x -= speed));
 
   const startX = this.layouts[this.layouts.length - 1].x;
   const endX = this.layouts[0].x;
 
-  if (startX <= this.canvasWidth) {
-    const height = this.getObstacleHeight();
+  if (startX <= canvasWidth) {
+    const { height, posY } = this.getObstacleHeightAndPosY(canvasHeight);
     this.layouts.push({
-      x: this.canvasWidth + this.gap,
-      y: this.canvasHeight - height,
+      x: canvasWidth + this.gap,
+      y: posY,
       height: height,
       image: this.getObstacleImage(),
     });
