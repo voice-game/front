@@ -63,6 +63,7 @@ const FighterAttackFrame = ({ isPlay }) => {
         ctx.clearRect(0, 0, canvasWidth, canvasHeight);
         fighter.animate(ctx, canvasWidth, canvasHeight, posY.current);
         mountain.animate(ctx, 1);
+        cloud.animate(ctx);
 
         animationId.current = requestAnimationFrame(draw);
       };

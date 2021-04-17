@@ -19,18 +19,18 @@ Mountain.prototype.setPeakPoint = function () {
 };
 
 Mountain.prototype.animate = function (ctx, speed) {
-  this.points.forEach((point) => (point.x += speed));
+  this.points.forEach((point) => (point.x -= speed));
 
-  const startX = this.points[0].x;
-  const endX = this.points[this.points.length - 1].x;
+  const endX = this.points[0].x;
+  const startX = this.points[this.points.length - 1].x;
 
-  if (startX >= -this.peakGap) {
-    this.points.unshift({
-      x: -this.peakGap * 2,
+  if (startX <= this.width + this.peakGap) {
+    this.points.push({
+      x: this.width + 2 * this.peakGap,
       y: this.height - this.getPeakHeight(),
     });
-  } else if (endX >= this.width + 2 * this.peakGap) {
-    this.points.splice(-1);
+  } else if (endX <= -this.width) {
+    this.points.shift();
   }
 
   ctx.beginPath();
