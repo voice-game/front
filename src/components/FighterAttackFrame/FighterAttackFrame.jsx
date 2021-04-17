@@ -12,7 +12,6 @@ const Canvas = styled.canvas`
 
 const canvasWidth = document.body.clientWidth * 0.8;
 const canvasHeight = document.body.clientWidth * 0.6;
-console.log(canvasWidth, canvasHeight);
 
 const FighterAttackFrame = ({ isPlay }) => {
   const [stream, setStream] = useState(null);
@@ -26,6 +25,11 @@ const FighterAttackFrame = ({ isPlay }) => {
       const stream = await getMedia({ audio: true });
       setStream(stream);
     })();
+
+    // const ctx = canvasRef.current.getContext("2d");
+    // const tree = new Obstacle(canvasWidth, canvasHeight, 1);
+    // tree.setObstacleLayouts(5, canvasWidth, canvasHeight);
+    // tree.loadImage(ctx, 1);
   }, []);
 
   useEffect(() => {
@@ -48,8 +52,10 @@ const FighterAttackFrame = ({ isPlay }) => {
       const mountain = new Mountain(10, canvasWidth, canvasHeight, "green");
       mountain.setPeakPoint();
 
-      const tree = new Obstacle(50, 50, 1);
+      const tree = new Obstacle(canvasWidth, canvasHeight, 1);
+      tree.setObstacleLayouts(10);
       const cloud = new Obstacle(50, 50, 1);
+      tree.loadImage(ctx, 1);
 
       const draw = () => {
         const volume = volumeMeter.getVolume();
@@ -62,8 +68,8 @@ const FighterAttackFrame = ({ isPlay }) => {
 
         ctx.clearRect(0, 0, canvasWidth, canvasHeight);
         fighter.animate(ctx, canvasWidth, canvasHeight, posY.current);
-        mountain.animate(ctx, 1);
-        cloud.animate(ctx);
+        // mountain.animate(ctx, 1);
+        tree.animate(ctx);
 
         animationId.current = requestAnimationFrame(draw);
       };

@@ -7,6 +7,13 @@ function Mountain(peakNum, width, height, color) {
   this.peakGap = 0;
 }
 
+Mountain.prototype.getPeakHeight = function () {
+  const minHeight = this.height / 20;
+  const deviation = (this.height - minHeight) / 10;
+
+  return minHeight + Math.random() * deviation;
+};
+
 Mountain.prototype.setPeakPoint = function () {
   this.peakGap = this.width / (this.peakNum - 1);
 
@@ -21,8 +28,8 @@ Mountain.prototype.setPeakPoint = function () {
 Mountain.prototype.animate = function (ctx, speed) {
   this.points.forEach((point) => (point.x -= speed));
 
-  const endX = this.points[0].x;
   const startX = this.points[this.points.length - 1].x;
+  const endX = this.points[0].x;
 
   if (startX <= this.width + this.peakGap) {
     this.points.push({
@@ -60,13 +67,6 @@ Mountain.prototype.animate = function (ctx, speed) {
   ctx.fill();
 
   ctx.closePath();
-};
-
-Mountain.prototype.getPeakHeight = function () {
-  const minHeight = this.height / 10;
-  const maxHeight = (this.height - minHeight) / 5;
-
-  return minHeight + maxHeight * Math.random();
 };
 
 export default Mountain;
