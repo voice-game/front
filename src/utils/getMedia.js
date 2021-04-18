@@ -1,8 +1,14 @@
-export default async function getMedia(constraints) {
+/**
+ *
+ * @param {object} constraints Required media options to use
+ * @returns mideaStream
+ */
+const getMedia = async (constraints) => {
   try {
-    const mediaStream = await navigator.mediaDevices.getUserMedia(constraints);
-    return mediaStream;
+    return await navigator.mediaDevices.getUserMedia(constraints);
   } catch (err) {
     console.error(err);
   }
-}
+};
+
+export default getMedia;
