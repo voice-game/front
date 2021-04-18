@@ -11,6 +11,7 @@ import tree2 from "../../images/fighterAttack/tree2.png";
 import bird1 from "../../images/fighterAttack/bird1.png";
 import bird2 from "../../images/fighterAttack/bird2.png";
 import cloud1 from "../../images/fighterAttack/cloud1.png";
+import fighter1 from "../../images/fighterAttack/fighter1.jpeg";
 
 const canvasWidth = document.body.clientWidth * 0.8;
 const canvasHeight = document.body.clientWidth * 0.6;
@@ -37,8 +38,10 @@ const FighterAttack = (props) => {
   }, []);
 
   useEffect(() => {
-    const fighter = new Fighter(50, 50, 1, "black");
-    fighter.setPosition(canvasWidth, canvasHeight);
+    const fighter = new Fighter(0, 80, 1);
+    fighter.loadImage([fighter1], () => {
+      fighter.setPosition(canvasWidth, canvasHeight);
+    });
 
     const tree = new Obstacle(
       "onGround",
@@ -47,7 +50,7 @@ const FighterAttack = (props) => {
     );
 
     tree.loadImages([tree1, tree2], () => {
-      tree.setObstacleLayouts(canvasWidth, canvasHeight, 2);
+      tree.setObstacleLayouts(canvasWidth, canvasHeight, 10);
     });
 
     const bird = new Obstacle(
@@ -59,7 +62,7 @@ const FighterAttack = (props) => {
     );
 
     bird.loadImages([bird1, bird2], () => {
-      bird.setObstacleLayouts(canvasWidth, canvasHeight, 2);
+      bird.setObstacleLayouts(canvasWidth, canvasHeight, 5);
     });
 
     const cloud = new Obstacle(
@@ -71,7 +74,7 @@ const FighterAttack = (props) => {
     );
 
     cloud.loadImages([cloud1], () => {
-      cloud.setObstacleLayouts(canvasWidth, canvasHeight, 2);
+      cloud.setObstacleLayouts(canvasWidth, canvasHeight, 5);
     });
 
     setGameElement({ fighter, tree, bird, cloud });
