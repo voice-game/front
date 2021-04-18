@@ -24,9 +24,7 @@ const FighterAttack = (props) => {
   useEffect(() => {
     (async () => {
       const stream = await getMedia({ audio: true });
-      const volumeMeter = new VolumeMeter(stream);
-
-      volumeMeter.audioProcessor({
+      const volumeMeter = new VolumeMeter(stream, {
         bufferSize: 2048,
         minDecibels: -60,
         maxDecibels: -30,
@@ -78,13 +76,8 @@ const FighterAttack = (props) => {
     gameElementRef.current = { fighter, tree, bird, cloud };
   }, []);
 
-  const handlePlayClick = () => {
-    setIsPlay(true);
-  };
-
-  const handleStopClick = () => {
-    setIsPlay(false);
-  };
+  const handlePlayClick = () => setIsPlay(true);
+  const handleStopClick = () => setIsPlay(false);
 
   return (
     <div>

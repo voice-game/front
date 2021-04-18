@@ -1,15 +1,14 @@
-function VolumeMeter(stream) {
+function VolumeMeter(stream, option) {
   this.volume = 0;
   this.stream = stream;
-  this.analyser = null;
-  this.processor = null;
+  this.audioProcessor = this.audioProcessor(stream, option);
 }
 
-VolumeMeter.prototype.audioProcessor = function audioProcessor(option) {
+VolumeMeter.prototype.audioProcessor = function audioProcessor(stream, option) {
   const { bufferSize, minDecibels, maxDecibels, timeConstant } = option;
 
   const context = new AudioContext();
-  const source = context.createMediaStreamSource(this.stream);
+  const source = context.createMediaStreamSource(stream);
   const analyser = context.createAnalyser();
   const processor = context.createScriptProcessor(bufferSize, 1, 1);
 
