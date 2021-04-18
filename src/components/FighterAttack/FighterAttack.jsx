@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import FighterAttackFrame from "../FighterAttackFrame/FighterAttackFrame";
 import GameResult from "../GameResult/GameResult";
 import GameOption from "../GameOption/GameOption";
@@ -19,7 +19,7 @@ const FighterAttack = (props) => {
   const [stream, setStream] = useState({});
   const [volumeMeter, setVolumeMeter] = useState({});
   const [isPlay, setIsPlay] = useState(false);
-  const gameElementRef = useRef({});
+  const [gameElement, setGameElement] = useState([]);
 
   useEffect(() => {
     (async () => {
@@ -38,6 +38,7 @@ const FighterAttack = (props) => {
 
   useEffect(() => {
     const fighter = new Fighter(50, 50, 1, "black");
+    fighter.setPosition(canvasWidth, canvasHeight);
 
     const tree = new Obstacle(
       "onGround",
@@ -46,7 +47,7 @@ const FighterAttack = (props) => {
     );
 
     tree.loadImages([tree1, tree2], () => {
-      tree.setObstacleLayouts(canvasWidth, canvasHeight, 10);
+      tree.setObstacleLayouts(canvasWidth, canvasHeight, 2);
     });
 
     const bird = new Obstacle(
@@ -58,7 +59,7 @@ const FighterAttack = (props) => {
     );
 
     bird.loadImages([bird1, bird2], () => {
-      bird.setObstacleLayouts(canvasWidth, canvasHeight, 5);
+      bird.setObstacleLayouts(canvasWidth, canvasHeight, 2);
     });
 
     const cloud = new Obstacle(
@@ -70,10 +71,10 @@ const FighterAttack = (props) => {
     );
 
     cloud.loadImages([cloud1], () => {
-      cloud.setObstacleLayouts(canvasWidth, canvasHeight, 5);
+      cloud.setObstacleLayouts(canvasWidth, canvasHeight, 2);
     });
 
-    gameElementRef.current = { fighter, tree, bird, cloud };
+    setGameElement({ fighter, tree, bird, cloud });
   }, []);
 
   const handlePlayClick = () => setIsPlay(true);
@@ -87,7 +88,7 @@ const FighterAttack = (props) => {
         stream={stream}
         volumeMeter={volumeMeter}
         isPlay={isPlay}
-        gameElement={gameElementRef.current}
+        gameElement={gameElement}
         canvasWidth={canvasWidth}
         canvasHeight={canvasHeight}
       />

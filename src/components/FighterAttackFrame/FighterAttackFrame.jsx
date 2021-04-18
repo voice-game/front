@@ -14,7 +14,6 @@ const FighterAttackFrame = ({
   canvasHeight,
 }) => {
   const canvasRef = useRef(null);
-  const posYRef = useRef(0);
   const animationIdRef = useRef(null);
 
   useEffect(() => {
@@ -25,14 +24,10 @@ const FighterAttackFrame = ({
       const draw = () => {
         const volume = volumeMeter.getVolume();
 
-        if (volume > 3) {
-          posYRef.current += canvasHeight / 1000;
-        } else {
-          posYRef.current -= canvasHeight / 1000;
-        }
-
         ctx.clearRect(0, 0, canvasWidth, canvasHeight);
-        fighter.animate(ctx, canvasWidth, canvasHeight, posYRef.current);
+        fighter.getIsCollision([tree, bird, cloud]);
+
+        fighter.animate(ctx, volume);
         tree.animate(ctx, canvasWidth, canvasHeight, 2);
         bird.animate(ctx, canvasWidth, canvasHeight, 1);
         cloud.animate(ctx, canvasWidth, canvasHeight, 0.5);
