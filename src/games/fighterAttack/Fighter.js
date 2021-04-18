@@ -50,7 +50,6 @@ Fighter.prototype.getIsCollision = function (obstacles, shieldTime) {
     });
 
     if (nearObstacles.length) {
-      console.log("true");
       this.shieldTime = shieldTime;
       return true;
     }
@@ -60,6 +59,9 @@ Fighter.prototype.getIsCollision = function (obstacles, shieldTime) {
 };
 
 Fighter.prototype.animate = function (ctx, canvasHeight, volume, isCollision) {
+  const blinkPeriod = 20;
+  const blinkTime = this.shieldTime % (2 * blinkPeriod);
+
   if (volume > 3) {
     this.posY -= 1;
   } else {
@@ -74,9 +76,17 @@ Fighter.prototype.animate = function (ctx, canvasHeight, volume, isCollision) {
     this.posY = 0;
   }
 
-  const image = this.images[this.type];
+  if (0 < blinkTime && blinkPeriod >= blinkTime) {
+    return;
+  }
 
-  ctx.drawImage(image, this.posX, this.posY, this.width, this.height);
+  ctx.drawImage(
+    this.images[this.type],
+    this.posX,
+    this.posY,
+    this.width,
+    this.height,
+  );
 };
 
 export default Fighter;
