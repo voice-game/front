@@ -1,5 +1,6 @@
-function Fighter(type, width, speed, life) {
+function Fighter(type, images, width, speed, life) {
   this.type = type;
+  this.images = images;
   this.width = width;
   this.speed = speed;
   this.distance = 0;
@@ -8,21 +9,10 @@ function Fighter(type, width, speed, life) {
   this.shieldTime = 0;
 }
 
-Fighter.prototype.loadImage = function (images, setPosition) {
-  this.images = [];
-
-  images.forEach((image) => {
-    const img = new Image();
-    img.onload = () => {
-      this.height = (img.height / img.width) * this.width;
-      this.images.push(img);
-      setPosition();
-    };
-    img.src = image;
-  });
-};
-
 Fighter.prototype.setPosition = function (canvasWidth, canvasHeight) {
+  const image = this.images[this.type];
+
+  this.height = (image.height / image.width) * this.width;
   this.posX = (canvasWidth - this.width) / 2;
   this.posY = (canvasHeight - this.height) / 2;
 };
@@ -35,9 +25,9 @@ Fighter.prototype.getIsCollision = function (obstacles, shieldTime) {
   }
 
   for (let i = 0; i < obstacles.length; i++) {
-    const layouts = obstacles[i].layouts;
+    const points = obstacles[i].gameMap;
 
-    const nearObstacles = layouts.filter((layout) => {
+    const nearObstacles = points.filter((layout) => {
       const { posX, posY, width, height } = layout;
 
       const isXCollision =
@@ -53,6 +43,7 @@ Fighter.prototype.getIsCollision = function (obstacles, shieldTime) {
     });
 
     if (nearObstacles.length) {
+      console.log("collistion");
       this.shieldTime = shieldTime;
       return true;
     }
@@ -64,7 +55,7 @@ Fighter.prototype.getIsCollision = function (obstacles, shieldTime) {
 Fighter.prototype.animate = function (ctx, canvasHeight, volume, isCollision) {
   const blinkPeriod = 30;
   const blinkTime = this.shieldTime % (2 * blinkPeriod);
-  console.log(volume);
+
   if (volume > 3) {
     this.posY -= 1;
   } else {

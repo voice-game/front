@@ -23,13 +23,13 @@ const FighterAttackFrame = ({
     if (isPlay) {
       const draw = () => {
         const volume = volumeMeter.getVolume();
-
-        ctx.clearRect(0, 0, canvasWidth, canvasHeight);
         const isCollision = fighter.getIsCollision([tree, bird, cloud], 300);
 
-        tree.animate(ctx, canvasWidth, canvasHeight);
-        bird.animate(ctx, canvasWidth, canvasHeight);
-        cloud.animate(ctx, canvasWidth, canvasHeight);
+        ctx.clearRect(0, 0, canvasWidth, canvasHeight);
+
+        tree.animate(ctx);
+        bird.animate(ctx);
+        cloud.animate(ctx);
         fighter.animate(ctx, canvasHeight, volume, isCollision);
         playInfo.animate(
           ctx,
