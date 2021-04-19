@@ -100,7 +100,6 @@ const FighterAttack = (props) => {
         stream={stream}
         volumeMeter={volumeMeter}
         isPlay={isPlay}
-        setIsPlay={isPlay}
         gameElement={gameElement}
         canvasWidth={canvasWidth}
         canvasHeight={canvasHeight}

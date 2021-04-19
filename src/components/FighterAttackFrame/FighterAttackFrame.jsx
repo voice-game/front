@@ -9,7 +9,6 @@ const Canvas = styled.canvas`
 const FighterAttackFrame = ({
   volumeMeter,
   isPlay,
-  setIsPlay,
   gameElement,
   canvasWidth,
   canvasHeight,

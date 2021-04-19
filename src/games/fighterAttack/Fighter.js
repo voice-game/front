@@ -64,8 +64,8 @@ Fighter.prototype.getIsCollision = function (obstacles, shieldTime) {
 Fighter.prototype.animate = function (ctx, canvasHeight, volume, isCollision) {
   const blinkPeriod = 30;
   const blinkTime = this.shieldTime % (2 * blinkPeriod);
-
-  if (volume > 1) {
+  console.log(volume);
+  if (volume > 3) {
     this.posY -= 1;
   } else {
     this.posY += 0.5;
