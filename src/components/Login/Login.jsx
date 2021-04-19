@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useCallback } from "react";
 import { useDispatch } from "react-redux";
 import styled from "styled-components";
 
@@ -30,14 +30,20 @@ const Login = ({ authService }) => {
   const [error, showErrorMessage] = useErrorMessage("");
   const dispatch = useDispatch();
 
-  const onLogin = async (event) => {
-    try {
-      const loginData = await authService.login(event.target.name);
-      dispatch(playerLogin(loginData));
-    } catch {
-      showErrorMessage("로그인에 실패하였습니다.");
-    }
-  };
+  const onLogin = useCallback(
+    async (event) => {
+      try {
+        const loginData = await authService.login(event.target.name);
+        // 구글일때
+        const { email, uid, displayName } = loginData.user;
+        dispatch(playerLogin({ email, uid, displayName }));
+        // 깃허브일때 (loginData 형태 필요)
+      } catch (err) {
+        showErrorMessage("로그인에 실패하였습니다.");
+      }
+    },
+    [authService, dispatch, showErrorMessage]
+  );
 
   return (
     <LoginContainer>
