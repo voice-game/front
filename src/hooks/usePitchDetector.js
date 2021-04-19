@@ -12,7 +12,11 @@ const usePitchDetector = (useAudio) => {
         try {
           const audioContext = getAudioContext({ samplerate: 12000 });
           const micStream = await getMedia({ audio: true, video: false });
-          const pitchDetector = ml5.pitchDetection("/model/", audioContext , micStream);
+          const pitchDetector = ml5.pitchDetection(
+            "/model/",
+            audioContext,
+            micStream
+          );
 
           pitchDetectorRef.current = pitchDetector;
         } catch (err) {
@@ -21,7 +25,7 @@ const usePitchDetector = (useAudio) => {
       })();
     }
   }, [useAudio]);
-  return pitchDetectorRef.curret;
+  return pitchDetectorRef.current;
 };
 
 export default usePitchDetector;
