@@ -2,9 +2,12 @@ import { addEventHelper } from "../../utils/eventListHelper";
 
 function Character(eventList) {
   this.eventList = eventList;
+
   this.x = 40;
   this.characterWidth = 20;
   this.characterHeight = 20;
+  this.characterWidthHalf = this.characterWidth / 2;
+
   this.gravity = 0;
   this.characterMove = {
     left: false,
@@ -25,7 +28,8 @@ function Character(eventList) {
 }
 
 Character.prototype.draw = function (ctx, dots) {
-  this.maxY = dots[this.x + (this.characterWidth / 2)] - this.characterHeight;
+  this.characterCenterX = this.x + this.characterWidthHalf;
+  this.maxY = dots[this.characterCenterX] - this.characterHeight;
 
   if (this.y === undefined || this.y >= this.maxY) {
     this.y = this.maxY;

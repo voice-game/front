@@ -1,14 +1,16 @@
-function Road (canvas, pitchDetector) {
-  this.canvasWidth = canvas.width;
-  this.canvasHeight = canvas.height;
+function Road (canvasWidth, canvasHeight, pitchDetectorRef) {
+  this.canvasWidth = canvasWidth;
+  this.canvasHeight = canvasHeight;
+  this.pitchDetectorRef = pitchDetectorRef;
+
   this.isReady = false;
   this.isDrawingRoad = false;
-  this.isDrawedRoad = false;
-  this.radius = 3;
-  this.pitchDetector = pitchDetector;
-  this.road = [];
+  this.isRoadDrawed = false;
+
+  this.roadDots = [];
 
   this.roadPoint = {
+    radius: 3,
     initialX: 200,
     initialY: this.canvasHeight - 200,
     x: 200,
@@ -18,23 +20,27 @@ function Road (canvas, pitchDetector) {
   };
 }
 
-Road.prototype.draw = function (ctx, dots) {
-  if (this.isReady || this.isDrawingRoad) {
-    this.drawRoad(ctx, dots);
-    this.drawRoadPoint(ctx);
-    ctx.fill();
+Road.prototype.draw = function (ctx, detectorReady) {
+  if (!detectorReady) {
+    this.roadPoint.x = this.roadPoint.initialX;
+    this.roadPoint.y = this.roadPoint.initialY;
+    this.roadDots = [];
   }
 
-  return this.road;
+  this.drawRoadPoint(ctx);
+  this.drawRoad(ctx);
+  ctx.fill();
+
+  return this.roadDots;
 };
 
-Road.prototype.drawRoadPoint = function (ctx, dots) {
+Road.prototype.drawRoadPoint = function (ctx) {
   ctx.fillStyle = "red";
-  ctx.arc(this.roadPoint.x, this.roadPoint.y, this.radius, 0, Math.PI * 2);
+  ctx.arc(this.roadPoint.x, this.roadPoint.y, this.roadPoint.radius, 0, Math.PI * 2);
 };
 
-Road.prototype.drawRoad = async function (ctx, dots) {
-  const pitch = await this.pitchDetector.current.getPitch();
+Road.prototype.drawRoad = async function (ctx) {
+  const pitch = await this.pitchDetectorRef.current.getPitch();
 
   if (pitch) {
     this.isDrawingRoad = true;
@@ -43,7 +49,15 @@ Road.prototype.drawRoad = async function (ctx, dots) {
   if (this.isDrawingRoad && this.roadPoint.x <= this.roadPoint.maxX) {
     this.roadPoint.x += 1;
     this.roadPoint.y = this.canvasHeight - pitch;
-    this.road.push(this.roadPoint.y);
+    this.roadDots.push(this.roadPoint.y);
+  }
+
+  if (this.roadPoint.x === this.roadPoint.maxX) {
+    this.isRoadDrawed = true;
+  }
+
+  if (!this.isReady) {
+    this.isDrawingRoad = false;
   }
 }
 

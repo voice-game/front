@@ -12,8 +12,8 @@ const RoadRoller = (props) => {
   const [isAudioUse, setIsAudioUse] = useState(false);
   const audioContextRef = useRef(null);
   const micStreamRef = useRef(null);
-  const pitchDetector = usePitchDetector(isAudioUse, audioContextRef, micStreamRef);
-  const game = useCanvas(Game, { pitchDetector });
+  const pitchDetectorRef = usePitchDetector(isAudioUse, audioContextRef, micStreamRef);
+  const game = useCanvas(Game, { pitchDetectorRef });
 
   useEffect(() => {
     (async () => {
