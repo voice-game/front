@@ -1,17 +1,23 @@
 import { useEffect, useRef } from "react";
 import { removeEventHelper } from "../utils/eventListHelper";
 
-const useCanvas = (CanvasGenerator) => {
+/**
+ *
+ * @param {function} CanvasConstructor Canvas constructor function
+ * @param {object} options Options of canvas
+ * @returns Ref of canvas
+ */
+const useCanvas = (CanvasConstructor, options) => {
   const canvasRef = useRef(null);
 
   useEffect(() => {
-    const myCanvas = new CanvasGenerator(canvasRef);
+    const myCanvas = new CanvasConstructor(canvasRef, options);
 
     return () => {
       window.cancelAnimationFrame(myCanvas.animationFrameId);
       removeEventHelper(myCanvas.eventList);
     };
-  }, [CanvasGenerator]);
+  }, []);
 
   return canvasRef;
 };
