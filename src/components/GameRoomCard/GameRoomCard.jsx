@@ -29,7 +29,7 @@ const GameRoomCard = ({
   const [error, showErrorMessage] = useErrorMessage("");
 
   const handleClick = () => {
-    if (status === "Join") {
+    if (status === "Enter") {
       return onClick();
     }
 

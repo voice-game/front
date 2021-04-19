@@ -52,7 +52,7 @@ const Logout = ({ authService }) => {
   const dispatch = useDispatch();
   const history = useHistory();
 
-  const onLogIn = async (event) => {
+  const onLogout = async (event) => {
     try {
       await authService.logout();
       dispatch(playerLogout());
@@ -66,7 +66,7 @@ const Logout = ({ authService }) => {
     <LogoutContainer>
       {error.length > 0 && <ErrorMessage error={error} />}
       <LogoutMessage>로그아웃 하시겠습니까?</LogoutMessage>
-      <LogoutButton onClick={onLogIn}>로그아웃</LogoutButton>
+      <LogoutButton onClick={onLogout}>로그아웃</LogoutButton>
       <CancelButton
         onClick={() => {
           history.push("/games");

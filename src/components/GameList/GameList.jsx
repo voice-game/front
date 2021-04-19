@@ -36,15 +36,15 @@ const GameList = (props) => {
   const selectGame = (game) => {
     switch (game) {
       case "Road Roller":
-        history.push("/games/road-roller");
+        history.push("/games/roadRoller");
         break;
 
       case "Fighter Attack":
-        history.push("/games/fighter-attack");
+        history.push("/games/fighterAttack");
         break;
 
       case "Energy Battle":
-        history.push("/games/energy-battle");
+        history.push("/games/energyBattle");
         break;
 
       default:
@@ -54,9 +54,9 @@ const GameList = (props) => {
 
   return (
     <MainPage>
+      <GameOption />
       {error.length > 0 && <ErrorMessage />}
       <MainTitle> Game List </MainTitle>
-      <GameOption />
       <GameCardContainer>
         <GameCard
           onClick={selectGame}
