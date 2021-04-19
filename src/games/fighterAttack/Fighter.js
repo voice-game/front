@@ -1,7 +1,10 @@
-function Fighter(type, width, speed) {
+function Fighter(type, width, speed, life) {
   this.type = type;
   this.width = width;
   this.speed = speed;
+  this.distance = 0;
+  this.life = life;
+  this.maxLife = 5;
   this.shieldTime = 0;
 }
 
@@ -59,10 +62,10 @@ Fighter.prototype.getIsCollision = function (obstacles, shieldTime) {
 };
 
 Fighter.prototype.animate = function (ctx, canvasHeight, volume, isCollision) {
-  const blinkPeriod = 20;
+  const blinkPeriod = 30;
   const blinkTime = this.shieldTime % (2 * blinkPeriod);
 
-  if (volume > 3) {
+  if (volume > 1) {
     this.posY -= 1;
   } else {
     this.posY += 0.5;
@@ -74,6 +77,15 @@ Fighter.prototype.animate = function (ctx, canvasHeight, volume, isCollision) {
 
   if (this.posY <= 0) {
     this.posY = 0;
+  }
+
+  if (isCollision) {
+    this.life = Math.max(0, this.life - 1);
+  }
+
+  if (this.life === 0) {
+  } else {
+    this.distance += this.speed;
   }
 
   if (0 < blinkTime && blinkPeriod >= blinkTime) {

@@ -9,6 +9,7 @@ const Canvas = styled.canvas`
 const FighterAttackFrame = ({
   volumeMeter,
   isPlay,
+  setIsPlay,
   gameElement,
   canvasWidth,
   canvasHeight,
@@ -17,7 +18,7 @@ const FighterAttackFrame = ({
   const animationIdRef = useRef(null);
 
   useEffect(() => {
-    const { fighter, tree, bird, cloud } = gameElement;
+    const { playInfo, fighter, tree, bird, cloud } = gameElement;
     const ctx = canvasRef.current.getContext("2d");
 
     if (isPlay) {
@@ -27,10 +28,18 @@ const FighterAttackFrame = ({
         ctx.clearRect(0, 0, canvasWidth, canvasHeight);
         const isCollision = fighter.getIsCollision([tree, bird, cloud], 300);
 
+        tree.animate(ctx, canvasWidth, canvasHeight);
+        bird.animate(ctx, canvasWidth, canvasHeight);
+        cloud.animate(ctx, canvasWidth, canvasHeight);
         fighter.animate(ctx, canvasHeight, volume, isCollision);
-        tree.animate(ctx, canvasWidth, canvasHeight, 2);
-        bird.animate(ctx, canvasWidth, canvasHeight, 1);
-        cloud.animate(ctx, canvasWidth, canvasHeight, 0.5);
+        playInfo.animate(
+          ctx,
+          canvasWidth,
+          canvasHeight,
+          fighter.distance,
+          fighter.life,
+          fighter.maxLife,
+        );
 
         animationIdRef.current = requestAnimationFrame(draw);
       };

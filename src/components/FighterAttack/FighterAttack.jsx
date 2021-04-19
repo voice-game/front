@@ -6,6 +6,8 @@ import getMedia from "../../utils/getMedia";
 import VolumeMeter from "../../utils/VolumeMeter";
 import Fighter from "../../games/fighterAttack/Fighter";
 import Obstacle from "../../games/fighterAttack/Obstacle";
+import PlayInfo from "../../games/fighterAttack/PlayInfo";
+
 import tree1 from "../../images/fighterAttack/tree1.png";
 import tree2 from "../../images/fighterAttack/tree2.png";
 import bird1 from "../../images/fighterAttack/bird1.png";
@@ -38,23 +40,29 @@ const FighterAttack = (props) => {
   }, []);
 
   useEffect(() => {
-    const fighter = new Fighter(0, 80, 1);
+    const groundSpeed = 2;
+
+    const playInfo = new PlayInfo(groundSpeed, 5);
+
+    const fighter = new Fighter(0, 80, groundSpeed, 5);
     fighter.loadImage([fighter1], () => {
       fighter.setPosition(canvasWidth, canvasHeight);
     });
 
     const tree = new Obstacle(
       "onGround",
+      5 * groundSpeed,
       0.2 * canvasHeight,
       0.3 * canvasHeight,
     );
 
     tree.loadImages([tree1, tree2], () => {
-      tree.setObstacleLayouts(canvasWidth, canvasHeight, 10);
+      tree.setObstacleLayouts(canvasWidth, canvasHeight, 20);
     });
 
     const bird = new Obstacle(
       "onAir",
+      0.5 * groundSpeed,
       0.05 * canvasHeight,
       0.05 * canvasHeight,
       0.2 * canvasHeight,
@@ -67,6 +75,7 @@ const FighterAttack = (props) => {
 
     const cloud = new Obstacle(
       "onAir",
+      0.25 * groundSpeed,
       0.3 * canvasHeight,
       0.3 * canvasHeight,
       -0.2 * canvasHeight,
@@ -77,7 +86,7 @@ const FighterAttack = (props) => {
       cloud.setObstacleLayouts(canvasWidth, canvasHeight, 5);
     });
 
-    setGameElement({ fighter, tree, bird, cloud });
+    setGameElement({ playInfo, fighter, tree, bird, cloud });
   }, []);
 
   const handlePlayClick = () => setIsPlay(true);
@@ -91,6 +100,7 @@ const FighterAttack = (props) => {
         stream={stream}
         volumeMeter={volumeMeter}
         isPlay={isPlay}
+        setIsPlay={isPlay}
         gameElement={gameElement}
         canvasWidth={canvasWidth}
         canvasHeight={canvasHeight}

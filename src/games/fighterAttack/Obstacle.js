@@ -1,5 +1,6 @@
-function Obstacle(type, minHeight, maxHeight, minPosY, maxPosY) {
+function Obstacle(type, speed, minHeight, maxHeight, minPosY, maxPosY) {
   this.type = type;
+  this.speed = speed;
   this.minHeight = minHeight;
   this.maxHeight = maxHeight;
   this.minPosY = minPosY;
@@ -62,8 +63,8 @@ Obstacle.prototype.setObstacleLayouts = function (
   }
 };
 
-Obstacle.prototype.animate = function (ctx, canvasWidth, canvasHeight, speed) {
-  this.layouts.forEach((layout) => (layout.posX -= speed));
+Obstacle.prototype.animate = function (ctx, canvasWidth, canvasHeight) {
+  this.layouts.forEach((layout) => (layout.posX -= this.speed));
 
   const startX = this.layouts[this.layouts.length - 1].posX;
   const endX = this.layouts[0].posX;
