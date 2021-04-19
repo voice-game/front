@@ -1,11 +1,12 @@
 import React, { useCallback, useEffect } from "react";
 import { useHistory, useLocation } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
 import { v4 as uuidv4 } from "uuid";
 
 import GameRoomCard from "../GameRoomCard/GameRoomCard";
 import GameOption from "../GameOption/GameOption";
+import { fetchRoomsDB, createRoomDB } from "../../actions/actionCreators";
 
 const mockRoomData = [
   {
@@ -118,20 +119,28 @@ const GameRoomGrid = styled.div`
 `;
 
 const GameRoomList = (props) => {
-  const dispatch = useDispatch();
-  const history = useHistory();
   const location = useLocation();
+  const history = useHistory();
+  const dispatch = useDispatch();
+  const gameTitle = location.pathname.slice(7);
+  const player = useSelector((state) => state.authReducer.playerData);
+  const roomList = useSelector((state) => state.gameReducer[gameTitle]);
+  console.log(roomList);
 
   useEffect(() => {
-    fetchRooms();
+    fetchRooms(gameTitle);
   }, []);
 
-  const fetchRooms = useCallback(() => {});
+  const fetchRooms = useCallback(() => {
+    dispatch(fetchRoomsDB(gameTitle));
+  }, [dispatch, gameTitle]);
 
   const createRoom = useCallback(() => {
-    // new Room Logic
-    history.push(`${location.pathname}/${uuidv4()}`);
-  }, [history, location.pathname]);
+    const newRoomId = uuidv4();
+
+    dispatch(createRoomDB(gameTitle, newRoomId, player._id));
+    history.push(`${location.pathname}/${newRoomId}`);
+  }, [history, location.pathname, dispatch, gameTitle, player._id]);
 
   const enterRandom = useCallback(() => {}, []);
 
@@ -149,6 +158,13 @@ const GameRoomList = (props) => {
             key={data._id}
             onClick={() => history.push(`${location.pathname}/${data._id}`)}
             roomData={data}
+          />
+        ))}
+        {roomList.map((room) => (
+          <GameRoomCard
+            key={room.roomId}
+            onClick={() => history.push(`${location.pathname}/${room._id}`)}
+            roomData={room}
           />
         ))}
       </GameRoomGrid>

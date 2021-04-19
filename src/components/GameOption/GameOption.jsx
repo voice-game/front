@@ -3,20 +3,17 @@ import { useHistory, useLocation } from "react-router-dom";
 import styled from "styled-components";
 
 const GameOptionContainer = styled.div`
-  width: 18vw;
+  width: 100vw;
   height: 5vh;
-  position: absolute;
-  right: 4vw;
-  top: 2vh;
   display: flex;
   justify-content: flex-end;
   align-items: center;
 `;
 
 const GameOptionButton = styled.button`
-  width: 8vw;
+  width: 10vw;
   height: 4vh;
-  margin-left: 1vw;
+  margin-right: 2vw;
   background-color: #ec6998;
   border-radius: 5px;
   font-size: 1rem;

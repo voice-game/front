@@ -2,9 +2,12 @@ import { addEventHelper } from "../../utils/eventListHelper";
 
 function Character(eventList) {
   this.eventList = eventList;
+
   this.x = 40;
-  this.characterWidth = 20;
-  this.characterHeight = 20;
+  this.characterWidth = 40;
+  this.characterHeight = 40;
+  this.characterWidthHalf = this.characterWidth / 2;
+
   this.gravity = 0;
   this.characterMove = {
     left: false,
@@ -12,7 +15,7 @@ function Character(eventList) {
     jump: false,
     speed: 2,
     isJumping: false,
-    jumpHeight: 10,
+    jumpHeight: 20,
   };
   this.KEY_CODE = {
     A: 65,
@@ -25,11 +28,13 @@ function Character(eventList) {
 }
 
 Character.prototype.draw = function (ctx, dots) {
-  this.maxY = dots[this.x + (this.characterWidth / 2)] - this.characterHeight;
+  this.characterCenterX = this.x + this.characterWidthHalf;
+  this.maxY = dots[this.characterCenterX] - this.characterHeight;
 
   if (this.y === undefined || this.y >= this.maxY) {
     this.y = this.maxY;
     this.characterMove.isJumping = false;
+    this.gravity = 0;
   }
 
   ctx.fillStyle = "#0095DD";
@@ -39,6 +44,7 @@ Character.prototype.draw = function (ctx, dots) {
     this.characterWidth,
     this.characterHeight
   );
+
   this.handleCharacterMovement(dots);
 };
 
@@ -78,10 +84,13 @@ Character.prototype.handleCharacterMovement = function (dots) {
 
   if (this.characterMove.jump && !this.characterMove.isJumping) {
     this.characterMove.isJumping = true;
-    this.gravity -= 30;
+    this.gravity -= this.characterMove.jumpHeight;
   }
 
-  this.y += Math.floor(this.gravity);
+  if (this.gravity) {
+    this.y += Math.floor(this.gravity);
+  }
+
   this.gravity += 1.5;
   this.gravity *= 0.9;
 };
