@@ -1,7 +1,8 @@
-import React from "react";
+import React, { useEffect, useCallback } from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
+import { checkAuthorization } from "../../actions/actionCreators";
 import Login from "../Login/Login";
 import Logout from "../Logout/Logout";
 import GameList from "../GameList/GameList";
@@ -13,6 +14,15 @@ import ErrorPage from "../ErrorPage/ErrorPage";
 
 const App = ({ authService }) => {
   const { isLoggedIn } = useSelector((state) => state.authReducer);
+  const dispatch = useDispatch();
+
+  const checkAuth = useCallback(() => {
+    dispatch(checkAuthorization());
+  }, [dispatch]);
+
+  useEffect(() => {
+    checkAuth();
+  }, [checkAuth]);
 
   return (
     <Router>
@@ -29,19 +39,19 @@ const App = ({ authService }) => {
               <GameList />
             </Route>
 
-            <Route path="/games/road-roller">
+            <Route path="/games/roadRoller">
               <RoadRoller />
             </Route>
 
-            <Route path="/games/fighter-attack">
+            <Route path="/games/fighterAttack">
               <FighterAttack />
             </Route>
 
-            <Route exact path="/games/energy-battle">
+            <Route exact path="/games/energyBattle">
               <GameRoomList />
             </Route>
 
-            <Route path="/games/energy-battle/:roomId">
+            <Route path="/games/energyBattle/:roomId">
               <EnergyBattle />
             </Route>
 
