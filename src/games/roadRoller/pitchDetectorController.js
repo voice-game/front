@@ -14,14 +14,14 @@ class pitchDetectorController {
     switch (this.stage) {
       case 1:
         if (characterCenterX >= 140 && characterCenterX <= 180) {
-          const road = this.road.draw(ctx, this.detectorReady);
+          const roadDots = this.road.draw(ctx, this.detectorReady);
           this.detectorReady = true;
 
-          return road;
+          return roadDots;
         } else {
           this.detectorReady = false;
 
-          return;
+          return this.road.roadDots;
         }
       default:
         return;

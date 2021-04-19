@@ -7,7 +7,7 @@ Objects.prototype.draw = function (ctx, pitchDots) {
   this.ctx = ctx;
   this.dots = new Array(this.canvasWidth);
 
-  ctx.fillStyle = "black";
+  this.ctx.fillStyle = "black";
   this.drawObject(0, this.canvasHeight - 200, 200, 200);
   this.drawObject(this.canvasWidth - 200, this.canvasHeight - 200, 200, 200);
   this.drawObject(140, this.canvasHeight - 210, 40, 10);
@@ -15,7 +15,17 @@ Objects.prototype.draw = function (ctx, pitchDots) {
   if (pitchDots) {
     for (let i = 0; i < pitchDots.length; i++) {
       this.dots[200 + i] = pitchDots[i];
+
+      this.ctx.beginPath();
+
+      this.ctx.strokeStyle = "red";
+      this.ctx.linkWidth = 5;
+      this.ctx.moveTo(200 + i - 1, this.dots[200 + i - 1]);
+      this.ctx.lineTo(200 + i, this.dots[200 + i]);
+      this.ctx.stroke();
     }
+
+    this.ctx.closePath();
   }
 
   return this.dots;

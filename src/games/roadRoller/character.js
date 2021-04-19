@@ -4,8 +4,8 @@ function Character(eventList) {
   this.eventList = eventList;
 
   this.x = 40;
-  this.characterWidth = 20;
-  this.characterHeight = 20;
+  this.characterWidth = 40;
+  this.characterHeight = 40;
   this.characterWidthHalf = this.characterWidth / 2;
 
   this.gravity = 0;

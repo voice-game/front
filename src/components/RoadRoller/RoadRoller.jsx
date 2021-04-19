@@ -20,7 +20,7 @@ const RoadRoller = (props) => {
       try {
         setTimeout(() => {
           audioContextRef.current = getAudioContext({ samplerate: 12000 });
-        }, 1000);
+        }, 100);
         micStreamRef.current = await getMedia({ audio: true, video: false });
       } catch (err) {
         console.log(err);

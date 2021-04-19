@@ -25,7 +25,10 @@ Game.prototype.animate = async function () {
 
   this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
 
-  const pitchDots = this.pitchDetectorController.handlePitchInteraction(this.ctx, this.character.characterCenterX);
+  const pitchDots = this.pitchDetectorController.handlePitchInteraction(
+    this.ctx,
+    this.character.characterCenterX
+  );
   const dots = this.objects.draw(this.ctx, pitchDots);
   this.character.draw(this.ctx, dots);
 };
