@@ -38,34 +38,28 @@ Character.prototype.draw = function (ctx, x, y, timeStamp) {
 }
 
 Character.prototype.animate = function (ctx, x, y) {
+  let characterX = x;
+  let characterWidth = this.characterWidth;
+
   ctx.save();
 
   if (this.isFlipped) {
     ctx.scale(-1, 1);
-    ctx.drawImage(
-      this.img,
-      this.currentImg.width * this.currentFrame,
-      0,
-      this.currentImg.width,
-      this.currentImg.height,
-      -x,
-      y,
-      -this.characterWidth,
-      this.characterHeight + 3
-    );
-  } else {
-    ctx.drawImage(
-      this.img,
-      this.currentImg.width * this.currentFrame,
-      0,
-      this.currentImg.width,
-      this.currentImg.height,
-      x,
-      y,
-      this.characterWidth,
-      this.characterHeight + 3
-    );
+    characterX = -characterX;
+    characterWidth = -characterWidth;
   }
+
+  ctx.drawImage(
+    this.img,
+    this.currentImg.width * this.currentFrame,
+    0,
+    this.currentImg.width,
+    this.currentImg.height,
+    characterX,
+    y,
+    characterWidth,
+    this.characterHeight + 3
+  );
 
   ctx.restore();
 };
