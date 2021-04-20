@@ -1,10 +1,10 @@
 import authReducer from "./authReducer";
-import gameReducer from "./gameReducer";
+import roomReducer from "./roomReducer";
 import { combineReducers } from "redux";
 
 const reducer = combineReducers({
   authReducer,
-  gameReducer,
+  roomReducer,
 });
 
 export default reducer;
