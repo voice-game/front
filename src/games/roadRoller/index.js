@@ -1,5 +1,5 @@
 import Objects from "./objects";
-import Character from "./character";
+import CharacterController from "./characterController";
 import pitchDetectorController from "./pitchDetectorController";
 
 function Game(ref, { pitchDetectorRef }) {
@@ -15,22 +15,22 @@ function Game(ref, { pitchDetectorRef }) {
     this.pitchDetectorRef
   );
   this.objects = new Objects(this.canvas.width, this.canvas.height);
-  this.character = new Character(this.eventList);
+  this.characterController = new CharacterController(this.eventList);
 
   this.animate();
 }
 
-Game.prototype.animate = async function () {
+Game.prototype.animate = async function (timeStamp) {
   this.animationFrameId = window.requestAnimationFrame(this.animate.bind(this));
 
   this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
 
   const pitchDots = this.pitchDetectorController.handlePitchInteraction(
     this.ctx,
-    this.character.characterCenterX
+    this.characterController.characterCenterX
   );
   const dots = this.objects.draw(this.ctx, pitchDots);
-  this.character.draw(this.ctx, dots);
+  this.characterController.draw(this.ctx, dots, timeStamp);
 };
 
 export default Game;

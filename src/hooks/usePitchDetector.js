@@ -20,7 +20,7 @@ const usePitchDetector = (isAudioUse, audioContextRef, micStreamRef) => {
         try {
           const pitchDetector = ml5.pitchDetection(
             "/model/",
-            audioContextRef.current ,
+            audioContextRef.current,
             micStreamRef.current
           );
 
