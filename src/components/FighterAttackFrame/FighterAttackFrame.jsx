@@ -20,10 +20,10 @@ const FighterAttackFrame = ({
     const {
       playInfo,
       background,
-      monster,
+      ceiling,
       ground,
       enemy,
-      celing,
+      monster,
     } = gameElement;
     const ctx = canvasRef.current.getContext("2d");
 
@@ -48,7 +48,7 @@ const FighterAttackFrame = ({
 
         const volume = volumeMeter.getVolume();
         const isCollision = monster.getIsCollision(
-          [ground, enemy, celing],
+          [ground, enemy, ceiling],
           300,
         );
 
@@ -57,7 +57,7 @@ const FighterAttackFrame = ({
         background.animate(ctx);
         ground.animate(ctx);
         enemy.animate(ctx);
-        celing.animate(ctx);
+        ceiling.animate(ctx);
         monster.animate(ctx, canvasHeight, volume, isCollision, frame);
         playInfo.animate(
           ctx,

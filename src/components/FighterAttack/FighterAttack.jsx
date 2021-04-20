@@ -44,7 +44,7 @@ const FighterAttack = (props) => {
   const [monsterImages, setMonsterImages] = useState([]);
   const [groundImages, setGroundImages] = useState([]);
   const [enemyImages, setEnenmyImageUrls] = useState([]);
-  const [celingImages, setCelingImages] = useState([]);
+  const [ceilingImages, setCeilingImages] = useState([]);
   const [gameElement, setGameElement] = useState({});
 
   useEffect(() => {
@@ -65,16 +65,23 @@ const FighterAttack = (props) => {
   useImage(backgroundImageUrls, setBackgroundImages);
   useImage(monsterImageUrls, setMonsterImages);
   useImage(groundImageUrls, setGroundImages);
-  useImage(ceilingImageUrls, setCelingImages);
+  useImage(ceilingImageUrls, setCeilingImages);
   useImage(enenmyImageUrls, setEnenmyImageUrls);
 
   useEffect(() => {
     if (!monsterImages.length) return;
     if (!groundImages.length) return;
     if (!enemyImages.length) return;
-    if (!celingImages.length) return;
+    if (!ceilingImages.length) return;
 
     const groundSpeed = 3;
+
+    const ceilingMap = new GameMap(
+      "celing",
+      canvasWidth,
+      canvasHeight,
+      ceilingImages,
+    );
 
     const groundMap = new GameMap(
       "ground",
@@ -82,14 +89,6 @@ const FighterAttack = (props) => {
       canvasHeight,
       groundImages,
     );
-    groundMap.setGameMap(
-      "onGround",
-      7,
-      [0, 0, 0, 0, 0, 0, 0],
-      [0.2, 0.1, 0.15, 0.1, 0.2, 0.3, 0.15],
-      [2, 5, 0, 4, 3, 6, 1],
-    );
-    const ground = new Obstacle(groundMap.gameMap, groundSpeed);
 
     const enemyMap = new GameMap(
       "enemy",
@@ -97,29 +96,30 @@ const FighterAttack = (props) => {
       canvasHeight,
       enemyImages,
     );
+
     enemyMap.setGameMap(
       "onAir",
       7,
-      [0.5, 0.2, 0.6, 0.7, 0.3, 0.5, 0.4],
-      [0.1, 0.05, 0.1, 0.05, 0.1, 0.1, 0.05],
+      [0.5, 0.2, 0.6, 0.2, 0.3, 0.6, 0.4],
+      [0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1],
       [0, 1, 2, 3, 0, 2, 1],
     );
-    const enemy = new Obstacle(enemyMap.gameMap, 1.5 * groundSpeed);
 
-    const celingMap = new GameMap(
-      "celing",
-      canvasWidth,
-      canvasHeight,
-      celingImages,
+    groundMap.setGameMap(
+      "onGround",
+      7,
+      [0, 0, 0, 0, 0, 0, 0],
+      [0.05, 0.1, 0.2, 0.2, 0.3, 0.05, 0.2],
+      [2, 5, 0, 4, 3, 6, 1],
     );
-    celingMap.setGameMap(
-      "onAir",
-      5,
-      [0.1, 0.1, 0.1, 0.1, 0.1],
-      [0.1, 0.1, 0.1, 0.1, 0.1],
-      [0, 0, 0, 0, 0],
+
+    ceilingMap.setGameMap(
+      "onCeiling",
+      4,
+      [0, 0, 0, 0],
+      [0.2, 0.2, 0.2, 0.2],
+      [0, 0, 0, 0],
     );
-    const celing = new Obstacle(celingMap.gameMap, 0.2 * groundSpeed);
 
     const background = new Background(
       canvasWidth,
@@ -127,18 +127,20 @@ const FighterAttack = (props) => {
       backgroundImages,
     );
 
-    const playInfo = new PlayInfo(groundSpeed, 5);
-
+    const playInfo = new PlayInfo();
+    const ceiling = new Obstacle(ceilingMap.gameMap, 0.2 * groundSpeed);
+    const ground = new Obstacle(groundMap.gameMap, groundSpeed);
+    const enemy = new Obstacle(enemyMap.gameMap, 1 * groundSpeed);
     const monster = new Monster(0, monsterImages, 50, groundSpeed, 5);
     monster.setPosition(canvasWidth, canvasHeight, 36);
 
-    setGameElement({ playInfo, background, monster, ground, enemy, celing });
+    setGameElement({ playInfo, background, ceiling, ground, enemy, monster });
   }, [
     backgroundImages,
-    monsterImages,
+    ceilingImages,
     groundImages,
     enemyImages,
-    celingImages,
+    monsterImages,
   ]);
 
   const handlePlayClick = () => setIsPlay(true);
