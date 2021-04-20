@@ -8,7 +8,7 @@ Objects.prototype.draw = function (ctx, pitchDots) {
   this.dots = new Array(this.canvasWidth);
 
   this.ctx.fillStyle = "black";
-  this.drawObject(0, this.canvasHeight - 200, 200, 200);
+  this.drawObject(0, this.canvasHeight - 100, 300, 100);
   this.drawObject(this.canvasWidth - 200, this.canvasHeight - 200, 200, 200);
   this.drawObject(140, this.canvasHeight - 210, 40, 10);
 
