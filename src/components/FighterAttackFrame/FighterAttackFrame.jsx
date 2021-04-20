@@ -14,28 +14,31 @@ const FighterAttackFrame = ({
   canvasHeight,
 }) => {
   const canvasRef = useRef(null);
-  const posYRef = useRef(0);
   const animationIdRef = useRef(null);
 
   useEffect(() => {
-    const { fighter, tree, bird, cloud } = gameElement;
+    const { playInfo, fighter, tree, bird, cloud } = gameElement;
     const ctx = canvasRef.current.getContext("2d");
 
     if (isPlay) {
       const draw = () => {
         const volume = volumeMeter.getVolume();
-
-        if (volume > 3) {
-          posYRef.current += canvasHeight / 1000;
-        } else {
-          posYRef.current -= canvasHeight / 1000;
-        }
+        const isCollision = fighter.getIsCollision([tree, bird, cloud], 300);
 
         ctx.clearRect(0, 0, canvasWidth, canvasHeight);
-        fighter.animate(ctx, canvasWidth, canvasHeight, posYRef.current);
-        tree.animate(ctx, canvasWidth, canvasHeight, 2);
-        bird.animate(ctx, canvasWidth, canvasHeight, 1);
-        cloud.animate(ctx, canvasWidth, canvasHeight, 0.5);
+
+        tree.animate(ctx);
+        bird.animate(ctx);
+        cloud.animate(ctx);
+        fighter.animate(ctx, canvasHeight, volume, isCollision);
+        playInfo.animate(
+          ctx,
+          canvasWidth,
+          canvasHeight,
+          fighter.distance,
+          fighter.life,
+          fighter.maxLife,
+        );
 
         animationIdRef.current = requestAnimationFrame(draw);
       };
