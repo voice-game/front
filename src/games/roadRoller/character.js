@@ -1,35 +1,37 @@
-import idle from "../../assets/image/charactor/hedgehog/idle.png";
+import { imageController } from "./imageController";
 
 function Character() {
   this.img = new Image();
-  this.img.src = idle;
 
-  this.imgWidth = 400;
-  this.imgHeight = 320;
+  this.imgList = imageController();
+  this.currentImg = this.imgList.idle;
 
-  this.characterWidth = 50;
-  this.characterHeight = 40;
+  this.characterWidth = this.currentImg.width / 4;
+  this.characterHeight = this.currentImg.height / 4;
   this.characterWidthHalf = this.characterWidth / 2;
 
-  this.totalFrame = 24;
   this.currentFrame = 0;
-  this.fpsTime = 1000 / this.totalFrame;
+  this.fpsTime = 1000 / this.currentImg.totalFrame;
+
+  this.isFlipped = false;
 }
 
 Character.prototype.draw = function (ctx, x, y, timeStamp) {
+  this.img.src = this.currentImg.src;
+
   if (!this.pivotTime) {
     this.pivotTime = timeStamp;
   }
 
   const now = timeStamp - this.pivotTime;
 
-  if (now > this.pivotTime) {
+  if (now > this.fpsTime) {
     this.pivotTime = timeStamp;
     this.currentFrame += 1;
+  }
 
-    if (this.currentFrame === this.totalFrame) {
-      this.currentFrame = 0;
-    }
+  if (this.currentImg.totalFrame <= this.currentFrame) {
+    this.currentFrame = 0;
   }
 
   this.animate(ctx, x, y);
@@ -37,17 +39,34 @@ Character.prototype.draw = function (ctx, x, y, timeStamp) {
 
 Character.prototype.animate = function (ctx, x, y) {
   ctx.save();
-  ctx.drawImage(
-    this.img,
-    this.imgWidth * this.currentFrame,
-    0,
-    this.imgWidth,
-    this.imgHeight,
-    x,
-    y,
-    this.characterWidth,
-    this.characterHeight
-  );
+
+  if (this.isFlipped) {
+    ctx.scale(-1, 1);
+    ctx.drawImage(
+      this.img,
+      this.currentImg.width * this.currentFrame,
+      0,
+      this.currentImg.width,
+      this.currentImg.height,
+      -x,
+      y,
+      -this.characterWidth,
+      this.characterHeight + 3
+    );
+  } else {
+    ctx.drawImage(
+      this.img,
+      this.currentImg.width * this.currentFrame,
+      0,
+      this.currentImg.width,
+      this.currentImg.height,
+      x,
+      y,
+      this.characterWidth,
+      this.characterHeight + 3
+    );
+  }
+
   ctx.restore();
 };
 
