@@ -34,7 +34,7 @@ const RoadRoller = (props) => {
   return (
     <div>
       <GameOption />
-      <GameFrame canvasRef={game} width="1000" height="600" backgroundImage={desert3} />
+      <GameFrame canvasRef={game} width="1400" height="600" backgroundImage={desert3} />
       <GameResult />
       <button onClick={() => setIsAudioUse(!isAudioUse)}>Audio On</button>
       <div>W: 점프 A: 좌 D: 우</div>
