@@ -1,4 +1,4 @@
-import React, { useEffect, useCallback } from "react";
+import React, { useEffect } from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 
@@ -16,13 +16,9 @@ const App = ({ authService }) => {
   const { isLoggedIn } = useSelector((state) => state.authReducer);
   const dispatch = useDispatch();
 
-  const checkAuth = useCallback(() => {
+  useEffect(() => {
     dispatch(checkAuthorization());
   }, [dispatch]);
-
-  useEffect(() => {
-    checkAuth();
-  }, [checkAuth]);
 
   return (
     <Router>

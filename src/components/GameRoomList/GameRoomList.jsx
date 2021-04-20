@@ -125,11 +125,6 @@ const GameRoomList = (props) => {
   const gameTitle = location.pathname.slice(7);
   const player = useSelector((state) => state.authReducer.playerData);
   const roomList = useSelector((state) => state.gameReducer[gameTitle]);
-  console.log(roomList);
-
-  useEffect(() => {
-    fetchRooms(gameTitle);
-  }, []);
 
   const fetchRooms = useCallback(() => {
     dispatch(fetchRoomsDB(gameTitle));
@@ -141,6 +136,10 @@ const GameRoomList = (props) => {
     dispatch(createRoomDB(gameTitle, newRoomId, player._id));
     history.push(`${location.pathname}/${newRoomId}`);
   }, [history, location.pathname, dispatch, gameTitle, player._id]);
+
+  useEffect(() => {
+    fetchRooms(gameTitle);
+  }, [fetchRooms, gameTitle]);
 
   const enterRandom = useCallback(() => {}, []);
 
