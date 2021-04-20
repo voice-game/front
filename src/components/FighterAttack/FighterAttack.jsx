@@ -5,34 +5,46 @@ import GameResult from "../GameResult/GameResult";
 import GameOption from "../GameOption/GameOption";
 import getMedia from "../../utils/getMedia";
 import VolumeMeter from "../../utils/VolumeMeter";
-import Fighter from "../../games/fighterAttack/Fighter";
+import Background from "../../games/fighterAttack/Background";
+import Monster from "../../games/fighterAttack/Fighter";
 import Obstacle from "../../games/fighterAttack/Obstacle";
 import PlayInfo from "../../games/fighterAttack/PlayInfo";
 import GameMap from "../../games/fighterAttack/GameMap";
 
-import tree1 from "../../images/fighterAttack/tree1.png";
-import tree2 from "../../images/fighterAttack/tree2.png";
-import bird1 from "../../images/fighterAttack/bird1.png";
-import bird2 from "../../images/fighterAttack/bird2.png";
-import cloud1 from "../../images/fighterAttack/cloud1.png";
-import fighter1 from "../../images/fighterAttack/fighter1.jpeg";
+import leftTree from "../../images/fighterAttack/leftTree.png";
+import rightTree from "../../images/fighterAttack/rightTree.png";
+import hill from "../../images/fighterAttack/hill.png";
+import house from "../../images/fighterAttack/house.png";
+import light from "../../images/fighterAttack/light.png";
+import tomb from "../../images/fighterAttack/tomb.png";
+import fence from "../../images/fighterAttack/fence.png";
+import spider from "../../images/fighterAttack/spider.png";
+
+import witch from "../../images/fighterAttack/witch.png";
+import cyclops from "../../images/fighterAttack/cyclops.png";
+import dionaea from "../../images/fighterAttack/dionaea.png";
+import dagger from "../../images/fighterAttack/dagger.png";
+import purpleBat from "../../images/fighterAttack/purpleBat.png";
+import background from "../../images/fighterAttack/background.png";
 
 const canvasWidth = document.body.clientWidth * 0.8;
 const canvasHeight = document.body.clientWidth * 0.6;
 
-const fighterImageUrls = [fighter1];
-const treeImageUrls = [tree1, tree2];
-const birdImageUrls = [bird1, bird2];
-const cloudImageUrls = [cloud1];
+const backgroundImageUrls = [background];
+const monsterImageUrls = [purpleBat];
+const enenmyImageUrls = [witch, cyclops, dionaea, dagger];
+const ceilingImageUrls = [spider];
+const groundImageUrls = [leftTree, rightTree, hill, house, light, tomb, fence];
 
 const FighterAttack = (props) => {
   const [stream, setStream] = useState({});
   const [volumeMeter, setVolumeMeter] = useState({});
   const [isPlay, setIsPlay] = useState(false);
-  const [fighterImages, setFighterImages] = useState([]);
-  const [treeImages, setTreeImages] = useState([]);
-  const [birdImages, setBirdImages] = useState([]);
-  const [cloudImages, setCloudImages] = useState([]);
+  const [backgroundImages, setBackgroundImages] = useState([]);
+  const [monsterImages, setMonsterImages] = useState([]);
+  const [groundImages, setGroundImages] = useState([]);
+  const [enemyImages, setEnenmyImageUrls] = useState([]);
+  const [celingImages, setCelingImages] = useState([]);
   const [gameElement, setGameElement] = useState({});
 
   useEffect(() => {
@@ -50,61 +62,84 @@ const FighterAttack = (props) => {
     })();
   }, []);
 
-  useImage(fighterImageUrls, setFighterImages);
-  useImage(treeImageUrls, setTreeImages);
-  useImage(cloudImageUrls, setCloudImages);
-  useImage(birdImageUrls, setBirdImages);
+  useImage(backgroundImageUrls, setBackgroundImages);
+  useImage(monsterImageUrls, setMonsterImages);
+  useImage(groundImageUrls, setGroundImages);
+  useImage(ceilingImageUrls, setCelingImages);
+  useImage(enenmyImageUrls, setEnenmyImageUrls);
 
   useEffect(() => {
-    if (!fighterImages.length) return;
-    if (!treeImages.length) return;
-    if (!birdImages.length) return;
-    if (!cloudImages.length) return;
+    if (!monsterImages.length) return;
+    if (!groundImages.length) return;
+    if (!enemyImages.length) return;
+    if (!celingImages.length) return;
 
     const groundSpeed = 3;
 
-    const treeMap = new GameMap("tree", canvasWidth, canvasHeight, treeImages);
-    treeMap.setGameMap(
+    const groundMap = new GameMap(
+      "ground",
+      canvasWidth,
+      canvasHeight,
+      groundImages,
+    );
+    groundMap.setGameMap(
       "onGround",
       7,
       [0, 0, 0, 0, 0, 0, 0],
-      [0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1],
-      [0, 1, 0, 1, 0, 1, 0],
+      [0.2, 0.1, 0.15, 0.1, 0.2, 0.3, 0.15],
+      [2, 5, 0, 4, 3, 6, 1],
     );
-    const tree = new Obstacle(treeMap.gameMap, groundSpeed);
+    const ground = new Obstacle(groundMap.gameMap, groundSpeed);
 
-    const birdMap = new GameMap("bird", canvasWidth, canvasHeight, birdImages);
-    birdMap.setGameMap(
+    const enemyMap = new GameMap(
+      "enemy",
+      canvasWidth,
+      canvasHeight,
+      enemyImages,
+    );
+    enemyMap.setGameMap(
       "onAir",
       7,
       [0.5, 0.2, 0.6, 0.7, 0.3, 0.5, 0.4],
-      [0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1],
-      [0, 1, 0, 1, 0, 1, 0],
+      [0.1, 0.05, 0.1, 0.05, 0.1, 0.1, 0.05],
+      [0, 1, 2, 3, 0, 2, 1],
     );
-    const bird = new Obstacle(birdMap.gameMap, 0.5 * groundSpeed);
+    const enemy = new Obstacle(enemyMap.gameMap, 1.5 * groundSpeed);
 
-    const cloudMap = new GameMap(
-      "cloud",
+    const celingMap = new GameMap(
+      "celing",
       canvasWidth,
       canvasHeight,
-      cloudImages,
+      celingImages,
     );
-    cloudMap.setGameMap(
+    celingMap.setGameMap(
       "onAir",
       5,
       [0.1, 0.1, 0.1, 0.1, 0.1],
-      [0.2, 0.2, 0.2, 0.2, 0.2],
+      [0.1, 0.1, 0.1, 0.1, 0.1],
       [0, 0, 0, 0, 0],
     );
-    const cloud = new Obstacle(cloudMap.gameMap, 0.2 * groundSpeed);
+    const celing = new Obstacle(celingMap.gameMap, 0.2 * groundSpeed);
+
+    const background = new Background(
+      canvasWidth,
+      canvasHeight,
+      backgroundImages,
+    );
 
     const playInfo = new PlayInfo(groundSpeed, 5);
 
-    const fighter = new Fighter(0, fighterImages, 80, groundSpeed, 5);
-    fighter.setPosition(canvasWidth, canvasHeight);
+    const monster = new Monster(0, monsterImages, 50, groundSpeed, 5);
+    monster.setPosition(canvasWidth, canvasHeight, 36);
 
-    setGameElement({ playInfo, fighter, tree, bird, cloud });
-  }, [fighterImages, treeImages, birdImages, cloudImages]);
+    setGameElement({ playInfo, background, monster, ground, enemy, celing });
+  }, [
+    backgroundImages,
+    monsterImages,
+    groundImages,
+    enemyImages,
+    celingImages,
+  ]);
 
   const handlePlayClick = () => setIsPlay(true);
   const handleStopClick = () => setIsPlay(false);

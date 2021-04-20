@@ -17,27 +17,55 @@ const FighterAttackFrame = ({
   const animationIdRef = useRef(null);
 
   useEffect(() => {
-    const { playInfo, fighter, tree, bird, cloud } = gameElement;
+    const {
+      playInfo,
+      background,
+      monster,
+      ground,
+      enemy,
+      celing,
+    } = gameElement;
     const ctx = canvasRef.current.getContext("2d");
 
     if (isPlay) {
-      const draw = () => {
+      let thenTime;
+      let frame = 0;
+
+      const draw = (timeStamp, a) => {
+        const timeStep = 1000 / 36;
+
+        if (!thenTime) {
+          thenTime = timeStamp;
+        }
+
+        if (timeStamp - thenTime <= timeStep) {
+          animationIdRef.current = requestAnimationFrame(draw);
+          return;
+        }
+
+        thenTime = timeStamp;
+        frame = (frame + 1) % 36;
+
         const volume = volumeMeter.getVolume();
-        const isCollision = fighter.getIsCollision([tree, bird, cloud], 300);
+        const isCollision = monster.getIsCollision(
+          [ground, enemy, celing],
+          300,
+        );
 
         ctx.clearRect(0, 0, canvasWidth, canvasHeight);
 
-        tree.animate(ctx);
-        bird.animate(ctx);
-        cloud.animate(ctx);
-        fighter.animate(ctx, canvasHeight, volume, isCollision);
+        background.animate(ctx);
+        ground.animate(ctx);
+        enemy.animate(ctx);
+        celing.animate(ctx);
+        monster.animate(ctx, canvasHeight, volume, isCollision, frame);
         playInfo.animate(
           ctx,
           canvasWidth,
           canvasHeight,
-          fighter.distance,
-          fighter.life,
-          fighter.maxLife,
+          monster.distance,
+          monster.life,
+          monster.maxLife,
         );
 
         animationIdRef.current = requestAnimationFrame(draw);
