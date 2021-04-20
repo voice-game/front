@@ -1,88 +1,148 @@
 import React, { useState, useEffect, useRef } from "react";
-import { useParams } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useHistory, useParams, useLocation } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
 import io from "socket.io-client";
+import styled from "styled-components";
 
 import EnergyBattleFrame from "../EnergyBattleFrame/EnergyBattleFrame";
 import GameResult from "../GameResult/GameResult";
 import PlayerCard from "../PlayerCard/PlayerCard";
-import { USER_SERVER } from "../../constants/constants";
-import { v4 as uuidv4 } from "uuid";
+import { USER_SERVER, ENERGY_BATTLE_FULL } from "../../constants/constants";
+import {
+  joinRoomDB,
+  leaveRoomDB,
+  deleteRoomDB,
+  changeRoomStatus,
+} from "../../actions/actionCreators";
+import useMultiPlay from "../../hooks/useMultiPlay";
 import GameOption from "../GameOption/GameOption";
 
 const socket = io(USER_SERVER, {
   withCredential: true,
 });
 
-// 향후 로그인 구축 완료되면 playerData에서 가져와야 함
-const playerIdMock = uuidv4();
-const canvasWidth = document.body.clientWidth * 0.8;
-const canvasHeight = document.body.clientWidth * 0.6;
+const GameTitle = styled.h1`
+  margin: 0;
+  margin-bottom: 2vh;
+  width: 100%;
+  text-align: center;
+`;
+
+const OperationContainer = styled.div`
+  display: flex;
+  justify-content: space-around;
+  width: 60%;
+  height: 5vh;
+  margin: 0 auto;
+`;
+
+const StartButton = styled.button``;
+
+const Canvas = styled.canvas`
+  margin: 0 auto;
+  display: block;
+  margin-top: 10px;
+  background-color: skyblue;
+`;
 
 const EnergyBattle = (props) => {
-  const { playerData } = useSelector((state) => state.authReducer);
   const [otherPlayer, setOtherPlayer] = useState(null);
+  const dispatch = useDispatch();
   const param = useParams();
+  const location = useLocation();
+  const history = useHistory();
+
   const gameElementRef = useRef({});
-  console.log(socket);
+  const roomData = useSelector((state) => state.roomReducer);
+  const { playerData } = useSelector((state) => state.authReducer);
+
+  const gameTitle = location.pathname.split("/")[2];
+  const roomId = param.roomId;
+  const creater = location.state;
+  const currentRoom = roomData[gameTitle].filter(
+    (room) => room.roomId === roomId
+  )[0];
 
   useEffect(() => {
-    socket.emit("join-room", param.roomId, {
-      // 내 정보 보내서 상대방한테 알리기
-      _id: playerIdMock,
-    });
+    if (!creater) {
+      dispatch(joinRoomDB(gameTitle, roomId, playerData));
+      setOtherPlayer(currentRoom?.players[0]);
+    }
 
-    socket.on("user-connected", (data) => {
-      // userName 받아서 내 화면에 띄우기
-      console.log("user-connected");
-      setOtherPlayer(data);
-      console.log(data);
+    socket.emit("join-room", roomId, playerData, creater);
+
+    socket.on("player-connected", (data) => {
+      if (data.playerData.playerId !== playerData.playerId) {
+        setOtherPlayer(data.playerData);
+      }
+      console.log(data.socketList);
+
+      if (data.socketList.length >= ENERGY_BATTLE_FULL) {
+        dispatch(changeRoomStatus(gameTitle, roomId, "Full"));
+      }
     });
 
     socket.on("input-other-player", (data) => {
-      if (data.playerData.playerId !== playerIdMock) {
+      if (data.playerData.playerId !== playerData.playerId) {
         // data: {playerId, value}
         console.log("input-other-player");
         console.log(data);
       }
     });
 
-    socket.on("user-disconnected", (data) => {
-      // 해당 사용자가 나가면 내 화면에서 없애기
-      console.log("user-disconnected");
+    socket.on("player-disconnected", () => {
+      dispatch(changeRoomStatus(gameTitle, roomId, "Enter"));
       setOtherPlayer(null);
-      console.log(data);
+    });
+
+    socket.on("creater-disconnected", () => {
+      dispatch(deleteRoomDB(gameTitle, roomId));
+      history.push(`/games/${gameTitle}`);
     });
 
     return () => {
-      socket.emit("leave-room");
-      socket.off("user-connected");
+      if (!creater) {
+        dispatch(leaveRoomDB(gameTitle, roomId, playerData));
+        socket.emit("leave-player");
+      } else {
+        console.log("leave-creater");
+        dispatch(deleteRoomDB(gameTitle, roomId, playerData));
+        socket.emit("leave-creater");
+      }
+
+      socket.off("player-connected");
       socket.off("input-other-player");
-      socket.off("user-disconnected");
+      socket.off("player-disconnected");
+      socket.off("creater-disconnected");
     };
-  }, [param.roomId]);
+  }, [dispatch, playerData, gameTitle, history, roomId, creater]);
 
   return (
     <div>
-      <GameOption />
-      <div>Energy Battle</div>
       <div>
+        <button onClick={() => history.push(`/games/${gameTitle}`)}>
+          나가기
+        </button>
+        <GameOption />
+      </div>
+      <GameTitle>Energy Battle</GameTitle>
+      <OperationContainer>
         <PlayerCard player={playerData} />
         {otherPlayer ? <button>게임시작</button> : <button>대기중</button>}
-        {otherPlayer && <PlayerCard player={otherPlayer} />}
+        <PlayerCard player={otherPlayer} />
+      </OperationContainer>
+      <Canvas width="1000" height="600" />
+      <div>
+        <input
+          type="text"
+          onChange={(e) =>
+            socket.emit("input-player", {
+              playerData,
+              input: e.target.value,
+            })
+          }
+        />
       </div>
-      <canvas />
-      <input
-        type="text"
-        onChange={(e) =>
-          socket.emit("input-player", {
-            playerData: {
-              _id: playerIdMock,
-            },
-            input: e.target.value,
-          })
-        }
-      />
       <GameResult />
     </div>
   );

@@ -13,7 +13,7 @@ import EnergyBattle from "../EnergyBattle/EnergyBattle";
 import ErrorPage from "../ErrorPage/ErrorPage";
 
 const App = ({ authService }) => {
-  const { isLoggedIn } = useSelector((state) => state.authReducer);
+  const { isAuthorized } = useSelector((state) => state.authReducer);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -23,7 +23,7 @@ const App = ({ authService }) => {
   return (
     <Router>
       <Switch>
-        {!isLoggedIn ? (
+        {!isAuthorized ? (
           <Login authService={authService} />
         ) : (
           <>

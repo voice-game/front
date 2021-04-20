@@ -27,8 +27,8 @@ const LoginButton = styled.button`
 `;
 
 const Login = ({ authService }) => {
-  const [error, showErrorMessage] = useErrorMessage("");
   const dispatch = useDispatch();
+  const [error, showErrorMessage] = useErrorMessage("");
 
   const onLogin = useCallback(
     async (event) => {
