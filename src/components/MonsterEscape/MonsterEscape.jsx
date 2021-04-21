@@ -81,7 +81,7 @@ const MonsterEscape = (props) => {
     (async () => {
       const stream = await getMedia({ audio: true });
       const volumeMeter = new VolumeMeter(stream, {
-        bufferSize: 2048,
+        bufferSize: 4096,
         minDecibels: -60,
         maxDecibels: -30,
         timeConstant: 0.9,
@@ -245,6 +245,7 @@ const MonsterEscape = (props) => {
         gameElement={gameElement}
         canvasWidth={canvasWidth}
         canvasHeight={canvasHeight}
+        roomId={roomId}
       />
       <GameResult />
       <button onClick={handlePlayClick}>Play</button>
