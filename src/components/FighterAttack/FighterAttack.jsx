@@ -74,7 +74,7 @@ const FighterAttack = (props) => {
     if (!enemyImages.length) return;
     if (!ceilingImages.length) return;
 
-    const groundSpeed = 3;
+    const groundSpeed = 2;
 
     const ceilingMap = new GameMap(
       "celing",
@@ -130,8 +130,8 @@ const FighterAttack = (props) => {
     const playInfo = new PlayInfo();
     const ceiling = new Obstacle(ceilingMap.gameMap, 0.2 * groundSpeed);
     const ground = new Obstacle(groundMap.gameMap, groundSpeed);
-    const enemy = new Obstacle(enemyMap.gameMap, 1 * groundSpeed);
-    const monster = new Monster(0, monsterImages, 50, groundSpeed, 5);
+    const enemy = new Obstacle(enemyMap.gameMap, 1.5 * groundSpeed);
+    const monster = new Monster(0, monsterImages, 50, 3, 5);
     monster.setPosition(canvasWidth, canvasHeight, 36);
 
     setGameElement({ playInfo, background, ceiling, ground, enemy, monster });

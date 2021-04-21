@@ -62,13 +62,14 @@ Fighter.prototype.animate = function (
   isCollision,
   frame,
 ) {
+  console.log(volume);
   const blinkPeriod = 10;
   const blinkTime = this.shieldTime % (2 * blinkPeriod);
 
-  if (volume > 5) {
-    this.posY -= 1;
+  if (volume > 3) {
+    this.posY -= this.speed;
   } else {
-    this.posY += 0.5;
+    this.posY += this.speed;
   }
 
   if (this.posY >= canvasHeight - this.height) {
