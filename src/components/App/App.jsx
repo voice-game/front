@@ -8,7 +8,7 @@ import Logout from "../Logout/Logout";
 import GameList from "../GameList/GameList";
 import GameRoomList from "../GameRoomList/GameRoomList";
 import RoadRoller from "../RoadRoller/RoadRoller";
-import FighterAttack from "../FighterAttack/FighterAttack";
+import MonsterEscape from "../MonsterEscape/MonsterEscape";
 import EnergyBattle from "../EnergyBattle/EnergyBattle";
 import ErrorPage from "../ErrorPage/ErrorPage";
 
@@ -39,12 +39,12 @@ const App = ({ authService }) => {
               <RoadRoller />
             </Route>
 
-            <Route exact path="/games/fighterAttack">
+            <Route exact path="/games/monsterEscape">
               <GameRoomList />
             </Route>
 
-            <Route path="/games/fighterAttack/:roomId">
-              <FighterAttack />
+            <Route path="/games/monsterEscape/:roomId">
+              <MonsterEscape />
             </Route>
 
             <Route exact path="/games/energyBattle">
