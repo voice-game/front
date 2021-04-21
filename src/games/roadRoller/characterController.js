@@ -2,8 +2,10 @@ import { addEventHelper } from "../../utils/eventListHelper";
 import Character from "./character";
 
 class CharacterController {
-  constructor(eventList, canvasHeight) {
+  constructor(eventList, canvasWidth, canvasHeight) {
     this.eventList = eventList;
+
+    this.canvasWidth = canvasWidth;
     this.canvasHeight = canvasHeight;
 
     this.posX = 600;
@@ -37,7 +39,7 @@ class CharacterController {
 
     if (this.canvasHeight < this.posY - this.character.height) {
       this.posX = 40;
-      this.posY = 300;
+      this.posY = 450;
     }
 
     if (!this.maxY) {
@@ -96,13 +98,13 @@ class CharacterController {
     this.handleCharacterImage();
 
     if (this.characterMove.left) {
-      if (dots[this.posX - this.characterMove.speed]) {
+      if (0 < this.posX - this.characterMove.speed) {
         this.posX -= this.characterMove.speed;
       }
     }
 
     if (this.characterMove.right) {
-      if (dots[this.posX + this.character.width]) {
+      if (this.posX + this.character.width < this.canvasWidth) {
         this.posX += this.characterMove.speed;
       }
 

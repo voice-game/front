@@ -17,7 +17,11 @@ function Game(ref, { pitchDetectorRef }) {
     this.canvas.height,
     this.pitchDetectorRef
   );
-  this.characterController = new CharacterController(this.eventList, this.canvas.height);
+  this.characterController = new CharacterController(
+    this.eventList,
+    this.canvas.width,
+    this.canvas.height
+  );
 
   this.animate();
 }
