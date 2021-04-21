@@ -1,7 +1,7 @@
-function Monster(type, images, height, speed, life) {
-  this.type = type;
+function Monster(images, size, speed, life) {
+  this.type = 0;
   this.images = images;
-  this.height = height;
+  this.size = size;
   this.speed = speed;
   this.distance = 0;
   this.life = life;
@@ -15,6 +15,9 @@ Monster.prototype.setPosition = function (
   spriteTotal,
 ) {
   const image = this.images[this.type];
+  this.canvasWidth = canvasWidth;
+  this.canvasHeight = canvasHeight;
+  this.height = this.size * canvasHeight;
 
   this.width = (image.width / (spriteTotal * image.height)) * this.height;
   this.posX = (canvasWidth - this.width) / 2;
@@ -55,24 +58,19 @@ Monster.prototype.getIsCollision = function (obstacles, shieldTime) {
   return false;
 };
 
-Monster.prototype.animate = function (
-  ctx,
-  canvasHeight,
-  volume,
-  isCollision,
-  frame,
-) {
+Monster.prototype.animate = function (ctx, volume, isCollision, frame) {
   const blinkPeriod = 10;
   const blinkTime = this.shieldTime % (2 * blinkPeriod);
+  console.log(volume);
 
   if (volume > 3) {
-    this.posY -= this.speed;
+    this.posY -= this.speed * this.canvasHeight;
   } else {
-    this.posY += this.speed;
+    this.posY += this.speed * this.canvasHeight;
   }
 
-  if (this.posY >= canvasHeight - this.height) {
-    this.posY = canvasHeight - this.height;
+  if (this.posY >= this.canvasHeight - this.height) {
+    this.posY = this.canvasHeight - this.height;
   }
 
   if (this.posY <= 0) {
@@ -85,7 +83,7 @@ Monster.prototype.animate = function (
 
   if (this.life === 0) {
   } else {
-    this.distance += this.speed;
+    this.distance += this.speed * this.canvasWidth;
   }
 
   // if (0 < blinkTime && blinkPeriod >= blinkTime) {

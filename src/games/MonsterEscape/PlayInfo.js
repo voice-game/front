@@ -29,7 +29,11 @@ PlayInfo.prototype.animate = function (
 
   ctx.font = "30px sans-serif";
   ctx.fillStyle = "black";
-  ctx.fillText(`${distance} m`, 0.8 * canvasWidth, 0.2 * canvasHeight);
+  ctx.fillText(
+    `${Math.round(distance)} m`,
+    0.8 * canvasWidth,
+    0.2 * canvasHeight,
+  );
 
   if (life === 0) {
     ctx.font = "100px sans-serif";

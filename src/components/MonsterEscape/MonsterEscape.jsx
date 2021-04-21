@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import io from "socket.io-client";
 import useImage from "../../hooks/useImage";
 import MonsterEscapeFrame from "../MonsterEscapeFrame/MonsterEscapeFrame";
 import GameResult from "../GameResult/GameResult";
@@ -25,6 +26,12 @@ import dionaea from "../../images/monsterEscape/dionaea.png";
 import dagger from "../../images/monsterEscape/dagger.png";
 import purpleBat from "../../images/monsterEscape/purpleBat.png";
 import background from "../../images/monsterEscape/background.png";
+
+import { USER_SERVER } from "../../constants/constants";
+
+const socket = io(USER_SERVER, {
+  withCredential: true,
+});
 
 const canvasWidth = document.body.clientWidth * 0.8;
 const canvasHeight = document.body.clientWidth * 0.6;
@@ -127,10 +134,10 @@ const MonsterEscape = (props) => {
     );
 
     const playInfo = new PlayInfo();
-    const ceiling = new Obstacle(ceilingMap.gameMap, 0.2 * groundSpeed);
-    const ground = new Obstacle(groundMap.gameMap, groundSpeed);
-    const enemy = new Obstacle(enemyMap.gameMap, 1.5 * groundSpeed);
-    const monster = new Monster(0, monsterImages, 50, 3, 5);
+    const ceiling = new Obstacle(ceilingMap.gameMap, canvasWidth, 0.005);
+    const ground = new Obstacle(groundMap.gameMap, canvasWidth, 0.005);
+    const enemy = new Obstacle(enemyMap.gameMap, canvasWidth, 0.01);
+    const monster = new Monster(monsterImages, 0.1, 0.005, 5);
     monster.setPosition(canvasWidth, canvasHeight, 36);
 
     setGameElement({ playInfo, background, ceiling, ground, enemy, monster });

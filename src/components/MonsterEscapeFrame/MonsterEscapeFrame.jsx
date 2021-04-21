@@ -47,6 +47,7 @@ const MonsterEscapeFrame = ({
         frame = (frame + 1) % 36;
 
         const volume = volumeMeter.getVolume();
+
         const isCollision = monster.getIsCollision(
           [ground, enemy, ceiling],
           300,
@@ -58,7 +59,7 @@ const MonsterEscapeFrame = ({
         ground.animate(ctx);
         enemy.animate(ctx);
         ceiling.animate(ctx);
-        monster.animate(ctx, canvasHeight, volume, isCollision, frame);
+        monster.animate(ctx, volume, isCollision, frame);
         playInfo.animate(
           ctx,
           canvasWidth,
