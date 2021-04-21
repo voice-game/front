@@ -1,31 +1,30 @@
 import React, { useState, useEffect } from "react";
 import useImage from "../../hooks/useImage";
-import FighterAttackFrame from "../FighterAttackFrame/FighterAttackFrame";
+import MonsterEscapeFrame from "../MonsterEscapeFrame/MonsterEscapeFrame";
 import GameResult from "../GameResult/GameResult";
 import GameOption from "../GameOption/GameOption";
 import getMedia from "../../utils/getMedia";
 import VolumeMeter from "../../utils/VolumeMeter";
-import Background from "../../games/fighterAttack/Background";
-import Monster from "../../games/fighterAttack/Fighter";
-import Obstacle from "../../games/fighterAttack/Obstacle";
-import PlayInfo from "../../games/fighterAttack/PlayInfo";
-import GameMap from "../../games/fighterAttack/GameMap";
+import Background from "../../games/MonsterEscape/Background";
+import Monster from "../../games/MonsterEscape/Monster";
+import Obstacle from "../../games/MonsterEscape/Obstacle";
+import PlayInfo from "../../games/MonsterEscape/PlayInfo";
+import GameMap from "../../games/MonsterEscape/GameMap";
 
-import leftTree from "../../images/fighterAttack/leftTree.png";
-import rightTree from "../../images/fighterAttack/rightTree.png";
-import hill from "../../images/fighterAttack/hill.png";
-import house from "../../images/fighterAttack/house.png";
-import light from "../../images/fighterAttack/light.png";
-import tomb from "../../images/fighterAttack/tomb.png";
-import fence from "../../images/fighterAttack/fence.png";
-import spider from "../../images/fighterAttack/spider.png";
-
-import witch from "../../images/fighterAttack/witch.png";
-import cyclops from "../../images/fighterAttack/cyclops.png";
-import dionaea from "../../images/fighterAttack/dionaea.png";
-import dagger from "../../images/fighterAttack/dagger.png";
-import purpleBat from "../../images/fighterAttack/purpleBat.png";
-import background from "../../images/fighterAttack/background.png";
+import leftTree from "../../images/monsterEscape/leftTree.png";
+import rightTree from "../../images/monsterEscape/rightTree.png";
+import hill from "../../images/monsterEscape/hill.png";
+import house from "../../images/monsterEscape/house.png";
+import light from "../../images/monsterEscape/light.png";
+import tomb from "../../images/monsterEscape/tomb.png";
+import fence from "../../images/monsterEscape/fence.png";
+import spider from "../../images/monsterEscape/spider.png";
+import witch from "../../images/monsterEscape/witch.png";
+import cyclops from "../../images/monsterEscape/cyclops.png";
+import dionaea from "../../images/monsterEscape/dionaea.png";
+import dagger from "../../images/monsterEscape/dagger.png";
+import purpleBat from "../../images/monsterEscape/purpleBat.png";
+import background from "../../images/monsterEscape/background.png";
 
 const canvasWidth = document.body.clientWidth * 0.8;
 const canvasHeight = document.body.clientWidth * 0.6;
@@ -36,7 +35,7 @@ const enenmyImageUrls = [witch, cyclops, dionaea, dagger];
 const ceilingImageUrls = [spider];
 const groundImageUrls = [leftTree, rightTree, hill, house, light, tomb, fence];
 
-const FighterAttack = (props) => {
+const MonsterEscape = (props) => {
   const [stream, setStream] = useState({});
   const [volumeMeter, setVolumeMeter] = useState({});
   const [isPlay, setIsPlay] = useState(false);
@@ -148,9 +147,9 @@ const FighterAttack = (props) => {
 
   return (
     <div>
-      <div>Fighter Attack</div>
+      <div>Monster Escape</div>
       <GameOption />
-      <FighterAttackFrame
+      <MonsterEscapeFrame
         stream={stream}
         volumeMeter={volumeMeter}
         isPlay={isPlay}
@@ -165,4 +164,4 @@ const FighterAttack = (props) => {
   );
 };
 
-export default FighterAttack;
+export default MonsterEscape;

@@ -6,7 +6,7 @@ const Canvas = styled.canvas`
   background-color: skyblue;
 `;
 
-const FighterAttackFrame = ({
+const MonsterEscapeFrame = ({
   volumeMeter,
   isPlay,
   gameElement,
@@ -31,7 +31,7 @@ const FighterAttackFrame = ({
       let thenTime;
       let frame = 0;
 
-      const draw = (timeStamp, a) => {
+      const draw = (timeStamp) => {
         const timeStep = 1000 / 36;
 
         if (!thenTime) {
@@ -80,4 +80,4 @@ const FighterAttackFrame = ({
   return <Canvas ref={canvasRef} width={canvasWidth} height={canvasHeight} />;
 };
 
-export default FighterAttackFrame;
+export default MonsterEscapeFrame;

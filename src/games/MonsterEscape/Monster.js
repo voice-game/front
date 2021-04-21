@@ -1,4 +1,4 @@
-function Fighter(type, images, height, speed, life) {
+function Monster(type, images, height, speed, life) {
   this.type = type;
   this.images = images;
   this.height = height;
@@ -9,7 +9,7 @@ function Fighter(type, images, height, speed, life) {
   this.shieldTime = 0;
 }
 
-Fighter.prototype.setPosition = function (
+Monster.prototype.setPosition = function (
   canvasWidth,
   canvasHeight,
   spriteTotal,
@@ -21,7 +21,7 @@ Fighter.prototype.setPosition = function (
   this.posY = (canvasHeight - this.height) / 2;
 };
 
-Fighter.prototype.getIsCollision = function (obstacles, shieldTime) {
+Monster.prototype.getIsCollision = function (obstacles, shieldTime) {
   this.shieldTime = Math.max(this.shieldTime - 1, 0);
 
   if (this.shieldTime !== 0) {
@@ -55,7 +55,7 @@ Fighter.prototype.getIsCollision = function (obstacles, shieldTime) {
   return false;
 };
 
-Fighter.prototype.animate = function (
+Monster.prototype.animate = function (
   ctx,
   canvasHeight,
   volume,
@@ -105,4 +105,4 @@ Fighter.prototype.animate = function (
   );
 };
 
-export default Fighter;
+export default Monster;
