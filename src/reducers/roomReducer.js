@@ -2,8 +2,10 @@ import getActionTypes from "../actions/actionTypes";
 import _ from "lodash";
 
 const initialState = {
+  roadRoller: [],
   fighterAttack: [],
   energyBattle: [],
+  error: null,
 };
 
 const roomReducer = (state = initialState, action) => {

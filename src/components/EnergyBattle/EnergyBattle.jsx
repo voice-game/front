@@ -9,9 +9,9 @@ import GameResult from "../GameResult/GameResult";
 import PlayerCard from "../PlayerCard/PlayerCard";
 import { USER_SERVER, ENERGY_BATTLE_FULL } from "../../constants/constants";
 import {
-  joinRoomDB,
-  leaveRoomDB,
-  deleteRoomDB,
+  joinRoomAction,
+  leaveRoomAction,
+  deleteRoomAction,
   changeRoomStatus,
 } from "../../actions/actionCreators";
 import useMultiPlay from "../../hooks/useMultiPlay";
@@ -65,7 +65,7 @@ const EnergyBattle = (props) => {
 
   useEffect(() => {
     if (!creater) {
-      dispatch(joinRoomDB(gameTitle, roomId, playerData));
+      dispatch(joinRoomAction(gameTitle, roomId, playerData));
       setOtherPlayer(currentRoom?.players[0]);
     }
 
@@ -96,7 +96,7 @@ const EnergyBattle = (props) => {
     });
 
     socket.on("creater-disconnected", () => {
-      dispatch(deleteRoomDB(gameTitle, roomId));
+      dispatch(deleteRoomAction(gameTitle, roomId));
       setTimeout(() => {
         history.push({
           pathname: `/games/${gameTitle}`,
@@ -107,11 +107,11 @@ const EnergyBattle = (props) => {
 
     return () => {
       if (!creater) {
-        dispatch(leaveRoomDB(gameTitle, roomId, playerData));
+        dispatch(leaveRoomAction(gameTitle, roomId, playerData));
         socket.emit("leave-player");
       } else {
         console.log("leave-creater");
-        dispatch(deleteRoomDB(gameTitle, roomId, playerData));
+        dispatch(deleteRoomAction(gameTitle, roomId, playerData));
         socket.emit("leave-creater");
       }
 

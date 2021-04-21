@@ -7,7 +7,10 @@ import Pusher from "pusher-js";
 
 import GameRoomCard from "../GameRoomCard/GameRoomCard";
 import GameOption from "../GameOption/GameOption";
-import { fetchRoomsDB, createRoomDB } from "../../actions/actionCreators";
+import {
+  fetchRoomsAction,
+  createRoomAction,
+} from "../../actions/actionCreators";
 import pickRandomRoom from "../../utils/pickRandomRoom";
 import useErrorMessage from "../../hooks/useErrorMessage";
 import ErrorMessage from "../ErrorMessage/ErrorMessage";
@@ -28,10 +31,12 @@ const GameRoomList = () => {
   const gameTitle = location.pathname.split("/")[2];
   const player = useSelector((state) => state.authReducer.playerData);
   const roomList = useSelector((state) => state.roomReducer[gameTitle]);
+  console.log(gameTitle);
+  console.log(roomList);
   const [error, showErrorMessage] = useErrorMessage("");
 
   const fetchRooms = useCallback(() => {
-    dispatch(fetchRoomsDB(gameTitle));
+    dispatch(fetchRoomsAction(gameTitle));
   }, [dispatch, gameTitle]);
 
   const createRoom = useCallback(() => {
@@ -41,7 +46,7 @@ const GameRoomList = () => {
       pathname: `${location.pathname}/${newRoomId}`,
       state: player,
     });
-    dispatch(createRoomDB(gameTitle, newRoomId, player._id));
+    dispatch(createRoomAction(gameTitle, newRoomId, player._id));
   }, [history, location.pathname, dispatch, gameTitle, player]);
 
   useEffect(() => {

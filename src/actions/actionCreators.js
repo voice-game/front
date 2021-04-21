@@ -68,7 +68,7 @@ export const playerLogout = () => {
   };
 };
 
-export const fetchRoomsDB = (gameTitle) => async (dispatch) => {
+export const fetchRoomsAction = (gameTitle) => async (dispatch) => {
   dispatch({ type: getActionTypes().FETCH_ROOMS });
 
   try {
@@ -87,7 +87,7 @@ export const fetchRoomsDB = (gameTitle) => async (dispatch) => {
   }
 };
 
-export const createRoomDB = (gameTitle, newRoomId, createdBy) => async (
+export const createRoomAction = (gameTitle, newRoomId, createdBy) => async (
   dispatch
 ) => {
   dispatch({ type: getActionTypes().CREATE_ROOM });
@@ -112,7 +112,7 @@ export const createRoomDB = (gameTitle, newRoomId, createdBy) => async (
   }
 };
 
-export const joinRoomDB = (gameTitle, roomId, playerData) => async (
+export const joinRoomAction = (gameTitle, roomId, playerData) => async (
   dispatch
 ) => {
   dispatch({ type: getActionTypes().JOIN_ROOM });
@@ -143,7 +143,7 @@ export const joinRoomDB = (gameTitle, roomId, playerData) => async (
   }
 };
 
-export const leaveRoomDB = (gameTitle, roomId, playerData) => async (
+export const leaveRoomAction = (gameTitle, roomId, playerData) => async (
   dispatch
 ) => {
   dispatch({ type: getActionTypes().LEAVE_ROOM });
@@ -174,7 +174,7 @@ export const leaveRoomDB = (gameTitle, roomId, playerData) => async (
   }
 };
 
-export const deleteRoomDB = (gameTitle, roomId) => async (dispatch) => {
+export const deleteRoomAction = (gameTitle, roomId) => async (dispatch) => {
   dispatch({ type: getActionTypes().DELETE_ROOM });
 
   try {
