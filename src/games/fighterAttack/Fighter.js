@@ -1,7 +1,7 @@
-function Fighter(type, images, width, speed, life) {
+function Fighter(type, images, height, speed, life) {
   this.type = type;
   this.images = images;
-  this.width = width;
+  this.height = height;
   this.speed = speed;
   this.distance = 0;
   this.life = life;
@@ -9,10 +9,14 @@ function Fighter(type, images, width, speed, life) {
   this.shieldTime = 0;
 }
 
-Fighter.prototype.setPosition = function (canvasWidth, canvasHeight) {
+Fighter.prototype.setPosition = function (
+  canvasWidth,
+  canvasHeight,
+  spriteTotal,
+) {
   const image = this.images[this.type];
 
-  this.height = (image.height / image.width) * this.width;
+  this.width = (image.width / (spriteTotal * image.height)) * this.height;
   this.posX = (canvasWidth - this.width) / 2;
   this.posY = (canvasHeight - this.height) / 2;
 };
@@ -43,7 +47,6 @@ Fighter.prototype.getIsCollision = function (obstacles, shieldTime) {
     });
 
     if (nearObstacles.length) {
-      console.log("collistion");
       this.shieldTime = shieldTime;
       return true;
     }
@@ -52,14 +55,20 @@ Fighter.prototype.getIsCollision = function (obstacles, shieldTime) {
   return false;
 };
 
-Fighter.prototype.animate = function (ctx, canvasHeight, volume, isCollision) {
-  const blinkPeriod = 30;
+Fighter.prototype.animate = function (
+  ctx,
+  canvasHeight,
+  volume,
+  isCollision,
+  frame,
+) {
+  const blinkPeriod = 10;
   const blinkTime = this.shieldTime % (2 * blinkPeriod);
 
   if (volume > 3) {
-    this.posY -= 1;
+    this.posY -= this.speed;
   } else {
-    this.posY += 0.5;
+    this.posY += this.speed;
   }
 
   if (this.posY >= canvasHeight - this.height) {
@@ -79,12 +88,16 @@ Fighter.prototype.animate = function (ctx, canvasHeight, volume, isCollision) {
     this.distance += this.speed;
   }
 
-  if (0 < blinkTime && blinkPeriod >= blinkTime) {
-    return;
-  }
+  // if (0 < blinkTime && blinkPeriod >= blinkTime) {
+  //   return;
+  // }
 
   ctx.drawImage(
     this.images[this.type],
+    600 * frame,
+    0,
+    600,
+    380,
     this.posX,
     this.posY,
     this.width,
