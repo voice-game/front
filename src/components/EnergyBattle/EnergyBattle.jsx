@@ -97,7 +97,12 @@ const EnergyBattle = (props) => {
 
     socket.on("creater-disconnected", () => {
       dispatch(deleteRoomDB(gameTitle, roomId));
-      history.push(`/games/${gameTitle}`);
+      setTimeout(() => {
+        history.push({
+          pathname: `/games/${gameTitle}`,
+          state: "방장이 퇴장하였습니다.",
+        });
+      }, 200);
     });
 
     return () => {

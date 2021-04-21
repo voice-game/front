@@ -36,7 +36,6 @@ const GameRoomList = () => {
 
   const createRoom = useCallback(() => {
     const newRoomId = uuidv4();
-    console.log(newRoomId);
 
     history.push({
       pathname: `${location.pathname}/${newRoomId}`,
@@ -46,6 +45,11 @@ const GameRoomList = () => {
   }, [history, location.pathname, dispatch, gameTitle, player]);
 
   useEffect(() => {
+    if (location.state) {
+      showErrorMessage(location.state);
+      location.state = undefined;
+    }
+
     fetchRooms(gameTitle);
 
     const pusher = new Pusher(process.env.REACT_APP_PUSHER_KEY, {
@@ -61,7 +65,7 @@ const GameRoomList = () => {
       channel.unbind_all();
       channel.unsubscribe();
     };
-  }, [fetchRooms, gameTitle]);
+  }, [fetchRooms, location, gameTitle, location.state, showErrorMessage]);
 
   const enterRandom = useCallback(() => {
     const picked = pickRandomRoom(roomList);
@@ -76,7 +80,7 @@ const GameRoomList = () => {
   return (
     <div>
       {error.length > 0 && <ErrorMessage error={error} />}
-      <div>Game Room List</div>
+      <div>{gameTitle}</div>
       <div>
         <button onClick={createRoom}>방만들기</button>
         <button onClick={enterRandom}>랜덤입장</button>
