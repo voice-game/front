@@ -61,7 +61,7 @@ Monster.prototype.getIsCollision = function (obstacles, shieldTime) {
 Monster.prototype.animate = function (ctx, volume, isCollision, frame) {
   const blinkPeriod = 10;
   const blinkTime = this.shieldTime % (2 * blinkPeriod);
-  console.log(volume);
+  // console.log(volume);
 
   if (volume > 3) {
     this.posY -= this.speed * this.canvasHeight;

@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from "react";
+import { useHistory, useParams, useLocation } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
 import io from "socket.io-client";
 import useImage from "../../hooks/useImage";
 import MonsterEscapeFrame from "../MonsterEscapeFrame/MonsterEscapeFrame";
@@ -11,6 +13,13 @@ import Monster from "../../games/MonsterEscape/Monster";
 import Obstacle from "../../games/MonsterEscape/Obstacle";
 import PlayInfo from "../../games/MonsterEscape/PlayInfo";
 import GameMap from "../../games/MonsterEscape/GameMap";
+
+import {
+  joinRoomAction,
+  leaveRoomAction,
+  deleteRoomAction,
+  changeRoomStatus,
+} from "../../actions/actionCreators";
 
 import leftTree from "../../images/monsterEscape/leftTree.png";
 import rightTree from "../../images/monsterEscape/rightTree.png";
@@ -27,7 +36,7 @@ import dagger from "../../images/monsterEscape/dagger.png";
 import purpleBat from "../../images/monsterEscape/purpleBat.png";
 import background from "../../images/monsterEscape/background.png";
 
-import { USER_SERVER } from "../../constants/constants";
+import { USER_SERVER, ENERGY_BATTLE_FULL } from "../../constants/constants";
 
 const socket = io(USER_SERVER, {
   withCredential: true,
@@ -52,6 +61,21 @@ const MonsterEscape = (props) => {
   const [enemyImages, setEnenmyImageUrls] = useState([]);
   const [ceilingImages, setCeilingImages] = useState([]);
   const [gameElement, setGameElement] = useState({});
+  const [otherPlayer, setOtherPlayer] = useState(null);
+
+  const dispatch = useDispatch();
+  const param = useParams();
+  const location = useLocation();
+  const history = useHistory();
+  const roomData = useSelector((state) => state.roomReducer);
+  const { playerData } = useSelector((state) => state.authReducer);
+
+  const gameTitle = location.pathname.split("/")[2];
+  const roomId = param.roomId;
+  const creater = location.state;
+  const currentRoom = roomData[gameTitle].filter(
+    (room) => room.roomId === roomId,
+  )[0];
 
   useEffect(() => {
     (async () => {
@@ -68,6 +92,65 @@ const MonsterEscape = (props) => {
     })();
   }, []);
 
+  useEffect(() => {
+    if (!creater) {
+      dispatch(joinRoomAction(gameTitle, roomId, playerData));
+      setOtherPlayer(currentRoom?.players[0]);
+    }
+
+    socket.emit("join-room", roomId, playerData, creater);
+
+    socket.on("player-connected", (data) => {
+      if (data.playerData.playerId !== playerData.playerId) {
+        setOtherPlayer(data.playerData);
+      }
+      console.log(data.socketList);
+
+      if (data.socketList.length >= ENERGY_BATTLE_FULL) {
+        dispatch(changeRoomStatus(gameTitle, roomId, "Full"));
+      }
+    });
+
+    socket.on("input-other-player", (data) => {
+      if (data.playerData.playerId !== playerData.playerId) {
+        // data: {playerId, value}
+        console.log("input-other-player");
+        console.log(data);
+      }
+    });
+
+    socket.on("player-disconnected", () => {
+      dispatch(changeRoomStatus(gameTitle, roomId, "Enter"));
+      setOtherPlayer(null);
+    });
+
+    socket.on("creater-disconnected", () => {
+      dispatch(deleteRoomAction(gameTitle, roomId));
+      setTimeout(() => {
+        history.push({
+          pathname: `/games/${gameTitle}`,
+          state: "방장이 퇴장하였습니다.",
+        });
+      }, 200);
+    });
+
+    return () => {
+      if (!creater) {
+        dispatch(leaveRoomAction(gameTitle, roomId, playerData));
+        socket.emit("leave-player");
+      } else {
+        console.log("leave-creater");
+        dispatch(deleteRoomAction(gameTitle, roomId, playerData));
+        socket.emit("leave-creater");
+      }
+
+      socket.off("player-connected");
+      socket.off("input-other-player");
+      socket.off("player-disconnected");
+      socket.off("creater-disconnected");
+    };
+  }, [dispatch, playerData, gameTitle, history, roomId, creater]);
+
   useImage(backgroundImageUrls, setBackgroundImages);
   useImage(monsterImageUrls, setMonsterImages);
   useImage(groundImageUrls, setGroundImages);
@@ -79,8 +162,6 @@ const MonsterEscape = (props) => {
     if (!groundImages.length) return;
     if (!enemyImages.length) return;
     if (!ceilingImages.length) return;
-
-    const groundSpeed = 2;
 
     const ceilingMap = new GameMap(
       "celing",
@@ -133,6 +214,7 @@ const MonsterEscape = (props) => {
       backgroundImages,
     );
 
+    const groundSpeed = 2;
     const playInfo = new PlayInfo();
     const ceiling = new Obstacle(ceilingMap.gameMap, canvasWidth, 0.005);
     const ground = new Obstacle(groundMap.gameMap, canvasWidth, 0.005);
