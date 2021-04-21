@@ -7,7 +7,10 @@ import Pusher from "pusher-js";
 
 import GameRoomCard from "../GameRoomCard/GameRoomCard";
 import GameOption from "../GameOption/GameOption";
-import { fetchRoomsDB, createRoomDB } from "../../actions/actionCreators";
+import {
+  fetchRoomsAction,
+  createRoomAction,
+} from "../../actions/actionCreators";
 import pickRandomRoom from "../../utils/pickRandomRoom";
 import useErrorMessage from "../../hooks/useErrorMessage";
 import ErrorMessage from "../ErrorMessage/ErrorMessage";
@@ -28,24 +31,30 @@ const GameRoomList = () => {
   const gameTitle = location.pathname.split("/")[2];
   const player = useSelector((state) => state.authReducer.playerData);
   const roomList = useSelector((state) => state.roomReducer[gameTitle]);
+  console.log(gameTitle);
+  console.log(roomList);
   const [error, showErrorMessage] = useErrorMessage("");
 
   const fetchRooms = useCallback(() => {
-    dispatch(fetchRoomsDB(gameTitle));
+    dispatch(fetchRoomsAction(gameTitle));
   }, [dispatch, gameTitle]);
 
   const createRoom = useCallback(() => {
     const newRoomId = uuidv4();
-    console.log(newRoomId);
 
     history.push({
       pathname: `${location.pathname}/${newRoomId}`,
       state: player,
     });
-    dispatch(createRoomDB(gameTitle, newRoomId, player._id));
+    dispatch(createRoomAction(gameTitle, newRoomId, player._id));
   }, [history, location.pathname, dispatch, gameTitle, player]);
 
   useEffect(() => {
+    if (location.state) {
+      showErrorMessage(location.state);
+      location.state = undefined;
+    }
+
     fetchRooms(gameTitle);
 
     const pusher = new Pusher(process.env.REACT_APP_PUSHER_KEY, {
@@ -61,7 +70,7 @@ const GameRoomList = () => {
       channel.unbind_all();
       channel.unsubscribe();
     };
-  }, [fetchRooms, gameTitle]);
+  }, [fetchRooms, location, gameTitle, location.state, showErrorMessage]);
 
   const enterRandom = useCallback(() => {
     const picked = pickRandomRoom(roomList);
@@ -76,7 +85,7 @@ const GameRoomList = () => {
   return (
     <div>
       {error.length > 0 && <ErrorMessage error={error} />}
-      <div>Game Room List</div>
+      <div>{gameTitle}</div>
       <div>
         <button onClick={createRoom}>방만들기</button>
         <button onClick={enterRandom}>랜덤입장</button>

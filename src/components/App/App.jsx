@@ -39,7 +39,11 @@ const App = ({ authService }) => {
               <RoadRoller />
             </Route>
 
-            <Route path="/games/fighterAttack">
+            <Route exact path="/games/fighterAttack">
+              <GameRoomList />
+            </Route>
+
+            <Route path="/games/fighterAttack/:roomId">
               <FighterAttack />
             </Route>
 

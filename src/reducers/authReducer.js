@@ -3,6 +3,7 @@ import getActionTypes from "../actions/actionTypes";
 const initialState = {
   isAuthorized: false,
   playerData: null,
+  error: null,
 };
 
 const authReducer = (state = initialState, action) => {
