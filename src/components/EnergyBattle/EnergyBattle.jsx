@@ -60,7 +60,7 @@ const EnergyBattle = (props) => {
   const roomId = param.roomId;
   const creater = location.state;
   const currentRoom = roomData[gameTitle].filter(
-    (room) => room.roomId === roomId
+    (room) => room.roomId === roomId,
   )[0];
 
   useEffect(() => {
