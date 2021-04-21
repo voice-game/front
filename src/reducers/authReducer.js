@@ -1,7 +1,7 @@
 import getActionTypes from "../actions/actionTypes";
 
 const initialState = {
-  isLoggedIn: false,
+  isAuthorized: false,
   playerData: null,
 };
 
@@ -12,45 +12,45 @@ const authReducer = (state = initialState, action) => {
     case ACTION_TYPES.CHECK_AUTHORIZATION:
       return {
         ...state,
-        isLoggedIn: false,
+        isAuthorized: false,
       };
 
     case ACTION_TYPES.CHECK_AUTHORIZATION_SUCCESS:
       return {
         ...state,
-        isLoggedIn: true,
+        isAuthorized: true,
         playerData: action.payload,
       };
 
     case ACTION_TYPES.CHECK_AUTHORIZATION_FAIL:
       return {
         ...state,
-        isLoggedIn: false,
+        isAuthorized: false,
       };
 
     case ACTION_TYPES.PLAYER_LOGIN:
       return {
         ...state,
-        isLoggedIn: false,
+        isAuthorized: false,
       };
 
     case ACTION_TYPES.PLAYER_LOGIN_SUCCESS:
       return {
         ...state,
-        isLoggedIn: true,
+        isAuthorized: true,
         playerData: action.payload,
       };
 
     case ACTION_TYPES.PLAYER_LOGIN_FAIL:
       return {
         ...state,
-        isLoggedIn: false,
+        isAuthorized: false,
       };
 
     case ACTION_TYPES.PLAYER_LOGOUT:
       return {
         ...state,
-        isLoggedIn: false,
+        isAuthorized: false,
         playerData: null,
       };
 
