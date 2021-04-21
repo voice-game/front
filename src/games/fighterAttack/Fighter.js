@@ -62,7 +62,6 @@ Fighter.prototype.animate = function (
   isCollision,
   frame,
 ) {
-  console.log(volume);
   const blinkPeriod = 10;
   const blinkTime = this.shieldTime % (2 * blinkPeriod);
 
