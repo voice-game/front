@@ -1,123 +1,152 @@
 import { addEventHelper } from "../../utils/eventListHelper";
 import Character from "./character";
 
-function CharacterController(eventList) {
-  this.eventList = eventList;
+class CharacterController {
+  constructor(eventList, canvasHeight) {
+    this.eventList = eventList;
+    this.canvasHeight = canvasHeight;
 
-  this.x = 20;
+    this.posX = 600;
+    this.posY = 0;
 
-  this.isImgChanged = false;
-  this.gravity = 0;
-  this.characterMove = {
-    left: false,
-    right: false,
-    jump: false,
-    speed: 2,
-    isJumping: false,
-    jumpHeight: 20,
-    direction: "right",
-  };
-  this.KEY_CODE = {
-    A: 65,
-    D: 68,
-    W: 87,
-  };
-
-  this.character = new Character();
-
-  addEventHelper(this.eventList, window, "keydown", this.handleKeyEvent.bind(this));
-  addEventHelper(this.eventList, window, "keyup", this.handleKeyEvent.bind(this));
-}
-
-CharacterController.prototype.draw = function (ctx, dots, timeStamp) {
-  this.characterCenterX = this.x + this.character.characterWidthHalf;
-  this.maxY = dots[this.characterCenterX] - this.character.characterHeight;
-
-  if (this.y === undefined || this.y >= this.maxY) {
-    this.y = this.maxY;
-    this.characterMove.isJumping = false;
+    this.isImgChanged = false;
     this.gravity = 0;
+    this.characterMove = {
+      left: false,
+      right: false,
+      jump: false,
+      speed: 3,
+      isJumping: false,
+      jumpHeight: 20,
+      direction: "right",
+    };
+    this.KEY_CODE = {
+      A: 65,
+      D: 68,
+      W: 87,
+    };
+
+    this.character = new Character();
+
+    addEventHelper(this.eventList, window, "keydown", this.handleKeyEvent.bind(this));
+    addEventHelper(this.eventList, window, "keyup", this.handleKeyEvent.bind(this));
   }
 
-  this.handleCharacterMovement(dots);
-  this.character.draw(ctx, this.x, this.y, timeStamp);
-};
+  draw(ctx, dots, timeStamp) {
+    this.characterCenterX = this.posX + this.character.widthHalf;
 
-CharacterController.prototype.handleKeyEvent = function (event) {
-  const isKeyDown = event.type === "keydown" ? true : false;
+    if (this.canvasHeight < this.posY - this.character.height) {
+      this.posX = 40;
+      this.posY = 300;
+    }
 
-  switch (event.keyCode) {
-    case this.KEY_CODE.A:
-      this.characterMove.left = isKeyDown;
+    if (!this.maxY) {
+      this.maxY = this.getMaxY(dots, this.characterCenterX);
+    }
 
-      break;
-    case this.KEY_CODE.D:
-      this.characterMove.right = isKeyDown;
+    if (this.maxY <= this.posY) {
+      this.posY = this.maxY;
+      this.characterMove.isJumping = false;
+      this.gravity = 0;
+    }
 
-      break;
-    case this.KEY_CODE.W:
-      this.characterMove.jump = isKeyDown;
+    this.maxY = this.getMaxY(dots, this.characterCenterX);
 
-      break;
-    default:
-      break;
+    this.handleCharacterMovement(dots);
+    this.character.draw(
+      ctx,
+      this.posX,
+      this.posY - this.character.height,
+      timeStamp
+    );
   }
-};
 
-CharacterController.prototype.handleCharacterMovement = function (dots) {
-  this.handleCharacterImage();
-
-  if (this.characterMove.left) {
-    if (dots[this.x - this.characterMove.speed]) {
-      this.x -= this.characterMove.speed;
+  getMaxY(dots, x) {
+    if (dots[x]) {
+      for (const y of dots[x]) {
+        if (this.posY <= y) {
+          return y;
+        }
+      }
     }
   }
 
-  if (this.characterMove.right) {
-    if (dots[this.x + this.character.characterWidth]) {
-      this.x += this.characterMove.speed;
+  handleKeyEvent(event) {
+    const isKeyDown = event.type === "keydown" ? true : false;
+
+    switch (event.keyCode) {
+      case this.KEY_CODE.A:
+        this.characterMove.left = isKeyDown;
+
+        break;
+      case this.KEY_CODE.D:
+        this.characterMove.right = isKeyDown;
+
+        break;
+      case this.KEY_CODE.W:
+        this.characterMove.jump = isKeyDown;
+
+        break;
+      default:
+        break;
+    }
+  }
+
+  handleCharacterMovement(dots) {
+    this.handleCharacterImage();
+
+    if (this.characterMove.left) {
+      if (dots[this.posX - this.characterMove.speed]) {
+        this.posX -= this.characterMove.speed;
+      }
     }
 
-    this.characterMove.direction = "right";
+    if (this.characterMove.right) {
+      if (dots[this.posX + this.character.width]) {
+        this.posX += this.characterMove.speed;
+      }
+
+      this.characterMove.direction = "right";
+    }
+
+    if (this.characterMove.jump && !this.characterMove.isJumping) {
+      this.characterMove.isJumping = true;
+      this.gravity -= this.characterMove.jumpHeight;
+    }
+
+    if (this.gravity) {
+      this.posY += Math.floor(this.gravity);
+    }
+
+    this.gravity += 1.5;
+    this.gravity *= 0.9;
   }
 
-  if (this.characterMove.jump && !this.characterMove.isJumping) {
-    this.characterMove.isJumping = true;
-    this.gravity -= this.characterMove.jumpHeight;
-  }
+  handleCharacterImage() {
+    const currentImg = this.character.currentImg;
 
-  if (this.gravity) {
-    this.y += Math.floor(this.gravity);
-  }
+    if (this.characterMove.left) {
+      this.character.currentImg = this.character.imgList.walking;
+      this.handleCurrentFrame(currentImg);
+      this.character.isFlipped = true;
+      return;
+    }
 
-  this.gravity += 1.5;
-  this.gravity *= 0.9;
-};
+    if (this.characterMove.right) {
+      this.character.currentImg = this.character.imgList.walking;
+      this.handleCurrentFrame(currentImg);
+      this.character.isFlipped = false;
+      return;
+    }
 
-CharacterController.prototype.handleCharacterImage = function () {
-  const currentImg = this.character.currentImg;
-
-  if (this.characterMove.left) {
-    this.character.currentImg = this.character.imgList.walking;
+    this.character.currentImg = this.character.imgList.idle;
     this.handleCurrentFrame(currentImg);
-    this.character.isFlipped = true;
-    return;
   }
 
-  if (this.characterMove.right) {
-    this.character.currentImg = this.character.imgList.walking;
-    this.handleCurrentFrame(currentImg);
-    this.character.isFlipped = false;
-    return;
-  }
-
-  this.character.currentImg = this.character.imgList.idle;
-  this.handleCurrentFrame(currentImg);
-};
-
-CharacterController.prototype.handleCurrentFrame = function (currentImg) {
-  if(currentImg !== this.character.currentImg) {
-    this.character.currentFrame = 0;
+  handleCurrentFrame(currentImg) {
+    if(currentImg !== this.character.currentImg) {
+      this.character.currentFrame = 0;
+    }
   }
 }
 
