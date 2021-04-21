@@ -23,7 +23,7 @@ const GameRoomStatus = styled.div`
 `;
 
 const GameRoomCard = ({
-  roomData: { _id, players, createdBy, createdAt, status },
+  room: { _id, players, createdBy, createdAt, status },
   onClick,
 }) => {
   const [error, showErrorMessage] = useErrorMessage("");
@@ -42,15 +42,10 @@ const GameRoomCard = ({
       <GameRoomCardContainer onClick={handleClick}>
         <div>{_id}</div>
         <div>
-          <div>참여자</div>
-          {players.map((player) => (
-            <div key={player._id}>{player.email}</div>
-          ))}
+          <div>참여자: {players.length}</div>
+          <div>방장: {createdBy.name}</div>
         </div>
-        <div>
-          <div>아이콘</div>
-          <div>{players.length}</div>
-        </div>
+
         <GameRoomStatus>{status}</GameRoomStatus>
       </GameRoomCardContainer>
     </>

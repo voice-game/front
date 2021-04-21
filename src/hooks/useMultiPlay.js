@@ -1,11 +1,10 @@
-// 개발 중입니다.
-// import React, { useState, useEffect, useRef } from "react";
+// import { useState, useEffect, useRef } from "react";
 // import io from "socket.io-client";
 
-// import { USER_SERVER } from "../constants/constants";
+// import { USER_SERVER_API } from "../constants/constants";
 // import { v4 as uuidv4 } from "uuid";
 
-// const socket = io(USER_SERVER, {
+// const socket = io(USER_SERVER_API, {
 //   withCredential: true,
 // });
 

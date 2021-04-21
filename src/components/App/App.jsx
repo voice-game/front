@@ -1,4 +1,4 @@
-import React, { useEffect, useCallback } from "react";
+import React, { useEffect } from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 
@@ -13,21 +13,17 @@ import EnergyBattle from "../EnergyBattle/EnergyBattle";
 import ErrorPage from "../ErrorPage/ErrorPage";
 
 const App = ({ authService }) => {
-  const { isLoggedIn } = useSelector((state) => state.authReducer);
+  const { isAuthorized } = useSelector((state) => state.authReducer);
   const dispatch = useDispatch();
 
-  const checkAuth = useCallback(() => {
+  useEffect(() => {
     dispatch(checkAuthorization());
   }, [dispatch]);
-
-  useEffect(() => {
-    checkAuth();
-  }, [checkAuth]);
 
   return (
     <Router>
       <Switch>
-        {!isLoggedIn ? (
+        {!isAuthorized ? (
           <Login authService={authService} />
         ) : (
           <>
@@ -43,7 +39,11 @@ const App = ({ authService }) => {
               <RoadRoller />
             </Route>
 
-            <Route path="/games/fighterAttack">
+            <Route exact path="/games/fighterAttack">
+              <GameRoomList />
+            </Route>
+
+            <Route path="/games/fighterAttack/:roomId">
               <FighterAttack />
             </Route>
 
