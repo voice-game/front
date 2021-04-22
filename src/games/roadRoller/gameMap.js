@@ -14,8 +14,6 @@ class GameMap {
     this.tileWidth = 32;
     this.tileHeight = 32;
 
-    this.dots = new Array(this.canvasWidth);
-
     this.gameData = {
       dots: [],
       tiles: [],
@@ -81,7 +79,7 @@ class GameMap {
 
   fillMapHelper(value, x, y, width, height, length) {
     const posY = y * height;
-    const myLength = length ? length : this.canvasWidth - (x * this.tileWidth);
+    const myLength = length ? length : (this.canvasWidth - (x * width)) / width;
 
     if (value === 1) {
       for (let i = 0; i < myLength * width; i++) {

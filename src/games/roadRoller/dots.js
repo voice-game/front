@@ -1,11 +1,19 @@
-class Dots {
+class DotsController {
   constructor(canvasWidth, canvasHeight) {
     this.canvasWidth = canvasWidth;
     this.canvasHeight = canvasHeight;
   }
 
-  createEmptyDots() {
-    return new Array(this.canvasWidth);
+  fiilStaticDots(staticDots) {
+    const dots = [];
+
+    for (let i = 0; i < staticDots.length; i++) {
+      if (staticDots[i]) {
+        dots[i] = [...staticDots[i]];
+      }
+    }
+
+    return dots;
   }
 
   fillPitchDots(ctx, pitchDots) {
@@ -26,4 +34,4 @@ class Dots {
   }
 }
 
-export default Dots;
+export default DotsController;
