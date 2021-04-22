@@ -37,6 +37,8 @@ import bat from "../../images/monsterEscape/bat.png";
 import batCollision from "../../images/monsterEscape/batCollision.png";
 import batDead from "../../images/monsterEscape/batDead.png";
 import background from "../../images/monsterEscape/background.png";
+import heart from "../../images/monsterEscape/heart.png";
+import gameOver from "../../images/monsterEscape/gameOver.png";
 
 import { USER_SERVER, ENERGY_BATTLE_FULL } from "../../constants/constants";
 
@@ -47,6 +49,7 @@ const socket = io(USER_SERVER, {
 const canvasWidth = document.body.clientWidth * 0.8;
 const canvasHeight = document.body.clientWidth * 0.6;
 
+const playInfoImageUrls = [heart, gameOver];
 const backgroundImageUrls = [background];
 const monsterImageUrls = [bat, batCollision, batDead];
 const enenmyImageUrls = [witch, cyclops, dionaea, dagger];
@@ -57,6 +60,8 @@ const MonsterEscape = (props) => {
   const [stream, setStream] = useState({});
   const [volumeMeter, setVolumeMeter] = useState({});
   const [isPlay, setIsPlay] = useState(false);
+  const [isReset, setIsReset] = useState(false);
+  const [playInfoImages, setPlayInfoImages] = useState([]);
   const [backgroundImages, setBackgroundImages] = useState([]);
   const [monsterImages, setMonsterImages] = useState([]);
   const [groundImages, setGroundImages] = useState([]);
@@ -64,6 +69,7 @@ const MonsterEscape = (props) => {
   const [ceilingImages, setCeilingImages] = useState([]);
   const [gameElement, setGameElement] = useState({});
   const [otherPlayer, setOtherPlayer] = useState(null);
+  console.log(isReset);
 
   const dispatch = useDispatch();
   const param = useParams();
@@ -154,6 +160,7 @@ const MonsterEscape = (props) => {
   }, [dispatch, playerData, gameTitle, history, roomId, creater]);
 
   useImage(backgroundImageUrls, setBackgroundImages);
+  useImage(playInfoImageUrls, setPlayInfoImages);
   useImage(monsterImageUrls, setMonsterImages);
   useImage(groundImageUrls, setGroundImages);
   useImage(ceilingImageUrls, setCeilingImages);
@@ -164,6 +171,7 @@ const MonsterEscape = (props) => {
     if (!groundImages.length) return;
     if (!enemyImages.length) return;
     if (!ceilingImages.length) return;
+    if (!playInfoImages.length) return;
 
     const ceilingMap = new GameMap(
       "celing",
@@ -216,25 +224,29 @@ const MonsterEscape = (props) => {
       backgroundImages,
     );
 
-    const groundSpeed = 2;
-    const playInfo = new PlayInfo();
-    const ceiling = new Obstacle(ceilingMap.gameMap, canvasWidth, 0.005);
-    const ground = new Obstacle(groundMap.gameMap, canvasWidth, 0.005);
-    const enemy = new Obstacle(enemyMap.gameMap, canvasWidth, 0.01);
-    const monster = new Monster(monsterImages, 0.1, 0.005, 5);
+    const groundSpeed = 0.005;
+    const playInfo = new PlayInfo(playInfoImages);
+    const ceiling = new Obstacle(ceilingMap.gameMap, canvasWidth, groundSpeed);
+    const ground = new Obstacle(groundMap.gameMap, canvasWidth, groundSpeed);
+    const enemy = new Obstacle(enemyMap.gameMap, canvasWidth, 2 * groundSpeed);
+    const monster = new Monster(monsterImages, 0.1, 0.005, 3);
     monster.setPosition(canvasWidth, canvasHeight, 36);
 
+    setIsReset(false);
     setGameElement({ playInfo, background, ceiling, ground, enemy, monster });
   }, [
+    playInfoImages,
     backgroundImages,
     ceilingImages,
     groundImages,
     enemyImages,
     monsterImages,
+    isReset,
   ]);
 
   const handlePlayClick = () => setIsPlay(true);
-  const handleStopClick = () => setIsPlay(false);
+  const handlePauseClick = () => setIsPlay(false);
+  const handleResetClick = () => setIsReset(true);
 
   return (
     <div>
@@ -244,6 +256,7 @@ const MonsterEscape = (props) => {
         stream={stream}
         volumeMeter={volumeMeter}
         isPlay={isPlay}
+        isReset={isReset}
         gameElement={gameElement}
         canvasWidth={canvasWidth}
         canvasHeight={canvasHeight}
@@ -251,7 +264,8 @@ const MonsterEscape = (props) => {
       />
       <GameResult />
       <button onClick={handlePlayClick}>Play</button>
-      <button onClick={handleStopClick}>Stop</button>
+      <button onClick={handlePauseClick}>Pause</button>
+      <button onClick={handleResetClick}>Reset</button>
     </div>
   );
 };

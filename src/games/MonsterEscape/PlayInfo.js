@@ -1,4 +1,6 @@
-function PlayInfo() {}
+function PlayInfo(images) {
+  this.images = images;
+}
 
 PlayInfo.prototype.animate = function (
   ctx,
@@ -7,27 +9,31 @@ PlayInfo.prototype.animate = function (
   distance,
   life,
   maxLife,
+  fps,
+  frame,
 ) {
   this.distance += this.groundSpeed;
 
-  const lifeBoxWidth = 0.2 * canvasWidth;
-  const lifeBoxHeight = 0.05 * canvasHeight;
-  const lifeBoxGap = lifeBoxWidth / maxLife;
-  const lifeBoxRightPosX = 0.95 * canvasWidth;
-  const lifeBoxPosY = 0.05 * canvasHeight;
-  const lifeWidth = lifeBoxGap - 0.01 * canvasWidth;
+  const heart = this.images[0];
+  const gameOver = this.images[1];
 
-  for (let i = 0; i < life; i++) {
-    ctx.fillStyle = "red";
-    ctx.fillRect(
+  const lifeBoxWidth = 0.2 * canvasWidth;
+  const lifeBoxGap = lifeBoxWidth / maxLife;
+  const lifeBoxRightPosX = 0.98 * canvasWidth;
+  const lifeBoxPosY = 0.05 * canvasHeight;
+  const lifeWidth = lifeBoxGap - 0.005 * canvasWidth;
+
+  for (let i = 1; i < life + 1; i++) {
+    ctx.drawImage(
+      heart,
       lifeBoxRightPosX - lifeBoxGap * i,
       lifeBoxPosY,
       lifeWidth,
-      lifeBoxHeight,
+      lifeWidth * (heart.height / heart.width),
     );
   }
 
-  ctx.font = "30px sans-serif";
+  ctx.font = `${0.05 * canvasWidth}px sans-serif`;
   ctx.fillStyle = "black";
   ctx.fillText(
     `${Math.round(distance)} m`,
@@ -36,9 +42,21 @@ PlayInfo.prototype.animate = function (
   );
 
   if (life === 0) {
-    ctx.font = "100px sans-serif";
-    ctx.fillStyle = "red";
-    ctx.fillText("Game Over", 0.2 * canvasWidth, 0.5 * canvasHeight);
+    const gap = gameOver.height / fps;
+    const width = 0.5 * canvasWidth;
+    const height = width * (gap / gameOver.width);
+
+    ctx.drawImage(
+      gameOver,
+      0,
+      gap * frame,
+      gameOver.width,
+      gap,
+      canvasWidth / 2 - width / 2,
+      canvasHeight / 2 - height / 2,
+      width,
+      height,
+    );
   }
 };
 

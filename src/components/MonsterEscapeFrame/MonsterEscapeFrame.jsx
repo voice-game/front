@@ -15,6 +15,7 @@ const Canvas = styled.canvas`
 const MonsterEscapeFrame = ({
   volumeMeter,
   isPlay,
+  isReset,
   gameElement,
   canvasWidth,
   canvasHeight,
@@ -44,7 +45,8 @@ const MonsterEscapeFrame = ({
 
     if (isPlay) {
       let thenTime;
-      let frame = 0;
+      let singleFrame = 0;
+      let doubleFrame = 0;
       const fps = 36;
 
       const draw = (timeStamp) => {
@@ -60,14 +62,12 @@ const MonsterEscapeFrame = ({
         }
 
         thenTime = timeStamp;
-        frame = (frame + 1) % fps;
+        singleFrame = (singleFrame + 1) % fps;
+        doubleFrame = (doubleFrame + 1) % (2 * fps);
 
         const volume = volumeMeter.getVolume();
 
-        const isCollision = monster.getIsCollision(
-          [ground, enemy, ceiling],
-          1 * fps,
-        );
+        const isCollision = monster.getIsCollision([enemy], fps, "easy");
 
         ctx.clearRect(0, 0, canvasWidth, canvasHeight);
 
@@ -75,7 +75,7 @@ const MonsterEscapeFrame = ({
         ground.animate(ctx);
         enemy.animate(ctx);
         ceiling.animate(ctx);
-        monster.animate(ctx, volume, isCollision, frame);
+        monster.animate(ctx, volume, isCollision, fps, singleFrame);
         playInfo.animate(
           ctx,
           canvasWidth,
@@ -83,6 +83,8 @@ const MonsterEscapeFrame = ({
           monster.distance,
           monster.life,
           monster.maxLife,
+          2 * fps,
+          doubleFrame,
         );
 
         myPositionRef.current = {
