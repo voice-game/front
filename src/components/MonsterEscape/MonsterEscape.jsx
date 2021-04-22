@@ -69,7 +69,6 @@ const MonsterEscape = (props) => {
   const [ceilingImages, setCeilingImages] = useState([]);
   const [gameElement, setGameElement] = useState({});
   const [otherPlayer, setOtherPlayer] = useState(null);
-  console.log(isReset);
 
   const dispatch = useDispatch();
   const param = useParams();
@@ -224,7 +223,7 @@ const MonsterEscape = (props) => {
       backgroundImages,
     );
 
-    const groundSpeed = 0.005;
+    const groundSpeed = 0.0025;
     const playInfo = new PlayInfo(playInfoImages);
     const ceiling = new Obstacle(ceilingMap.gameMap, canvasWidth, groundSpeed);
     const ground = new Obstacle(groundMap.gameMap, canvasWidth, groundSpeed);
