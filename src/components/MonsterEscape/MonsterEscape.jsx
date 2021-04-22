@@ -9,6 +9,7 @@ import GameOption from "../GameOption/GameOption";
 import getMedia from "../../utils/getMedia";
 import VolumeMeter from "../../utils/VolumeMeter";
 import Background from "../../games/MonsterEscape/Background";
+import Box from "../../games/MonsterEscape/Box";
 import Monster from "../../games/MonsterEscape/Monster";
 import Obstacle from "../../games/MonsterEscape/Obstacle";
 import PlayInfo from "../../games/MonsterEscape/PlayInfo";
@@ -39,6 +40,10 @@ import batDead from "../../images/monsterEscape/batDead.png";
 import background from "../../images/monsterEscape/background.png";
 import heart from "../../images/monsterEscape/heart.png";
 import gameOver from "../../images/monsterEscape/gameOver.png";
+import controlBox from "../../images/monsterEscape/controlBox.png";
+import settingBox from "../../images/monsterEscape/settingBox.png";
+import playButton from "../../images/monsterEscape/playButton.png";
+import replayButton from "../../images/monsterEscape/replayButton.png";
 
 import { USER_SERVER, MAX_PLAYER } from "../../constants/constants";
 
@@ -50,6 +55,7 @@ const canvasWidth = document.body.clientWidth * 0.8;
 const canvasHeight = document.body.clientWidth * 0.6;
 
 const playInfoImageUrls = [heart, gameOver];
+const boxImageUrls = [controlBox, settingBox, playButton, replayButton];
 const backgroundImageUrls = [background];
 const monsterImageUrls = [bat, batCollision, batDead];
 const enenmyImageUrls = [witch, cyclops, dionaea, dagger];
@@ -59,9 +65,9 @@ const groundImageUrls = [leftTree, rightTree, hill, house, light, tomb, fence];
 const MonsterEscape = (props) => {
   const [stream, setStream] = useState({});
   const [volumeMeter, setVolumeMeter] = useState({});
-  const [isPlay, setIsPlay] = useState(false);
-  const [isReset, setIsReset] = useState(false);
+  const [isInitGame, setIsInitGame] = useState(false);
   const [playInfoImages, setPlayInfoImages] = useState([]);
+  const [boxImages, setBoxImages] = useState([]);
   const [backgroundImages, setBackgroundImages] = useState([]);
   const [monsterImages, setMonsterImages] = useState([]);
   const [groundImages, setGroundImages] = useState([]);
@@ -81,7 +87,7 @@ const MonsterEscape = (props) => {
   const roomId = param.roomId;
   const creater = location.state;
   const currentRoom = roomData[gameTitle].filter(
-    (room) => room.roomId === roomId
+    (room) => room.roomId === roomId,
   )[0];
 
   useEffect(() => {
@@ -159,6 +165,7 @@ const MonsterEscape = (props) => {
   }, [dispatch, playerData, gameTitle, history, roomId, creater]);
 
   useImage(backgroundImageUrls, setBackgroundImages);
+  useImage(boxImageUrls, setBoxImages);
   useImage(playInfoImageUrls, setPlayInfoImages);
   useImage(monsterImageUrls, setMonsterImages);
   useImage(groundImageUrls, setGroundImages);
@@ -176,21 +183,21 @@ const MonsterEscape = (props) => {
       "celing",
       canvasWidth,
       canvasHeight,
-      ceilingImages
+      ceilingImages,
     );
 
     const groundMap = new GameMap(
       "ground",
       canvasWidth,
       canvasHeight,
-      groundImages
+      groundImages,
     );
 
     const enemyMap = new GameMap(
       "enemy",
       canvasWidth,
       canvasHeight,
-      enemyImages
+      enemyImages,
     );
 
     enemyMap.setGameMap(
@@ -198,7 +205,7 @@ const MonsterEscape = (props) => {
       7,
       [0.5, 0.2, 0.6, 0.2, 0.3, 0.6, 0.4],
       [0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1],
-      [0, 1, 2, 3, 0, 2, 1]
+      [0, 1, 2, 3, 0, 2, 1],
     );
 
     groundMap.setGameMap(
@@ -206,7 +213,7 @@ const MonsterEscape = (props) => {
       7,
       [0, 0, 0, 0, 0, 0, 0],
       [0.05, 0.1, 0.2, 0.2, 0.3, 0.05, 0.2],
-      [2, 5, 0, 4, 3, 6, 1]
+      [2, 5, 0, 4, 3, 6, 1],
     );
 
     ceilingMap.setGameMap(
@@ -214,16 +221,17 @@ const MonsterEscape = (props) => {
       4,
       [0, 0, 0, 0],
       [0.2, 0.2, 0.2, 0.2],
-      [0, 0, 0, 0]
+      [0, 0, 0, 0],
     );
 
     const background = new Background(
       canvasWidth,
       canvasHeight,
-      backgroundImages
+      backgroundImages,
     );
 
     const groundSpeed = 0.0025;
+    const box = new Box(boxImages);
     const playInfo = new PlayInfo(playInfoImages);
     const ceiling = new Obstacle(ceilingMap.gameMap, canvasWidth, groundSpeed);
     const ground = new Obstacle(groundMap.gameMap, canvasWidth, groundSpeed);
@@ -231,21 +239,26 @@ const MonsterEscape = (props) => {
     const monster = new Monster(monsterImages, 0.1, 0.005, 3);
     monster.setPosition(canvasWidth, canvasHeight, 36);
 
-    setIsReset(false);
-    setGameElement({ playInfo, background, ceiling, ground, enemy, monster });
+    setIsInitGame(true);
+    setGameElement({
+      box,
+      playInfo,
+      background,
+      ceiling,
+      ground,
+      enemy,
+      monster,
+    });
   }, [
+    boxImages,
     playInfoImages,
     backgroundImages,
     ceilingImages,
     groundImages,
     enemyImages,
     monsterImages,
-    isReset,
+    isInitGame,
   ]);
-
-  const handlePlayClick = () => setIsPlay(true);
-  const handlePauseClick = () => setIsPlay(false);
-  const handleResetClick = () => setIsReset(true);
 
   return (
     <div>
@@ -254,17 +267,14 @@ const MonsterEscape = (props) => {
       <MonsterEscapeFrame
         stream={stream}
         volumeMeter={volumeMeter}
-        isPlay={isPlay}
-        isReset={isReset}
         gameElement={gameElement}
         canvasWidth={canvasWidth}
         canvasHeight={canvasHeight}
         roomId={roomId}
+        isInitGame={isInitGame}
+        setIsInitGame={setIsInitGame}
       />
       <GameResult />
-      <button onClick={handlePlayClick}>Play</button>
-      <button onClick={handlePauseClick}>Pause</button>
-      <button onClick={handleResetClick}>Reset</button>
     </div>
   );
 };
