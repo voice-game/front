@@ -27,7 +27,7 @@ Monster.prototype.setPosition = function (
 Monster.prototype.getIsCollision = function (obstacles, shieldTime) {
   this.shieldTime = Math.max(this.shieldTime - 1, 0);
 
-  if (this.shieldTime !== 0) {
+  if (this.shieldTime) {
     return false;
   }
 
@@ -51,17 +51,17 @@ Monster.prototype.getIsCollision = function (obstacles, shieldTime) {
 
     if (nearObstacles.length) {
       this.shieldTime = shieldTime;
+      console.log("collision");
+      this.isCollision = true;
       return true;
     }
   }
 
+  this.isCollision = false;
   return false;
 };
 
 Monster.prototype.animate = function (ctx, volume, isCollision, frame) {
-  const blinkPeriod = 10;
-  const blinkTime = this.shieldTime % (2 * blinkPeriod);
-
   if (volume > 3) {
     this.posY -= this.speed * this.canvasHeight;
   } else {
@@ -85,12 +85,18 @@ Monster.prototype.animate = function (ctx, volume, isCollision, frame) {
     this.distance += this.speed * this.canvasWidth;
   }
 
-  // if (0 < blinkTime && blinkPeriod >= blinkTime) {
-  //   return;
-  // }
+  let image = this.images[0];
+
+  if (this.shieldTime) {
+    image = this.images[1];
+  }
+
+  if (!this.life) {
+    image = this.images[2];
+  }
 
   ctx.drawImage(
-    this.images[this.type],
+    image,
     600 * frame,
     0,
     600,

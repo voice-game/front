@@ -33,7 +33,9 @@ import witch from "../../images/monsterEscape/witch.png";
 import cyclops from "../../images/monsterEscape/cyclops.png";
 import dionaea from "../../images/monsterEscape/dionaea.png";
 import dagger from "../../images/monsterEscape/dagger.png";
-import purpleBat from "../../images/monsterEscape/purpleBat.png";
+import bat from "../../images/monsterEscape/bat.png";
+import batCollision from "../../images/monsterEscape/batCollision.png";
+import batDead from "../../images/monsterEscape/batDead.png";
 import background from "../../images/monsterEscape/background.png";
 
 import { USER_SERVER, ENERGY_BATTLE_FULL } from "../../constants/constants";
@@ -46,7 +48,7 @@ const canvasWidth = document.body.clientWidth * 0.8;
 const canvasHeight = document.body.clientWidth * 0.6;
 
 const backgroundImageUrls = [background];
-const monsterImageUrls = [purpleBat];
+const monsterImageUrls = [bat, batCollision, batDead];
 const enenmyImageUrls = [witch, cyclops, dionaea, dagger];
 const ceilingImageUrls = [spider];
 const groundImageUrls = [leftTree, rightTree, hill, house, light, tomb, fence];

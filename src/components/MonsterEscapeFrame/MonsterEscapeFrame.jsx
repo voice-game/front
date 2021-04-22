@@ -45,9 +45,10 @@ const MonsterEscapeFrame = ({
     if (isPlay) {
       let thenTime;
       let frame = 0;
+      const fps = 36;
 
       const draw = (timeStamp) => {
-        const timeStep = 1000 / 36;
+        const timeStep = 1000 / fps;
 
         if (!thenTime) {
           thenTime = timeStamp;
@@ -59,13 +60,13 @@ const MonsterEscapeFrame = ({
         }
 
         thenTime = timeStamp;
-        frame = (frame + 1) % 36;
+        frame = (frame + 1) % fps;
 
         const volume = volumeMeter.getVolume();
 
         const isCollision = monster.getIsCollision(
           [ground, enemy, ceiling],
-          300,
+          1 * fps,
         );
 
         ctx.clearRect(0, 0, canvasWidth, canvasHeight);
@@ -88,6 +89,7 @@ const MonsterEscapeFrame = ({
           normPosX: monster.posX / canvasWidth,
           normPosY: monster.posY / canvasHeight,
         };
+
         socket.emit("animation", roomId, myPositionRef.current);
 
         animationIdRef.current = requestAnimationFrame(draw);
