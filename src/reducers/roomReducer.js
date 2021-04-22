@@ -3,7 +3,7 @@ import _ from "lodash";
 
 const initialState = {
   roadRoller: [],
-  fighterAttack: [],
+  monsterEscape: [],
   energyBattle: [],
   error: null,
 };

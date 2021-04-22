@@ -1,98 +1,69 @@
-import { addEventHelper } from "../../utils/eventListHelper";
+import { imageController } from "./imageController";
 
-function Character(eventList) {
-  this.eventList = eventList;
+class Character {
+  constructor() {
+    this.img = new Image();
 
-  this.x = 40;
-  this.characterWidth = 40;
-  this.characterHeight = 40;
-  this.characterWidthHalf = this.characterWidth / 2;
+    this.imgList = imageController();
+    this.currentImg = this.imgList.idle;
 
-  this.gravity = 0;
-  this.characterMove = {
-    left: false,
-    right: false,
-    jump: false,
-    speed: 2,
-    isJumping: false,
-    jumpHeight: 20,
-  };
-  this.KEY_CODE = {
-    A: 65,
-    D: 68,
-    W: 87,
-  };
+    this.width = this.currentImg.width / 4;
+    this.height = this.currentImg.height / 4;
+    this.widthHalf = this.width / 2;
 
-  addEventHelper(this.eventList, window, "keydown", this.handleKeyEvent.bind(this));
-  addEventHelper(this.eventList, window, "keyup", this.handleKeyEvent.bind(this));
-}
+    this.currentFrame = 0;
+    this.fpsTime = 1000 / this.currentImg.totalFrame;
 
-Character.prototype.draw = function (ctx, dots) {
-  this.characterCenterX = this.x + this.characterWidthHalf;
-  this.maxY = dots[this.characterCenterX] - this.characterHeight;
-
-  if (this.y === undefined || this.y >= this.maxY) {
-    this.y = this.maxY;
-    this.characterMove.isJumping = false;
-    this.gravity = 0;
+    this.isFlipped = false;
   }
 
-  ctx.fillStyle = "#0095DD";
-  ctx.fillRect(
-    this.x,
-    this.y,
-    this.characterWidth,
-    this.characterHeight
-  );
+  draw(ctx, x, y, timeStamp) {
+    this.img.src = this.currentImg.src;
 
-  this.handleCharacterMovement(dots);
-};
+    if (!this.pivotTime) {
+      this.pivotTime = timeStamp;
+    }
 
-Character.prototype.handleKeyEvent = function (event) {
-  const isKeyDown = event.type === "keydown" ? true : false;
+    const now = timeStamp - this.pivotTime;
 
-  switch (event.keyCode) {
-    case this.KEY_CODE.A:
-      this.characterMove.left = isKeyDown;
+    if (now > this.fpsTime) {
+      this.pivotTime = timeStamp;
+      this.currentFrame += 1;
+    }
 
-      break;
-    case this.KEY_CODE.D:
-      this.characterMove.right = isKeyDown;
+    if (this.currentImg.totalFrame <= this.currentFrame) {
+      this.currentFrame = 0;
+    }
 
-      break;
-    case this.KEY_CODE.W:
-      this.characterMove.jump = isKeyDown;
+    this.animate(ctx, x, y);
+  }
 
-      break;
-    default:
-      break;
+  animate(ctx, x, y) {
+    let characterX = x;
+    let width = this.width;
+
+    ctx.save();
+
+    if (this.isFlipped) {
+      ctx.scale(-1, 1);
+      characterX = -characterX;
+      width = -width;
+    }
+
+    ctx.drawImage(
+      this.img,
+      this.currentImg.width * this.currentFrame,
+      0,
+      this.currentImg.width,
+      this.currentImg.height,
+      characterX,
+      y,
+      width,
+      this.height + 3
+    );
+
+    ctx.restore();
   }
 }
-
-Character.prototype.handleCharacterMovement = function (dots) {
-  if (this.characterMove.left) {
-    if (dots[this.x - this.characterMove.speed]) {
-      this.x -= this.characterMove.speed;
-    }
-  }
-
-  if (this.characterMove.right) {
-    if (dots[this.x + this.characterWidth]) {
-      this.x += this.characterMove.speed;
-    }
-  }
-
-  if (this.characterMove.jump && !this.characterMove.isJumping) {
-    this.characterMove.isJumping = true;
-    this.gravity -= this.characterMove.jumpHeight;
-  }
-
-  if (this.gravity) {
-    this.y += Math.floor(this.gravity);
-  }
-
-  this.gravity += 1.5;
-  this.gravity *= 0.9;
-};
 
 export default Character;
