@@ -1,6 +1,6 @@
 import Road from "./road";
 
-class pitchDetectorController {
+class PitchDetectorController {
   constructor(canvasWidth, canvasHeight, pitchDetectorRef) {
     this.pitchDetectorRef = pitchDetectorRef;
     this.detectorReady = false;
@@ -29,4 +29,4 @@ class pitchDetectorController {
   }
 }
 
-export default pitchDetectorController;
+export default PitchDetectorController;

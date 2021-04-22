@@ -8,7 +8,7 @@ class CharacterController {
     this.canvasWidth = canvasWidth;
     this.canvasHeight = canvasHeight;
 
-    this.posX = 600;
+    this.posX = 800;
     this.posY = 0;
 
     this.isImgChanged = false;
@@ -38,8 +38,8 @@ class CharacterController {
     this.characterCenterX = this.posX + this.character.widthHalf;
 
     if (this.canvasHeight < this.posY - this.character.height) {
-      this.posX = 40;
-      this.posY = 450;
+      this.posX = 80;
+      this.posY = 40;
     }
 
     if (!this.maxY) {
