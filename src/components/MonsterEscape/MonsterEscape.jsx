@@ -36,7 +36,7 @@ import dagger from "../../images/monsterEscape/dagger.png";
 import purpleBat from "../../images/monsterEscape/purpleBat.png";
 import background from "../../images/monsterEscape/background.png";
 
-import { USER_SERVER, ENERGY_BATTLE_FULL } from "../../constants/constants";
+import { USER_SERVER, MAX_PLAYER } from "../../constants/constants";
 
 const socket = io(USER_SERVER, {
   withCredential: true,
@@ -74,7 +74,7 @@ const MonsterEscape = (props) => {
   const roomId = param.roomId;
   const creater = location.state;
   const currentRoom = roomData[gameTitle].filter(
-    (room) => room.roomId === roomId,
+    (room) => room.roomId === roomId
   )[0];
 
   useEffect(() => {
@@ -106,7 +106,7 @@ const MonsterEscape = (props) => {
       }
       console.log(data.socketList);
 
-      if (data.socketList.length >= ENERGY_BATTLE_FULL) {
+      if (data.socketList.length >= MAX_PLAYER.monsterEscape) {
         dispatch(changeRoomStatus(gameTitle, roomId, "Full"));
       }
     });
@@ -167,21 +167,21 @@ const MonsterEscape = (props) => {
       "celing",
       canvasWidth,
       canvasHeight,
-      ceilingImages,
+      ceilingImages
     );
 
     const groundMap = new GameMap(
       "ground",
       canvasWidth,
       canvasHeight,
-      groundImages,
+      groundImages
     );
 
     const enemyMap = new GameMap(
       "enemy",
       canvasWidth,
       canvasHeight,
-      enemyImages,
+      enemyImages
     );
 
     enemyMap.setGameMap(
@@ -189,7 +189,7 @@ const MonsterEscape = (props) => {
       7,
       [0.5, 0.2, 0.6, 0.2, 0.3, 0.6, 0.4],
       [0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1],
-      [0, 1, 2, 3, 0, 2, 1],
+      [0, 1, 2, 3, 0, 2, 1]
     );
 
     groundMap.setGameMap(
@@ -197,7 +197,7 @@ const MonsterEscape = (props) => {
       7,
       [0, 0, 0, 0, 0, 0, 0],
       [0.05, 0.1, 0.2, 0.2, 0.3, 0.05, 0.2],
-      [2, 5, 0, 4, 3, 6, 1],
+      [2, 5, 0, 4, 3, 6, 1]
     );
 
     ceilingMap.setGameMap(
@@ -205,13 +205,13 @@ const MonsterEscape = (props) => {
       4,
       [0, 0, 0, 0],
       [0.2, 0.2, 0.2, 0.2],
-      [0, 0, 0, 0],
+      [0, 0, 0, 0]
     );
 
     const background = new Background(
       canvasWidth,
       canvasHeight,
-      backgroundImages,
+      backgroundImages
     );
 
     const groundSpeed = 2;

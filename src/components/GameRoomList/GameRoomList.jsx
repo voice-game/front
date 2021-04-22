@@ -25,34 +25,42 @@ const GameRoomGrid = styled.div`
 `;
 
 const GameRoomList = () => {
-  const location = useLocation();
   const history = useHistory();
-  const dispatch = useDispatch();
+  const location = useLocation();
   const gameTitle = location.pathname.split("/")[2];
+
+  const dispatch = useDispatch();
   const player = useSelector((state) => state.authReducer.playerData);
   const roomList = useSelector((state) => state.roomReducer[gameTitle]);
-  console.log(gameTitle);
-  console.log(roomList);
+
   const [error, showErrorMessage] = useErrorMessage("");
 
   const fetchRooms = useCallback(() => {
     dispatch(fetchRoomsAction(gameTitle));
   }, [dispatch, gameTitle]);
 
-  const createRoom = useCallback(() => {
+  const createRoom = useCallback(async () => {
     const newRoomId = uuidv4();
 
-    history.push({
-      pathname: `${location.pathname}/${newRoomId}`,
-      state: player,
-    });
-    dispatch(createRoomAction(gameTitle, newRoomId, player._id));
+    await dispatch(createRoomAction(gameTitle, newRoomId, player._id));
+
+    history.push(`${location.pathname}/${newRoomId}`);
   }, [history, location.pathname, dispatch, gameTitle, player]);
+
+  const enterRandom = useCallback(() => {
+    const picked = pickRandomRoom(roomList);
+
+    if (!picked) {
+      showErrorMessage("입장 가능한 방이 없습니다.");
+    } else {
+      history.push(`${location.pathname}/${picked.roomId}`);
+    }
+  }, [history, location.pathname, roomList, showErrorMessage]);
 
   useEffect(() => {
     if (location.state) {
       showErrorMessage(location.state);
-      location.state = undefined;
+      location.state = null;
     }
 
     fetchRooms(gameTitle);
@@ -60,8 +68,8 @@ const GameRoomList = () => {
     const pusher = new Pusher(process.env.REACT_APP_PUSHER_KEY, {
       cluster: "ap3",
     });
-
     const channel = pusher.subscribe("rooms");
+
     channel.bind("changed", () => {
       fetchRooms(gameTitle);
     });
@@ -71,16 +79,6 @@ const GameRoomList = () => {
       channel.unsubscribe();
     };
   }, [fetchRooms, location, gameTitle, location.state, showErrorMessage]);
-
-  const enterRandom = useCallback(() => {
-    const picked = pickRandomRoom(roomList);
-
-    if (!picked) {
-      showErrorMessage("입장 가능한 방이 없습니다.");
-    } else {
-      history.push(`${location.pathname}/${picked._id}`);
-    }
-  }, [history, location.pathname, roomList, showErrorMessage]);
 
   return (
     <div>
@@ -92,17 +90,18 @@ const GameRoomList = () => {
       </div>
       <GameOption />
       <GameRoomGrid>
-        {roomList.map((room) => {
-          return (
-            <GameRoomCard
-              key={room.roomId}
-              onClick={() =>
-                history.push(`${location.pathname}/${room.roomId}`)
-              }
-              room={room}
-            />
-          );
-        })}
+        {roomList &&
+          roomList.map((room) => {
+            return (
+              <GameRoomCard
+                key={room.roomId}
+                onClick={() =>
+                  history.push(`${location.pathname}/${room.roomId}`)
+                }
+                room={room}
+              />
+            );
+          })}
       </GameRoomGrid>
     </div>
   );
