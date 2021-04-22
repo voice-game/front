@@ -22,19 +22,19 @@ const roomReducer = (state = initialState, action) => {
       return copiedState;
 
     case ACTION_TYPES.JOIN_ROOM_SUCCESS:
-      copiedState[action.payload.title] = action.payload.rooms;
-      return copiedState;
-
     case ACTION_TYPES.LEAVE_ROOM_SUCCESS:
-      copiedState[action.payload.title] = action.payload.rooms;
-      return copiedState;
-
     case ACTION_TYPES.DELETE_ROOM_SUCCESS:
-      copiedState[action.payload.title] = action.payload.rooms;
-      return copiedState;
-
     case ACTION_TYPES.CHANGE_ROOM_STATUS_SUCCESS:
       copiedState[action.payload.title] = action.payload.rooms;
+      return copiedState;
+
+    case ACTION_TYPES.FETCH_ROOMS_FAIL:
+    case ACTION_TYPES.CREATE_ROOM_FAIL:
+    case ACTION_TYPES.JOIN_ROOM_FAIL:
+    case ACTION_TYPES.LEAVE_ROOM_FAIL:
+    case ACTION_TYPES.DELETE_ROOM_FAIL:
+    case ACTION_TYPES.CHANGE_ROOM_STATUS_FAIL:
+      copiedState.error = action.payload;
       return copiedState;
 
     default:

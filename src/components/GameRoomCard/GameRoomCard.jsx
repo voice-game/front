@@ -43,7 +43,7 @@ const GameRoomCard = ({
         <div>{_id}</div>
         <div>
           <div>참여자: {players.length}</div>
-          <div>방장: {createdBy.name}</div>
+          <div>{createdAt}</div>
         </div>
 
         <GameRoomStatus>{status}</GameRoomStatus>
