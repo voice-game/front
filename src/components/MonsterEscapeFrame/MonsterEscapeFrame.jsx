@@ -1,20 +1,15 @@
 import React, { useState, useEffect, useRef } from "react";
 import styled from "styled-components";
-import io from "socket.io-client";
-import { USER_SERVER } from "../../constants/constants";
 
 const Canvas = styled.canvas`
   border: 1px solid black;
   background-color: skyblue;
 `;
 
-const socket = io(USER_SERVER, {
-  withCredential: true,
-});
-
 const fps = 36;
 
 const MonsterEscapeFrame = ({
+  socket,
   volumeMeter,
   gameElement,
   canvasWidth,
@@ -62,7 +57,7 @@ const MonsterEscapeFrame = ({
       monster.life,
       monster.maxLife,
       2 * fps,
-      0,
+      0
     );
     ceiling.animate(ctx, 0);
     box.animate(ctx, canvasWidth, canvasHeight, false, speed);
@@ -107,7 +102,7 @@ const MonsterEscapeFrame = ({
         volume,
         isCollision,
         fps,
-        singleFrame,
+        singleFrame
       );
       playInfo.animate(
         ctx,
@@ -117,7 +112,7 @@ const MonsterEscapeFrame = ({
         monster.life,
         monster.maxLife,
         2 * fps,
-        doubleFrame,
+        doubleFrame
       );
       box.animate(ctx, canvasWidth, canvasHeight, isPlay, speed);
 

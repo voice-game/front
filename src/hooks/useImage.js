@@ -10,16 +10,30 @@ const loadImages = async (url) => {
 
 const useImage = (urls, setImages) => {
   useEffect(() => {
-    (async () => {
-      const images = [];
+    if (Array.isArray(urls)) {
+      (async () => {
+        const images = [];
 
-      for (let i = 0; i < urls.length; i++) {
-        const image = await loadImages(urls[i]);
-        images.push(image);
-      }
+        for (let i = 0; i < urls.length; i++) {
+          const image = await loadImages(urls[i]);
+          images.push(image);
+        }
 
-      setImages(images);
-    })();
+        setImages(images);
+      })();
+    } else if (typeof urls === "object") {
+      (async () => {
+        const images = {};
+        const urlEntries = Object.entries(urls);
+
+        for (let i = 0; i < urlEntries.length; i++) {
+          const loaded = await loadImages(urlEntries[i][1]);
+          images[urlEntries[i][0]] = loaded;
+        }
+
+        setImages(images);
+      })();
+    }
   }, [urls, setImages]);
 };
 
