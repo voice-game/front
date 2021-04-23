@@ -34,6 +34,7 @@ PlayInfo.prototype.animate = function (
   }
 
   ctx.font = `${0.05 * canvasWidth}px sans-serif`;
+  ctx.textAlign = "right";
   ctx.fillStyle = "#7B1FA2";
   ctx.fillText(
     `${Math.round(distance)} m`,

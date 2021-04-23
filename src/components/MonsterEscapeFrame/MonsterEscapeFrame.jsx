@@ -28,7 +28,7 @@ const MonsterEscapeFrame = ({
   const myPositionRef = useRef([0, 0]);
   const yourPositionRef = useRef([0, 0]);
   const [isPlay, setIsPlay] = useState(false);
-  const spdRef = useRef(1);
+  const [speed, setSpeed] = useState(1);
   const grndSpeed = 0.005;
 
   useEffect(() => {
@@ -52,7 +52,7 @@ const MonsterEscapeFrame = ({
 
     const ctx = canvasRef.current.getContext("2d");
     background.animate(ctx);
-    ground.animate(ctx, spdRef.current * grndSpeed);
+    ground.animate(ctx, 0);
     monster.animate(ctx, 0, 0, false, fps, 0);
     playInfo.animate(
       ctx,
@@ -64,8 +64,8 @@ const MonsterEscapeFrame = ({
       2 * fps,
       0,
     );
-    ceiling.animate(ctx, spdRef.current * grndSpeed);
-    box.animate(ctx, canvasWidth, canvasHeight, false, spdRef.current);
+    ceiling.animate(ctx, 0);
+    box.animate(ctx, canvasWidth, canvasHeight, false, speed);
 
     if (!isPlay) {
       return;
@@ -98,12 +98,12 @@ const MonsterEscapeFrame = ({
       ctx.clearRect(0, 0, canvasWidth, canvasHeight);
 
       background.animate(ctx);
-      ground.animate(ctx, spdRef.current * grndSpeed);
-      enemy.animate(ctx, 2 * spdRef.current * grndSpeed);
-      ceiling.animate(ctx, 0.5 * spdRef.current * grndSpeed);
+      ground.animate(ctx, speed * grndSpeed);
+      enemy.animate(ctx, 2 * speed * grndSpeed);
+      ceiling.animate(ctx, 0.5 * speed * grndSpeed);
       monster.animate(
         ctx,
-        spdRef.current * grndSpeed,
+        speed * grndSpeed,
         volume,
         isCollision,
         fps,
@@ -119,7 +119,7 @@ const MonsterEscapeFrame = ({
         2 * fps,
         doubleFrame,
       );
-      box.animate(ctx, canvasWidth, canvasHeight, isPlay, spdRef.current);
+      box.animate(ctx, canvasWidth, canvasHeight, isPlay, speed);
 
       myPositionRef.current = {
         normPosX: monster.posX / canvasWidth,
@@ -142,6 +142,7 @@ const MonsterEscapeFrame = ({
     isPlay,
     canvasWidth,
     canvasHeight,
+    speed,
   ]);
 
   const handleClick = (ev) => {
@@ -192,11 +193,11 @@ const MonsterEscapeFrame = ({
     }
 
     if (isUpBtnClicked) {
-      spdRef.current = spdRef.current + 0.5;
+      setSpeed(speed + 1);
     }
 
     if (isDownBtnClicked) {
-      spdRef.current = Math.max(0.5, spdRef.current - 0.5);
+      setSpeed(speed - 1);
     }
   };
 
