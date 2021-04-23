@@ -19,6 +19,7 @@ function Game(ref, { pitchDetectorRef, staticDots, interactionPoints }) {
     this.height,
   );
   this.interactionController = new InteractionController(
+    this.height,
     pitchDetectorRef,
     interactionPoints,
   );
@@ -33,7 +34,9 @@ Game.prototype.animate = async function (timeStamp) {
   this.characterY = this.characterController.posY;
 
   const dots = this.dotsController.fiilStaticDots(this.staticDots);
-  const roadDot = this.interactionController.getRoadDots(this.ctx, this.characterX, this.characterY);
+  const roadDots = this.interactionController.getRoadDots(this.ctx, this.characterX, this.characterY);
+
+  this.dotsController.fillRoadDots(this.ctx, dots, roadDots);
   this.characterController.draw(this.ctx, dots, timeStamp);
 
   this.animationFrameId = window.requestAnimationFrame(this.animate.bind(this));

@@ -2,9 +2,12 @@ import Road from "./road";
 
 class InteractionController {
   constructor(
+    canvasHeight,
     pitchDetectorRef,
     interactionPoints
   ) {
+    this.canvasHeight = canvasHeight;
+
     this.pitchDetectorRef = pitchDetectorRef;
     this.detectorReady = false;
 
@@ -17,6 +20,7 @@ class InteractionController {
     for (const point of interactionPoints) {
       points.push(
         new Road(
+          this.canvasHeight,
           this.pitchDetectorRef,
           point
         )
@@ -27,23 +31,14 @@ class InteractionController {
   }
 
   getRoadDots(ctx, characterX, characterY) {
+    const roadDots = [];
+
     for (const point of this.interactionPoints) {
-      return point.draw(ctx, characterX, characterY);
+      roadDots.push(point.draw(ctx, characterX, characterY));
     }
+
+    return roadDots;
   }
-
-  // handlePitchInteraction(ctx, characterCenterX) {
-  //   if (characterCenterX >= 140 && characterCenterX <= 180) {
-  //     const roadDots = this.road.draw(ctx, this.detectorReady);
-  //     this.detectorReady = true;
-
-  //     return roadDots;
-  //   } else {
-  //     this.detectorReady = false;
-
-  //     return this.road.roadDots;
-  //   }
-  // }
 }
 
 export default InteractionController;

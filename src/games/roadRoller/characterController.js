@@ -8,8 +8,8 @@ class CharacterController {
     this.canvasWidth = canvasWidth;
     this.canvasHeight = canvasHeight;
 
-    this.posX = 800;
-    this.posY = 0;
+    this.posX = 300;
+    this.posY = 500;
 
     this.isImgChanged = false;
     this.gravity = 0;
@@ -70,7 +70,7 @@ class CharacterController {
   getMaxY(dots, x) {
     if (dots[x]) {
       for (const y of dots[x]) {
-        if (this.posY <= y) {
+        if (this.posY - 10 <= y) {
           return y;
         }
       }

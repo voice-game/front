@@ -32,7 +32,7 @@ class GameMap {
   fillInteractionPoints() {
     const length = this.canvasHeight / this.tileHeight;
 
-    this.fillInteractionPointsHelper(0, 15, length - 2, 8, 4);
+    this.fillInteractionPointsHelper(0, 15, length - 2, 8, 5);
   }
 
   fillInteractionPointsHelper(index, x, y, width, height) {

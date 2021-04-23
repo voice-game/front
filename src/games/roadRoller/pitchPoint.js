@@ -1,17 +1,15 @@
 class PitchPoint {
   constructor(point) {
-    this.img = point.img;
+    this.img = point.img.img;
     this.posX = point.posX;
     this.posY = point.posY;
-    this.width = point.width;
-    this.height = point.height;
     this.range = point.range;
   }
 
   draw(ctx) {
     ctx.save();
     ctx.drawImage(
-      this.img.img,
+      this.img,
       this.posX,
       this.posY
     );
@@ -19,15 +17,11 @@ class PitchPoint {
   }
 
   checkCharacterReached(characterX, characterY) {
-    if (
+    return (
       (this.posY + this.range) === characterY &&
       this.posX <= characterX &&
       characterX <= (this.posX + this.range)
-    ) {
-      return true;
-    } else {
-      return false;
-    }
+    );
   }
 }
 

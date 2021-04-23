@@ -37,6 +37,7 @@ const RoadRoller = (props) => {
       try {
         setTimeout(() => {
           audioContextRef.current = getAudioContext({ samplerate: 12000 });
+          setIsAudioUse(true);
         }, 100);
         micStreamRef.current = await getMedia({ audio: true, video: false });
       } catch (err) {
@@ -62,9 +63,7 @@ const RoadRoller = (props) => {
           height={HEIGHT}
           backgroundImage={desert3}
         />
-        <GameResult />
       </div>
-      <button onClick={() => setIsAudioUse(!isAudioUse)}>Audio On</button>
       <div>W: 점프 A: 좌 D: 우</div>
     </>
   );

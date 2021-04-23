@@ -7,7 +7,7 @@ class RoadBrush {
     this.posX = this.initialX;
     this.posY = this.initialY;
     this.maxX = this.initialX + pitchPoint.width;
-    this.maxY = this.initialY + pitchPoint.width;
+    this.minY = this.initialY - pitchPoint.height;
     this.speed = 1;
   }
 
@@ -25,7 +25,8 @@ class RoadBrush {
   }
 
   resetBrush() {
-
+    this.posX = this.initialX;
+    this.posY = this.initialY;
   }
 }
 
