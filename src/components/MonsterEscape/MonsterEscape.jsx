@@ -246,13 +246,12 @@ const MonsterEscape = (props) => {
       backgroundImages,
     );
 
-    const groundSpeed = 0.0025;
     const box = new Box(boxImages);
     const playInfo = new PlayInfo(playInfoImages);
-    const ceiling = new Obstacle(ceilingMap.gameMap, canvasWidth, groundSpeed);
-    const ground = new Obstacle(groundMap.gameMap, canvasWidth, groundSpeed);
-    const enemy = new Obstacle(enemyMap.gameMap, canvasWidth, 2 * groundSpeed);
-    const monster = new Monster(monsterImages, 0.1, 0.005, 3);
+    const ceiling = new Obstacle(ceilingMap.gameMap, canvasWidth);
+    const ground = new Obstacle(groundMap.gameMap, canvasWidth);
+    const enemy = new Obstacle(enemyMap.gameMap, canvasWidth);
+    const monster = new Monster(monsterImages, 0.1, 3);
     monster.setPosition(canvasWidth, canvasHeight, 36);
 
     setIsInitGame(true);

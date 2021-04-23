@@ -28,6 +28,8 @@ const MonsterEscapeFrame = ({
   const myPositionRef = useRef([0, 0]);
   const yourPositionRef = useRef([0, 0]);
   const [isPlay, setIsPlay] = useState(false);
+  const spdRef = useRef(1);
+  const grndSpeed = 0.005;
 
   useEffect(() => {
     socket.on("animation", (yourPosition) => {
@@ -50,8 +52,8 @@ const MonsterEscapeFrame = ({
 
     const ctx = canvasRef.current.getContext("2d");
     background.animate(ctx);
-    ground.animate(ctx);
-    monster.animate(ctx, 0, false, fps, 0);
+    ground.animate(ctx, spdRef.current * grndSpeed);
+    monster.animate(ctx, 0, 0, false, fps, 0);
     playInfo.animate(
       ctx,
       canvasWidth,
@@ -62,8 +64,8 @@ const MonsterEscapeFrame = ({
       2 * fps,
       0,
     );
-    ceiling.animate(ctx);
-    box.animate(ctx, canvasWidth, canvasHeight);
+    ceiling.animate(ctx, spdRef.current * grndSpeed);
+    box.animate(ctx, canvasWidth, canvasHeight, false, spdRef.current);
 
     if (!isPlay) {
       return;
@@ -96,10 +98,17 @@ const MonsterEscapeFrame = ({
       ctx.clearRect(0, 0, canvasWidth, canvasHeight);
 
       background.animate(ctx);
-      ground.animate(ctx);
-      enemy.animate(ctx);
-      ceiling.animate(ctx);
-      monster.animate(ctx, volume, isCollision, fps, singleFrame);
+      ground.animate(ctx, spdRef.current * grndSpeed);
+      enemy.animate(ctx, 2 * spdRef.current * grndSpeed);
+      ceiling.animate(ctx, 0.5 * spdRef.current * grndSpeed);
+      monster.animate(
+        ctx,
+        spdRef.current * grndSpeed,
+        volume,
+        isCollision,
+        fps,
+        singleFrame,
+      );
       playInfo.animate(
         ctx,
         canvasWidth,
@@ -110,7 +119,7 @@ const MonsterEscapeFrame = ({
         2 * fps,
         doubleFrame,
       );
-      box.animate(ctx, canvasWidth, canvasHeight, isPlay);
+      box.animate(ctx, canvasWidth, canvasHeight, isPlay, spdRef.current);
 
       myPositionRef.current = {
         normPosX: monster.posX / canvasWidth,
@@ -144,13 +153,13 @@ const MonsterEscapeFrame = ({
       playBtnHeight,
     } = gameElement.box;
 
-    const { upBtnPosX, upBtnPosY, upBtnWidth, upBtnHeight } = gameElement;
+    const { upBtnPosX, upBtnPosY, upBtnWidth, upBtnHeight } = gameElement.box;
     const {
       downBtnPosX,
       downBtnPosY,
       downBtnWidth,
       downBtnHeight,
-    } = gameElement;
+    } = gameElement.box;
 
     const clickedPosX = ev.nativeEvent.offsetX;
     const clickedPosY = ev.nativeEvent.offsetY;
@@ -168,10 +177,10 @@ const MonsterEscapeFrame = ({
       upBtnPosY + upBtnHeight > clickedPosY;
 
     const isDownBtnClicked =
-      upBtnPosX < clickedPosX &&
-      upBtnPosX + upBtnWidth > clickedPosX &&
-      upBtnPosY < clickedPosY &&
-      upBtnPosY + upBtnHeight > clickedPosY;
+      downBtnPosX < clickedPosX &&
+      downBtnPosX + downBtnWidth > clickedPosX &&
+      downBtnPosY < clickedPosY &&
+      downBtnPosY + downBtnHeight > clickedPosY;
 
     if (isPlayBtnClicked) {
       if (isPlay) {
@@ -183,9 +192,11 @@ const MonsterEscapeFrame = ({
     }
 
     if (isUpBtnClicked) {
+      spdRef.current = spdRef.current + 0.5;
     }
 
     if (isDownBtnClicked) {
+      spdRef.current = Math.max(0.5, spdRef.current - 0.5);
     }
   };
 

@@ -2,7 +2,13 @@ function Box(images) {
   this.images = images;
 }
 
-Box.prototype.animate = function (ctx, canvasWidth, canvasHeight, isPlay) {
+Box.prototype.animate = function (
+  ctx,
+  canvasWidth,
+  canvasHeight,
+  isPlay,
+  speed,
+) {
   const ctrlBox = this.images[0];
   const settingBox = this.images[1];
   const playBtn = this.images[2];
@@ -34,14 +40,22 @@ Box.prototype.animate = function (ctx, canvasWidth, canvasHeight, isPlay) {
   const upBtnHeight = ctrlBoxHeight * 0.2;
   const upBtnWidth = upBtnAspectRatio * upBtnHeight;
   const upBtnPosX = ctrlBoxPosX + 0.8 * ctrlBoxWidth;
-  const upBtnPosY = ctrlBoxPosY + 0.2 * ctrlBoxHeight;
+  const upBtnPosY = ctrlBoxPosY + 0.15 * ctrlBoxHeight;
 
   const downBtnAspectRatio = downBtn.width / downBtn.height;
   const downBtnHeight = ctrlBoxHeight * 0.2;
   const downBtnWidth = downBtnAspectRatio * downBtnHeight;
   const downBtnPosX = ctrlBoxPosX + 0.8 * ctrlBoxWidth;
   const downBtnPosY =
-    ctrlBoxPosY + ctrlBoxHeight - downBtnHeight - 0.2 * ctrlBoxHeight;
+    ctrlBoxPosY + ctrlBoxHeight - downBtnHeight - 0.15 * ctrlBoxHeight;
+
+  const speedFontSize = 0.2 * ctrlBoxHeight;
+  const speedPosY =
+    upBtnPosY +
+    upBtnHeight +
+    0.5 * (downBtnPosY - upBtnPosY) -
+    0.2 * speedFontSize;
+  const speedPosX = upBtnPosX + 0.05 * ctrlBoxWidth;
 
   this.upBtnHeight = upBtnHeight;
   this.upBtnWidth = upBtnWidth;
@@ -56,6 +70,11 @@ Box.prototype.animate = function (ctx, canvasWidth, canvasHeight, isPlay) {
   ctx.drawImage(ctrlBox, ctrlBoxPosX, ctrlBoxPosY, ctrlBoxWidth, ctrlBoxHeight);
 
   ctx.drawImage(upBtn, upBtnPosX, upBtnPosY, upBtnWidth, upBtnHeight);
+
+  ctx.font = `${speedFontSize}px sans-serif`;
+  ctx.fillStyle = "black";
+  ctx.textAlign = "center";
+  ctx.fillText(speed, speedPosX, speedPosY);
 
   ctx.drawImage(downBtn, downBtnPosX, downBtnPosY, downBtnWidth, downBtnHeight);
 

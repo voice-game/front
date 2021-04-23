@@ -1,13 +1,10 @@
-function Obstacle(gameMap, canvasWidth, speed) {
+function Obstacle(gameMap, canvasWidth) {
   this.gameMap = gameMap;
   this.canvasWidth = canvasWidth;
-  this.speed = speed;
 }
 
-Obstacle.prototype.animate = function (ctx) {
-  this.gameMap.forEach(
-    (point) => (point.posX -= this.speed * this.canvasWidth),
-  );
+Obstacle.prototype.animate = function (ctx, speed) {
+  this.gameMap.forEach((point) => (point.posX -= speed * this.canvasWidth));
   const firstPoint = this.gameMap[0];
   const secondPoint = this.gameMap[1];
   const lastPoint = this.gameMap[this.gameMap.length - 1];
