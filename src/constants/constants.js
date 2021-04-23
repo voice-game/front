@@ -6,3 +6,8 @@ export const MAX_PLAYER = {
   monsterEscape: 20,
   energyBattle: 2,
 };
+
+export const IMAGE_TYPE = {
+  ROAD: "ROAD",
+  PAD: "PAD",
+};

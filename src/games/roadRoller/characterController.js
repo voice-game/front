@@ -1,5 +1,5 @@
 import { addEventHelper } from "../../utils/eventListHelper";
-import Character from "./character";
+import Character from "./Character";
 
 class CharacterController {
   constructor(eventList, canvasWidth, canvasHeight) {
@@ -8,8 +8,8 @@ class CharacterController {
     this.canvasWidth = canvasWidth;
     this.canvasHeight = canvasHeight;
 
-    this.posX = 300;
-    this.posY = 500;
+    this.posX = 1050;
+    this.posY = 100;
 
     this.isImgChanged = false;
     this.gravity = 0;

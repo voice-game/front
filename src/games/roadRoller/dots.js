@@ -17,7 +17,7 @@ class DotsController {
   }
 
   fillRoadDots(ctx, staticDots, roadDots) {
-    ctx.strokeStyle = "red";
+    ctx.strokeStyle = "green";
     ctx.lineWidth = 3;
 
     for (const eachDots of roadDots) {

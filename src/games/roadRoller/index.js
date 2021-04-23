@@ -1,6 +1,6 @@
-import CharacterController from "./characterController";
-import DotsController from "./dots";
-import InteractionController from "./interactionController";
+import CharacterController from "./CharacterController";
+import DotsController from "./Dots";
+import InteractionController from "./InteractionController";
 
 function Game(ref, { pitchDetectorRef, staticDots, interactionPoints }) {
   this.canvas = ref.current;

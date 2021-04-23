@@ -7,13 +7,14 @@ class RoadBrush {
     this.posX = this.initialX;
     this.posY = this.initialY;
     this.maxX = this.initialX + pitchPoint.width;
+    this.maxY = this.initialY + pitchPoint.height;
     this.minY = this.initialY - pitchPoint.height;
     this.speed = 1;
   }
 
   draw(ctx) {
     ctx.beginPath();
-    ctx.fillStyle = "red";
+    ctx.fillStyle = "green";
     ctx.arc(
       this.posX,
       this.posY,

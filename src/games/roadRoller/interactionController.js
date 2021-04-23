@@ -1,4 +1,5 @@
-import Road from "./road";
+import { IMAGE_TYPE } from "../../constants/constants";
+import Road from "./Road";
 
 class InteractionController {
   constructor(
@@ -18,13 +19,21 @@ class InteractionController {
     const points = [];
 
     for (const point of interactionPoints) {
-      points.push(
-        new Road(
-          this.canvasHeight,
-          this.pitchDetectorRef,
-          point
-        )
-      );
+      switch (point.type) {
+        case IMAGE_TYPE.ROAD:
+          points.push(
+            new Road(
+              this.canvasHeight,
+              this.pitchDetectorRef,
+              point
+            )
+          );
+          break;
+        case IMAGE_TYPE.PAD:
+          break;
+        default:
+          break;
+      }
     }
 
     return points;

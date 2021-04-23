@@ -11,7 +11,7 @@ import GameResult from "../GameResult/GameResult";
 import desert1 from "../../assets/image/background/desert/desert1.png";
 import desert2 from "../../assets/image/background/desert/desert2.png";
 import desert3 from "../../assets/image/background/desert/desert3.png";
-import GameMap from "../../games/roadRoller/gameMap";
+import GameMap from "../../games/roadRoller/GameMap";
 
 const RoadRoller = (props) => {
   const TILE_SIZE = 32;
