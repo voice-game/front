@@ -38,6 +38,7 @@ import plusButton from "../../images/monsterEscape/plusButton.png";
 import downButton from "../../images/monsterEscape/downButton.png";
 import upButton from "../../images/monsterEscape/upButton.png";
 import volumeIcon from "../../images/monsterEscape/volumeIcon.png";
+import batSpeed from "../../images/monsterEscape/batSpeed.png";
 
 const canvasWidth = document.body.clientWidth * 0.8;
 const canvasHeight = document.body.clientWidth * 0.6;
@@ -52,6 +53,7 @@ const boxImageUrls = [
   downButton,
   upButton,
   volumeIcon,
+  batSpeed,
 ];
 const backgroundImageUrls = [background];
 const monsterImageUrls = [bat, batCollision, batDead];
@@ -104,33 +106,18 @@ const MonsterEscape = ({ socket, roomId, player, otherPlayers }) => {
     if (!playInfoImages.length) return;
     if (!boxImages.length) return;
 
-    const ceilingMap = new GameMap(
-      "celing",
-      canvasWidth,
-      canvasHeight,
-      ceilingImages
-    );
+    const ceilingMap = new GameMap("celing", canvasWidth, canvasHeight, ceilingImages);
 
-    const groundMap = new GameMap(
-      "ground",
-      canvasWidth,
-      canvasHeight,
-      groundImages
-    );
+    const groundMap = new GameMap("ground", canvasWidth, canvasHeight, groundImages);
 
-    const enemyMap = new GameMap(
-      "enemy",
-      canvasWidth,
-      canvasHeight,
-      enemyImages
-    );
+    const enemyMap = new GameMap("enemy", canvasWidth, canvasHeight, enemyImages);
 
     enemyMap.setGameMap(
       "onAir",
       7,
       [0.5, 0.2, 0.6, 0.2, 0.3, 0.6, 0.4],
       [0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1],
-      [0, 1, 2, 3, 0, 2, 1]
+      [0, 1, 2, 3, 0, 2, 1],
     );
 
     groundMap.setGameMap(
@@ -138,22 +125,12 @@ const MonsterEscape = ({ socket, roomId, player, otherPlayers }) => {
       7,
       [0, 0, 0, 0, 0, 0, 0],
       [0.05, 0.1, 0.2, 0.2, 0.3, 0.05, 0.2],
-      [2, 5, 0, 4, 3, 6, 1]
+      [2, 5, 0, 4, 3, 6, 1],
     );
 
-    ceilingMap.setGameMap(
-      "onCeiling",
-      4,
-      [0, 0, 0, 0],
-      [0.2, 0.2, 0.2, 0.2],
-      [0, 0, 0, 0]
-    );
+    ceilingMap.setGameMap("onCeiling", 4, [0, 0, 0, 0], [0.2, 0.2, 0.2, 0.2], [0, 0, 0, 0]);
 
-    const background = new Background(
-      canvasWidth,
-      canvasHeight,
-      backgroundImages
-    );
+    const background = new Background(canvasWidth, canvasHeight, backgroundImages);
 
     const box = new Box(boxImages);
     const playInfo = new PlayInfo(playInfoImages);
