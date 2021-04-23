@@ -46,6 +46,10 @@ class CharacterController {
       this.maxY = this.getMaxY(dots, this.characterCenterX);
     }
 
+    // if (this.posY < this.maxY) {
+    //   this.characterMove.jump = false;
+    // }
+
     if (this.maxY <= this.posY) {
       this.posY = this.maxY;
       this.characterMove.isJumping = false;
@@ -125,30 +129,19 @@ class CharacterController {
   }
 
   handleCharacterImage() {
-    const currentImg = this.character.currentImg;
-
     if (this.characterMove.left) {
       this.character.currentImg = this.character.imgList.walking;
-      this.handleCurrentFrame(currentImg);
       this.character.isFlipped = true;
       return;
     }
 
     if (this.characterMove.right) {
       this.character.currentImg = this.character.imgList.walking;
-      this.handleCurrentFrame(currentImg);
       this.character.isFlipped = false;
       return;
     }
 
     this.character.currentImg = this.character.imgList.idle;
-    this.handleCurrentFrame(currentImg);
-  }
-
-  handleCurrentFrame(currentImg) {
-    if(currentImg !== this.character.currentImg) {
-      this.character.currentFrame = 0;
-    }
   }
 }
 

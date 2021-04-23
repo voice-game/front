@@ -12,7 +12,8 @@ class Character {
     this.widthHalf = this.width / 2;
 
     this.currentFrame = 0;
-    this.fpsTime = 1000 / this.currentImg.totalFrame;
+    this.frameSpeed = 10;
+    this.fpsTime = 1000 / this.frameSpeed;
 
     this.isFlipped = false;
   }

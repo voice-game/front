@@ -23,10 +23,14 @@ const RoadRoller = (props) => {
   const micStreamRef = useRef(null);
   const pitchDetectorRef = usePitchDetector(isAudioUse, audioContextRef, micStreamRef);
 
-  const mapping = new GameMap(WIDTH, HEIGHT);
+  const {
+    staticDots,
+    staticMap,
+    interactionPoints,
+  } = new GameMap(TILE_SIZE, WIDTH, HEIGHT).gameMap;
 
-  const game = useCanvas(Game, { pitchDetectorRef, staticDots: mapping.gameData.dots });
-  const background = useCanvas(BackGround, { staticMap: mapping.gameData.tiles });
+  const game = useCanvas(Game, { pitchDetectorRef, staticDots, interactionPoints });
+  const background = useCanvas(BackGround, { staticMap });
 
   useEffect(() => {
     (async () => {
