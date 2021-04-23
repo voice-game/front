@@ -1,105 +1,121 @@
-import Tile from "./tile";
+import MapImage from "./mapImage";
 import tile0 from "../../assets/image/tile/forest/tile_0.png";
 import tile1 from "../../assets/image/tile/forest/tile_1.png";
+import point0 from "../../assets/image/pitchPoint/point_0.png";
 
 class GameMap {
-  constructor(canvasWidth, canvasHeight, ) {
-    this.tiles = [
-      new Tile(tile0),
-      new Tile(tile1),
-    ];
-    this.tileWidth = 32;
-    this.tileHeight = 32;
+  constructor(tileSize, canvasWidth, canvasHeight) {
+    this.canvasWidth = canvasWidth;
+    this.canvasHeight = canvasHeight;
 
-    this.gameMap = this.createEmptyGameMap(canvasWidth, canvasHeight);
-    this.fillGameMap();
+    this.tileWidth = tileSize;
+    this.tileHeight = tileSize;
+
+    this.tiles = [
+      new MapImage(tile0),
+      new MapImage(tile1),
+    ];
+    this.pitchPoints = [
+      new MapImage(point0),
+    ];
+
+    this.gameMap = {
+      staticDots: [],
+      staticMap: [],
+      interactionPoints: [],
+    };
+
+    this.fillTiles();
+    this.fillInteractionPoints();
   }
 
-  draw(ctx, dots) {
-    const totalY = this.gameMap.length;
+  fillInteractionPoints() {
+    const length = this.canvasHeight / this.tileHeight;
 
-    for (let y = 0; y < totalY; y++) {
-      const totalX = this.gameMap[y].length;
+    this.fillInteractionPointsHelper(0, 15, length - 2, 8, 5);
+  }
 
-      for (let x = 0; x < totalX; x++) {
-        const contentIndex = this.gameMap[y][x];
-        const targetImg = this.tiles[contentIndex];
+  fillInteractionPointsHelper(index, x, y, width, height) {
+    this.gameMap.interactionPoints.push({
+      img: this.pitchPoints[index],
+      posX: x * this.tileWidth,
+      posY: y * this.tileHeight,
+      width: width * this.tileWidth,
+      height: height * this.tileHeight,
+      range: this.tileWidth,
+    });
+  }
 
-        if (contentIndex === 1) {
-          const start = x * this.tileWidth;
-          const end = start + this.tileWidth;
+  fillTiles() {
+    const length = this.canvasHeight / this.tileHeight;
 
-          for (let i = start; i < end; i++) {
-            if (!dots[i]) {
-              dots[i] = [y * this.tileHeight];
-            } else {
-              dots[i].push(y * this.tileHeight);
-            }
-          }
+    this.fillTilesHelper(1, 0, length - 1, this.tileWidth, this.tileHeight, 16);
+
+    this.fillTilesHelper(1, 24, length - 2, this.tileWidth, this.tileHeight);
+    this.fillTilesHelper(0, 24, length - 1, this.tileWidth, this.tileHeight);
+
+    this.fillTilesHelper(1, 32, length - 6, this.tileWidth, this.tileHeight, 4);
+    this.fillTilesHelper(1, 30, length - 4, this.tileWidth, this.tileHeight, 2);
+
+    this.fillTilesHelper(1, 38, length - 12, this.tileWidth, this.tileHeight, 1);
+    this.fillTilesHelper(1, 38, length - 10, this.tileWidth, this.tileHeight, 1);
+    this.fillTilesHelper(1, 38, length - 8, this.tileWidth, this.tileHeight, 1);
+    this.fillTilesHelper(1, 38, length - 6, this.tileWidth, this.tileHeight, 1);
+
+    this.fillTilesHelper(1, 33, length - 10, this.tileWidth, this.tileHeight, 3);
+    this.fillTilesHelper(0, 33, length - 9, this.tileWidth, this.tileHeight, 3);
+
+    this.fillTilesHelper(1, 34, length - 14, this.tileWidth, this.tileHeight, 1);
+    this.fillTilesHelper(1, 34, length - 12, this.tileWidth, this.tileHeight, 1);
+
+    this.fillTilesHelper(1, 24, length - 9, this.tileWidth, this.tileHeight, 2);
+    this.fillTilesHelper(1, 17, length - 9, this.tileWidth, this.tileHeight, 4);
+    this.fillTilesHelper(0, 17, length - 8, this.tileWidth, this.tileHeight, 4);
+    this.fillTilesHelper(1, 26, length - 7, this.tileWidth, this.tileHeight, 1);
+
+    this.fillTilesHelper(1, 2, length - 10, this.tileWidth, this.tileHeight, 4);
+
+    this.fillTilesHelper(1, 2, 3, this.tileWidth, this.tileHeight, 1);
+    this.fillTilesHelper(1, 2, 5, this.tileWidth, this.tileHeight, 1);
+    this.fillTilesHelper(1, 2, 7, this.tileWidth, this.tileHeight, 1);
+
+    this.fillTilesHelper(1, 8, 2, this.tileWidth, this.tileHeight, 5);
+    this.fillTilesHelper(0, 8, 3, this.tileWidth, this.tileHeight, 5);
+
+    this.fillTilesHelper(1, 18, 3, this.tileWidth, this.tileHeight, 8);
+    this.fillTilesHelper(0, 18, 4, this.tileWidth, this.tileHeight, 8);
+    this.fillTilesHelper(0, 18, 5, this.tileWidth, this.tileHeight, 8);
+  }
+
+  fillTilesHelper(index, x, y, width, height, length) {
+    const posY = y * height;
+    const myLength = length ? length : (this.canvasWidth - (x * width)) / width;
+
+    if (index === 1) {
+      for (let i = 0; i < myLength * width; i++) {
+        const posX = (x * width) + i;
+
+        if (this.gameMap.staticDots[posX]) {
+          this.gameMap.staticDots[posX].push(posY);
+        } else {
+          this.gameMap.staticDots[posX] = [posY];
         }
 
-        if (contentIndex !== undefined) {
-          ctx.save();
-          targetImg.draw(ctx);
-          ctx.fillRect(x * this.tileWidth, y * this.tileHeight, this.tileWidth, this.tileHeight);
-          ctx.restore();
-        }
+        this.gameMap.staticDots[posX].sort((a, b) => a - b);
       }
     }
-  }
 
-  createEmptyGameMap(canvasWidth, canvasHeight) {
-    const myGameMap = [];
-    const x = canvasWidth / this.tileWidth;
-    const y = canvasHeight / this.tileHeight;
+    for (let i = 0; i < myLength; i++) {
+      const posX = (x + i) * width;
 
-    for (let i = 0; i < y; i++) {
-      myGameMap.push(new Array(x));
+      this.gameMap.staticMap.push({
+        img: this.tiles[index],
+        posX,
+        posY,
+        width,
+        height,
+      });
     }
-
-    return myGameMap;
-  }
-
-  fillGameMap() {
-    const length = this.gameMap.length;
-
-    this.gameMap[length - 2].fill(1, 0, 16);
-    this.gameMap[length - 1].fill(0, 0, 16);
-
-    this.gameMap[length - 2].fill(1, 24);
-    this.gameMap[length - 1].fill(0, 24);
-
-    this.gameMap[length - 4].fill(1, 30, 32);
-    this.gameMap[length - 6].fill(1, 32, 36);
-
-    this.gameMap[length - 6].fill(1, 38, 39);
-    this.gameMap[length - 8].fill(1, 38, 39);
-    this.gameMap[length - 10].fill(1, 38, 39);
-    this.gameMap[length - 12].fill(1, 38, 39);
-
-    this.gameMap[length - 10].fill(1, 33, 36);
-    this.gameMap[length - 9].fill(0, 33, 36);
-
-    this.gameMap[length - 12].fill(1, 34, 35);
-    this.gameMap[length - 14].fill(1, 34, 35);
-
-    this.gameMap[length - 7].fill(1, 26, 27);
-    this.gameMap[length - 9].fill(1, 24, 26);
-    this.gameMap[length - 9].fill(1, 17, 21);
-    this.gameMap[length - 8].fill(0, 17, 21);
-
-    this.gameMap[length - 10].fill(1, 2, 6);
-
-    this.gameMap[3].fill(1, 2, 3);
-    this.gameMap[5].fill(1, 2, 3);
-    this.gameMap[7].fill(1, 2, 3);
-
-    this.gameMap[2].fill(1, 8, 13);
-    this.gameMap[3].fill(0, 8, 13);
-
-    this.gameMap[3].fill(1, 18, 26);
-    this.gameMap[4].fill(0, 18, 26);
-    this.gameMap[5].fill(0, 18, 26);
   }
 }
 

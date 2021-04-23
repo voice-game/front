@@ -14,8 +14,13 @@ const useCanvas = (CanvasConstructor, options) => {
     const myCanvas = new CanvasConstructor(canvasRef, options);
 
     return () => {
-      window.cancelAnimationFrame(myCanvas.animationFrameId);
-      removeEventHelper(myCanvas.eventList);
+      if (myCanvas.animationFrameId) {
+        window.cancelAnimationFrame(myCanvas.animationFrameId);
+      }
+
+      if (myCanvas.eventList) {
+        removeEventHelper(myCanvas.eventList);
+      }
     };
   }, []);
 

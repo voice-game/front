@@ -2,12 +2,14 @@ import { addEventHelper } from "../../utils/eventListHelper";
 import Character from "./character";
 
 class CharacterController {
-  constructor(eventList, canvasHeight) {
+  constructor(eventList, canvasWidth, canvasHeight) {
     this.eventList = eventList;
+
+    this.canvasWidth = canvasWidth;
     this.canvasHeight = canvasHeight;
 
-    this.posX = 600;
-    this.posY = 0;
+    this.posX = 300;
+    this.posY = 500;
 
     this.isImgChanged = false;
     this.gravity = 0;
@@ -36,8 +38,8 @@ class CharacterController {
     this.characterCenterX = this.posX + this.character.widthHalf;
 
     if (this.canvasHeight < this.posY - this.character.height) {
-      this.posX = 40;
-      this.posY = 300;
+      this.posX = 80;
+      this.posY = 40;
     }
 
     if (!this.maxY) {
@@ -64,7 +66,7 @@ class CharacterController {
   getMaxY(dots, x) {
     if (dots[x]) {
       for (const y of dots[x]) {
-        if (this.posY <= y) {
+        if (this.posY - 10 <= y) {
           return y;
         }
       }
@@ -96,13 +98,13 @@ class CharacterController {
     this.handleCharacterImage();
 
     if (this.characterMove.left) {
-      if (dots[this.posX - this.characterMove.speed]) {
+      if (0 < this.posX - this.characterMove.speed) {
         this.posX -= this.characterMove.speed;
       }
     }
 
     if (this.characterMove.right) {
-      if (dots[this.posX + this.character.width]) {
+      if (this.posX + this.character.width < this.canvasWidth) {
         this.posX += this.characterMove.speed;
       }
 
@@ -123,30 +125,19 @@ class CharacterController {
   }
 
   handleCharacterImage() {
-    const currentImg = this.character.currentImg;
-
     if (this.characterMove.left) {
       this.character.currentImg = this.character.imgList.walking;
-      this.handleCurrentFrame(currentImg);
       this.character.isFlipped = true;
       return;
     }
 
     if (this.characterMove.right) {
       this.character.currentImg = this.character.imgList.walking;
-      this.handleCurrentFrame(currentImg);
       this.character.isFlipped = false;
       return;
     }
 
     this.character.currentImg = this.character.imgList.idle;
-    this.handleCurrentFrame(currentImg);
-  }
-
-  handleCurrentFrame(currentImg) {
-    if(currentImg !== this.character.currentImg) {
-      this.character.currentFrame = 0;
-    }
   }
 }
 

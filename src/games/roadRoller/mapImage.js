@@ -1,4 +1,4 @@
-class Tile {
+class MapImage {
   constructor(src) {
     this.img = new Image();
     this.img.src = src;
@@ -9,4 +9,4 @@ class Tile {
   }
 }
 
-export default Tile;
+export default MapImage;
