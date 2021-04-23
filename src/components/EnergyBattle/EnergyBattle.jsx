@@ -1,20 +1,18 @@
-import React, { useState, useEffect, useRef, useCallback } from "react";
-import { useHistory, useParams, useLocation } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
+import React, { useState, useEffect, useCallback } from "react";
+import { useHistory } from "react-router-dom";
 import styled from "styled-components";
+import useImage from "../../hooks/useImage";
 
-import GameOption from "../GameOption/GameOption";
 import EnergyBattleFrame from "../EnergyBattleFrame/EnergyBattleFrame";
 import GameResult from "../GameResult/GameResult";
-import PlayerCard from "../PlayerCard/PlayerCard";
+import CHARACTERS from "../../images/energyBattle/characters/characters";
 
 import getMedia from "../../utils/getMedia";
 import VolumeMeter from "../../utils/VolumeMeter";
 import wait from "../../utils/wait";
-import { USER_SERVER, MAX_PLAYER } from "../../constants/constants";
 
 const canvasWidth = document.body.clientWidth * 0.9;
-const canvasHeight = document.body.clientWidth * 0.6;
+const canvasHeight = document.body.clientWidth * 0.5;
 
 const GameTitle = styled.h1`
   margin: 0;
@@ -31,27 +29,29 @@ const OperationContainer = styled.div`
   margin: 0 auto;
 `;
 
-const StartButton = styled.button``;
-
-const EnergyBattle = ({ socket, creater, player, otherPlayers }) => {
+const EnergyBattle = ({ socket, player, otherPlayers }) => {
   const [stream, setStream] = useState({});
   const [volumeMeter, setVolumeMeter] = useState({});
   const [isPlay, setIsPlay] = useState(false);
+  const [isReady, setIsReady] = useState(false);
   const [isStartDisabled, setIsStartDisabled] = useState(false);
   const [counter, setCounter] = useState("");
 
+  const [myCharacter, setMyCharacter] = useState(null);
+  const [otherCharacter, setOtherCharacter] = useState(null);
+  const [skillEffect, setSkillEffect] = useState(null);
+
   const history = useHistory();
 
-  const togglePlaying = () => {
-    const next = !isPlay;
-    setIsPlay(next);
-  };
+  useImage(CHARACTERS.myCharacter, setMyCharacter);
+  useImage(CHARACTERS.otherCharacter, setOtherCharacter);
+  useImage(CHARACTERS.skillEffect, setSkillEffect);
 
   const playGame = useCallback(async () => {
     setIsStartDisabled(true);
 
-    const stream = await getMedia({ audio: true });
-    const volumeMeter = new VolumeMeter(stream, {
+    const mediaStream = await getMedia({ audio: true });
+    const volumeMeter = new VolumeMeter(mediaStream, {
       bufferSize: 2048,
       minDecibels: -60,
       maxDecibels: -30,
@@ -66,7 +66,7 @@ const EnergyBattle = ({ socket, creater, player, otherPlayers }) => {
     await wait(1000);
     setCounter("START");
 
-    setStream(stream);
+    setStream(mediaStream);
     setVolumeMeter(volumeMeter);
     setIsPlay(true);
 
@@ -79,30 +79,34 @@ const EnergyBattle = ({ socket, creater, player, otherPlayers }) => {
     setCounter("1");
     await wait(1000);
     setCounter("END");
-    await wait(1000);
 
     setIsPlay(false);
     setIsStartDisabled(false);
     setStream({});
     setVolumeMeter({});
+
+    mediaStream.getTracks()[0].stop();
   }, []);
 
   const startGame = useCallback(async () => {
-    if (isStartDisabled) {
-      return;
+    if (!isStartDisabled && isReady) {
+      socket.emit("start-game");
+      playGame();
     }
-
-    socket.emit("start-game");
-    playGame();
-  }, []);
+  }, [isReady, isStartDisabled, playGame, socket]);
 
   useEffect(() => {
+    console.log(myCharacter);
+    if (myCharacter && otherCharacter && skillEffect) {
+      setIsReady(true);
+    }
+
     socket.on("start-by-other", playGame);
 
     return () => {
       socket.off("start-by-other");
     };
-  }, []);
+  }, [myCharacter, otherCharacter, playGame, skillEffect, socket]);
 
   return (
     <div>
@@ -110,22 +114,26 @@ const EnergyBattle = ({ socket, creater, player, otherPlayers }) => {
         <button onClick={() => history.push(`/games/energyBattle`)}>
           나가기
         </button>
-        <button onClick={togglePlaying}>토글</button>
         <span>{player.name}</span>
         {otherPlayers.map((player) => (
           <span key={player._id}>{player.name}</span>
         ))}
-        <h1>{counter}</h1>
+        {counter.length > 0 && <h1>{counter}</h1>}
       </div>
       <GameTitle>Energy Battle</GameTitle>
       <OperationContainer>
         <button onClick={startGame}>게임시작</button>
       </OperationContainer>
       <EnergyBattleFrame
-        stream={stream}
         socket={socket}
+        stream={stream}
         volumeMeter={volumeMeter}
         isPlay={isPlay}
+        isReady={isReady}
+        player={player}
+        myCharacter={myCharacter}
+        otherCharacter={otherCharacter}
+        skillEffect={skillEffect}
         canvasWidth={canvasWidth}
         canvasHeight={canvasHeight}
       />

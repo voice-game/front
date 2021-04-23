@@ -11,7 +11,7 @@ import {
   deleteRoomAction,
   changeRoomStatus,
 } from "../../actions/actionCreators";
-import EnergyBattle2 from "../EnergyBattle/EnergyBattle";
+import EnergyBattle from "../EnergyBattle/EnergyBattle";
 
 const socket = io(USER_SERVER, {
   withCredential: true,
@@ -76,9 +76,9 @@ const GameRoom = () => {
   const handlePlayerLeave = useCallback(async () => {
     if (playerData._id === currentRoom?.createdBy) {
       await dispatch(deleteRoomAction(gameTitle, roomId, playerData));
-      history.push(`/games/${gameTitle}`);
     } else {
       dispatch(leaveRoomAction(gameTitle, roomId, playerData));
+      history.push(`/games/${gameTitle}`);
     }
   }, []);
 
@@ -103,7 +103,7 @@ const GameRoom = () => {
     <>
       <GameOption />
       {gameTitle === "energyBattle" && (
-        <EnergyBattle2
+        <EnergyBattle
           socket={socket}
           creater={currentRoom?.createdBy}
           player={playerData}
@@ -111,16 +111,18 @@ const GameRoom = () => {
         />
       )}
       {gameTitle === "monsterEscape" && (
-        <EnergyBattle2
+        <EnergyBattle
           socket={socket}
           creater={currentRoom?.createdBy}
+          player={playerData}
           otherPlayers={otherPlayers}
         />
       )}
       {gameTitle === "roadRoller" && (
-        <EnergyBattle2
+        <EnergyBattle
           socket={socket}
           creater={currentRoom?.createdBy}
+          player={playerData}
           otherPlayers={otherPlayers}
         />
       )}
