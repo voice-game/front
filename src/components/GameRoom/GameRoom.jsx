@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef, useCallback } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { useHistory, useParams, useLocation } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import io from "socket.io-client";
@@ -12,6 +12,7 @@ import {
   changeRoomStatus,
 } from "../../actions/actionCreators";
 import EnergyBattle from "../EnergyBattle/EnergyBattle";
+import MonsterEscape from "../MonsterEscape/MonsterEscape";
 
 const socket = io(USER_SERVER, {
   withCredential: true,
@@ -111,9 +112,9 @@ const GameRoom = () => {
         />
       )}
       {gameTitle === "monsterEscape" && (
-        <EnergyBattle
+        <MonsterEscape
           socket={socket}
-          creater={currentRoom?.createdBy}
+          roomId={roomId}
           player={playerData}
           otherPlayers={otherPlayers}
         />
