@@ -7,8 +7,9 @@ class Character {
     this.imgList = imageController();
     this.currentImg = this.imgList.idle;
 
-    this.width = this.currentImg.width / 4;
-    this.height = this.currentImg.height / 4;
+    this.ratio = 4;
+    this.width = this.currentImg.width / this.ratio;
+    this.height = this.currentImg.height / this.ratio;
     this.widthHalf = this.width / 2;
 
     this.currentFrame = 0;

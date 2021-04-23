@@ -46,10 +46,6 @@ class CharacterController {
       this.maxY = this.getMaxY(dots, this.characterCenterX);
     }
 
-    // if (this.posY < this.maxY) {
-    //   this.characterMove.jump = false;
-    // }
-
     if (this.maxY <= this.posY) {
       this.posY = this.maxY;
       this.characterMove.isJumping = false;
