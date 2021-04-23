@@ -9,8 +9,8 @@ import GameList from "../GameList/GameList";
 import GameRoomList from "../GameRoomList/GameRoomList";
 import RoadRoller from "../RoadRoller/RoadRoller";
 import MonsterEscape from "../MonsterEscape/MonsterEscape";
-import EnergyBattle from "../EnergyBattle/EnergyBattle";
 import ErrorPage from "../ErrorPage/ErrorPage";
+import GameRoom from "../GameRoom/GameRoom";
 
 const App = ({ authService }) => {
   const { isAuthorized } = useSelector((state) => state.authReducer);
@@ -52,7 +52,7 @@ const App = ({ authService }) => {
             </Route>
 
             <Route path="/games/energyBattle/:roomId">
-              <EnergyBattle />
+              <GameRoom />
             </Route>
 
             <Route path="/logout">

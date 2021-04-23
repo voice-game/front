@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useHistory, useParams, useLocation } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import io from "socket.io-client";
@@ -9,6 +9,7 @@ import GameOption from "../GameOption/GameOption";
 import getMedia from "../../utils/getMedia";
 import VolumeMeter from "../../utils/VolumeMeter";
 import Background from "../../games/MonsterEscape/Background";
+import Box from "../../games/MonsterEscape/Box";
 import Monster from "../../games/MonsterEscape/Monster";
 import Obstacle from "../../games/MonsterEscape/Obstacle";
 import PlayInfo from "../../games/MonsterEscape/PlayInfo";
@@ -33,10 +34,23 @@ import witch from "../../images/monsterEscape/witch.png";
 import cyclops from "../../images/monsterEscape/cyclops.png";
 import dionaea from "../../images/monsterEscape/dionaea.png";
 import dagger from "../../images/monsterEscape/dagger.png";
-import purpleBat from "../../images/monsterEscape/purpleBat.png";
+import bat from "../../images/monsterEscape/bat.png";
+import batCollision from "../../images/monsterEscape/batCollision.png";
+import batDead from "../../images/monsterEscape/batDead.png";
 import background from "../../images/monsterEscape/background.png";
+import heart from "../../images/monsterEscape/heart.png";
+import gameOver from "../../images/monsterEscape/gameOver.png";
+import controlBox from "../../images/monsterEscape/controlBox.png";
+import settingBox from "../../images/monsterEscape/settingBox.png";
+import playButton from "../../images/monsterEscape/playButton.png";
+import replayButton from "../../images/monsterEscape/replayButton.png";
+import minusButton from "../../images/monsterEscape/minusButton.png";
+import plusButton from "../../images/monsterEscape/plusButton.png";
+import downButton from "../../images/monsterEscape/downButton.png";
+import upButton from "../../images/monsterEscape/upButton.png";
+import volumeIcon from "../../images/monsterEscape/volumeIcon.png";
 
-import { USER_SERVER, ENERGY_BATTLE_FULL } from "../../constants/constants";
+import { USER_SERVER, MAX_PLAYER } from "../../constants/constants";
 
 const socket = io(USER_SERVER, {
   withCredential: true,
@@ -44,9 +58,20 @@ const socket = io(USER_SERVER, {
 
 const canvasWidth = document.body.clientWidth * 0.8;
 const canvasHeight = document.body.clientWidth * 0.6;
-
+const playInfoImageUrls = [heart, gameOver];
+const boxImageUrls = [
+  controlBox,
+  settingBox,
+  playButton,
+  replayButton,
+  minusButton,
+  plusButton,
+  downButton,
+  upButton,
+  volumeIcon,
+];
 const backgroundImageUrls = [background];
-const monsterImageUrls = [purpleBat];
+const monsterImageUrls = [bat, batCollision, batDead];
 const enenmyImageUrls = [witch, cyclops, dionaea, dagger];
 const ceilingImageUrls = [spider];
 const groundImageUrls = [leftTree, rightTree, hill, house, light, tomb, fence];
@@ -54,7 +79,9 @@ const groundImageUrls = [leftTree, rightTree, hill, house, light, tomb, fence];
 const MonsterEscape = (props) => {
   const [stream, setStream] = useState({});
   const [volumeMeter, setVolumeMeter] = useState({});
-  const [isPlay, setIsPlay] = useState(false);
+  const [isInitGame, setIsInitGame] = useState(false);
+  const [playInfoImages, setPlayInfoImages] = useState([]);
+  const [boxImages, setBoxImages] = useState([]);
   const [backgroundImages, setBackgroundImages] = useState([]);
   const [monsterImages, setMonsterImages] = useState([]);
   const [groundImages, setGroundImages] = useState([]);
@@ -62,6 +89,7 @@ const MonsterEscape = (props) => {
   const [ceilingImages, setCeilingImages] = useState([]);
   const [gameElement, setGameElement] = useState({});
   const [otherPlayer, setOtherPlayer] = useState(null);
+  const groundSpeedRef = useRef();
 
   const dispatch = useDispatch();
   const param = useParams();
@@ -106,7 +134,7 @@ const MonsterEscape = (props) => {
       }
       console.log(data.socketList);
 
-      if (data.socketList.length >= ENERGY_BATTLE_FULL) {
+      if (data.socketList.length >= MAX_PLAYER.monsterEscape) {
         dispatch(changeRoomStatus(gameTitle, roomId, "Full"));
       }
     });
@@ -152,6 +180,8 @@ const MonsterEscape = (props) => {
   }, [dispatch, playerData, gameTitle, history, roomId, creater]);
 
   useImage(backgroundImageUrls, setBackgroundImages);
+  useImage(boxImageUrls, setBoxImages);
+  useImage(playInfoImageUrls, setPlayInfoImages);
   useImage(monsterImageUrls, setMonsterImages);
   useImage(groundImageUrls, setGroundImages);
   useImage(ceilingImageUrls, setCeilingImages);
@@ -162,6 +192,8 @@ const MonsterEscape = (props) => {
     if (!groundImages.length) return;
     if (!enemyImages.length) return;
     if (!ceilingImages.length) return;
+    if (!playInfoImages.length) return;
+    if (!boxImages.length) return;
 
     const ceilingMap = new GameMap(
       "celing",
@@ -214,25 +246,34 @@ const MonsterEscape = (props) => {
       backgroundImages,
     );
 
-    const groundSpeed = 2;
-    const playInfo = new PlayInfo();
-    const ceiling = new Obstacle(ceilingMap.gameMap, canvasWidth, 0.005);
-    const ground = new Obstacle(groundMap.gameMap, canvasWidth, 0.005);
-    const enemy = new Obstacle(enemyMap.gameMap, canvasWidth, 0.01);
-    const monster = new Monster(monsterImages, 0.1, 0.005, 5);
+    const box = new Box(boxImages);
+    const playInfo = new PlayInfo(playInfoImages);
+    const ceiling = new Obstacle(ceilingMap.gameMap, canvasWidth);
+    const ground = new Obstacle(groundMap.gameMap, canvasWidth);
+    const enemy = new Obstacle(enemyMap.gameMap, canvasWidth);
+    const monster = new Monster(monsterImages, 0.1, 3);
     monster.setPosition(canvasWidth, canvasHeight, 36);
 
-    setGameElement({ playInfo, background, ceiling, ground, enemy, monster });
+    setIsInitGame(true);
+    setGameElement({
+      box,
+      playInfo,
+      background,
+      ceiling,
+      ground,
+      enemy,
+      monster,
+    });
   }, [
+    boxImages,
+    playInfoImages,
     backgroundImages,
     ceilingImages,
     groundImages,
     enemyImages,
     monsterImages,
+    isInitGame,
   ]);
-
-  const handlePlayClick = () => setIsPlay(true);
-  const handleStopClick = () => setIsPlay(false);
 
   return (
     <div>
@@ -241,15 +282,14 @@ const MonsterEscape = (props) => {
       <MonsterEscapeFrame
         stream={stream}
         volumeMeter={volumeMeter}
-        isPlay={isPlay}
         gameElement={gameElement}
         canvasWidth={canvasWidth}
         canvasHeight={canvasHeight}
         roomId={roomId}
+        isInitGame={isInitGame}
+        setIsInitGame={setIsInitGame}
       />
       <GameResult />
-      <button onClick={handlePlayClick}>Play</button>
-      <button onClick={handleStopClick}>Stop</button>
     </div>
   );
 };
