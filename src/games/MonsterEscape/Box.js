@@ -2,7 +2,15 @@ function Box(images) {
   this.images = images;
 }
 
-Box.prototype.animate = function (ctx, canvasWidth, canvasHeight, isPlay, speed, volThreshold) {
+Box.prototype.animate = function (
+  ctx,
+  canvasWidth,
+  canvasHeight,
+  isPlay,
+  speed,
+  volume,
+  volThreshold,
+) {
   const ctrlBox = this.images[0];
   const settingBox = this.images[1];
   const playBtn = this.images[2];
@@ -49,9 +57,10 @@ Box.prototype.animate = function (ctx, canvasWidth, canvasHeight, isPlay, speed,
   const downBtnPosX = upBtnPosX;
   const downBtnPosY = ctrlBoxPosY + ctrlBoxHeight - downBtnHeight - 0.2 * ctrlBoxHeight;
 
-  const spdFontSize = 0.15 * ctrlBoxHeight;
-  const speedPosY = upBtnPosY + upBtnHeight + 0.5 * (downBtnPosY - upBtnPosY) - 0.2 * spdFontSize;
-  const speedPosX = upBtnPosX + 0.05 * ctrlBoxWidth;
+  const settingSpdFontSize = 0.15 * ctrlBoxHeight;
+  const settingSpdPosY =
+    upBtnPosY + upBtnHeight + 0.5 * (downBtnPosY - upBtnPosY) - 0.2 * settingSpdFontSize;
+  const settingSpdPosX = upBtnPosX + 0.045 * ctrlBoxWidth;
 
   const volIconAspectRatio = volumeIcon.width / volumeIcon.height;
   const volIconHeight = 0.2 * ctrlBoxHeight;
@@ -71,10 +80,24 @@ Box.prototype.animate = function (ctx, canvasWidth, canvasHeight, isPlay, speed,
   const minusBtnPosX = plusBtnPosX;
   const minusBtnPosY = ctrlBoxPosY + ctrlBoxHeight - minusBtnHeight - 0.2 * ctrlBoxHeight;
 
-  const volFontSize = 0.15 * ctrlBoxHeight;
-  const volPosY =
-    plusBtnPosY + plusBtnHeight + 0.5 * (minusBtnPosY - plusBtnPosY) - 0.2 * volFontSize;
-  const volPosX = plusBtnPosX + 0.05 * ctrlBoxWidth;
+  const settingVolFontSize = 0.15 * ctrlBoxHeight;
+  const settingVolPosY =
+    plusBtnPosY + plusBtnHeight + 0.5 * (minusBtnPosY - plusBtnPosY) - 0.2 * settingVolFontSize;
+  const settingVolPosX = plusBtnPosX + 0.045 * ctrlBoxWidth;
+
+  const volBarPosX = plusBtnPosX + 0.15 * ctrlBoxWidth;
+  const volBarPosY = plusBtnPosY + plusBtnHeight;
+  const volBarWidth = 0.05 * ctrlBoxWidth;
+  const volBarHeight = minusBtnPosY - plusBtnPosY;
+
+  const volumeFontSize = 0.1 * ctrlBoxHeight;
+  const volumePosY = plusBtnPosY + 0.1 * ctrlBoxHeight;
+  const volumePosX = volBarPosX + 0.02 * ctrlBoxWidth;
+  const volDisp = Math.round(10 * volume) / 10;
+
+  const maxVolDisp = 10;
+  const volDispBar = volBarHeight * (volDisp / maxVolDisp);
+  const settingVolDispBar = volBarHeight * (volThreshold / maxVolDisp);
 
   this.upBtnHeight = upBtnHeight;
   this.upBtnWidth = upBtnWidth;
@@ -100,27 +123,38 @@ Box.prototype.animate = function (ctx, canvasWidth, canvasHeight, isPlay, speed,
 
   ctx.drawImage(volumeIcon, volIconPosX, volIconPosY, volIconWidth, volIconHeight);
   ctx.drawImage(plusBtn, plusBtnPosX, plusBtnPosY, plusBtnWidth, plusBtnHeight);
-  ctx.font = `${spdFontSize}px sans-serif`;
+  ctx.font = `bold ${settingSpdFontSize}px sans-serif`;
   ctx.fillStyle = "black";
   ctx.textAlign = "center";
-  ctx.fillText(speed, speedPosX, speedPosY);
+  ctx.fillText(speed, settingSpdPosX, settingSpdPosY);
   ctx.drawImage(minusBtn, minusBtnPosX, minusBtnPosY, minusBtnWidth, minusBtnHeight);
 
   ctx.drawImage(batSpdIcon, batSpeedPosX, batSpeedPosY, batSpeedWidth, batSpeedHeight);
   ctx.drawImage(upBtn, upBtnPosX, upBtnPosY, upBtnWidth, upBtnHeight);
-  ctx.font = `${volFontSize}px sans-serif`;
+  ctx.font = `bold ${settingVolFontSize}px sans-serif`;
   ctx.fillStyle = "black";
   ctx.textAlign = "center";
-  ctx.fillText(volThreshold, volPosX, volPosY);
+  ctx.fillText(volThreshold, settingVolPosX, settingVolPosY);
   ctx.drawImage(downBtn, downBtnPosX, downBtnPosY, downBtnWidth, downBtnHeight);
 
-  const volBarPosX = plusBtnPosX + 0.15 * ctrlBoxWidth;
-  const volBarPosY = plusBtnPosY;
-  const volBarWidth = 0.05 * ctrlBoxWidth;
-  const volBarHeight = minusBtnPosY + minusBtnHeight - plusBtnPosY;
+  ctx.font = `bold ${volumeFontSize}px sans-serif`;
+  ctx.fillStyle = "black";
+  ctx.textAlign = "center";
+  ctx.fillText(volDisp, volumePosX, volumePosY);
 
   ctx.strokeStyle = "black";
+  ctx.lineWidth = 2;
   ctx.strokeRect(volBarPosX, volBarPosY, volBarWidth, volBarHeight);
+  ctx.fillStyle = "black";
+  ctx.fillRect(volBarPosX, volBarPosY + volBarHeight - volDispBar, volBarWidth, volDispBar);
+
+  ctx.beginPath();
+  ctx.lineWidth = 3;
+  ctx.strokeStyle = "red";
+  ctx.moveTo(volBarPosX, volBarPosY + volBarHeight - settingVolDispBar);
+  ctx.lineTo(volBarPosX + volBarWidth, volBarPosY + volBarHeight - settingVolDispBar);
+  ctx.stroke();
+  ctx.closePath();
 
   if (isPlay) {
     ctx.drawImage(replayBtn, playBtnPosX, playBtnPosY, playBtnWidth, playBtnHeight);

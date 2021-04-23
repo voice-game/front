@@ -26,6 +26,7 @@ const MonsterEscapeFrame = ({
   const [isPlay, setIsPlay] = useState(false);
   const [speed, setSpeed] = useState(1);
   const [volThreshold, setVolThreshold] = useState(3);
+  const volRef = useRef(0);
 
   const grndSpeed = 0.005;
 
@@ -57,9 +58,9 @@ const MonsterEscapeFrame = ({
     ceiling.animate(ctx, 0);
     box.animate(ctx, canvasWidth, canvasHeight, false, speed, volThreshold);
 
-    if (!isPlay) {
-      return;
-    }
+    // if (!isPlay) {
+    //   return;
+    // }
 
     let thenTime;
     let singleFrame = 0;
@@ -82,35 +83,66 @@ const MonsterEscapeFrame = ({
       doubleFrame = (doubleFrame + 1) % (2 * fps);
 
       const volume = volumeMeter.getVolume();
+      volRef.current = volume;
 
       const isCollision = monster.getIsCollision([enemy], fps, "easy");
 
       ctx.clearRect(0, 0, canvasWidth, canvasHeight);
 
-      background.animate(ctx);
-      ground.animate(ctx, speed * grndSpeed);
-      enemy.animate(ctx, 2 * speed * grndSpeed);
-      ceiling.animate(ctx, 0.5 * speed * grndSpeed);
-      monster.animate(ctx, speed * grndSpeed, volThreshold, volume, isCollision, fps, singleFrame);
-      playInfo.animate(
-        ctx,
-        canvasWidth,
-        canvasHeight,
-        monster.distance,
-        monster.life,
-        monster.maxLife,
-        2 * fps,
-        doubleFrame,
-      );
+      if (isPlay) {
+        background.animate(ctx);
+        ground.animate(ctx, speed * grndSpeed);
+        enemy.animate(ctx, 2 * speed * grndSpeed);
+        ceiling.animate(ctx, 0.5 * speed * grndSpeed);
+        monster.animate(
+          ctx,
+          speed * grndSpeed,
+          volThreshold,
+          volume,
+          isCollision,
+          fps,
+          singleFrame,
+        );
+        playInfo.animate(
+          ctx,
+          canvasWidth,
+          canvasHeight,
+          monster.distance,
+          monster.life,
+          monster.maxLife,
+          2 * fps,
+          doubleFrame,
+        );
 
-      box.animate(ctx, canvasWidth, canvasHeight, isPlay, speed, volThreshold);
+        box.animate(ctx, canvasWidth, canvasHeight, isPlay, speed, volume, volThreshold);
 
-      myPositionRef.current = {
-        normPosX: monster.posX / canvasWidth,
-        normPosY: monster.posY / canvasHeight,
-      };
+        myPositionRef.current = {
+          normPosX: monster.posX / canvasWidth,
+          normPosY: monster.posY / canvasHeight,
+        };
 
-      socket.emit("animation", roomId, myPositionRef.current);
+        socket.emit("animation", roomId, myPositionRef.current);
+
+        // animationIdRef.current = requestAnimationFrame(draw);
+      } else {
+        background.animate(ctx);
+        ground.animate(ctx, speed * grndSpeed);
+        // enemy.animate(ctx, 0);
+        ceiling.animate(ctx, 0.5 * speed * grndSpeed);
+        monster.animate(ctx, 0, volThreshold, volume, false, fps, singleFrame);
+        playInfo.animate(
+          ctx,
+          canvasWidth,
+          canvasHeight,
+          monster.distance,
+          monster.life,
+          monster.maxLife,
+          2 * fps,
+          doubleFrame,
+        );
+
+        box.animate(ctx, canvasWidth, canvasHeight, isPlay, speed, volume, volThreshold);
+      }
 
       animationIdRef.current = requestAnimationFrame(draw);
     };
