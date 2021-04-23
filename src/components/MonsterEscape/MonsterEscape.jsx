@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useHistory, useParams, useLocation } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import io from "socket.io-client";
@@ -44,6 +44,11 @@ import controlBox from "../../images/monsterEscape/controlBox.png";
 import settingBox from "../../images/monsterEscape/settingBox.png";
 import playButton from "../../images/monsterEscape/playButton.png";
 import replayButton from "../../images/monsterEscape/replayButton.png";
+import minusButton from "../../images/monsterEscape/minusButton.png";
+import plusButton from "../../images/monsterEscape/plusButton.png";
+import downButton from "../../images/monsterEscape/downButton.png";
+import upButton from "../../images/monsterEscape/upButton.png";
+import volumeIcon from "../../images/monsterEscape/volumeIcon.png";
 
 import { USER_SERVER, MAX_PLAYER } from "../../constants/constants";
 
@@ -53,9 +58,18 @@ const socket = io(USER_SERVER, {
 
 const canvasWidth = document.body.clientWidth * 0.8;
 const canvasHeight = document.body.clientWidth * 0.6;
-
 const playInfoImageUrls = [heart, gameOver];
-const boxImageUrls = [controlBox, settingBox, playButton, replayButton];
+const boxImageUrls = [
+  controlBox,
+  settingBox,
+  playButton,
+  replayButton,
+  minusButton,
+  plusButton,
+  downButton,
+  upButton,
+  volumeIcon,
+];
 const backgroundImageUrls = [background];
 const monsterImageUrls = [bat, batCollision, batDead];
 const enenmyImageUrls = [witch, cyclops, dionaea, dagger];
@@ -75,6 +89,7 @@ const MonsterEscape = (props) => {
   const [ceilingImages, setCeilingImages] = useState([]);
   const [gameElement, setGameElement] = useState({});
   const [otherPlayer, setOtherPlayer] = useState(null);
+  const groundSpeedRef = useRef();
 
   const dispatch = useDispatch();
   const param = useParams();
@@ -178,6 +193,7 @@ const MonsterEscape = (props) => {
     if (!enemyImages.length) return;
     if (!ceilingImages.length) return;
     if (!playInfoImages.length) return;
+    if (!boxImages.length) return;
 
     const ceilingMap = new GameMap(
       "celing",

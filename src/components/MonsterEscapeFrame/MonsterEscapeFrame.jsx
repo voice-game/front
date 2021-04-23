@@ -47,6 +47,7 @@ const MonsterEscapeFrame = ({
     } = gameElement;
 
     if (!isInitGame) return;
+
     const ctx = canvasRef.current.getContext("2d");
     background.animate(ctx);
     ground.animate(ctx);
@@ -143,21 +144,48 @@ const MonsterEscapeFrame = ({
       playBtnHeight,
     } = gameElement.box;
 
+    const { upBtnPosX, upBtnPosY, upBtnWidth, upBtnHeight } = gameElement;
+    const {
+      downBtnPosX,
+      downBtnPosY,
+      downBtnWidth,
+      downBtnHeight,
+    } = gameElement;
+
     const clickedPosX = ev.nativeEvent.offsetX;
     const clickedPosY = ev.nativeEvent.offsetY;
 
-    const isPosXClicked =
-      playBtnPosX < clickedPosX && playBtnPosX + playBtnWidth > clickedPosX;
-    const isPosYClicked =
-      playBtnPosY < clickedPosY && playBtnPosY + playBtnHeight > clickedPosY;
+    const isPlayBtnClicked =
+      playBtnPosX < clickedPosX &&
+      playBtnPosX + playBtnWidth > clickedPosX &&
+      playBtnPosY < clickedPosY &&
+      playBtnPosY + playBtnHeight > clickedPosY;
 
-    if (isPosXClicked && isPosYClicked) {
+    const isUpBtnClicked =
+      upBtnPosX < clickedPosX &&
+      upBtnPosX + upBtnWidth > clickedPosX &&
+      upBtnPosY < clickedPosY &&
+      upBtnPosY + upBtnHeight > clickedPosY;
+
+    const isDownBtnClicked =
+      upBtnPosX < clickedPosX &&
+      upBtnPosX + upBtnWidth > clickedPosX &&
+      upBtnPosY < clickedPosY &&
+      upBtnPosY + upBtnHeight > clickedPosY;
+
+    if (isPlayBtnClicked) {
       if (isPlay) {
         setIsInitGame(false);
         setIsPlay(false);
       } else {
         setIsPlay(true);
       }
+    }
+
+    if (isUpBtnClicked) {
+    }
+
+    if (isDownBtnClicked) {
     }
   };
 
