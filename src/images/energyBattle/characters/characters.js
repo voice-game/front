@@ -7,6 +7,9 @@ import character2Lose from "./energyBattle_character_2_lose.png";
 import skillFire from "./energyBattle_skill_fire.png";
 import skillIce from "./energyBattle_skill_ice.png";
 import skillComet from "./energyBattle_skill_comet.png";
+import pad1 from "./energyBattle_pad_1.png";
+import pad2 from "./energyBattle_pad_2.png";
+import pad3 from "./energyBattle_pad_3.png";
 
 const CHARACTERS = {
   myCharacter: {
@@ -23,6 +26,11 @@ const CHARACTERS = {
     fire: skillFire,
     ice: skillIce,
     comet: skillComet,
+  },
+  pads: {
+    pad1,
+    pad2,
+    pad3,
   },
 };
 

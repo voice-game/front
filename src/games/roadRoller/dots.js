@@ -16,17 +16,17 @@ class DotsController {
     return dots;
   }
 
-  fillRoadDots(ctx, staticDots, roadDots) {
-    ctx.strokeStyle = "red";
+  mergeRoadDots(ctx, staticDots, roadDots) {
+    ctx.strokeStyle = "green";
     ctx.lineWidth = 3;
 
-    for (const eachDots of roadDots) {
+    for (const eachRoad of roadDots) {
       const {
         posX,
         dots
-      } = eachDots;
+      } = eachRoad;
 
-      for (let i = 1; i < dots.length; i++) {
+      for (let i = 0; i < dots.length; i++) {
         if (staticDots[posX + i]) {
           staticDots[posX + i].push(dots[i]);
           staticDots[posX + i].sort();
@@ -36,13 +36,32 @@ class DotsController {
 
         ctx.beginPath();
 
-        ctx.moveTo(posX + i - 1, dots[i - 1]);
-        ctx.lineTo(posX + i, dots[i]);
+        ctx.moveTo(posX + i, dots[i]);
+        ctx.lineTo(posX + i + 1, dots[i + 1]);
         ctx.stroke();
       }
     }
 
     ctx.closePath();
+  }
+
+  mergePadDots(staticDots, padDots) {
+    for (const eachPad of padDots) {
+      const {
+        posX,
+        posY,
+        width,
+      } = eachPad;
+
+      for (let i = 0; i < width; i++) {
+        if (staticDots[posX + i]) {
+          staticDots[posX + i].push(posY);
+          staticDots[posX + i].sort();
+        } else {
+          staticDots[posX + i] = [posY];
+        }
+      }
+    }
   }
 }
 

@@ -1,6 +1,6 @@
-import CharacterController from "./characterController";
-import DotsController from "./dots";
-import InteractionController from "./interactionController";
+import CharacterController from "./CharacterController";
+import DotsController from "./Dots";
+import InteractionController from "./InteractionController";
 
 function Game(ref, { pitchDetectorRef, staticDots, interactionPoints }) {
   this.canvas = ref.current;
@@ -16,12 +16,12 @@ function Game(ref, { pitchDetectorRef, staticDots, interactionPoints }) {
   this.characterController = new CharacterController(
     this.eventList,
     this.width,
-    this.height,
+    this.height
   );
   this.interactionController = new InteractionController(
     this.height,
     pitchDetectorRef,
-    interactionPoints,
+    interactionPoints
   );
 
   window.requestAnimationFrame(this.animate.bind(this));
@@ -34,9 +34,18 @@ Game.prototype.animate = async function (timeStamp) {
   this.characterY = this.characterController.posY;
 
   const dots = this.dotsController.fiilStaticDots(this.staticDots);
-  const roadDots = this.interactionController.getRoadDots(this.ctx, this.characterX, this.characterY);
+  const roadDots = this.interactionController.getRoadDots(
+    this.ctx,
+    this.characterX,
+    this.characterY
+  );
+  const padDots = this.interactionController.getPadDots(
+    this.ctx,
+    this.characterController
+  );
 
-  this.dotsController.fillRoadDots(this.ctx, dots, roadDots);
+  this.dotsController.mergeRoadDots(this.ctx, dots, roadDots);
+  this.dotsController.mergePadDots(dots, padDots);
   this.characterController.draw(this.ctx, dots, timeStamp);
 
   this.animationFrameId = window.requestAnimationFrame(this.animate.bind(this));
