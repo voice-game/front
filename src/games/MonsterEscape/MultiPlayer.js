@@ -8,27 +8,26 @@ class MultiPlayer {
     this.setSize();
   }
 
-  // distance = 0;
-  // posX = 0;
-  // posY = 0;
-  // width = 0;
-  // height = 0
-
   setSize() {
     const image = this.images[0];
     this.height = this.size * this.canvasHeight;
     this.width = this.height * (image.width / this.fps) / image.height;
   };
 
-  animate(ctx, normPosX, normPosY, myNormDistance, yourNormDistance, frame) {
-    let image = this.images[0];
+  animate(ctx, myData, yourData, frame) {
+    const myNormDistance = myData.normDistance;
+    const { normPosX, normPosY, normDistance, shieldTime, life } = yourData;
+
+    let image = this.images[3];
+
     const gap = image.width / this.fps;
-
-    const distanceGap = (yourNormDistance - myNormDistance) * this.canvasWidth;
-
+    const distanceGap = (myNormDistance - normDistance) * this.canvasWidth;
     const posX = normPosX * this.canvasWidth - distanceGap;
     const posY = normPosY * this.canvasHeight;
 
+    if (shieldTime) { image = this.images[4] }
+
+    if (!life) { image = this.images[5] }
 
     ctx.drawImage(
       image,

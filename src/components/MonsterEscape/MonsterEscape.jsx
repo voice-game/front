@@ -10,7 +10,7 @@ import Monster from "../../games/MonsterEscape/Monster";
 import Obstacle from "../../games/MonsterEscape/Obstacle";
 import PlayInfo from "../../games/MonsterEscape/PlayInfo";
 import GameMap from "../../games/MonsterEscape/GameMap";
-import MultiPlayer from "../../games/MonsterEscape/MultiPlayer"
+import MultiPlayer from "../../games/MonsterEscape/MultiPlayer";
 
 import BACKGROUNDS from "../../images/monsterEscape/backgrounds/backgrounds";
 import CHARACTERS from "../../images/monsterEscape/characters/characters";
@@ -104,7 +104,7 @@ const MonsterEscape = ({ socket, roomId, player, otherPlayers }) => {
     const ground = new Obstacle(groundMap.gameMap, canvasWidth);
     const enemy = new Obstacle(enemyMap.gameMap, canvasWidth);
     const monster = new Monster(canvasWidth, canvasHeight, monsterImages, 0.1, 3, 36);
-    const multiPlayer = new MultiPlayer(canvasWidth, canvasHeight, monsterImages, 0.1, 36)
+    const multiPlayer = new MultiPlayer(canvasWidth, canvasHeight, monsterImages, 0.1, 36);
 
     setIsInitGame(true);
 
@@ -116,7 +116,7 @@ const MonsterEscape = ({ socket, roomId, player, otherPlayers }) => {
       ground,
       enemy,
       monster,
-      multiPlayer
+      multiPlayer,
     });
   }, [
     isInitGame,
