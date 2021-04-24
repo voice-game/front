@@ -20,8 +20,10 @@ import GROUNDS from "../../images/monsterEscape/grounds/grounds";
 import CONTROLBOXES from "../../images/monsterEscape/controlBoxes/controlBoxes";
 import PLAYINFORMATIONS from "../../images/monsterEscape/playInformations/playInformations";
 
-const canvasWidth = document.body.clientWidth * 0.8;
-const canvasHeight = document.body.clientWidth * 0.6;
+const { innerWidth, innerHeight } = window;
+const minViewPort = Math.min(innerWidth, innerHeight);
+const canvasWidth = 0.8 * minViewPort;
+const canvasHeight = 0.6 * minViewPort;
 
 const playInfoImageUrls = PLAYINFORMATIONS;
 const boxImageUrls = CONTROLBOXES;
