@@ -69,49 +69,31 @@ const MonsterEscapeFrame = ({
 
       ctx.clearRect(0, 0, canvasWidth, canvasHeight);
 
+      background.animate(ctx);
+      ground.animate(ctx, speed * grndSpeed);
+      enemy.animate(ctx, 2 * speed * grndSpeed);
+      ceiling.animate(ctx, 0.5 * speed * grndSpeed);
+      controlBox.animate(ctx, isPlay, speed, volume, volThreshold);
+
       if (isPlay) {
-        background.animate(ctx);
-        ground.animate(ctx, speed * grndSpeed);
-        enemy.animate(ctx, 2 * speed * grndSpeed);
-        ceiling.animate(ctx, 0.5 * speed * grndSpeed);
         monster.animate(ctx, speed * grndSpeed, volThreshold, volume, singleFrame);
-        playInfo.animate(
-          ctx,
-          canvasWidth,
-          canvasHeight,
-          monster.distance,
-          monster.life,
-          monster.maxLife,
-          2 * fps,
-          doubleFrame,
-        );
-
-        controlBox.animate(ctx, isPlay, speed, volume, volThreshold);
-
+        socket.emit("animation", roomId, myPositionRef.current);
         myPositionRef.current = {
           normPosX: monster.posX / canvasWidth,
           normPosY: monster.posY / canvasHeight,
         };
-
-        socket.emit("animation", roomId, myPositionRef.current);
       } else {
-        background.animate(ctx);
-        ground.animate(ctx, speed * grndSpeed);
-        ceiling.animate(ctx, 0.5 * speed * grndSpeed);
         monster.animate(ctx, 0, volThreshold, volume, singleFrame);
-        playInfo.animate(
-          ctx,
-          canvasWidth,
-          canvasHeight,
-          monster.distance,
-          monster.life,
-          monster.maxLife,
-          2 * fps,
-          doubleFrame,
-        );
-
-        controlBox.animate(ctx, isPlay, speed, volume, volThreshold);
       }
+
+      const monsterInfo = {
+        distance: monster.distance,
+        life: monster.life,
+        maxLife: monster.maxLife,
+      };
+
+      playInfo.animate(ctx, monsterInfo, doubleFrame);
+
 
       animationIdRef.current = requestAnimationFrame(draw);
     };

@@ -44,7 +44,7 @@ class Monster {
 
     this.shieldTime = Math.max(this.shieldTime - 1, 0);
 
-    if (this.shieldTime) {return}
+    if (this.shieldTime) { return }
 
     for (let i = 0; i < obstacles.length; i++) {
       const points = obstacles[i].gameMap;
@@ -96,18 +96,18 @@ class Monster {
       this.posY = this.canvasHeight - this.height;
     }
 
-    if (this.posY <= 0) {this.posY = 0}
+    if (this.posY <= 0) { this.posY = 0 }
 
     if (this.isCollision) {
       this.life = Math.max(0, this.life - 1);
       this.isCollision = false;
     }
 
-    if (this.life) {this.distance += speed * this.canvasWidth}
+    if (this.life) { this.distance += speed * this.canvasWidth }
 
-    if (this.shieldTime) {image = this.images[1]}
+    if (this.shieldTime) { image = this.images[1] }
 
-    if (!this.life) {image = this.images[2]}
+    if (!this.life) { image = this.images[2] }
 
     const gap = image.width / this.fps;
 

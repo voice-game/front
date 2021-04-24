@@ -98,7 +98,7 @@ const MonsterEscape = ({ socket, roomId, player, otherPlayers }) => {
 
     const background = new Background(canvasWidth, canvasHeight, backgroundImages);
     const controlBox = new ControlBox(canvasWidth, canvasHeight, ctrlBoxImages);
-    const playInfo = new PlayInfo(playInfoImages);
+    const playInfo = new PlayInfo(canvasWidth, canvasHeight, playInfoImages, 72);
     const ceiling = new Obstacle(ceilingMap.gameMap, canvasWidth);
     const ground = new Obstacle(groundMap.gameMap, canvasWidth);
     const enemy = new Obstacle(enemyMap.gameMap, canvasWidth);

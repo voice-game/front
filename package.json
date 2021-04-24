@@ -42,14 +42,14 @@
     ],
     "rules": {
       "semi": [
-        "error",
+        "warn",
         "always",
         {
           "omitLastInOneLineBlock": true
         }
       ],
       "semi-style": [
-        "error",
+        "warn",
         "last"
       ],
       "quotes": [
@@ -57,13 +57,19 @@
         "double"
       ],
       "indent": [
-        "error",
+        "warn",
         2,
         {
           "SwitchCase": 1
         }
       ],
-      "no-undef": "error"
+      "no-multi-spaces": "warn",
+      "no-multiple-empty-lines": "warn",
+      "space-infix-ops": "warn",
+      "comma-spacing": "warn",
+      "block-spacing": "warn",
+      "eol-last": "warn",
+      "no-undef": "warn"
     }
   },
   "browserslist": {
