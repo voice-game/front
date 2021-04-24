@@ -44,7 +44,7 @@ const App = ({ authService }) => {
             </Route>
 
             <Route path="/games/monsterEscape/:roomId">
-              <MonsterEscape />
+              <GameRoom />
             </Route>
 
             <Route exact path="/games/energyBattle">

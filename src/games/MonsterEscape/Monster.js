@@ -8,11 +8,7 @@ function Monster(images, size, life) {
   this.shieldTime = 0;
 }
 
-Monster.prototype.setPosition = function (
-  canvasWidth,
-  canvasHeight,
-  spriteTotal,
-) {
+Monster.prototype.setPosition = function (canvasWidth, canvasHeight, spriteTotal) {
   const image = this.images[this.type];
   this.canvasWidth = canvasWidth;
   this.canvasHeight = canvasHeight;
@@ -61,13 +57,11 @@ Monster.prototype.getIsCollision = function (obstacles, shieldTime, level) {
 
       const isXCollision =
         (calibratedX <= posX && calibratedX + calibratedW >= posX) ||
-        (calibratedX <= posX + width &&
-          calibratedX + calibratedW >= posX + width);
+        (calibratedX <= posX + width && calibratedX + calibratedW >= posX + width);
 
       const isYCollision =
         (calibratedY <= posY && calibratedY + calibratedH >= posY) ||
-        (calibratedY <= posY + height &&
-          calibratedY + calibratedH >= posY + height);
+        (calibratedY <= posY + height && calibratedY + calibratedH >= posY + height);
 
       return isXCollision && isYCollision;
     });
@@ -84,15 +78,8 @@ Monster.prototype.getIsCollision = function (obstacles, shieldTime, level) {
   return false;
 };
 
-Monster.prototype.animate = function (
-  ctx,
-  speed,
-  volume,
-  isCollision,
-  fps,
-  frame,
-) {
-  if (volume > 4) {
+Monster.prototype.animate = function (ctx, speed, volThreshold, volume, isCollision, fps, frame) {
+  if (volume > volThreshold) {
     this.posY -= speed * this.canvasHeight;
   } else {
     this.posY += speed * this.canvasHeight;
