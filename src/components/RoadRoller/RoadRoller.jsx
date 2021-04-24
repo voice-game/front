@@ -7,11 +7,12 @@ import Game from "../../games/roadRoller";
 import BackGround from "../../games/roadRoller/background";
 import GameFrame from "../GameFrame/GameFrame";
 import GameOption from "../GameOption/GameOption";
-import GameResult from "../GameResult/GameResult";
-import desert1 from "../../assets/image/background/desert/desert1.png";
-import desert2 from "../../assets/image/background/desert/desert2.png";
-import desert3 from "../../assets/image/background/desert/desert3.png";
-import GameMap from "../../games/roadRoller/gameMap";
+import b0 from "../../assets/image/background/0.png";
+import b1 from "../../assets/image/background/1.png";
+import b2 from "../../assets/image/background/2.png";
+import b3 from "../../assets/image/background/3.png";
+import b4 from "../../assets/image/background/4.png";
+import GameMap from "../../games/roadRoller/GameMap";
 
 const RoadRoller = (props) => {
   const TILE_SIZE = 32;
@@ -61,7 +62,7 @@ const RoadRoller = (props) => {
           canvasRef={background}
           width={WIDTH}
           height={HEIGHT}
-          backgroundImage={desert3}
+          backgroundImage={b2}
         />
       </div>
       <div>W: 점프 A: 좌 D: 우</div>

@@ -1,5 +1,5 @@
-import PitchPoint from "./pitchPoint";
-import RoadBrush from "./roadBrush";
+import PitchPoint from "./PitchPoint";
+import RoadBrush from "./RoadBrush";
 
 class Road {
   constructor(
@@ -18,7 +18,7 @@ class Road {
     this.roadDots = [];
   }
 
-  draw (ctx, characterX, characterY) {
+  draw(ctx, characterX, characterY) {
     this.pitchPoint.draw(ctx);
 
     if (this.pitchPoint.checkCharacterReached(characterX ,characterY)) {
@@ -34,7 +34,7 @@ class Road {
     }
 
     if (this.ready) {
-      this.drawRoad();
+      this.fillRoadDots();
     }
 
     return {
@@ -43,7 +43,7 @@ class Road {
     };
   }
 
-  async drawRoad () {
+  async fillRoadDots() {
     const pitch = await this.pitchDetectorRef.current.getPitch();
 
     if (pitch) {
@@ -52,7 +52,7 @@ class Road {
 
     if (this.isDrawingRoad && this.brush.posX <= this.brush.maxX) {
       this.brush.posX += this.brush.speed;
-      this.brush.posY = this.canvasHeight + 100 - Math.floor(pitch);
+      this.brush.posY = this.brush.maxY - Math.floor(pitch / 2);
 
       if (this.brush.posY < this.brush.minY) {
         this.brush.posY = this.brush.minY;
