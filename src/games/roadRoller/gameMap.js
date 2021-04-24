@@ -14,18 +14,10 @@ class GameMap {
     this.tileWidth = tileSize;
     this.tileHeight = tileSize;
 
-    this.tiles = [
-      new MapImage(tile0),
-      new MapImage(tile1),
-    ];
+    this.tiles = [new MapImage(tile0), new MapImage(tile1)];
 
-    this.pitchPoints = [
-      point0,
-      point1,
-    ];
-    this.pads = [
-      pad0,
-    ];
+    this.pitchPoints = [point0, point1];
+    this.pads = [pad0];
 
     this.gameMap = {
       staticDots: [],
@@ -43,8 +35,26 @@ class GameMap {
     this.fillInteractionPointsHelper(IMAGE_TYPE.ROAD, 0, 11, length - 2, 12, 3);
     this.fillInteractionPointsHelper(IMAGE_TYPE.ROAD, 0, 3, 4, 14, 3);
 
-    this.fillInteractionPointsHelper(IMAGE_TYPE.PAD, 1, 38, 10, 5, 2, 12, this.pads[0]);
-    this.fillInteractionPointsHelper(IMAGE_TYPE.PAD, 1, 24, 9, 5, 2, 18, this.pads[0]);
+    this.fillInteractionPointsHelper(
+      IMAGE_TYPE.PAD,
+      1,
+      38,
+      10,
+      5,
+      2,
+      12,
+      this.pads[0]
+    );
+    this.fillInteractionPointsHelper(
+      IMAGE_TYPE.PAD,
+      1,
+      24,
+      9,
+      5,
+      2,
+      18,
+      this.pads[0]
+    );
   }
 
   fillInteractionPointsHelper(type, index, x, y, width, height, range, pad) {
@@ -68,37 +78,39 @@ class GameMap {
   fillTiles() {
     const length = this.canvasHeight / this.tileHeight;
 
-    this.fillTilesHelper(IMAGE_TYPE.TILE,1, 0, length - 1, 1, 1, 12);
+    this.fillTilesHelper(IMAGE_TYPE.TILE, 1, 0, length - 1, 1, 1, 12);
 
-    this.fillTilesHelper(IMAGE_TYPE.TILE,1, 24, length - 2, 1, 1);
-    this.fillTilesHelper(IMAGE_TYPE.TILE,0, 24, length - 1, 1, 1);
+    this.fillTilesHelper(IMAGE_TYPE.TILE, 1, 24, length - 2, 1, 1);
+    this.fillTilesHelper(IMAGE_TYPE.TILE, 0, 24, length - 1, 1, 1);
 
-    this.fillTilesHelper(IMAGE_TYPE.TILE,1, 33, length - 6, 1, 1, 4);
-    this.fillTilesHelper(IMAGE_TYPE.TILE,1, 30, length - 4, 1, 1, 2);
+    this.fillTilesHelper(IMAGE_TYPE.TILE, 1, 33, length - 6, 1, 1, 4);
+    this.fillTilesHelper(IMAGE_TYPE.TILE, 1, 30, length - 4, 1, 1, 2);
 
-    this.fillTilesHelper(IMAGE_TYPE.TILE,1, 38, length - 8, 1, 1, 1);
-    this.fillTilesHelper(IMAGE_TYPE.TILE,1, 38, length - 6, 1, 1, 1);
+    this.fillTilesHelper(IMAGE_TYPE.TILE, 1, 38, length - 8, 1, 1, 1);
+    this.fillTilesHelper(IMAGE_TYPE.TILE, 1, 38, length - 6, 1, 1, 1);
 
-    this.fillTilesHelper(IMAGE_TYPE.TILE,1, 24, length - 9, 1, 1, 2);
+    this.fillTilesHelper(IMAGE_TYPE.TILE, 1, 24, length - 9, 1, 1, 2);
 
-    this.fillTilesHelper(IMAGE_TYPE.TILE,1, 2, length - 10, 1, 1, 4);
+    this.fillTilesHelper(IMAGE_TYPE.TILE, 1, 2, length - 10, 1, 1, 4);
 
-    this.fillTilesHelper(IMAGE_TYPE.TILE,1, 3, 5, 1, 1, 1);
-    this.fillTilesHelper(IMAGE_TYPE.TILE,1, 2, 7, 1, 1, 1);
+    this.fillTilesHelper(IMAGE_TYPE.TILE, 1, 3, 5, 1, 1, 1);
+    this.fillTilesHelper(IMAGE_TYPE.TILE, 1, 2, 7, 1, 1, 1);
 
-    this.fillTilesHelper(IMAGE_TYPE.TILE,1, 18, 3, 1, 1, 8);
-    this.fillTilesHelper(IMAGE_TYPE.TILE,0, 18, 4, 1, 1, 8);
-    this.fillTilesHelper(IMAGE_TYPE.TILE,0, 18, 5, 1, 1, 8);
+    this.fillTilesHelper(IMAGE_TYPE.TILE, 1, 18, 3, 1, 1, 8);
+    this.fillTilesHelper(IMAGE_TYPE.TILE, 0, 18, 4, 1, 1, 8);
+    this.fillTilesHelper(IMAGE_TYPE.TILE, 0, 18, 5, 1, 1, 8);
   }
 
   fillTilesHelper(type, index, x, y, width, height, length) {
     const posY = y * height * this.tileHeight;
     const myWidth = width * this.tileWidth;
-    const myLength = length ? length : (this.canvasWidth - (x * myWidth)) / myWidth;
+    const myLength = length
+      ? length
+      : (this.canvasWidth - x * myWidth) / myWidth;
 
     if (index === 1) {
       for (let i = 0; i < myLength * myWidth; i++) {
-        const posX = (x * myWidth) + i;
+        const posX = x * myWidth + i;
 
         if (this.gameMap.staticDots[posX]) {
           this.gameMap.staticDots[posX].push(posY);

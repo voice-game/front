@@ -8,7 +8,6 @@ import Logout from "../Logout/Logout";
 import GameList from "../GameList/GameList";
 import GameRoomList from "../GameRoomList/GameRoomList";
 import RoadRoller from "../RoadRoller/RoadRoller";
-import MonsterEscape from "../MonsterEscape/MonsterEscape";
 import ErrorPage from "../ErrorPage/ErrorPage";
 import GameRoom from "../GameRoom/GameRoom";
 

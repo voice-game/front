@@ -1,15 +1,20 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect, useCallback, useRef } from "react";
 import { useHistory } from "react-router-dom";
 import styled from "styled-components";
-import useImage from "../../hooks/useImage";
 
 import EnergyBattleFrame from "../EnergyBattleFrame/EnergyBattleFrame";
 import GameResult from "../GameResult/GameResult";
-import CHARACTERS from "../../images/energyBattle/characters/characters";
 
+import PlayerAvatar from "../../games/energyBattle/PlayerAvatar";
+import OtherAvatar from "../../games/energyBattle/OtherAvatar";
+import Pads from "../../games/energyBattle/Pads";
+import SkillEffect from "../../games/energyBattle/SkillEffect";
+
+import useImage from "../../hooks/useImage";
 import getMedia from "../../utils/getMedia";
 import VolumeMeter from "../../utils/VolumeMeter";
 import wait from "../../utils/wait";
+import CHARACTERS from "../../images/energyBattle/characters/characters";
 
 const canvasWidth = document.body.clientWidth * 0.9;
 const canvasHeight = document.body.clientWidth * 0.5;
@@ -30,25 +35,31 @@ const OperationContainer = styled.div`
 `;
 
 const EnergyBattle = ({ socket, player, otherPlayers }) => {
-  const [stream, setStream] = useState({});
   const [volumeMeter, setVolumeMeter] = useState({});
-  const [isPlay, setIsPlay] = useState(false);
-  const [isReady, setIsReady] = useState(false);
+  const [roomStatus, setRoomStatus] = useState("");
   const [isStartDisabled, setIsStartDisabled] = useState(false);
   const [counter, setCounter] = useState("");
 
   const [myCharacter, setMyCharacter] = useState(null);
   const [otherCharacter, setOtherCharacter] = useState(null);
   const [skillEffect, setSkillEffect] = useState(null);
+  const [pads, setPads] = useState(null);
+
+  const playerAvatar = useRef(null);
+  const otherAvatar = useRef(null);
+  const pad = useRef(null);
+  const skill = useRef(null);
 
   const history = useHistory();
 
   useImage(CHARACTERS.myCharacter, setMyCharacter);
   useImage(CHARACTERS.otherCharacter, setOtherCharacter);
   useImage(CHARACTERS.skillEffect, setSkillEffect);
+  useImage(CHARACTERS.pads, setPads);
 
   const playGame = useCallback(async () => {
     setIsStartDisabled(true);
+    setRoomStatus("ready");
 
     const mediaStream = await getMedia({ audio: true });
     const volumeMeter = new VolumeMeter(mediaStream, {
@@ -66,9 +77,8 @@ const EnergyBattle = ({ socket, player, otherPlayers }) => {
     await wait(1000);
     setCounter("START");
 
-    setStream(mediaStream);
     setVolumeMeter(volumeMeter);
-    setIsPlay(true);
+    setRoomStatus("start");
 
     await wait(5000);
 
@@ -80,25 +90,39 @@ const EnergyBattle = ({ socket, player, otherPlayers }) => {
     await wait(1000);
     setCounter("END");
 
-    setIsPlay(false);
+    setRoomStatus("end");
     setIsStartDisabled(false);
-    setStream({});
     setVolumeMeter({});
 
     mediaStream.getTracks()[0].stop();
   }, []);
 
   const startGame = useCallback(async () => {
-    if (!isStartDisabled && isReady) {
+    if ((roomStatus === "ready" || roomStatus === "end") && !isStartDisabled) {
       socket.emit("start-game");
       playGame();
     }
-  }, [isReady, isStartDisabled, playGame, socket]);
+  }, [isStartDisabled, playGame, roomStatus, socket]);
 
   useEffect(() => {
-    console.log(myCharacter);
-    if (myCharacter && otherCharacter && skillEffect) {
-      setIsReady(true);
+    if (myCharacter && otherCharacter && skillEffect && pads) {
+      playerAvatar.current = new PlayerAvatar(
+        myCharacter,
+        canvasWidth,
+        canvasHeight
+      );
+      otherAvatar.current = new OtherAvatar(
+        otherCharacter,
+        canvasWidth,
+        canvasHeight
+      );
+      pad.current = new Pads(pads, canvasWidth, canvasHeight);
+      skill.current = new SkillEffect(skillEffect, canvasWidth, canvasHeight);
+
+      if (otherPlayers && otherPlayers.length === 0) {
+        setRoomStatus("waiting");
+      }
+      setRoomStatus("ready");
     }
 
     socket.on("start-by-other", playGame);
@@ -106,7 +130,15 @@ const EnergyBattle = ({ socket, player, otherPlayers }) => {
     return () => {
       socket.off("start-by-other");
     };
-  }, [myCharacter, otherCharacter, playGame, skillEffect, socket]);
+  }, [
+    myCharacter,
+    otherCharacter,
+    otherPlayers,
+    pads,
+    playGame,
+    skillEffect,
+    socket,
+  ]);
 
   return (
     <div>
@@ -126,14 +158,12 @@ const EnergyBattle = ({ socket, player, otherPlayers }) => {
       </OperationContainer>
       <EnergyBattleFrame
         socket={socket}
-        stream={stream}
         volumeMeter={volumeMeter}
-        isPlay={isPlay}
-        isReady={isReady}
-        player={player}
-        myCharacter={myCharacter}
-        otherCharacter={otherCharacter}
-        skillEffect={skillEffect}
+        roomStatus={roomStatus}
+        playerAvatar={playerAvatar.current}
+        otherAvatar={otherAvatar.current}
+        pad={pad.current}
+        skill={skill.current}
         canvasWidth={canvasWidth}
         canvasHeight={canvasHeight}
       />
