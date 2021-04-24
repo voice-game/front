@@ -30,8 +30,18 @@ class CharacterController {
 
     this.character = new Character();
 
-    addEventHelper(this.eventList, window, "keydown", this.handleKeyEvent.bind(this));
-    addEventHelper(this.eventList, window, "keyup", this.handleKeyEvent.bind(this));
+    addEventHelper(
+      this.eventList,
+      window,
+      "keydown",
+      this.handleKeyEvent.bind(this)
+    );
+    addEventHelper(
+      this.eventList,
+      window,
+      "keyup",
+      this.handleKeyEvent.bind(this)
+    );
   }
 
   draw(ctx, dots, timeStamp) {
