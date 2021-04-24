@@ -1,35 +1,47 @@
-import CharacterController from "./characterController";
-import pitchDetectorController from "./pitchDetectorController";
-import gameMap from "./gameMap";
-import Dots from "./dots";
+import CharacterController from "./CharacterController";
+import DotsController from "./Dots";
+import InteractionController from "./InteractionController";
 
-function Game(ref, { pitchDetectorRef }) {
+function Game(ref, { pitchDetectorRef, staticDots, interactionPoints }) {
   this.canvas = ref.current;
   this.ctx = this.canvas.getContext("2d");
-  this.pitchDetectorRef = pitchDetectorRef;
+  this.width = this.canvas.width;
+  this.height = this.canvas.height;
+
+  this.staticDots = staticDots;
 
   this.eventList = [];
 
-  this.gameMap = new gameMap(this.canvas.width, this.canvas.height);
-  this.dots = new Dots(this.canvas.width, this.canvas.height);
-  this.pitchDetectorController = new pitchDetectorController(
-    this.canvas.width,
-    this.canvas.height,
-    this.pitchDetectorRef
+  this.dotsController = new DotsController();
+  this.characterController = new CharacterController(
+    this.eventList,
+    this.width,
+    this.height,
   );
-  this.characterController = new CharacterController(this.eventList, this.canvas.height);
+  this.interactionController = new InteractionController(
+    this.height,
+    pitchDetectorRef,
+    interactionPoints,
+  );
 
-  this.animate();
+  window.requestAnimationFrame(this.animate.bind(this));
 }
 
 Game.prototype.animate = async function (timeStamp) {
+  this.ctx.clearRect(0, 0, this.width, this.height);
+
+  this.characterX = this.characterController.characterCenterX;
+  this.characterY = this.characterController.posY;
+
+  const dots = this.dotsController.fiilStaticDots(this.staticDots);
+  const roadDots = this.interactionController.getRoadDots(this.ctx, this.characterX, this.characterY);
+  const padDots = this.interactionController.getPadDots(this.ctx, this.characterController);
+
+  this.dotsController.mergeRoadDots(this.ctx, dots, roadDots);
+  this.dotsController.mergePadDots(dots, padDots);
+  this.characterController.draw(this.ctx, dots, timeStamp);
+
   this.animationFrameId = window.requestAnimationFrame(this.animate.bind(this));
-
-  this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-
-  const gameDots = this.dots.createEmptyDots();
-  this.gameMap.draw(this.ctx, gameDots);
-  this.characterController.draw(this.ctx, gameDots, timeStamp);
 };
 
 export default Game;

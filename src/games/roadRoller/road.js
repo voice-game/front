@@ -1,63 +1,66 @@
-function Road (canvasWidth, canvasHeight, pitchDetectorRef) {
-  this.canvasWidth = canvasWidth;
-  this.canvasHeight = canvasHeight;
-  this.pitchDetectorRef = pitchDetectorRef;
+import PitchPoint from "./PitchPoint";
+import RoadBrush from "./RoadBrush";
 
-  this.isDrawingRoad = false;
-  this.roadDots = [];
+class Road {
+  constructor(
+    canvasHeight,
+    pitchDetectorRef,
+    point
+  ) {
+    this.canvasHeight = canvasHeight;
+    this.pitchDetectorRef = pitchDetectorRef;
 
-  this.roadPoint = {
-    radius: 8,
-    initialX: 200,
-    initialY: this.canvasHeight - 200,
-    x: 200,
-    y: this.canvasHeight - 200,
-    maxX: this.canvasWidth - 200,
-    maxY: 50,
-    speed: 1,
-  };
-}
+    this.pitchPoint = new PitchPoint(point);
+    this.brush = new RoadBrush(point);
 
-Road.prototype.draw = function (ctx, detectorReady) {
-  if (!detectorReady) {
-    this.roadPoint.x = this.roadPoint.initialX;
-    this.roadPoint.y = this.roadPoint.initialY;
+    this.ready = false;
     this.isDrawingRoad = false;
     this.roadDots = [];
   }
 
-  this.drawRoadPoint(ctx);
-  this.drawRoad();
+  draw(ctx, characterX, characterY) {
+    this.pitchPoint.draw(ctx);
 
-  return this.roadDots;
-};
+    if (this.pitchPoint.checkCharacterReached(characterX ,characterY)) {
+      if (!this.ready) {
+        this.roadDots = [];
+      }
 
-Road.prototype.drawRoadPoint = function (ctx) {
-  ctx.beginPath();
-  ctx.fillStyle = "red";
-  ctx.arc(
-    this.roadPoint.x,
-    this.roadPoint.y,
-    this.roadPoint.radius,
-    0,
-    Math.PI * 2
-  );
-  ctx.fill();
-};
+      this.ready  = true;
+      this.brush.draw(ctx);
+    } else {
+      this.ready = false;
+      this.brush.resetBrush();
+    }
 
-Road.prototype.drawRoad = async function () {
-  const pitch = await this.pitchDetectorRef.current.getPitch();
+    if (this.ready) {
+      this.fillRoadDots();
+    }
 
-  if (pitch) {
-    this.isDrawingRoad = true;
+    return {
+      posX: this.brush.initialX,
+      dots: this.roadDots,
+    };
   }
 
-  if (this.isDrawingRoad && this.roadPoint.x <= this.roadPoint.maxX) {
-    this.roadPoint.x += this.roadPoint.speed;
-    this.roadPoint.y = this.canvasHeight - pitch - this.roadPoint.maxY;
+  async fillRoadDots() {
+    const pitch = await this.pitchDetectorRef.current.getPitch();
 
-    for (let i = 0; i < this.roadPoint.speed; i++) {
-      this.roadDots.push(this.roadPoint.y);
+    if (pitch) {
+      this.isDrawingRoad = true;
+    }
+
+    if (this.isDrawingRoad && this.brush.posX <= this.brush.maxX) {
+      this.brush.posX += this.brush.speed;
+      this.brush.posY = this.brush.maxY - Math.floor(pitch / 2);
+
+      if (this.brush.posY < this.brush.minY) {
+        this.brush.posY = this.brush.minY;
+      }
+
+      for (let i = 0; i < this.brush.speed; i++) {
+        this.roadDots.push(this.brush.posY);
+      }
     }
   }
 }
