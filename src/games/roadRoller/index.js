@@ -35,6 +35,7 @@ Game.prototype.animate = async function (timeStamp) {
 
   const dots = this.dotsController.fiilStaticDots(this.staticDots);
   const roadDots = this.interactionController.getRoadDots(this.ctx, this.characterX, this.characterY);
+  const padDots = this.interactionController.getPadDots(this.ctx, this.characterX, this.characterY)
 
   this.dotsController.fillRoadDots(this.ctx, dots, roadDots);
   this.characterController.draw(this.ctx, dots, timeStamp);

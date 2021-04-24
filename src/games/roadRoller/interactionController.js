@@ -1,5 +1,6 @@
-import { IMAGE_TYPE } from "../../constants/constants";
 import Road from "./Road";
+import { IMAGE_TYPE } from "../../constants/constants";
+import Pad from "./Pad";
 
 class InteractionController {
   constructor(
@@ -16,23 +17,31 @@ class InteractionController {
   }
 
   setInteractionPoints(interactionPoints) {
-    const points = [];
+    const points = {
+      [IMAGE_TYPE.ROAD]: [],
+      [IMAGE_TYPE.PAD]: [],
+    };
 
     for (const point of interactionPoints) {
-      switch (point.type) {
-        case IMAGE_TYPE.ROAD:
-          points.push(
-            new Road(
-              this.canvasHeight,
-              this.pitchDetectorRef,
-              point
-            )
-          );
-          break;
-        case IMAGE_TYPE.PAD:
-          break;
-        default:
-          break;
+      if (point.type === IMAGE_TYPE.ROAD) {
+        points[IMAGE_TYPE.ROAD].push(
+          new Road(
+            this.canvasHeight,
+            this.pitchDetectorRef,
+            point
+          )
+        );
+
+        continue;
+      }
+
+      if (point.type === IMAGE_TYPE.PAD) {
+        points[IMAGE_TYPE.PAD].push(
+          new Pad(
+            this.pitchDetectorRef,
+            point
+          )
+        );
       }
     }
 
@@ -42,11 +51,21 @@ class InteractionController {
   getRoadDots(ctx, characterX, characterY) {
     const roadDots = [];
 
-    for (const point of this.interactionPoints) {
+    for (const point of this.interactionPoints[IMAGE_TYPE.ROAD]) {
       roadDots.push(point.draw(ctx, characterX, characterY));
     }
 
     return roadDots;
+  }
+
+  getPadDots(ctx, characterX, characterY) {
+    const padDots = [];
+
+    for (const point of this.interactionPoints[IMAGE_TYPE.PAD]) {
+      padDots.push(point.draw(ctx, characterX, characterY));
+    }
+
+    return padDots;
   }
 }
 

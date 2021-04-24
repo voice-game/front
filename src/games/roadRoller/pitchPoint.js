@@ -1,9 +1,11 @@
 class PitchPoint {
   constructor(point) {
-    this.img = point.pointer.img;
+    this.img = new Image();
+    this.img.src = point.pointer.src;
+
     this.posX = point.posX;
     this.posY = point.posY;
-    this.range = point.range;
+    this.range = point.pointer.range;
   }
 
   draw(ctx) {

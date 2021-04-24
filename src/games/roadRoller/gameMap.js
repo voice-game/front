@@ -19,11 +19,11 @@ class GameMap {
       new MapImage(tile1),
     ];
     this.pitchPoints = [
-      new MapImage(point0),
-      new MapImage(point1),
+      point0,
+      point1,
     ];
     this.pads = [
-      new MapImage(pad0),
+      pad0,
     ];
 
     this.gameMap = {
@@ -39,23 +39,28 @@ class GameMap {
   fillInteractionPoints() {
     const length = this.canvasHeight / this.tileHeight;
 
-    this.fillInteractionPointsHelper(IMAGE_TYPE.ROAD, 0, 11, length - 2, 12, 1);
-    this.fillInteractionPointsHelper(IMAGE_TYPE.ROAD, 0, 3, 4, 14, 3, 1);
+    this.fillInteractionPointsHelper(IMAGE_TYPE.ROAD, 0, 11, length - 2, 12, 3);
+    this.fillInteractionPointsHelper(IMAGE_TYPE.ROAD, 0, 3, 4, 14, 3);
 
-    this.fillInteractionPointsHelper(IMAGE_TYPE.PAD, 1, 38, 8, 14, 3, 1, this.pads[0]);
-    this.fillInteractionPointsHelper(IMAGE_TYPE.PAD, 1, 24, 9, 14, 3, 1, this.pads[0]);
+    this.fillInteractionPointsHelper(IMAGE_TYPE.PAD, 1, 38, 10, 5, 2, 12, this.pads[0]);
+    this.fillInteractionPointsHelper(IMAGE_TYPE.PAD, 1, 24, 9, 5, 2, 18, this.pads[0]);
   }
 
   fillInteractionPointsHelper(type, index, x, y, width, height, range, pad) {
     this.gameMap.interactionPoints.push({
       type,
-      pointer: this.pitchPoints[index],
+      pointer: {
+        src: this.pitchPoints[index],
+        range: this.tileWidth,
+      },
       posX: x * this.tileWidth,
       posY: y * this.tileHeight,
       width: width * this.tileWidth,
       height: height * this.tileHeight,
-      range: range * this.tileWidth,
-      pad,
+      pad: {
+        src: pad,
+        range: this.tileWidth * range,
+      },
     });
   }
 
@@ -67,10 +72,9 @@ class GameMap {
     this.fillTilesHelper(1, 24, length - 2, 1, 1);
     this.fillTilesHelper(0, 24, length - 1, 1, 1);
 
-    this.fillTilesHelper(1, 32, length - 6, 1, 1, 4);
+    this.fillTilesHelper(1, 33, length - 6, 1, 1, 4);
     this.fillTilesHelper(1, 30, length - 4, 1, 1, 2);
 
-    this.fillTilesHelper(1, 38, length - 10, 1, 1, 1);
     this.fillTilesHelper(1, 38, length - 8, 1, 1, 1);
     this.fillTilesHelper(1, 38, length - 6, 1, 1, 1);
 

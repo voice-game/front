@@ -18,7 +18,7 @@ class Road {
     this.roadDots = [];
   }
 
-  draw (ctx, characterX, characterY) {
+  draw(ctx, characterX, characterY) {
     this.pitchPoint.draw(ctx);
 
     if (this.pitchPoint.checkCharacterReached(characterX ,characterY)) {
@@ -43,7 +43,7 @@ class Road {
     };
   }
 
-  async drawRoad () {
+  async drawRoad() {
     const pitch = await this.pitchDetectorRef.current.getPitch();
 
     if (pitch) {
