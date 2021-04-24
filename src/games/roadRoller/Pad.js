@@ -20,31 +20,36 @@ class Pad {
     this.maxX = this.posX + point.pad.range - this.width;
 
     this.pitchPivot = 100;
-    this.speed = 2;
+    this.speed = 1;
+    this.correction = 20;
 
     this.ready = false;
   }
 
-  draw(ctx, characterX, characterY) {
+  draw(ctx, characterController) {
+    this.chracterX = characterController.characterCenterX;
+    this.chracterY = characterController.posY;
+
     this.pitchPoint.draw(ctx);
 
     ctx.save();
     ctx.drawImage(
       this.img,
       this.posX,
-      this.posY,
+      this.posY - this.correction,
       this.width,
       this.height
     );
     ctx.restore();
 
-    if (this.pitchPoint.checkCharacterReached(characterX ,characterY)) {
+    if (this.pitchPoint.checkCharacterReached(this.chracterX, this.chracterY)) {
       this.ready = true;
     } else {
       this.ready = false;
 
       if (this.minX < this.posX) {
         this.posX -= this.speed;
+        this.checkOnBoard(characterController);
       }
     }
 
@@ -54,6 +59,7 @@ class Pad {
 
     return {
       posX: this.posX,
+      posY: this.posY,
       width: this.width,
     };
   }
@@ -67,6 +73,16 @@ class Pad {
 
     if (100 <= pitch && this.posX < this.maxX) {
       this.posX += this.speed;
+    }
+  }
+
+  checkOnBoard(characterController) {
+    if (this.posY !== this.chracterY) {
+      return;
+    }
+
+    if (this.posY < this.chracterX && this.chracterX < this.posX + this.width) {
+      characterController.posX -= this.speed;
     }
   }
 }

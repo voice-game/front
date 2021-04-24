@@ -10,4 +10,6 @@ export const MAX_PLAYER = {
 export const IMAGE_TYPE = {
   ROAD: "ROAD",
   PAD: "PAD",
+  TILE: "TILE",
+  OBJECT: "OBJECT",
 };

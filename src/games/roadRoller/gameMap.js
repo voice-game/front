@@ -18,6 +18,7 @@ class GameMap {
       new MapImage(tile0),
       new MapImage(tile1),
     ];
+
     this.pitchPoints = [
       point0,
       point1,
@@ -67,30 +68,30 @@ class GameMap {
   fillTiles() {
     const length = this.canvasHeight / this.tileHeight;
 
-    this.fillTilesHelper(1, 0, length - 1, 1, 1, 12);
+    this.fillTilesHelper(IMAGE_TYPE.TILE,1, 0, length - 1, 1, 1, 12);
 
-    this.fillTilesHelper(1, 24, length - 2, 1, 1);
-    this.fillTilesHelper(0, 24, length - 1, 1, 1);
+    this.fillTilesHelper(IMAGE_TYPE.TILE,1, 24, length - 2, 1, 1);
+    this.fillTilesHelper(IMAGE_TYPE.TILE,0, 24, length - 1, 1, 1);
 
-    this.fillTilesHelper(1, 33, length - 6, 1, 1, 4);
-    this.fillTilesHelper(1, 30, length - 4, 1, 1, 2);
+    this.fillTilesHelper(IMAGE_TYPE.TILE,1, 33, length - 6, 1, 1, 4);
+    this.fillTilesHelper(IMAGE_TYPE.TILE,1, 30, length - 4, 1, 1, 2);
 
-    this.fillTilesHelper(1, 38, length - 8, 1, 1, 1);
-    this.fillTilesHelper(1, 38, length - 6, 1, 1, 1);
+    this.fillTilesHelper(IMAGE_TYPE.TILE,1, 38, length - 8, 1, 1, 1);
+    this.fillTilesHelper(IMAGE_TYPE.TILE,1, 38, length - 6, 1, 1, 1);
 
-    this.fillTilesHelper(1, 24, length - 9, 1, 1, 2);
+    this.fillTilesHelper(IMAGE_TYPE.TILE,1, 24, length - 9, 1, 1, 2);
 
-    this.fillTilesHelper(1, 2, length - 10, 1, 1, 4);
+    this.fillTilesHelper(IMAGE_TYPE.TILE,1, 2, length - 10, 1, 1, 4);
 
-    this.fillTilesHelper(1, 3, 5, 1, 1, 1);
-    this.fillTilesHelper(1, 2, 7, 1, 1, 1);
+    this.fillTilesHelper(IMAGE_TYPE.TILE,1, 3, 5, 1, 1, 1);
+    this.fillTilesHelper(IMAGE_TYPE.TILE,1, 2, 7, 1, 1, 1);
 
-    this.fillTilesHelper(1, 18, 3, 1, 1, 8);
-    this.fillTilesHelper(0, 18, 4, 1, 1, 8);
-    this.fillTilesHelper(0, 18, 5, 1, 1, 8);
+    this.fillTilesHelper(IMAGE_TYPE.TILE,1, 18, 3, 1, 1, 8);
+    this.fillTilesHelper(IMAGE_TYPE.TILE,0, 18, 4, 1, 1, 8);
+    this.fillTilesHelper(IMAGE_TYPE.TILE,0, 18, 5, 1, 1, 8);
   }
 
-  fillTilesHelper(index, x, y, width, height, length) {
+  fillTilesHelper(type, index, x, y, width, height, length) {
     const posY = y * height * this.tileHeight;
     const myWidth = width * this.tileWidth;
     const myLength = length ? length : (this.canvasWidth - (x * myWidth)) / myWidth;
@@ -113,6 +114,7 @@ class GameMap {
       const posX = (x + i) * myWidth;
 
       this.gameMap.staticMap.push({
+        type,
         img: this.tiles[index],
         posX,
         posY,

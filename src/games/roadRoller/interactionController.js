@@ -58,11 +58,11 @@ class InteractionController {
     return roadDots;
   }
 
-  getPadDots(ctx, characterX, characterY) {
+  getPadDots(ctx, characterController) {
     const padDots = [];
 
     for (const point of this.interactionPoints[IMAGE_TYPE.PAD]) {
-      padDots.push(point.draw(ctx, characterX, characterY));
+      padDots.push(point.draw(ctx, characterController));
     }
 
     return padDots;

@@ -34,7 +34,7 @@ class Road {
     }
 
     if (this.ready) {
-      this.drawRoad();
+      this.fillRoadDots();
     }
 
     return {
@@ -43,7 +43,7 @@ class Road {
     };
   }
 
-  async drawRoad() {
+  async fillRoadDots() {
     const pitch = await this.pitchDetectorRef.current.getPitch();
 
     if (pitch) {
