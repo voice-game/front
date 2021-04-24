@@ -34,7 +34,6 @@ const ceilingImageUrls = CELINGS;
 const groundImageUrls = GROUNDS;
 
 const MonsterEscape = ({ socket, roomId }) => {
-  const [stream, setStream] = useState(null);
   const [volumeMeter, setVolumeMeter] = useState(null);
 
   const [isImageLoaded, setIsImageLoaded] = useState(false);
@@ -59,7 +58,6 @@ const MonsterEscape = ({ socket, roomId }) => {
         timeConstant: 0.9,
       });
 
-      setStream(stream);
       setVolumeMeter(volumeMeter);
     })();
   }, []);
@@ -161,15 +159,14 @@ const MonsterEscape = ({ socket, roomId }) => {
     <div>
       <div>Monster Escape</div>
       <MonsterEscapeFrame
-        socket={socket}
-        stream={stream}
-        volumeMeter={volumeMeter}
+        isInitGame={isInitGame}
+        setIsInitGame={setIsInitGame}
         gameElement={gameElement}
         canvasWidth={canvasWidth}
         canvasHeight={canvasHeight}
+        volumeMeter={volumeMeter}
+        socket={socket}
         roomId={roomId}
-        isInitGame={isInitGame}
-        setIsInitGame={setIsInitGame}
       />
       <GameResult />
     </div>
