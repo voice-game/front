@@ -27,7 +27,7 @@ class ControlBox {
   minusBtnPosY = 0;
 
   animate(ctx, isPlay, speed, volumeData) {
-    const {volume, volThreshold} = volumeData;
+    const { volume, volThreshold } = volumeData;
     const ctrlBox = this.images[0];
     const playBtn = this.images[1];
     const replayBtn = this.images[2];

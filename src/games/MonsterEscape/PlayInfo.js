@@ -6,35 +6,34 @@ class PlayInfo {
     this.fps = fps;
   }
 
-
   animate (ctx, characterInfo, frame) {
-    const {distance, life, maxLife} = characterInfo;
+    const { distance, life, maxLife } = characterInfo;
 
     const heart = this.images[0];
     const gameOver = this.images[1];
 
     const lifeBoxWidth = 0.2 * this.canvasWidth;
     const lifeBoxGap = lifeBoxWidth / maxLife;
-    const lifeBoxRightPosX = 0.98 * this.canvasWidth;
+    const lifeBoxLeftPosX = 0.02 * this.canvasWidth;
     const lifeBoxPosY = 0.05 * this.canvasHeight;
     const lifeWidth = lifeBoxGap - 0.005 * this.canvasWidth;
 
-    for (let i = 1; i < life + 1; i++) {
+    for (let i = 0; i < life; i++) {
       ctx.drawImage(
         heart,
-        lifeBoxRightPosX - lifeBoxGap * i,
+        lifeBoxLeftPosX + lifeBoxGap * i,
         lifeBoxPosY,
         lifeWidth,
         lifeWidth * (heart.height / heart.width),
       );
     }
 
-    ctx.font = `${0.05 * this.canvasWidth}px sans-serif`;
+    ctx.font = `bold ${0.05 * this.canvasWidth}px sans-serif`;
     ctx.textAlign = "right";
     ctx.fillStyle = "#7B1FA2";
     ctx.fillText(
-      `${Math.round(distance)} m`,
-      0.8 * this.canvasWidth,
+      `${Math.round(0.1 * distance)} m`,
+      0.2 * this.canvasWidth,
       0.2 * this.canvasHeight,
     );
 

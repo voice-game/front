@@ -8,7 +8,6 @@ const Canvas = styled.canvas`
 const FPS = 36;
 const TIME_LEFT_TO_RIGHT = 10;
 const TIME_TO_TO_BOTTOM = 5;
-// const monsterSpd = { spdX: 0, spdY: 0 };
 const SPEED_STEP = 0.5;
 const VOLUME_STEP = 0.5;
 
@@ -150,8 +149,10 @@ const MonsterEscapeFrame = ({
 
     if (isPlayBtnClicked) {
       if (isPlay) {
-        setIsInitGame(false);
+        myDataRef.current.normDistance = 0;
         setIsPlay(false);
+        setIsInitGame(false);
+        socket.emit("animation", roomId, myDataRef?.current);
       } else {
         setIsPlay(true);
       }
@@ -169,7 +170,7 @@ const MonsterEscapeFrame = ({
       setVolThreshold(Math.max(VOLUME_STEP, volThreshold - VOLUME_STEP));
     }
 
-  }, [isPlay, speed, setIsInitGame, volThreshold, gameElement.controlBox]);
+  }, [isPlay, speed, roomId, socket, setIsInitGame, volThreshold, gameElement.controlBox]);
 
   const handleClick = (ev) => handleControlBox(ev);
 
