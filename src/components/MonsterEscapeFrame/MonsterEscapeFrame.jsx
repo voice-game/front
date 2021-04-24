@@ -8,6 +8,9 @@ const Canvas = styled.canvas`
 `;
 
 const fps = 36;
+const timeLeftToRight = 10;
+const timeTopToBottom = 5;
+const monsterSpd = {spdX: 0, spdY: 0};
 
 const MonsterEscapeFrame = ({
   socket,
@@ -21,23 +24,27 @@ const MonsterEscapeFrame = ({
 }) => {
   const canvasRef = useRef(null);
   const animationIdRef = useRef(null);
-  const myPositionRef = useRef([0, 0]);
-  const yourPositionRef = useRef([0, 0]);
+  const myDataRef = useRef({});
+  const yourDataRef = useRef({});
   const [isPlay, setIsPlay] = useState(false);
   const [speed, setSpeed] = useState(1);
   const [volThreshold, setVolThreshold] = useState(3);
-  const volRef = useRef(0);
 
-  const grndSpeed = 0.005;
+  const grndSpd = canvasWidth / (fps * timeLeftToRight);
+  const verticalSpd = canvasHeight / (fps * timeTopToBottom);
+  // const monsterSpd = {spdX: grndSpd, spdY: verticalSpd};
+  monsterSpd.spdX = speed * grndSpd;
+  monsterSpd.spdY = speed * verticalSpd;
 
   useEffect(() => {
-    socket.on("animation", (yourPosition) => {
-      yourPositionRef.current = yourPosition;
+    socket.on("animation", (yourData) => {
+      // console.log(yourPosition);
+      yourDataRef.current = yourData;
     });
   }, []);
 
   useEffect(() => {
-    const { controlBox, playInfo, background, ceiling, ground, enemy, monster } = gameElement;
+    const { controlBox, playInfo, background, ceiling, ground, enemy, monster, multiPlayer } = gameElement;
 
     if (!isInitGame) return;
     const ctx = canvasRef.current.getContext("2d");
@@ -62,28 +69,37 @@ const MonsterEscapeFrame = ({
       singleFrame = (singleFrame + 1) % fps;
       doubleFrame = (doubleFrame + 1) % (2 * fps);
 
-      const volume = volumeMeter.getVolume();
-      volRef.current = volume;
+      const volumeData = {
+        volume : volumeMeter.getVolume(),
+        volThreshold: volThreshold,
+      };
 
       monster.setIsCollision([enemy], fps, "easy");
 
       ctx.clearRect(0, 0, canvasWidth, canvasHeight);
 
       background.animate(ctx);
-      ground.animate(ctx, speed * grndSpeed);
-      enemy.animate(ctx, 2 * speed * grndSpeed);
-      ceiling.animate(ctx, 0.5 * speed * grndSpeed);
-      controlBox.animate(ctx, isPlay, speed, volume, volThreshold);
+      ground.animate(ctx, speed * grndSpd);
+      ceiling.animate(ctx, 0.5 * speed * grndSpd);
+      controlBox.animate(ctx, isPlay, speed, volumeData);
 
       if (isPlay) {
-        monster.animate(ctx, speed * grndSpeed, volThreshold, volume, singleFrame);
-        socket.emit("animation", roomId, myPositionRef.current);
-        myPositionRef.current = {
+        enemy.animate(ctx, 2 * speed * grndSpd);
+        monster.animate(ctx, monsterSpd, volumeData, singleFrame);
+
+        myDataRef.current = {
           normPosX: monster.posX / canvasWidth,
           normPosY: monster.posY / canvasHeight,
+          normDistance: monster.distance / canvasWidth,
         };
+
+        socket.emit("animation", roomId, myDataRef.current);
+
+        const {normPosX, normPosY, normDistance} = yourDataRef.current;
+        multiPlayer.animate(ctx, normPosX, normPosY, monster.distance / canvasWidth, normDistance, singleFrame);
       } else {
-        monster.animate(ctx, 0, volThreshold, volume, singleFrame);
+        const monsterSpd = {spdX: 0, spdY: 0};
+        monster.animate(ctx, monsterSpd, volumeData, singleFrame);
       }
 
       const monsterInfo = {
@@ -93,7 +109,6 @@ const MonsterEscapeFrame = ({
       };
 
       playInfo.animate(ctx, monsterInfo, doubleFrame);
-
 
       animationIdRef.current = requestAnimationFrame(draw);
     };
@@ -112,6 +127,8 @@ const MonsterEscapeFrame = ({
     speed,
     volThreshold,
     socket,
+    grndSpd,
+    monsterSpd,
   ]);
 
   const handleClick = (ev) => {

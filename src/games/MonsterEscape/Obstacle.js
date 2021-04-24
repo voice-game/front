@@ -5,7 +5,7 @@ class Obstacle{
   }
 
   animate(ctx, speed) {
-    this.gameMap.forEach((point) => (point.posX -= speed * this.canvasWidth));
+    this.gameMap.forEach((point) => (point.posX -= speed));
 
     const firstPoint = this.gameMap[0];
     const secondPoint = this.gameMap[1];

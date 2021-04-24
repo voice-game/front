@@ -81,15 +81,17 @@ class Monster {
     this.isCollision = false;
   };
 
-  animate(ctx, speed, volThreshold, volume, frame) {
+  animate(ctx, speed, volumeData, frame) {
+    const {spdX, spdY} = speed;
+    const {volume, volThreshold} = volumeData;
     let image = this.images[0];
 
     if (volume > 2 * volThreshold) {
-      this.posY -= 2 * speed * this.canvasHeight;
+      this.posY -= 2 * spdY;
     } else if (volume > volThreshold) {
-      this.posY -= speed * this.canvasHeight;
+      this.posY -= spdY;
     } else {
-      this.posY += speed * this.canvasHeight;
+      this.posY += spdY;
     }
 
     if (this.posY >= this.canvasHeight - this.height) {
@@ -103,7 +105,7 @@ class Monster {
       this.isCollision = false;
     }
 
-    if (this.life) { this.distance += speed * this.canvasWidth }
+    if (this.life) { this.distance += spdX };
 
     if (this.shieldTime) { image = this.images[1] }
 
