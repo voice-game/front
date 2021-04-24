@@ -94,13 +94,7 @@ const MonsterEscape = ({ socket, roomId, player, otherPlayers }) => {
       [2, 5, 0, 4, 3, 6, 1],
     );
 
-    ceilingMap.setGameMap(
-      "onCeiling",
-      4,
-      [0, 0, 0, 0],
-      [0.2, 0.2, 0.2, 0.2],
-      [0, 0, 0, 0],
-    );
+    ceilingMap.setGameMap("onCeiling", 4, [0, 0, 0, 0], [0.2, 0.2, 0.2, 0.2], [0, 0, 0, 0]);
 
     const background = new Background(canvasWidth, canvasHeight, backgroundImages);
     const controlBox = new ControlBox(canvasWidth, canvasHeight, ctrlBoxImages);
@@ -108,8 +102,7 @@ const MonsterEscape = ({ socket, roomId, player, otherPlayers }) => {
     const ceiling = new Obstacle(ceilingMap.gameMap, canvasWidth);
     const ground = new Obstacle(groundMap.gameMap, canvasWidth);
     const enemy = new Obstacle(enemyMap.gameMap, canvasWidth);
-    const monster = new Monster(monsterImages, 0.1, 3);
-    monster.setPosition(canvasWidth, canvasHeight, 36);
+    const monster = new Monster(canvasWidth, canvasHeight, monsterImages, 0.1, 3, 36);
 
     setIsInitGame(true);
 

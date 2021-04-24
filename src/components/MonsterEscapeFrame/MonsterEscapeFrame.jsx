@@ -65,7 +65,7 @@ const MonsterEscapeFrame = ({
       const volume = volumeMeter.getVolume();
       volRef.current = volume;
 
-      const isCollision = monster.getIsCollision([enemy], fps, "easy");
+      monster.setIsCollision([enemy], fps, "easy");
 
       ctx.clearRect(0, 0, canvasWidth, canvasHeight);
 
@@ -74,15 +74,7 @@ const MonsterEscapeFrame = ({
         ground.animate(ctx, speed * grndSpeed);
         enemy.animate(ctx, 2 * speed * grndSpeed);
         ceiling.animate(ctx, 0.5 * speed * grndSpeed);
-        monster.animate(
-          ctx,
-          speed * grndSpeed,
-          volThreshold,
-          volume,
-          isCollision,
-          fps,
-          singleFrame,
-        );
+        monster.animate(ctx, speed * grndSpeed, volThreshold, volume, singleFrame);
         playInfo.animate(
           ctx,
           canvasWidth,
@@ -106,7 +98,7 @@ const MonsterEscapeFrame = ({
         background.animate(ctx);
         ground.animate(ctx, speed * grndSpeed);
         ceiling.animate(ctx, 0.5 * speed * grndSpeed);
-        monster.animate(ctx, 0, volThreshold, volume, false, fps, singleFrame);
+        monster.animate(ctx, 0, volThreshold, volume, singleFrame);
         playInfo.animate(
           ctx,
           canvasWidth,
@@ -137,7 +129,7 @@ const MonsterEscapeFrame = ({
     canvasHeight,
     speed,
     volThreshold,
-    socket
+    socket,
   ]);
 
   const handleClick = (ev) => {

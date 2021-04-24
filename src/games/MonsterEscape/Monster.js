@@ -1,130 +1,128 @@
-function Monster(images, size, life) {
-  this.type = 0;
-  this.images = images;
-  this.size = size;
-  this.distance = 0;
-  this.life = life;
-  this.maxLife = life;
-  this.shieldTime = 0;
-}
-
-Monster.prototype.setPosition = function (canvasWidth, canvasHeight, spriteTotal) {
-  const image = this.images[this.type];
-  this.canvasWidth = canvasWidth;
-  this.canvasHeight = canvasHeight;
-  this.height = this.size * canvasHeight;
-
-  this.width = (image.width / (spriteTotal * image.height)) * this.height;
-  this.posX = (canvasWidth - this.width) / 2;
-  this.posY = (canvasHeight - this.height) / 2;
-};
-
-Monster.prototype.getIsCollision = function (obstacles, shieldTime, level) {
-  let levelFactor;
-
-  switch (level) {
-    case "easy":
-      levelFactor = 0.5;
-      break;
-    case "normal":
-      levelFactor = 0.7;
-      break;
-    case "hard":
-      levelFactor = 1;
-      break;
-    default:
-      levelFactor = 20000;
+class Monster {
+  constructor(canvasWidth, canvasHeight, images, size, life, fps) {
+    this.images = images;
+    this.size = size;
+    this.life = life;
+    this.maxLife = life;
+    this.canvasWidth = canvasWidth;
+    this.canvasHeight = canvasHeight;
+    this.fps = fps;
+    this.setPosition();
   }
 
-  this.shieldTime = Math.max(this.shieldTime - 1, 0);
+  distance = 0;
+  shieldTime = 0;
+  posX = 0;
+  posY = 0;
+  width = 0;
+  height = 0
 
-  if (this.shieldTime) {
-    return false;
-  }
+  setPosition() {
+    const image = this.images[0];
+    this.height = this.size * this.canvasHeight;
+    this.width = this.height * (image.width / this.fps) / image.height;
+    this.posX = 0.5 * (this.canvasWidth - this.width);
+    this.posY = 0.5 * (this.canvasHeight - this.height);
+  };
 
-  for (let i = 0; i < obstacles.length; i++) {
-    const points = obstacles[i].gameMap;
+  setIsCollision(obstacles, shieldTime, level) {
+    let levelFactor;
 
-    const nearObstacles = points.filter((layout) => {
-      const { posX, posY, width, height } = layout;
-
-      const centerX = this.width / 2;
-      const centerY = this.height / 2;
-      const calibratedW = this.width * levelFactor;
-      const calibratedH = this.height * levelFactor;
-      const calibratedX = this.posX + centerX - calibratedW / 2;
-      const calibratedY = this.posY + centerY - calibratedH / 2;
-
-      const isXCollision =
-        (calibratedX <= posX && calibratedX + calibratedW >= posX) ||
-        (calibratedX <= posX + width && calibratedX + calibratedW >= posX + width);
-
-      const isYCollision =
-        (calibratedY <= posY && calibratedY + calibratedH >= posY) ||
-        (calibratedY <= posY + height && calibratedY + calibratedH >= posY + height);
-
-      return isXCollision && isYCollision;
-    });
-
-    if (nearObstacles.length) {
-      this.shieldTime = shieldTime;
-      console.log("collision");
-      this.isCollision = true;
-      return true;
+    switch (level) {
+      case "easy":
+        levelFactor = 0.5;
+        break;
+      case "normal":
+        levelFactor = 0.7;
+        break;
+      case "hard":
+        levelFactor = 1;
+        break;
+      default:
+        levelFactor = 0.7;
     }
-  }
 
-  this.isCollision = false;
-  return false;
-};
+    this.shieldTime = Math.max(this.shieldTime - 1, 0);
 
-Monster.prototype.animate = function (ctx, speed, volThreshold, volume, isCollision, fps, frame) {
-  if (volume > volThreshold) {
-    this.posY -= speed * this.canvasHeight;
-  } else {
-    this.posY += speed * this.canvasHeight;
-  }
+    if (this.shieldTime) {return}
 
-  if (this.posY >= this.canvasHeight - this.height) {
-    this.posY = this.canvasHeight - this.height;
-  }
+    for (let i = 0; i < obstacles.length; i++) {
+      const points = obstacles[i].gameMap;
 
-  if (this.posY <= 0) {
-    this.posY = 0;
-  }
+      const nearObstacles = points.filter((layout) => {
+        const { posX, posY, width, height } = layout;
 
-  if (isCollision) {
-    this.life = Math.max(0, this.life - 1);
-  }
+        const centerX = 0.5 * this.width;
+        const centerY = 0.5 * this.height;
+        const calibratedW = this.width * levelFactor;
+        const calibratedH = this.height * levelFactor;
+        const calibratedX = this.posX + centerX - 0.5 * calibratedW;
+        const calibratedY = this.posY + centerY - 0.5 * calibratedH;
 
-  if (this.life === 0) {
-  } else {
-    this.distance += speed * this.canvasWidth;
-  }
+        const isXCollision =
+          (calibratedX <= posX && calibratedX + calibratedW >= posX) ||
+          (calibratedX <= posX + width && calibratedX + calibratedW >= posX + width);
 
-  let image = this.images[0];
+        const isYCollision =
+          (calibratedY <= posY && calibratedY + calibratedH >= posY) ||
+          (calibratedY <= posY + height && calibratedY + calibratedH >= posY + height);
 
-  if (this.shieldTime) {
-    image = this.images[1];
-  }
+        return isXCollision && isYCollision;
+      });
 
-  if (!this.life) {
-    image = this.images[2];
-  }
+      if (nearObstacles.length) {
+        this.shieldTime = shieldTime;
+        this.isCollision = true;
 
-  const gap = image.width / fps;
+        return;
+      }
+    }
 
-  ctx.drawImage(
-    image,
-    gap * frame,
-    0,
-    gap,
-    image.height,
-    this.posX,
-    this.posY,
-    this.width,
-    this.height,
-  );
-};
+    this.isCollision = false;
+  };
+
+  animate(ctx, speed, volThreshold, volume, frame) {
+    let image = this.images[0];
+
+    if (volume > 2 * volThreshold) {
+      this.posY -= 2 * speed * this.canvasHeight;
+    } else if (volume > volThreshold) {
+      this.posY -= speed * this.canvasHeight;
+    } else {
+      this.posY += speed * this.canvasHeight;
+    }
+
+    if (this.posY >= this.canvasHeight - this.height) {
+      this.posY = this.canvasHeight - this.height;
+    }
+
+    if (this.posY <= 0) {this.posY = 0}
+
+    if (this.isCollision) {
+      this.life = Math.max(0, this.life - 1);
+      this.isCollision = false;
+    }
+
+    if (this.life) {this.distance += speed * this.canvasWidth}
+
+    if (this.shieldTime) {image = this.images[1]}
+
+    if (!this.life) {image = this.images[2]}
+
+    const gap = image.width / this.fps;
+
+    ctx.drawImage(
+      image,
+      gap * frame,
+      0,
+      gap,
+      image.height,
+      this.posX,
+      this.posY,
+      this.width,
+      this.height,
+    );
+  };
+}
 
 export default Monster;
