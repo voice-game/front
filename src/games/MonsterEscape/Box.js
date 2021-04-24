@@ -12,15 +12,14 @@ Box.prototype.animate = function (
   volThreshold,
 ) {
   const ctrlBox = this.images[0];
-  const settingBox = this.images[1];
-  const playBtn = this.images[2];
-  const replayBtn = this.images[3];
-  const minusBtn = this.images[4];
-  const plusBtn = this.images[5];
-  const downBtn = this.images[6];
-  const upBtn = this.images[7];
-  const volumeIcon = this.images[8];
-  const batSpdIcon = this.images[9];
+  const playBtn = this.images[1];
+  const replayBtn = this.images[2];
+  const minusBtn = this.images[3];
+  const plusBtn = this.images[4];
+  const downBtn = this.images[5];
+  const upBtn = this.images[6];
+  const volumeIcon = this.images[7];
+  const batSpdIcon = this.images[8];
 
   const ctrlBoxAspectRatio = ctrlBox.width / ctrlBox.height;
   const ctrlBoxHeight = 0.2 * canvasHeight;

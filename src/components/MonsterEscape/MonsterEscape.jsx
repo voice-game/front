@@ -11,55 +11,24 @@ import Obstacle from "../../games/MonsterEscape/Obstacle";
 import PlayInfo from "../../games/MonsterEscape/PlayInfo";
 import GameMap from "../../games/MonsterEscape/GameMap";
 
-import leftTree from "../../images/monsterEscape/leftTree.png";
-import rightTree from "../../images/monsterEscape/rightTree.png";
-import hill from "../../images/monsterEscape/hill.png";
-import house from "../../images/monsterEscape/house.png";
-import light from "../../images/monsterEscape/light.png";
-import tomb from "../../images/monsterEscape/tomb.png";
-import fence from "../../images/monsterEscape/fence.png";
-import spider from "../../images/monsterEscape/spider.png";
-import witch from "../../images/monsterEscape/witch.png";
-import cyclops from "../../images/monsterEscape/cyclops.png";
-import dionaea from "../../images/monsterEscape/dionaea.png";
-import dagger from "../../images/monsterEscape/dagger.png";
-import bat from "../../images/monsterEscape/bat.png";
-import batCollision from "../../images/monsterEscape/batCollision.png";
-import batDead from "../../images/monsterEscape/batDead.png";
-import background from "../../images/monsterEscape/background.png";
-import heart from "../../images/monsterEscape/heart.png";
-import gameOver from "../../images/monsterEscape/gameOver.png";
-import controlBox from "../../images/monsterEscape/controlBox.png";
-import settingBox from "../../images/monsterEscape/settingBox.png";
-import playButton from "../../images/monsterEscape/playButton.png";
-import replayButton from "../../images/monsterEscape/replayButton.png";
-import minusButton from "../../images/monsterEscape/minusButton.png";
-import plusButton from "../../images/monsterEscape/plusButton.png";
-import downButton from "../../images/monsterEscape/downButton.png";
-import upButton from "../../images/monsterEscape/upButton.png";
-import volumeIcon from "../../images/monsterEscape/volumeIcon.png";
-import batSpeed from "../../images/monsterEscape/batSpeed.png";
+import BACKGROUNDS from "../../images/monsterEscape/backgrounds/backgrounds";
+import CHARACTERS from "../../images/monsterEscape/characters/characters";
+import ENEMIES from "../../images/monsterEscape/enemies/enemies";
+import CELINGS from "../../images/monsterEscape/celings/celings";
+import GROUNDS from "../../images/monsterEscape/grounds/grounds";
+import CONTROLBOXES from "../../images/monsterEscape/controlBoxes/controlBoxes";
+import PLAYINFORMATIONS from "../../images/monsterEscape/playInformations/playInformations";
 
 const canvasWidth = document.body.clientWidth * 0.8;
 const canvasHeight = document.body.clientWidth * 0.6;
-const playInfoImageUrls = [heart, gameOver];
-const boxImageUrls = [
-  controlBox,
-  settingBox,
-  playButton,
-  replayButton,
-  minusButton,
-  plusButton,
-  downButton,
-  upButton,
-  volumeIcon,
-  batSpeed,
-];
-const backgroundImageUrls = [background];
-const monsterImageUrls = [bat, batCollision, batDead];
-const enenmyImageUrls = [witch, cyclops, dionaea, dagger];
-const ceilingImageUrls = [spider];
-const groundImageUrls = [leftTree, rightTree, hill, house, light, tomb, fence];
+
+const playInfoImageUrls = PLAYINFORMATIONS;
+const boxImageUrls = CONTROLBOXES;
+const backgroundImageUrls = BACKGROUNDS;
+const monsterImageUrls = CHARACTERS;
+const enenmyImageUrls = ENEMIES;
+const ceilingImageUrls = CELINGS;
+const groundImageUrls = GROUNDS;
 
 const MonsterEscape = ({ socket, roomId, player, otherPlayers }) => {
   const [stream, setStream] = useState({});

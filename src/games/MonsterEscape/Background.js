@@ -5,17 +5,7 @@ function Background(canvasWidth, canvasHeight, images) {
 }
 
 Background.prototype.animate = function (ctx) {
-  ctx.drawImage(
-    this.images[0],
-    0,
-    100,
-    263,
-    263,
-    0,
-    0,
-    this.canvasWidth,
-    this.canvasHeight,
-  );
+  ctx.drawImage(this.images[0], 0, 100, 263, 263, 0, 0, this.canvasWidth, this.canvasHeight);
 };
 
 export default Background;
