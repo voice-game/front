@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import useImage from "../../hooks/useImage";
 import MonsterEscapeFrame from "../MonsterEscapeFrame/MonsterEscapeFrame";
 import GameResult from "../GameResult/GameResult";
@@ -31,17 +31,20 @@ const enenmyImageUrls = ENEMIES;
 const ceilingImageUrls = CELINGS;
 const groundImageUrls = GROUNDS;
 
-const MonsterEscape = ({ socket, roomId, player, otherPlayers }) => {
-  const [stream, setStream] = useState({});
-  const [volumeMeter, setVolumeMeter] = useState({});
+const MonsterEscape = ({ socket, roomId }) => {
+  const [stream, setStream] = useState(null);
+  const [volumeMeter, setVolumeMeter] = useState(null);
+
+  const [isImageLoaded, setIsImageLoaded] = useState(false);
+  const [playInfoImages, setPlayInfoImages] = useState(null);
+  const [ctrlBoxImages, setCtrlBoxImages] = useState(null);
+  const [backgroundImages, setBackgroundImages] = useState(null);
+  const [monsterImages, setMonsterImages] = useState(null);
+  const [groundImages, setGroundImages] = useState(null);
+  const [enemyImages, setEnenmyImageUrls] = useState(null);
+  const [ceilingImages, setCeilingImages] = useState(null);
+
   const [isInitGame, setIsInitGame] = useState(false);
-  const [playInfoImages, setPlayInfoImages] = useState([]);
-  const [ctrlBoxImages, setCtrlBoxImages] = useState([]);
-  const [backgroundImages, setBackgroundImages] = useState([]);
-  const [monsterImages, setMonsterImages] = useState([]);
-  const [groundImages, setGroundImages] = useState([]);
-  const [enemyImages, setEnenmyImageUrls] = useState([]);
-  const [ceilingImages, setCeilingImages] = useState([]);
   const [gameElement, setGameElement] = useState({});
 
   useEffect(() => {
@@ -68,12 +71,28 @@ const MonsterEscape = ({ socket, roomId, player, otherPlayers }) => {
   useImage(enenmyImageUrls, setEnenmyImageUrls);
 
   useEffect(() => {
-    if (!monsterImages.length) { return };
-    if (!groundImages.length) { return };
-    if (!enemyImages.length) { return };
-    if (!ceilingImages.length) { return } ;
-    if (!playInfoImages.length) { return };
-    if (!ctrlBoxImages.length) { return } ;
+    const images = [
+      monsterImages,
+      groundImages,
+      enemyImages,
+      ceilingImages,
+      playInfoImages,
+      ctrlBoxImages
+    ];
+
+    const isImageLoaded = images.every((image) => image?.length);
+    if (isImageLoaded) { setIsImageLoaded(true) };
+  }, [
+    monsterImages,
+    groundImages,
+    enemyImages,
+    ceilingImages,
+    playInfoImages,
+    ctrlBoxImages
+  ]);
+
+  useEffect(() => {
+    if (!isImageLoaded) { return };
 
     const ceilingMap = new GameMap("celing", canvasWidth, canvasHeight, ceilingImages);
     const groundMap = new GameMap("ground", canvasWidth, canvasHeight, groundImages);
@@ -95,7 +114,13 @@ const MonsterEscape = ({ socket, roomId, player, otherPlayers }) => {
       [2, 5, 0, 4, 3, 6, 1],
     );
 
-    ceilingMap.setGameMap("onCeiling", 4, [0, 0, 0, 0], [0.2, 0.2, 0.2, 0.2], [0, 0, 0, 0]);
+    ceilingMap.setGameMap(
+      "onCeiling",
+      4,
+      [0, 0, 0, 0],
+      [0.2, 0.2, 0.2, 0.2],
+      [0, 0, 0, 0]
+    );
 
     const background = new Background(canvasWidth, canvasHeight, backgroundImages);
     const controlBox = new ControlBox(canvasWidth, canvasHeight, ctrlBoxImages);
@@ -120,6 +145,7 @@ const MonsterEscape = ({ socket, roomId, player, otherPlayers }) => {
     });
   }, [
     isInitGame,
+    isImageLoaded,
     ctrlBoxImages,
     playInfoImages,
     backgroundImages,
