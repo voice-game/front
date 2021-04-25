@@ -33,13 +33,13 @@ const App = ({ authService }) => {
               <GameList />
             </Route>
 
-            <Route exact path="/games/roadRoller">
+            {/* <Route exact path="/games/roadRoller">
               <GameRoomList />
             </Route>
 
             <Route path="/games/roadRoller/:roomId">
               <GameRoom />
-            </Route>
+            </Route> */}
 
             <Route exact path="/games/monsterEscape">
               <GameRoomList />
