@@ -99,7 +99,7 @@ const MonsterEscapeFrame = ({
       setIsFinished(true);
     });
     return () => {
-      socket.off("anmation");
+      socket.off("monsterescape-play");
       socket.off("monsterescape-start");
       socket.off("monsterescape-finish");
     };
@@ -118,8 +118,8 @@ const MonsterEscapeFrame = ({
         ceiling,
         ground,
         enemy,
-        monster,
-        multiPlayer
+        myMonster,
+        yourMonster,
       } = gameElement;
 
       if (!thenTimeRef.current) { thenTimeRef.current = timeStamp }
@@ -142,7 +142,7 @@ const MonsterEscapeFrame = ({
         isPlay: isPlay,
       };
 
-      monster.setIsCollision([enemy], FPS, "easy");
+      myMonster.setIsCollision([enemy], FPS, "easy");
 
       ctx.clearRect(0, 0, canvasWidth, canvasHeight);
       background.animate(ctx);
@@ -153,34 +153,34 @@ const MonsterEscapeFrame = ({
         const monsterSpd = { spdX: speed * grndSpd, spdY: speed * verticalSpd };
         enemy.animate(ctx, 2 * speed * grndSpd);
 
-        monster.animate(ctx, monsterSpd, volumeData, singleFrameRef.current);
+        myMonster.animate(ctx, monsterSpd, volumeData, singleFrameRef.current);
 
         myDataRef.current = {
-          normPosX: monster.posX / canvasWidth,
-          normPosY: monster.posY / canvasHeight,
-          normDistance: monster.distance / canvasWidth,
-          shieldTime: monster.shieldTime,
-          life: monster.life
+          normPosX: myMonster.posX / canvasWidth,
+          normPosY: myMonster.posY / canvasHeight,
+          normDistance: myMonster.distance / canvasWidth,
+          shieldTime: myMonster.shieldTime,
+          life: myMonster.life
         };
 
         socket.emit("monsterescape-play", roomId, myDataRef?.current);
 
         if (yourDataRef.current) {
-          multiPlayer.animate(ctx, myDataRef.current, yourDataRef.current, singleFrameRef.current);
+          yourMonster.animate(ctx, myDataRef.current, yourDataRef.current, singleFrameRef.current);
         }
 
         if (myDataRef.current.normDistance > 5) {
-          monster.isWinner = true;
+          myMonster.isWinner = true;
           socket.emit("monsterescape-finish", roomId);
           setIsFinished(true);
         }
       } else {
         const monsterSpd = { spdX: 0, spdY: 0 };
-        monster.animate(ctx, monsterSpd, volumeData, singleFrameRef.current);
+        myMonster.animate(ctx, monsterSpd, volumeData, singleFrameRef.current);
       }
 
       controlBox.animate(ctx, isPlay, speed, volumeData);
-      playInfo.animate(ctx, monster, gameStatus, doubleFrameRef.current);
+      playInfo.animate(ctx, myMonster, gameStatus, doubleFrameRef.current);
 
       animationIdRef.current = requestAnimationFrame(draw);
     };

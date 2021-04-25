@@ -10,8 +10,8 @@ class PlayInfo {
     const { distance, life, maxLife } = characterInfo;
     const { isPlay, isFinished } = gameStatus;
 
-    const heart = this.images[0];
-    const gameOver = this.images[1];
+    const heart = this.images.heart;
+    const gameOver = this.images.gameOver;
 
     const lifeBoxWidth = 0.2 * this.canvasWidth;
     const lifeBoxGap = lifeBoxWidth / maxLife;

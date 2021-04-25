@@ -36,6 +36,7 @@ class GameMap {
     const height = this.canvasHeight;
 
     const gameMap = imageMap.map((image, index) => {
+
       return this.generatePoint(
         type,
         (index - 1) * gap,

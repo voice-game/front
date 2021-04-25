@@ -19,7 +19,7 @@ class Monster {
   height = 0
 
   setPosition() {
-    const image = this.images[0];
+    const image = this.images.normal;
     this.height = this.size * this.canvasHeight;
     this.width = this.height * (image.width / this.fps) / image.height;
     this.posX = 0.5 * (this.canvasWidth - this.width);
@@ -85,7 +85,7 @@ class Monster {
   animate(ctx, speed, volumeData, frame) {
     const { spdX, spdY } = speed;
     const { volume, volThreshold } = volumeData;
-    let image = this.images[0];
+    let image = this.images.normal;
 
     if (volume > 2 * volThreshold) {
       this.posY -= 2 * spdY;
@@ -108,9 +108,9 @@ class Monster {
 
     if (this.life) { this.distance += spdX };
 
-    if (this.shieldTime) { image = this.images[1] }
+    if (this.shieldTime) { image = this.images.collision }
 
-    if (!this.life) { image = this.images[2] }
+    if (!this.life) { image = this.images.dead }
 
     const gap = image.width / this.fps;
 

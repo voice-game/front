@@ -7,7 +7,7 @@ class Background{
 
   animate = function (ctx) {
     ctx.drawImage(
-      this.images[0],
+      this.images.background,
       0,
       100,
       263,

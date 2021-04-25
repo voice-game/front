@@ -50,7 +50,9 @@
       "space-infix-ops": "warn",
       "comma-spacing": "warn",
       "block-spacing": "warn",
+      "semi-spacing": "warn",
       "object-curly-spacing": ["warn", "always"],
+      "key-spacing": "warn",
       "eol-last": "warn",
       "no-undef": "warn"
     }
