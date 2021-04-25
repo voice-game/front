@@ -18,6 +18,8 @@ import OBSTACLES from "../../images/monsterEscape/obstacles/obstacles";
 import CONTROLBOXES from "../../images/monsterEscape/controlBoxes/controlBoxes";
 import PLAYINFORMATIONS from "../../images/monsterEscape/playInformations/playInformations";
 
+import gameMap from "../../games/MonsterEscape/gameMap.json";
+
 const FPS = 36;
 const { innerWidth, innerHeight } = window;
 const minViewPort = Math.min(innerWidth, innerHeight);
@@ -30,7 +32,7 @@ const backgroundImageUrl = BACKGROUNDS.background;
 const myMonsterImageUrl = CHARACTERS.bat;
 const yourMonsterImageUrl = CHARACTERS.goblin;
 const enenmyImageUrl = OBSTACLES.enemy;
-const ceilingImageUrl = OBSTACLES.celing;
+const ceilingImageUrl = OBSTACLES.ceiling;
 const groundImageUrl = OBSTACLES.ground;
 
 const MonsterEscape = ({ socket, creater, player, roomId, otherPlayers }) => {
@@ -87,33 +89,13 @@ const MonsterEscape = ({ socket, creater, player, roomId, otherPlayers }) => {
   useEffect(() => {
     if (!isImageLoaded) { return };
 
-    const ceilingMap = new GameMap("celing", canvasWidth, canvasHeight, ceilingImages);
+    const ceilingMap = new GameMap("ceiling", canvasWidth, canvasHeight, ceilingImages);
     const groundMap = new GameMap("ground", canvasWidth, canvasHeight, groundImages);
     const enemyMap = new GameMap("enemy", canvasWidth, canvasHeight, enemyImages);
 
-    enemyMap.setGameMap(
-      "onAir",
-      7,
-      [0.5, 0.2, 0.6, 0.2, 0.3, 0.6, 0.4],
-      [0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1],
-      ["cyclops", "dagger", "dionaea", "witch", "cyclops", "dionaea", "witch"]
-    );
-
-    groundMap.setGameMap(
-      "onGround",
-      7,
-      [0, 0, 0, 0, 0, 0, 0],
-      [0.05, 0.1, 0.2, 0.2, 0.3, 0.05, 0.2],
-      ["hill", "tomb", "leftTree", "light", "house", "fence", "rightTree"]
-    );
-
-    ceilingMap.setGameMap(
-      "onCeiling",
-      4,
-      [0, 0, 0, 0],
-      [0.2, 0.2, 0.2, 0.2],
-      ["spider", "spider", "spider", "spider"]
-    );
+    enemyMap.setGameMap(gameMap.enemy);
+    groundMap.setGameMap(gameMap.ground);
+    ceilingMap.setGameMap(gameMap.ceiling);
 
     const background = new Background(canvasWidth, canvasHeight, backgroundImages);
     const controlBox = new ControlBox(canvasWidth, canvasHeight, ctrlBoxImages);

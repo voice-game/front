@@ -29,20 +29,20 @@ class GameMap {
     };
   };
 
-  setGameMap(type, total, posYMap, heightMap, imageMap) {
-    const gap = this.canvasWidth * (1 / (total - 2));
+  setGameMap(mapData) {
+    const gap = mapData.size * this.canvasWidth * (1 / (mapData.total - 2));
     const posY = this.canvasHeight;
     const images = this.images;
     const height = this.canvasHeight;
 
-    const gameMap = imageMap.map((image, index) => {
+    const gameMap = mapData.image.map((image, index) => {
 
       return this.generatePoint(
-        type,
+        mapData.type,
         (index - 1) * gap,
-        posYMap[index] * posY,
-        heightMap[index] * height,
-        images[imageMap[index]],
+        mapData.posY[index] * posY,
+        mapData.height[index] * height,
+        images[mapData.image[index]],
       );
     });
 

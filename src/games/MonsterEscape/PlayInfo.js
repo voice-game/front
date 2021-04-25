@@ -9,7 +9,7 @@ class PlayInfo {
   animate (ctx, characterInfo, gameStatus, frame) {
     const { distance, life, maxLife, isWinner } = characterInfo;
     const { goalDistance, isPlay, isFinished } = gameStatus;
-    const { getReady, gameOver, victory, youLose } = this.images;
+    const { getReady, victory, youLose } = this.images;
 
     const heart = this.images.heart;
     const lifeBoxWidth = 0.2 * this.canvasWidth;
@@ -59,8 +59,6 @@ class PlayInfo {
       const gap = gameStatusImg.width / this.fps;
       const width = 0.5 * this.canvasWidth;
       const height = width * (gameStatusImg.height / gap);
-      const x = this.canvasWidth / 2 - width / 2;
-      const y = this.canvasHeight / 2 - height / 2;
 
       ctx.drawImage(
         gameStatusImg,
@@ -68,8 +66,8 @@ class PlayInfo {
         0,
         gap,
         gameStatusImg.height,
-        x,
-        y,
+        this.canvasWidth / 2 - width / 2,
+        this.canvasHeight / 2 - height / 2,
         width,
         height,
       );

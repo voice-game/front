@@ -193,8 +193,6 @@ const MonsterEscapeFrame = ({
         if (myDataRef.current.normDistance >= GOAL_DISTANCE) {
           myMonster.isWinner = true;
           socket.emit("monsterescape-finish", roomId);
-          // setIsFinished(true);
-          console.log("finish")
         }
       } else {
         const monsterSpd = { spdX: 0, spdY: 0 };

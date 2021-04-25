@@ -27,7 +27,7 @@ const OBSTACLES = {
     tomb,
     fence,
   },
-  celing: {
+  ceiling: {
     spider,
   },
 };
