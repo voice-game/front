@@ -10,6 +10,7 @@ class Monster {
     this.setPosition();
   }
 
+  isWinner = false;
   distance = 0;
   shieldTime = 0;
   posX = 0;
@@ -18,7 +19,7 @@ class Monster {
   height = 0
 
   setPosition() {
-    const image = this.images[0];
+    const image = this.images.normal;
     this.height = this.size * this.canvasHeight;
     this.width = this.height * (image.width / this.fps) / image.height;
     this.posX = 0.5 * (this.canvasWidth - this.width);
@@ -30,20 +31,19 @@ class Monster {
 
     switch (level) {
       case "easy":
-        levelFactor = 0.5;
+        levelFactor = 0;
         break;
       case "normal":
-        levelFactor = 0.7;
+        levelFactor = 0.3;
         break;
       case "hard":
-        levelFactor = 1;
+        levelFactor = 0.5;
         break;
       default:
         levelFactor = 0.7;
     }
 
     this.shieldTime = Math.max(this.shieldTime - 1, 0);
-
     if (this.shieldTime) { return }
 
     for (let i = 0; i < obstacles.length; i++) {
@@ -60,12 +60,12 @@ class Monster {
         const calibratedY = this.posY + centerY - 0.5 * calibratedH;
 
         const isXCollision =
-          (calibratedX <= posX && calibratedX + calibratedW >= posX) ||
-          (calibratedX <= posX + width && calibratedX + calibratedW >= posX + width);
+          ((calibratedX >= posX) && (calibratedX <= posX + width)) ||
+          ((calibratedX + calibratedW >= posX) && (calibratedX + calibratedW <= posX + width));
 
         const isYCollision =
-          (calibratedY <= posY && calibratedY + calibratedH >= posY) ||
-          (calibratedY <= posY + height && calibratedY + calibratedH >= posY + height);
+          ((calibratedY >= posY) && (calibratedY <= posY + height)) ||
+          ((calibratedY + calibratedH >= posY) && (calibratedY + calibratedH <= posY + height));
 
         return isXCollision && isYCollision;
       });
@@ -82,9 +82,9 @@ class Monster {
   };
 
   animate(ctx, speed, volumeData, frame) {
-    const {spdX, spdY} = speed;
-    const {volume, volThreshold} = volumeData;
-    let image = this.images[0];
+    const { spdX, spdY } = speed;
+    const { volume, volThreshold } = volumeData;
+    let image = this.images.normal;
 
     if (volume > 2 * volThreshold) {
       this.posY -= 2 * spdY;
@@ -107,9 +107,9 @@ class Monster {
 
     if (this.life) { this.distance += spdX };
 
-    if (this.shieldTime) { image = this.images[1] }
+    if (this.shieldTime) { image = this.images.collision }
 
-    if (!this.life) { image = this.images[2] }
+    if (!this.life) { image = this.images.dead }
 
     const gap = image.width / this.fps;
 

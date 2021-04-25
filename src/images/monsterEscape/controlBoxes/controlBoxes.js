@@ -8,16 +8,18 @@ import upButton from "./upButton.png";
 import volumeIcon from "./volumeIcon.png";
 import batSpeed from "./batSpeed.png";
 
-const CONTROLBOXES = [
-  controlBox,
-  playButton,
-  replayButton,
-  minusButton,
-  plusButton,
-  downButton,
-  upButton,
-  volumeIcon,
-  batSpeed,
-];
+const CONTROLBOXES = {
+  controlBox: {
+    controlBox: controlBox,
+    playButton: playButton,
+    replayButton: replayButton,
+    minusButton: minusButton,
+    plusButton: plusButton,
+    downButton: downButton,
+    upButton: upButton,
+    volumeIcon: volumeIcon,
+    speedIcon: batSpeed,
+  }
+};
 
 export default CONTROLBOXES;
