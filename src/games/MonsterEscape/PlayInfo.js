@@ -1,3 +1,5 @@
+let i = 0
+
 class PlayInfo {
   constructor (canvasWidth, canvasHeight, images, fps){
     this.canvasWidth = canvasWidth;
@@ -51,18 +53,20 @@ class PlayInfo {
         }
       }
 
-      const gap = gameStatusImg.height / this.fps;
+      const gap = gameStatusImg.width / this.fps;
       const width = 0.5 * this.canvasWidth;
-      const height = width * (gap / gameStatusImg.width);
+      const height = width * (gameStatusImg.height / gap);
+      const x = this.canvasWidth / 2 - width / 2;
+      const y = this.canvasHeight / 2 - height / 2;
 
       ctx.drawImage(
         gameStatusImg,
-        0,
         gap * frame,
-        gameStatusImg.width,
+        0,
         gap,
-        this.canvasWidth / 2 - width / 2,
-        this.canvasHeight / 2 - height / 2,
+        gameStatusImg.height,
+        x,
+        y,
         width,
         height,
       );

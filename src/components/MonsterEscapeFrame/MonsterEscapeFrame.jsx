@@ -108,8 +108,9 @@ const MonsterEscapeFrame = ({
   const drawCanvas = useCallback(() => {
     if (!isInitGame || !volumeMeter) { return };
 
+    const ctx = canvasRef.current.getContext("2d");
+
     const draw = (timeStamp) => {
-      const ctx = canvasRef.current.getContext("2d");
       const timeStep = 1000 / FPS;
       const {
         controlBox,
@@ -133,7 +134,7 @@ const MonsterEscapeFrame = ({
       doubleFrameRef.current = (doubleFrameRef.current + 1) % (2 * FPS);
 
       const volumeData = {
-        volume : volumeMeter.getVolume(),
+        volume: volumeMeter.getVolume(),
         volThreshold: volThreshold,
       };
 
@@ -180,7 +181,7 @@ const MonsterEscapeFrame = ({
       }
 
       controlBox.animate(ctx, isPlay, speed, volumeData);
-      playInfo.animate(ctx, myMonster, gameStatus, doubleFrameRef.current);
+      playInfo.animate(ctx, myMonster, gameStatus, singleFrameRef.current);
 
       animationIdRef.current = requestAnimationFrame(draw);
     };

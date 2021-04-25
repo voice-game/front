@@ -18,6 +18,7 @@ import OBSTACLES from "../../images/monsterEscape/obstacles/obstacles";
 import CONTROLBOXES from "../../images/monsterEscape/controlBoxes/controlBoxes";
 import PLAYINFORMATIONS from "../../images/monsterEscape/playInformations/playInformations";
 
+const FPS = 36;
 const { innerWidth, innerHeight } = window;
 const minViewPort = Math.min(innerWidth, innerHeight);
 const canvasWidth = 0.8 * minViewPort;
@@ -116,12 +117,12 @@ const MonsterEscape = ({ socket, creater, player, roomId, otherPlayers }) => {
 
     const background = new Background(canvasWidth, canvasHeight, backgroundImages);
     const controlBox = new ControlBox(canvasWidth, canvasHeight, ctrlBoxImages);
-    const playInfo = new PlayInfo(canvasWidth, canvasHeight, playInfoImages, 72);
+    const playInfo = new PlayInfo(canvasWidth, canvasHeight, playInfoImages, FPS);
     const ceiling = new Obstacle(ceilingMap.gameMap, canvasWidth);
     const ground = new Obstacle(groundMap.gameMap, canvasWidth);
     const enemy = new Obstacle(enemyMap.gameMap, canvasWidth);
-    const myMonster = new Monster(canvasWidth, canvasHeight, myMonsterImages, 0.1, 3, 36);
-    const yourMonster = new MultiPlayer(canvasWidth, canvasHeight, yourMonsterImages, 0.1, 36);
+    const myMonster = new Monster(canvasWidth, canvasHeight, myMonsterImages, 0.1, 3, FPS);
+    const yourMonster = new MultiPlayer(canvasWidth, canvasHeight, yourMonsterImages, 0.1, FPS);
 
     setIsInitGame(true);
 
