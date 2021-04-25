@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import useImage from "../../hooks/useImage";
 import MonsterEscapeFrame from "../MonsterEscapeFrame/MonsterEscapeFrame";
 import GameResult from "../GameResult/GameResult";
@@ -35,14 +35,15 @@ const MonsterEscape = ({ socket, roomId, player, otherPlayers }) => {
   const [stream, setStream] = useState({});
   const [volumeMeter, setVolumeMeter] = useState({});
   const [isInitGame, setIsInitGame] = useState(false);
-  const [playInfoImages, setPlayInfoImages] = useState([]);
-  const [ctrlBoxImages, setCtrlBoxImages] = useState([]);
-  const [backgroundImages, setBackgroundImages] = useState([]);
-  const [monsterImages, setMonsterImages] = useState([]);
-  const [groundImages, setGroundImages] = useState([]);
-  const [enemyImages, setEnenmyImageUrls] = useState([]);
-  const [ceilingImages, setCeilingImages] = useState([]);
   const [gameElement, setGameElement] = useState({});
+
+  const backgroundImages = useImage(backgroundImageUrls, []);
+  const ctrlBoxImages = useImage(boxImageUrls, []);
+  const playInfoImages = useImage(playInfoImageUrls, []);
+  const monsterImages = useImage(monsterImageUrls, []);
+  const groundImages = useImage(groundImageUrls, []);
+  const ceilingImages = useImage(ceilingImageUrls, []);
+  const enemyImages = useImage(enenmyImageUrls, []); 
 
   useEffect(() => {
     (async () => {
@@ -58,14 +59,6 @@ const MonsterEscape = ({ socket, roomId, player, otherPlayers }) => {
       setVolumeMeter(volumeMeter);
     })();
   }, []);
-
-  useImage(backgroundImageUrls, setBackgroundImages);
-  useImage(boxImageUrls, setCtrlBoxImages);
-  useImage(playInfoImageUrls, setPlayInfoImages);
-  useImage(monsterImageUrls, setMonsterImages);
-  useImage(groundImageUrls, setGroundImages);
-  useImage(ceilingImageUrls, setCeilingImages);
-  useImage(enenmyImageUrls, setEnenmyImageUrls);
 
   useEffect(() => {
     if (!monsterImages.length) { return };

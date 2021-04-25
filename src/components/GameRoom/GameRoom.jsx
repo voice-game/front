@@ -13,6 +13,7 @@ import {
 } from "../../actions/actionCreators";
 import EnergyBattle from "../EnergyBattle/EnergyBattle";
 import MonsterEscape from "../MonsterEscape/MonsterEscape";
+import RoadRoller from "../RoadRoller/RoadRoller";
 
 const socket = io(USER_SERVER, {
   withCredential: true,
@@ -120,7 +121,7 @@ const GameRoom = () => {
         />
       )}
       {gameTitle === "roadRoller" && (
-        <EnergyBattle
+        <RoadRoller
           socket={socket}
           creater={currentRoom?.createdBy}
           player={playerData}

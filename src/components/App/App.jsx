@@ -7,7 +7,6 @@ import Login from "../Login/Login";
 import Logout from "../Logout/Logout";
 import GameList from "../GameList/GameList";
 import GameRoomList from "../GameRoomList/GameRoomList";
-import RoadRoller from "../RoadRoller/RoadRoller";
 import ErrorPage from "../ErrorPage/ErrorPage";
 import GameRoom from "../GameRoom/GameRoom";
 
@@ -34,9 +33,13 @@ const App = ({ authService }) => {
               <GameList />
             </Route>
 
-            <Route path="/games/roadRoller">
-              <RoadRoller />
+            {/* <Route exact path="/games/roadRoller">
+              <GameRoomList />
             </Route>
+
+            <Route path="/games/roadRoller/:roomId">
+              <GameRoom />
+            </Route> */}
 
             <Route exact path="/games/monsterEscape">
               <GameRoomList />

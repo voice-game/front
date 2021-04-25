@@ -40,11 +40,6 @@ const EnergyBattle = ({ socket, player, otherPlayers }) => {
   const [isStartDisabled, setIsStartDisabled] = useState(false);
   const [counter, setCounter] = useState("");
 
-  const [myCharacter, setMyCharacter] = useState(null);
-  const [otherCharacter, setOtherCharacter] = useState(null);
-  const [skillEffect, setSkillEffect] = useState(null);
-  const [pads, setPads] = useState(null);
-
   const playerAvatar = useRef(null);
   const otherAvatar = useRef(null);
   const pad = useRef(null);
@@ -52,10 +47,10 @@ const EnergyBattle = ({ socket, player, otherPlayers }) => {
 
   const history = useHistory();
 
-  useImage(CHARACTERS.myCharacter, setMyCharacter);
-  useImage(CHARACTERS.otherCharacter, setOtherCharacter);
-  useImage(CHARACTERS.skillEffect, setSkillEffect);
-  useImage(CHARACTERS.pads, setPads);
+  const myCharacter = useImage(CHARACTERS.myCharacter);
+  const otherCharacter = useImage(CHARACTERS.otherCharacter);
+  const skillEffect = useImage(CHARACTERS.skillEffect);
+  const pads = useImage(CHARACTERS.pads);
 
   const playGame = useCallback(async () => {
     setIsStartDisabled(true);
