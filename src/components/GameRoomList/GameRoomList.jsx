@@ -15,6 +15,21 @@ import {
 } from "../../actions/actionCreators";
 import pickRandomRoom from "../../utils/pickRandomRoom";
 
+const GameTitle = styled.h1`
+  margin: 0;
+  margin-bottom: 2vh;
+  width: 100%;
+  font-size: 3rem;
+  text-align: center;
+  text-transform: uppercase;
+`;
+
+const ButtonContainer = styled.div`
+  width: 100%;
+  display: flex;
+  justify-content: center;
+`;
+
 const GameRoomGrid = styled.div`
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -22,6 +37,16 @@ const GameRoomGrid = styled.div`
   row-gap: 2vw;
   margin-top: 30px;
   padding: 30px;
+`;
+
+const NewRoomButton = styled.button`
+  background-color: #1e90ff;
+  margin-right: 10px;
+`;
+
+const EnterRandomButton = styled.button`
+  background-color: #27ae60;
+  margin-left: 10px;
 `;
 
 const GameRoomList = () => {
@@ -81,14 +106,16 @@ const GameRoomList = () => {
   }, [fetchRooms, location, gameTitle, showErrorMessage]);
 
   return (
-    <div>
+    <>
       {error.length > 0 && <ErrorMessage error={error} />}
       <GameOption />
-      <div>{gameTitle}</div>
-      <div>
-        <button onClick={createRoom}>방만들기</button>
-        <button onClick={enterRandom}>랜덤입장</button>
-      </div>
+      <GameTitle>{gameTitle}</GameTitle>
+      <ButtonContainer>
+        <NewRoomButton onClick={createRoom}>New Room</NewRoomButton>
+        <EnterRandomButton onClick={enterRandom}>
+          Enter Random
+        </EnterRandomButton>
+      </ButtonContainer>
       <GameRoomGrid>
         {roomList &&
           roomList.map((room) => {
@@ -103,7 +130,7 @@ const GameRoomList = () => {
             );
           })}
       </GameRoomGrid>
-    </div>
+    </>
   );
 };
 

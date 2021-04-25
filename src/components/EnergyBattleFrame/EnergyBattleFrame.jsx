@@ -1,8 +1,11 @@
 import React, { useEffect, useRef } from "react";
 import styled from "styled-components";
+import { useDispatch } from "react-redux";
 
-import BACKGROUNDS from "../../images/energyBattle/backgrounds/backgrounds";
+import BACKGROUNDS from "../../images/energyBattle/backgrounds/BACKGROUND";
 import pickRandom from "../../utils/pickRandom";
+import { gameResultAction } from "../../actions/actionCreators";
+import { ROOM_STATUS } from "../../constants/constants";
 
 let randomBackground = pickRandom(BACKGROUNDS);
 
@@ -18,14 +21,18 @@ const Canvas = styled.canvas`
 const EnergyBattleFrame = ({
   socket,
   volumeMeter,
+  roomId,
+  player,
   roomStatus,
   playerAvatar,
   otherAvatar,
   pad,
   skill,
+  resultImage,
   canvasWidth,
   canvasHeight,
 }) => {
+  const dispatch = useDispatch();
   const canvasRef = useRef(null);
   const otherPlayerInputRef = useRef(null);
 
@@ -47,7 +54,10 @@ const EnergyBattleFrame = ({
       otherPlayerInputRef.current = data;
     });
 
-    if (roomStatus === "ready" || roomStatus === "waiting") {
+    if (
+      roomStatus === ROOM_STATUS.READY ||
+      roomStatus === ROOM_STATUS.WAITING
+    ) {
       frameCount = 0;
       spriteCount = 0;
 
@@ -65,7 +75,7 @@ const EnergyBattleFrame = ({
         ctx.scale(-1, 1);
 
         pad.otherPad(ctx);
-        if (roomStatus === "ready") {
+        if (roomStatus === ROOM_STATUS.READY) {
           otherAvatar.idle(ctx, spriteCount);
         }
 
@@ -75,7 +85,7 @@ const EnergyBattleFrame = ({
       drawWait();
     }
 
-    if (roomStatus === "start") {
+    if (roomStatus === ROOM_STATUS.START) {
       volumeSum.current = 0;
       myVolumeSum.current = 0;
       otherVolumeSum.current = 0;
@@ -87,7 +97,7 @@ const EnergyBattleFrame = ({
         socket.emit("input-player", volume);
 
         myVolumeSum.current += volume;
-        otherVolumeSum.current += otherPlayerInputRef.current / 2;
+        otherVolumeSum.current += otherPlayerInputRef.current;
         volumeSum.current = myVolumeSum.current + otherVolumeSum.current;
 
         ctx.clearRect(0, 0, canvasWidth, canvasHeight);
@@ -118,11 +128,15 @@ const EnergyBattleFrame = ({
       drawGame();
     }
 
-    if (roomStatus === "end") {
-      console.log(myVolumeSum.current);
-      console.log(otherVolumeSum.current);
+    if (roomStatus === ROOM_STATUS.END) {
       frameCount = 0;
       spriteCount = 0;
+
+      if (myVolumeSum.current > otherVolumeSum.current) {
+        dispatch(
+          gameResultAction("GAME_RESULT", "energyBattle", roomId, player)
+        );
+      }
 
       const drawResult = () => {
         ctx.clearRect(0, 0, canvasWidth, canvasHeight);
@@ -135,8 +149,24 @@ const EnergyBattleFrame = ({
         pad.myPad(ctx);
 
         if (myVolumeSum.current > otherVolumeSum.current) {
+          ctx.drawImage(
+            resultImage.win,
+            canvasWidth / 2 -
+              ((resultImage.win.width / canvasWidth) * canvasHeight) / 2,
+            canvasHeight / 4,
+            (resultImage.win.width / canvasWidth) * canvasHeight,
+            (resultImage.win.height / canvasWidth) * canvasHeight
+          );
           playerAvatar.idle(ctx, spriteCount);
         } else {
+          ctx.drawImage(
+            resultImage.lose,
+            canvasWidth / 2 -
+              ((resultImage.lose.width / canvasWidth) * canvasHeight) / 2,
+            canvasHeight / 4,
+            (resultImage.lose.width / canvasWidth) * canvasHeight,
+            (resultImage.lose.height / canvasWidth) * canvasHeight
+          );
           playerAvatar.lose(ctx, spriteCount);
         }
 
@@ -162,7 +192,7 @@ const EnergyBattleFrame = ({
       cancelAnimationFrame(resultAnimationIdRef.current);
       socket.off("input-other-player");
     };
-  }, [roomStatus]);
+  }, [roomStatus, canvasHeight, canvasWidth]);
 
   return (
     <>

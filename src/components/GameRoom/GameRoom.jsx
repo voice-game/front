@@ -108,6 +108,7 @@ const GameRoom = () => {
       {gameTitle === "energyBattle" && (
         <EnergyBattle
           socket={socket}
+          roomId={roomId}
           player={playerData}
           otherPlayers={otherPlayers}
         />

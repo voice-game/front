@@ -14,35 +14,32 @@ const authReducer = (state = initialState, action) => {
   switch (action.type) {
     case ACTION_TYPES.CHECK_AUTHORIZATION:
     case ACTION_TYPES.PLAYER_LOGIN:
-      return {
-        ...state,
-        isAuthorized: false,
-      };
+    case ACTION_TYPES.PATCH_RESULT:
+      return copiedState;
 
     case ACTION_TYPES.CHECK_AUTHORIZATION_SUCCESS:
     case ACTION_TYPES.PLAYER_LOGIN_SUCCESS:
-      return {
-        ...state,
-        isAuthorized: true,
-        playerData: action.payload,
-      };
+      copiedState.isAuthorized = true;
+      copiedState.playerData = action.payload;
+      return copiedState;
+
+    case ACTION_TYPES.PATCH_RESULT_SUCCESS:
+      copiedState.playerData = action.payload.player;
+      return copiedState;
 
     case ACTION_TYPES.CHECK_AUTHORIZATION_FAIL:
     case ACTION_TYPES.PLAYER_LOGIN_FAIL:
-      return {
-        ...state,
-        isAuthorized: false,
-      };
+    case ACTION_TYPES.PATCH_RESULT_FAIL:
+      copiedState.isAuthorized = false;
+      return copiedState;
 
     case ACTION_TYPES.PLAYER_LOGOUT:
-      return {
-        ...state,
-        isAuthorized: false,
-        playerData: null,
-      };
+      copiedState.isAuthorized = false;
+      copiedState.playerData = null;
+      return copiedState;
 
     default:
-      return state;
+      return copiedState;
   }
 };
 

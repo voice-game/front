@@ -2,7 +2,6 @@ import React, { useState, useEffect, useCallback, useRef } from "react";
 import styled from "styled-components";
 
 import EnergyBattleFrame from "../EnergyBattleFrame/EnergyBattleFrame";
-import GameResult from "../GameResult/GameResult";
 
 import PlayerAvatar from "../../games/energyBattle/PlayerAvatar";
 import OtherAvatar from "../../games/energyBattle/OtherAvatar";
@@ -13,27 +12,44 @@ import useImage from "../../hooks/useImage";
 import getMedia from "../../utils/getMedia";
 import VolumeMeter from "../../utils/VolumeMeter";
 import wait from "../../utils/wait";
-import CHARACTERS from "../../images/energyBattle/characters/characters";
+import CHARACTERS from "../../images/energyBattle/characters/CHARACTERS";
+import { ROOM_STATUS } from "../../constants/constants";
 
 const GameTitle = styled.h1`
-  /* font-family: "Assistant", sans-serif; */
-  font-family: "Carter One", cursive;
-  /* font-family: "Slackey", cursive; */
   margin: 0;
   margin-bottom: 2vh;
   width: 100%;
+  font-size: 3rem;
   text-align: center;
 `;
 
 const OperationContainer = styled.div`
   display: flex;
   justify-content: space-around;
-  width: 60%;
+  align-items: center;
+  width: 50%;
   height: 5vh;
   margin: 0 auto;
+  margin-bottom: 40px;
 `;
 
-const EnergyBattle = ({ socket, player, otherPlayers }) => {
+const PlayerDataContainer = styled.div`
+  background-color: white;
+  border-radius: 20px;
+  width: 14vw;
+  min-width: 180px;
+  height: 8vh;
+`;
+
+const PlayerData = styled.span`
+  width: 100%;
+  font-size: 1.2rem;
+  text-align: center;
+  display: block;
+  color: black;
+`;
+
+const EnergyBattle = ({ socket, roomId, player, otherPlayers }) => {
   const [volumeMeter, setVolumeMeter] = useState({});
   const [roomStatus, setRoomStatus] = useState("");
   const [isStartDisabled, setIsStartDisabled] = useState(false);
@@ -42,18 +58,20 @@ const EnergyBattle = ({ socket, player, otherPlayers }) => {
   const playerAvatar = useRef(null);
   const otherAvatar = useRef(null);
   const pad = useRef(null);
+  const resultImage = useRef(null);
   const skill = useRef(null);
-  const canvasWidth = useRef(document.body.clientWidth * 0.9);
+  const canvasWidth = useRef(document.body.clientWidth);
   const canvasHeight = useRef(document.body.clientWidth * 0.5);
 
   const myCharacter = useImage(CHARACTERS.myCharacter);
   const otherCharacter = useImage(CHARACTERS.otherCharacter);
   const skillEffect = useImage(CHARACTERS.skillEffect);
   const pads = useImage(CHARACTERS.pads);
+  const resultImages = useImage(CHARACTERS.result);
 
   const playGame = useCallback(async () => {
     setIsStartDisabled(true);
-    setRoomStatus("ready");
+    setRoomStatus(ROOM_STATUS.READY);
 
     const mediaStream = await getMedia({ audio: true });
     const volumeMeter = new VolumeMeter(mediaStream, {
@@ -69,10 +87,10 @@ const EnergyBattle = ({ socket, player, otherPlayers }) => {
     await wait(1000);
     setCounter("1");
     await wait(1000);
-    setCounter("START");
+    setCounter("SHOUT!!");
 
     setVolumeMeter(volumeMeter);
-    setRoomStatus("start");
+    setRoomStatus(ROOM_STATUS.START);
 
     await wait(5000);
 
@@ -84,29 +102,32 @@ const EnergyBattle = ({ socket, player, otherPlayers }) => {
     await wait(1000);
     setCounter("END");
 
-    setRoomStatus("end");
+    setRoomStatus(ROOM_STATUS.END);
     setIsStartDisabled(false);
     setVolumeMeter({});
 
     mediaStream.getTracks()[0].stop();
 
     await wait(3000);
-    setRoomStatus("ready");
+    setRoomStatus(ROOM_STATUS.READY);
     setCounter("");
   }, []);
 
   const startGame = useCallback(async () => {
-    if ((roomStatus === "ready" || roomStatus === "end") && !isStartDisabled) {
+    if (
+      (roomStatus === ROOM_STATUS.READY || roomStatus === ROOM_STATUS.END) &&
+      !isStartDisabled
+    ) {
       socket.emit("start-game");
       playGame();
     }
   }, [isStartDisabled, playGame, roomStatus, socket]);
 
   useEffect(() => {
-    canvasWidth.current = document.body.clientWidth * 0.9;
+    canvasWidth.current = document.body.clientWidth;
     canvasHeight.current = document.body.clientWidth * 0.5;
 
-    if (myCharacter && otherCharacter && skillEffect && pads) {
+    if (myCharacter && otherCharacter && skillEffect && pads && resultImages) {
       playerAvatar.current = new PlayerAvatar(
         myCharacter,
         canvasWidth.current,
@@ -123,11 +144,12 @@ const EnergyBattle = ({ socket, player, otherPlayers }) => {
         canvasWidth.current,
         canvasHeight.current
       );
+      resultImage.current = resultImages;
 
-      if (otherPlayers && otherPlayers.length === 0) {
-        setRoomStatus("waiting");
+      if ((otherPlayers && otherPlayers.length === 0) || !otherPlayers) {
+        setRoomStatus(ROOM_STATUS.WAITING);
       } else {
-        setRoomStatus("ready");
+        setRoomStatus(ROOM_STATUS.READY);
       }
     }
 
@@ -137,48 +159,67 @@ const EnergyBattle = ({ socket, player, otherPlayers }) => {
       socket.off("start-by-other");
     };
   }, [
+    socket,
     myCharacter,
     otherCharacter,
     otherPlayers,
     pads,
-    playGame,
     skillEffect,
-    socket,
+    playGame,
   ]);
 
   return (
-    <div>
-      <div></div>
-      <GameTitle>Energy Battle</GameTitle>
+    <>
+      <GameTitle>ENERGY BATTLE</GameTitle>
       <OperationContainer>
+        <PlayerDataContainer>
+          <PlayerData>
+            {player.name}
+            <br />
+            {player.gameRecords.energyBattle}승
+          </PlayerData>
+        </PlayerDataContainer>
         <div>
-          <span>{player.name}</span>
+          {counter.length > 0 && <h1>{counter}</h1>}
+          {counter.length === 0 && roomStatus === ROOM_STATUS.WAITING && (
+            <button onClick={startGame}>WAITING</button>
+          )}
+          {counter.length === 0 && roomStatus === ROOM_STATUS.READY && (
+            <button onClick={startGame}>START</button>
+          )}
         </div>
-        {counter.length > 0 ? (
-          <h1>{counter}</h1>
-        ) : (
-          <button onClick={startGame}>게임시작</button>
-        )}
-        <div>
-          {otherPlayers &&
-            otherPlayers.map((player) => (
-              <span key={player._id}>{player.name}</span>
-            ))}
-        </div>
+        <PlayerDataContainer>
+          {otherPlayers && otherPlayers.length !== 0 ? (
+            <PlayerData>
+              {otherPlayers[0].name}
+              <br />
+              {otherPlayers[0].gameRecords.energyBattle}승
+            </PlayerData>
+          ) : (
+            <PlayerData>
+              Waiting...
+              <br />
+              😛
+            </PlayerData>
+          )}
+        </PlayerDataContainer>
       </OperationContainer>
       <EnergyBattleFrame
         socket={socket}
         volumeMeter={volumeMeter}
         roomStatus={roomStatus}
+        roomId={roomId}
+        player={player}
+        otherPlayer={otherPlayers && otherPlayers[0]}
         playerAvatar={playerAvatar.current}
         otherAvatar={otherAvatar.current}
         pad={pad.current}
         skill={skill.current}
+        resultImage={resultImage.current}
         canvasWidth={canvasWidth.current}
         canvasHeight={canvasHeight.current}
       />
-      <GameResult />
-    </div>
+    </>
   );
 };
 

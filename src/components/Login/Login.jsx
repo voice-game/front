@@ -15,15 +15,13 @@ const LoginContainer = styled.section`
   align-items: center;
 `;
 
+const MainTitle = styled.div`
+  font-size: 4rem;
+  margin-bottom: 5vh;
+`;
+
 const LoginButton = styled.button`
-  padding: 10px;
-  width: 180px;
-  border: none;
-  border-radius: 30px;
-  font-size: 1rem;
-  margin-top: 1vh;
-  box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
-  cursor: pointer;
+  margin-top: 5vh;
 `;
 
 const Login = ({ authService }) => {
@@ -34,10 +32,8 @@ const Login = ({ authService }) => {
     async (event) => {
       try {
         const loginData = await authService.login(event.target.name);
-        // 구글일때
         const { email, uid, displayName } = loginData.user;
         dispatch(playerLogin({ email, uid, displayName }));
-        // 깃허브일때 (loginData 형태 필요)
       } catch (err) {
         showErrorMessage("로그인에 실패하였습니다.");
       }
@@ -48,12 +44,9 @@ const Login = ({ authService }) => {
   return (
     <LoginContainer>
       {error.length > 0 && <ErrorMessage error={error} />}
-      <h1>Log In</h1>
+      <MainTitle>VOICE GAME</MainTitle>
       <LoginButton name="Google" onClick={onLogin}>
-        구글 로그인
-      </LoginButton>
-      <LoginButton name="Github" onClick={onLogin}>
-        깃허브 로그인
+        Google Login
       </LoginButton>
     </LoginContainer>
   );
