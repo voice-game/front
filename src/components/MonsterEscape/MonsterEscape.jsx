@@ -33,18 +33,9 @@ const enenmyImageUrls = ENEMIES;
 const ceilingImageUrls = CELINGS;
 const groundImageUrls = GROUNDS;
 
-const MonsterEscape = ({ socket, roomId }) => {
+const MonsterEscape = ({ socket, creater, player, roomId, otherPlayers }) => {
   const [volumeMeter, setVolumeMeter] = useState(null);
-
   const [isImageLoaded, setIsImageLoaded] = useState(false);
-  const [playInfoImages, setPlayInfoImages] = useState(null);
-  const [ctrlBoxImages, setCtrlBoxImages] = useState(null);
-  const [backgroundImages, setBackgroundImages] = useState(null);
-  const [monsterImages, setMonsterImages] = useState(null);
-  const [groundImages, setGroundImages] = useState(null);
-  const [enemyImages, setEnenmyImageUrls] = useState(null);
-  const [ceilingImages, setCeilingImages] = useState(null);
-
   const [isInitGame, setIsInitGame] = useState(false);
   const [gameElement, setGameElement] = useState({});
 
@@ -54,7 +45,7 @@ const MonsterEscape = ({ socket, roomId }) => {
   const monsterImages = useImage(monsterImageUrls, []);
   const groundImages = useImage(groundImageUrls, []);
   const ceilingImages = useImage(ceilingImageUrls, []);
-  const enemyImages = useImage(enenmyImageUrls, []); 
+  const enemyImages = useImage(enenmyImageUrls, []);
 
   useEffect(() => {
     (async () => {
@@ -167,6 +158,8 @@ const MonsterEscape = ({ socket, roomId }) => {
         volumeMeter={volumeMeter}
         socket={socket}
         roomId={roomId}
+        creater={creater}
+        player={player}
       />
       <GameResult />
     </div>

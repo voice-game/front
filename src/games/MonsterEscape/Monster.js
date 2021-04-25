@@ -10,6 +10,7 @@ class Monster {
     this.setPosition();
   }
 
+  isWinner = false;
   distance = 0;
   shieldTime = 0;
   posX = 0;

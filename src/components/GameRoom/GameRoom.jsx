@@ -115,6 +115,7 @@ const GameRoom = () => {
       {gameTitle === "monsterEscape" && (
         <MonsterEscape
           socket={socket}
+          creater={currentRoom?.createdBy}
           roomId={roomId}
           player={playerData}
           otherPlayers={otherPlayers}

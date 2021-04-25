@@ -6,8 +6,9 @@ class PlayInfo {
     this.fps = fps;
   }
 
-  animate (ctx, characterInfo, frame) {
+  animate (ctx, characterInfo, gameStatus, frame) {
     const { distance, life, maxLife } = characterInfo;
+    const { isPlay, isFinished } = gameStatus;
 
     const heart = this.images[0];
     const gameOver = this.images[1];
@@ -36,6 +37,16 @@ class PlayInfo {
       0.2 * this.canvasWidth,
       0.1 * this.canvasHeight,
     );
+
+    let gameSatusImg;
+
+    // if (!isPlay) {
+    //   gameStatus = 
+    // }
+
+    // if (isFinished) {
+
+    // }
 
     if (life === 0) {
       const gap = gameOver.height / this.fps;
