@@ -48,6 +48,14 @@ const MonsterEscape = ({ socket, roomId }) => {
   const [isInitGame, setIsInitGame] = useState(false);
   const [gameElement, setGameElement] = useState({});
 
+  const backgroundImages = useImage(backgroundImageUrls, []);
+  const ctrlBoxImages = useImage(boxImageUrls, []);
+  const playInfoImages = useImage(playInfoImageUrls, []);
+  const monsterImages = useImage(monsterImageUrls, []);
+  const groundImages = useImage(groundImageUrls, []);
+  const ceilingImages = useImage(ceilingImageUrls, []);
+  const enemyImages = useImage(enenmyImageUrls, []); 
+
   useEffect(() => {
     (async () => {
       const stream = await getMedia({ audio: true });
@@ -61,14 +69,6 @@ const MonsterEscape = ({ socket, roomId }) => {
       setVolumeMeter(volumeMeter);
     })();
   }, []);
-
-  useImage(backgroundImageUrls, setBackgroundImages);
-  useImage(boxImageUrls, setCtrlBoxImages);
-  useImage(playInfoImageUrls, setPlayInfoImages);
-  useImage(monsterImageUrls, setMonsterImages);
-  useImage(groundImageUrls, setGroundImages);
-  useImage(ceilingImageUrls, setCeilingImages);
-  useImage(enenmyImageUrls, setEnenmyImageUrls);
 
   useEffect(() => {
     const images = [

@@ -1,73 +1,64 @@
-import React, { useEffect, useRef, useState } from "react";
-import useCanvas from "../../hooks/useCanvas";
-import usePitchDetector from "../../hooks/usePitchDetector";
-import getAudioContext from "../../utils/getAudioContext";
-import getMedia from "../../utils/getMedia";
-import Game from "../../games/roadRoller";
-import BackGround from "../../games/roadRoller/background";
+import React from "react";
 import GameFrame from "../GameFrame/GameFrame";
-import GameOption from "../GameOption/GameOption";
-import b0 from "../../assets/image/background/0.png";
-import b1 from "../../assets/image/background/1.png";
-import b2 from "../../assets/image/background/2.png";
-import b3 from "../../assets/image/background/3.png";
-import b4 from "../../assets/image/background/4.png";
-import GameMap from "../../games/roadRoller/GameMap";
+
+// import useAudio from "../../hooks/useAudio";
+// import useCanvas from "../../hooks/useCanvas";
+// import usePitchDetector from "../../hooks/usePitchDetector";
+
+// import Game from "../../games/roadRoller";
+// import BackGround from "../../games/roadRoller/background";
+// import GameMap from "../../games/roadRoller/GameMap";
+
+// import b0 from "../../assets/image/background/0.png";
+// import b1 from "../../assets/image/background/1.png";
+// import b2 from "../../assets/image/background/2.png";
+// import b3 from "../../assets/image/background/3.png";
+// import b4 from "../../assets/image/background/4.png";
 
 const RoadRoller = (props) => {
-  const TILE_SIZE = 32;
-  const WIDTH = TILE_SIZE * 43;
-  const HEIGHT = TILE_SIZE * 19;
+  // console.log(props)
+  // const {
+  //   isAudioUse,
+  //   audioContextRef,
+  //   micStreamRef,
+  // } = useAudio({ samplerate: 12000 }, { audio: true, video: false });
+  // const pitchDetectorRef = usePitchDetector(
+  //   isAudioUse,
+  //   audioContextRef,
+  //   micStreamRef
+  // );
 
-  const [isAudioUse, setIsAudioUse] = useState(false);
-  const audioContextRef = useRef(null);
-  const micStreamRef = useRef(null);
-  const pitchDetectorRef = usePitchDetector(isAudioUse, audioContextRef, micStreamRef);
+  // const TILE_SIZE = 32;
+  // const WIDTH = TILE_SIZE * 43;
+  // const HEIGHT = TILE_SIZE * 19;
 
-  const {
-    staticDots,
-    staticMap,
-    interactionPoints,
-  } = new GameMap(TILE_SIZE, WIDTH, HEIGHT).gameMap;
+  // const {
+  //   staticDots,
+  //   staticMap,
+  //   interactionPoints,
+  // } = new GameMap(TILE_SIZE, WIDTH, HEIGHT).gameMap;
 
-  const game = useCanvas(Game, { pitchDetectorRef, staticDots, interactionPoints });
-  const background = useCanvas(BackGround, { staticMap });
+  // const game = useCanvas(Game, { pitchDetectorRef, staticDots, interactionPoints });
+  // const background = useCanvas(BackGround, { staticMap });
 
-  useEffect(() => {
-    (async () => {
-      try {
-        setTimeout(() => {
-          audioContextRef.current = getAudioContext({ samplerate: 12000 });
-          setIsAudioUse(true);
-        }, 100);
-        micStreamRef.current = await getMedia({ audio: true, video: false });
-      } catch (err) {
-        console.log(err);
-      }
-    })();
-  });
-
-  return (
-    <>
-      <div>
-        <GameOption />
-        <GameFrame
-          id="game-layer"
-          canvasRef={game}
-          width={WIDTH}
-          height={HEIGHT}
-        />
-        <GameFrame
-          id="background-layer"
-          canvasRef={background}
-          width={WIDTH}
-          height={HEIGHT}
-          backgroundImage={b2}
-        />
-      </div>
-      <div>W: 점프 A: 좌 D: 우</div>
-    </>
-  );
+  // return (
+  //   <>
+  //     <GameFrame
+  //       id="game-layer"
+  //       canvasRef={game}
+  //       width={WIDTH}
+  //       height={HEIGHT}
+  //     />
+  //     <GameFrame
+  //       id="background-layer"
+  //       canvasRef={background}
+  //       width={WIDTH}
+  //       height={HEIGHT}
+  //       backgroundImage={b2}
+  //     />
+  //   <div>W: 점프 A: 좌 D: 우</div>
+  //   </>
+  // );
 };
 
 export default RoadRoller;
