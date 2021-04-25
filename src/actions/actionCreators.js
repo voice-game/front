@@ -1,6 +1,6 @@
+import Cookies from "universal-cookie";
 import getActionTypes from "./actionTypes.js";
 import { USER_SERVER_API } from "../constants/constants";
-import Cookies from "universal-cookie";
 
 export const checkAuthorization = () => async (dispatch) => {
   dispatch({ type: getActionTypes().CHECK_AUTHORIZATION });
@@ -53,7 +53,7 @@ export const playerLogin = (data) => async (dispatch) => {
       type: getActionTypes().PLAYER_LOGIN_SUCCESS,
       payload: result.data,
     });
-  } catch (e) {
+  } catch (err) {
     dispatch({ type: getActionTypes().PLAYER_LOGIN_FAIL });
   }
 };
@@ -83,7 +83,7 @@ export const fetchRoomsAction = (gameTitle) => async (dispatch) => {
         rooms: result.data,
       },
     });
-  } catch (e) {
+  } catch (err) {
     dispatch({ type: getActionTypes().FETCH_ROOMS_FAIL });
   }
 };
@@ -108,7 +108,7 @@ export const createRoomAction = (gameTitle, newRoomId, createdBy) => async (
       type: getActionTypes().CREATE_ROOM_SUCCESS,
       payload: result.data,
     });
-  } catch (e) {
+  } catch (err) {
     dispatch({ type: getActionTypes().CREATE_ROOM_FAIL });
   }
 };
@@ -139,7 +139,7 @@ export const joinRoomAction = (gameTitle, roomId, playerData) => async (
         rooms: result.data,
       },
     });
-  } catch (e) {
+  } catch (err) {
     dispatch({ type: getActionTypes().JOIN_ROOM_FAIL });
   }
 };
@@ -170,7 +170,7 @@ export const leaveRoomAction = (gameTitle, roomId, playerData) => async (
         rooms: result.data,
       },
     });
-  } catch (e) {
+  } catch (err) {
     dispatch({ type: getActionTypes().LEAVE_ROOM_FAIL });
   }
 };
@@ -199,7 +199,7 @@ export const deleteRoomAction = (gameTitle, roomId) => async (dispatch) => {
         rooms: result.data,
       },
     });
-  } catch (e) {
+  } catch (err) {
     dispatch({ type: getActionTypes().DELETE_ROOM_FAIL });
   }
 };

@@ -7,7 +7,6 @@ import usePitchDetector from "../../hooks/usePitchDetector";
 
 import Game from "../../games/roadRoller";
 import BackGround from "../../games/roadRoller/background";
-import GameOption from "../GameOption/GameOption";
 import GameMap from "../../games/roadRoller/GameMap";
 
 import b0 from "../../assets/image/background/0.png";
@@ -17,6 +16,7 @@ import b3 from "../../assets/image/background/3.png";
 import b4 from "../../assets/image/background/4.png";
 
 const RoadRoller = (props) => {
+  console.log(props)
   const {
     isAudioUse,
     audioContextRef,
@@ -43,23 +43,20 @@ const RoadRoller = (props) => {
 
   return (
     <>
-      <div>
-        <GameOption />
-        <GameFrame
-          id="game-layer"
-          canvasRef={game}
-          width={WIDTH}
-          height={HEIGHT}
-        />
-        <GameFrame
-          id="background-layer"
-          canvasRef={background}
-          width={WIDTH}
-          height={HEIGHT}
-          backgroundImage={b2}
-        />
-      </div>
-      <div>W: 점프 A: 좌 D: 우</div>
+      <GameFrame
+        id="game-layer"
+        canvasRef={game}
+        width={WIDTH}
+        height={HEIGHT}
+      />
+      <GameFrame
+        id="background-layer"
+        canvasRef={background}
+        width={WIDTH}
+        height={HEIGHT}
+        backgroundImage={b2}
+      />
+    <div>W: 점프 A: 좌 D: 우</div>
     </>
   );
 };

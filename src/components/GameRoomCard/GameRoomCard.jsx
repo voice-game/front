@@ -27,8 +27,7 @@ const GameRoomCard = ({
   onClick,
 }) => {
   const [error, showErrorMessage] = useErrorMessage("");
-
-  const handleClick = () => {
+  const handleClickRoomCard = () => {
     if (status === "Enter") {
       return onClick();
     }
@@ -39,7 +38,7 @@ const GameRoomCard = ({
   return (
     <>
       {error.length > 0 && <ErrorMessage error={error} />}
-      <GameRoomCardContainer onClick={handleClick}>
+      <GameRoomCardContainer onClick={handleClickRoomCard}>
         <div>{_id}</div>
         <div>
           <div>참여자: {players.length}</div>
