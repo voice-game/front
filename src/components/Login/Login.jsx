@@ -2,9 +2,9 @@ import React, { useCallback } from "react";
 import { useDispatch } from "react-redux";
 import styled from "styled-components";
 
-import { playerLogin } from "../../actions/actionCreators";
-import useErrorMessage from "../../hooks/useErrorMessage";
 import ErrorMessage from "../ErrorMessage/ErrorMessage";
+import useErrorMessage from "../../hooks/useErrorMessage";
+import { playerLogin } from "../../actions/actionCreators";
 
 const LoginContainer = styled.section`
   width: 100vw;

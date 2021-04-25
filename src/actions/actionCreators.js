@@ -74,7 +74,6 @@ export const fetchRoomsAction = (gameTitle) => async (dispatch) => {
   try {
     const response = await fetch(`${USER_SERVER_API}/games/${gameTitle}`);
     const result = await response.json();
-    console.log(result);
 
     dispatch({
       type: getActionTypes().FETCH_ROOMS_SUCCESS,
@@ -89,7 +88,7 @@ export const fetchRoomsAction = (gameTitle) => async (dispatch) => {
 };
 
 export const createRoomAction = (gameTitle, newRoomId, createdBy) => async (
-  dispatch,
+  dispatch
 ) => {
   dispatch({ type: getActionTypes().CREATE_ROOM });
 
@@ -114,7 +113,7 @@ export const createRoomAction = (gameTitle, newRoomId, createdBy) => async (
 };
 
 export const joinRoomAction = (gameTitle, roomId, playerData) => async (
-  dispatch,
+  dispatch
 ) => {
   dispatch({ type: getActionTypes().JOIN_ROOM });
 
@@ -127,7 +126,7 @@ export const joinRoomAction = (gameTitle, roomId, playerData) => async (
           "Content-Type": "application/json",
         },
         body: JSON.stringify({ gameTitle, roomId, playerData, type: "JOIN" }),
-      },
+      }
     );
 
     const result = await response.json();
@@ -145,7 +144,7 @@ export const joinRoomAction = (gameTitle, roomId, playerData) => async (
 };
 
 export const leaveRoomAction = (gameTitle, roomId, playerData) => async (
-  dispatch,
+  dispatch
 ) => {
   dispatch({ type: getActionTypes().LEAVE_ROOM });
 
@@ -158,7 +157,7 @@ export const leaveRoomAction = (gameTitle, roomId, playerData) => async (
           "Content-Type": "application/json",
         },
         body: JSON.stringify({ gameTitle, roomId, playerData, type: "LEAVE" }),
-      },
+      }
     );
 
     const result = await response.json();
@@ -187,7 +186,7 @@ export const deleteRoomAction = (gameTitle, roomId) => async (dispatch) => {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({ gameTitle, roomId }),
-      },
+      }
     );
 
     const result = await response.json();
@@ -205,7 +204,7 @@ export const deleteRoomAction = (gameTitle, roomId) => async (dispatch) => {
 };
 
 export const changeRoomStatus = (gameTitle, roomId, status) => async (
-  dispatch,
+  dispatch
 ) => {
   dispatch({ type: getActionTypes().CHANGE_ROOM_STATUS });
 

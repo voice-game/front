@@ -38,7 +38,7 @@ const roomReducer = (state = initialState, action) => {
       return copiedState;
 
     default:
-      return state;
+      return copiedState;
   }
 };
 

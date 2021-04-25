@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useCallback, useRef } from "react";
-import { useHistory } from "react-router-dom";
 import styled from "styled-components";
 
 import EnergyBattleFrame from "../EnergyBattleFrame/EnergyBattleFrame";
@@ -16,10 +15,10 @@ import VolumeMeter from "../../utils/VolumeMeter";
 import wait from "../../utils/wait";
 import CHARACTERS from "../../images/energyBattle/characters/characters";
 
-const canvasWidth = document.body.clientWidth * 0.9;
-const canvasHeight = document.body.clientWidth * 0.5;
-
 const GameTitle = styled.h1`
+  /* font-family: "Assistant", sans-serif; */
+  font-family: "Carter One", cursive;
+  /* font-family: "Slackey", cursive; */
   margin: 0;
   margin-bottom: 2vh;
   width: 100%;
@@ -49,8 +48,8 @@ const EnergyBattle = ({ socket, player, otherPlayers }) => {
   const otherAvatar = useRef(null);
   const pad = useRef(null);
   const skill = useRef(null);
-
-  const history = useHistory();
+  const canvasWidth = useRef(document.body.clientWidth * 0.9);
+  const canvasHeight = useRef(document.body.clientWidth * 0.5);
 
   useImage(CHARACTERS.myCharacter, setMyCharacter);
   useImage(CHARACTERS.otherCharacter, setOtherCharacter);
@@ -95,6 +94,10 @@ const EnergyBattle = ({ socket, player, otherPlayers }) => {
     setVolumeMeter({});
 
     mediaStream.getTracks()[0].stop();
+
+    await wait(3000);
+    setRoomStatus("ready");
+    setCounter("");
   }, []);
 
   const startGame = useCallback(async () => {
@@ -105,24 +108,32 @@ const EnergyBattle = ({ socket, player, otherPlayers }) => {
   }, [isStartDisabled, playGame, roomStatus, socket]);
 
   useEffect(() => {
+    canvasWidth.current = document.body.clientWidth * 0.9;
+    canvasHeight.current = document.body.clientWidth * 0.5;
+
     if (myCharacter && otherCharacter && skillEffect && pads) {
       playerAvatar.current = new PlayerAvatar(
         myCharacter,
-        canvasWidth,
-        canvasHeight
+        canvasWidth.current,
+        canvasHeight.current
       );
       otherAvatar.current = new OtherAvatar(
         otherCharacter,
-        canvasWidth,
-        canvasHeight
+        canvasWidth.current,
+        canvasHeight.current
       );
-      pad.current = new Pads(pads, canvasWidth, canvasHeight);
-      skill.current = new SkillEffect(skillEffect, canvasWidth, canvasHeight);
+      pad.current = new Pads(pads, canvasWidth.current, canvasHeight.current);
+      skill.current = new SkillEffect(
+        skillEffect,
+        canvasWidth.current,
+        canvasHeight.current
+      );
 
       if (otherPlayers && otherPlayers.length === 0) {
         setRoomStatus("waiting");
+      } else {
+        setRoomStatus("ready");
       }
-      setRoomStatus("ready");
     }
 
     socket.on("start-by-other", playGame);
@@ -142,19 +153,23 @@ const EnergyBattle = ({ socket, player, otherPlayers }) => {
 
   return (
     <div>
-      <div>
-        <button onClick={() => history.push(`/games/energyBattle`)}>
-          나가기
-        </button>
-        <span>{player.name}</span>
-        {otherPlayers.map((player) => (
-          <span key={player._id}>{player.name}</span>
-        ))}
-        {counter.length > 0 && <h1>{counter}</h1>}
-      </div>
+      <div></div>
       <GameTitle>Energy Battle</GameTitle>
       <OperationContainer>
-        <button onClick={startGame}>게임시작</button>
+        <div>
+          <span>{player.name}</span>
+        </div>
+        {counter.length > 0 ? (
+          <h1>{counter}</h1>
+        ) : (
+          <button onClick={startGame}>게임시작</button>
+        )}
+        <div>
+          {otherPlayers &&
+            otherPlayers.map((player) => (
+              <span key={player._id}>{player.name}</span>
+            ))}
+        </div>
       </OperationContainer>
       <EnergyBattleFrame
         socket={socket}
@@ -164,8 +179,8 @@ const EnergyBattle = ({ socket, player, otherPlayers }) => {
         otherAvatar={otherAvatar.current}
         pad={pad.current}
         skill={skill.current}
-        canvasWidth={canvasWidth}
-        canvasHeight={canvasHeight}
+        canvasWidth={canvasWidth.current}
+        canvasHeight={canvasHeight.current}
       />
       <GameResult />
     </div>

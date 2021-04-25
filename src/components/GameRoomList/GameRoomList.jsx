@@ -5,15 +5,15 @@ import styled from "styled-components";
 import { v4 as uuidv4 } from "uuid";
 import Pusher from "pusher-js";
 
-import GameRoomCard from "../GameRoomCard/GameRoomCard";
 import GameOption from "../GameOption/GameOption";
+import GameRoomCard from "../GameRoomCard/GameRoomCard";
+import ErrorMessage from "../ErrorMessage/ErrorMessage";
+import useErrorMessage from "../../hooks/useErrorMessage";
 import {
   fetchRoomsAction,
   createRoomAction,
 } from "../../actions/actionCreators";
 import pickRandomRoom from "../../utils/pickRandomRoom";
-import useErrorMessage from "../../hooks/useErrorMessage";
-import ErrorMessage from "../ErrorMessage/ErrorMessage";
 
 const GameRoomGrid = styled.div`
   display: grid;
@@ -78,17 +78,17 @@ const GameRoomList = () => {
       channel.unbind_all();
       channel.unsubscribe();
     };
-  }, [fetchRooms, location, gameTitle, location.state, showErrorMessage]);
+  }, [fetchRooms, location, gameTitle, showErrorMessage]);
 
   return (
     <div>
       {error.length > 0 && <ErrorMessage error={error} />}
+      <GameOption />
       <div>{gameTitle}</div>
       <div>
         <button onClick={createRoom}>방만들기</button>
         <button onClick={enterRandom}>랜덤입장</button>
       </div>
-      <GameOption />
       <GameRoomGrid>
         {roomList &&
           roomList.map((room) => {

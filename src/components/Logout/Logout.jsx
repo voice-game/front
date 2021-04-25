@@ -3,9 +3,9 @@ import { useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
 import styled from "styled-components";
 
-import { playerLogout } from "../../actions/actionCreators";
-import useErrorMessage from "../../hooks/useErrorMessage";
 import ErrorMessage from "../ErrorMessage/ErrorMessage";
+import useErrorMessage from "../../hooks/useErrorMessage";
+import { playerLogout } from "../../actions/actionCreators";
 
 const LogoutContainer = styled.div`
   width: 100vw;

@@ -4,8 +4,9 @@ import styled from "styled-components";
 
 import ErrorMessage from "../ErrorMessage/ErrorMessage";
 import GameCard from "../GameCard/GameCard";
-import useErrorMessage from "../../hooks/useErrorMessage";
 import GameOption from "../GameOption/GameOption";
+
+import useErrorMessage from "../../hooks/useErrorMessage";
 
 const MainPage = styled.section`
   width: 100vw;

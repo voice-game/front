@@ -2,15 +2,15 @@ import React, { useEffect } from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 
-import { checkAuthorization } from "../../actions/actionCreators";
 import Login from "../Login/Login";
 import Logout from "../Logout/Logout";
 import GameList from "../GameList/GameList";
 import GameRoomList from "../GameRoomList/GameRoomList";
-import RoadRoller from "../RoadRoller/RoadRoller";
-import MonsterEscape from "../MonsterEscape/MonsterEscape";
-import ErrorPage from "../ErrorPage/ErrorPage";
 import GameRoom from "../GameRoom/GameRoom";
+import RoadRoller from "../RoadRoller/RoadRoller";
+import ErrorPage from "../ErrorPage/ErrorPage";
+
+import { checkAuthorization } from "../../actions/actionCreators";
 
 const App = ({ authService }) => {
   const { isAuthorized } = useSelector((state) => state.authReducer);

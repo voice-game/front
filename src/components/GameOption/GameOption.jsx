@@ -3,17 +3,15 @@ import { useHistory, useLocation } from "react-router-dom";
 import styled from "styled-components";
 
 const GameOptionContainer = styled.div`
-  width: 96%;
-  height: 8vh;
-  padding: 0 40px;
+  width: 100%;
+  padding: 1vh 1vw;
   display: flex;
   justify-content: flex-end;
   align-items: center;
 `;
 
 const GameOptionButton = styled.button`
-  width: 7vw;
-  height: 3vh;
+  padding: 10px;
   margin-right: 1vw;
   border: none;
   background-color: #ec6998;
@@ -29,8 +27,20 @@ const GameOption = () => {
   const history = useHistory();
   const location = useLocation();
 
+  const gameTitle = location.pathname.split("/")[2];
+  const roomId = location.pathname.split("/")[3];
+
   return (
     <GameOptionContainer>
+      {gameTitle && roomId && (
+        <GameOptionButton
+          onClick={() => {
+            history.push(`/games/${gameTitle}`);
+          }}
+        >
+          나가기
+        </GameOptionButton>
+      )}
       {location.pathname !== "/" && location.pathname !== "/games" && (
         <GameOptionButton
           onClick={() => {

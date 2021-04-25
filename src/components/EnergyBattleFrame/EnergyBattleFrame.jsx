@@ -28,9 +28,11 @@ const EnergyBattleFrame = ({
 }) => {
   const canvasRef = useRef(null);
   const otherPlayerInputRef = useRef(null);
+
   const gameAnimationIdRef = useRef(null);
   const waitAnimationIdRef = useRef(null);
   const resultAnimationIdRef = useRef(null);
+
   const volumeSum = useRef(0);
   const myVolumeSum = useRef(0);
   const otherVolumeSum = useRef(0);
@@ -63,7 +65,9 @@ const EnergyBattleFrame = ({
         ctx.scale(-1, 1);
 
         pad.otherPad(ctx);
-        otherAvatar.idle(ctx, spriteCount);
+        if (roomStatus === "ready") {
+          otherAvatar.idle(ctx, spriteCount);
+        }
 
         waitAnimationIdRef.current = requestAnimationFrame(drawWait);
       };
@@ -107,8 +111,6 @@ const EnergyBattleFrame = ({
           otherVolumeSum.current
         );
         otherAvatar.cast(ctx, spriteCount);
-        // console.log(myVolumeSum.current);
-        // console.log(otherVolumeSum.current);
 
         gameAnimationIdRef.current = requestAnimationFrame(drawGame);
       };
@@ -155,13 +157,12 @@ const EnergyBattleFrame = ({
     }
 
     return () => {
-      cancelAnimationFrame(gameAnimationIdRef.current);
       cancelAnimationFrame(waitAnimationIdRef.current);
+      cancelAnimationFrame(gameAnimationIdRef.current);
       cancelAnimationFrame(resultAnimationIdRef.current);
-
       socket.off("input-other-player");
     };
-  }, [canvasHeight, canvasWidth, roomStatus]);
+  }, [roomStatus]);
 
   return (
     <>
