@@ -174,7 +174,14 @@ const MonsterEscapeFrame = ({
 
   const handleClick = (ev) => handleControlBox(ev);
 
-  return <Canvas ref={canvasRef} onClick={handleClick} width={canvasWidth} height={canvasHeight} />;
+  return (
+    <Canvas
+      ref={canvasRef}
+      onClick={handleClick}
+      width={canvasWidth}
+      height={canvasHeight}
+    />
+  );
 };
 
 export default MonsterEscapeFrame;

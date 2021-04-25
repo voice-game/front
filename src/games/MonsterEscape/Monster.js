@@ -30,16 +30,16 @@ class Monster {
 
     switch (level) {
       case "easy":
-        levelFactor = 0.5;
+        levelFactor = 0.3;
         break;
       case "normal":
-        levelFactor = 0.7;
+        levelFactor = 0.5;
         break;
       case "hard":
-        levelFactor = 1;
+        levelFactor = 0.8;
         break;
       default:
-        levelFactor = 0.7;
+        levelFactor = 1;
     }
 
     this.shieldTime = Math.max(this.shieldTime - 1, 0);
@@ -82,8 +82,8 @@ class Monster {
   };
 
   animate(ctx, speed, volumeData, frame) {
-    const {spdX, spdY} = speed;
-    const {volume, volThreshold} = volumeData;
+    const { spdX, spdY } = speed;
+    const { volume, volThreshold } = volumeData;
     let image = this.images[0];
 
     if (volume > 2 * volThreshold) {

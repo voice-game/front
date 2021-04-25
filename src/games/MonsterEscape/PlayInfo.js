@@ -14,14 +14,14 @@ class PlayInfo {
 
     const lifeBoxWidth = 0.2 * this.canvasWidth;
     const lifeBoxGap = lifeBoxWidth / maxLife;
-    const lifeBoxLeftPosX = 0.02 * this.canvasWidth;
-    const lifeBoxPosY = 0.05 * this.canvasHeight;
+    const lifeBoxPosX = 0.02 * this.canvasWidth;
+    const lifeBoxPosY = 0.1 * this.canvasHeight;
     const lifeWidth = lifeBoxGap - 0.005 * this.canvasWidth;
 
     for (let i = 0; i < life; i++) {
       ctx.drawImage(
         heart,
-        lifeBoxLeftPosX + lifeBoxGap * i,
+        lifeBoxPosX + lifeBoxGap * i,
         lifeBoxPosY,
         lifeWidth,
         lifeWidth * (heart.height / heart.width),
@@ -34,7 +34,7 @@ class PlayInfo {
     ctx.fillText(
       `${Math.round(0.1 * distance)} m`,
       0.2 * this.canvasWidth,
-      0.2 * this.canvasHeight,
+      0.1 * this.canvasHeight,
     );
 
     if (life === 0) {
