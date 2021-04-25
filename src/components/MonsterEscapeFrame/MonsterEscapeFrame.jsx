@@ -6,6 +6,7 @@ const Canvas = styled.canvas`
 `;
 
 const FPS = 36;
+const GOAL_DISTANCE = 3;
 const TIME_LEFT_TO_RIGHT = 10;
 const TIME_TO_TO_BOTTOM = 5;
 const SPEED_STEP = 0.5;
@@ -63,11 +64,13 @@ const MonsterEscapeFrame = ({
     const isMinusBtnClicked = getIsCanvasButtonClicked(clickedInfo, minusBtnInfo);
 
     if (isPlayBtnClicked) {
-      if (isPlay) {
+      console.log(isPlay, isFinished);
+      if (isPlay && isFinished) {
         myDataRef.current.normDistance = 0;
+        socket.emit("monsterescape-restart", roomId);
+      } else if (isPlay && !isFinished) {
         setIsInitGame(false);
       } else {
-        setIsPlay(true);
         socket.emit("monsterescape-start", roomId);
       }
     }
@@ -83,7 +86,16 @@ const MonsterEscapeFrame = ({
     } else if (isMinusBtnClicked) {
       setVolThreshold(Math.max(VOLUME_STEP, volThreshold - VOLUME_STEP));
     }
-  }, [isPlay, speed, roomId, socket, setIsInitGame, volThreshold, gameElement.controlBox]);
+  }, [
+    isPlay,
+    speed,
+    roomId,
+    socket,
+    setIsInitGame,
+    volThreshold,
+    gameElement.controlBox,
+    isFinished,
+  ]);
 
   const socketOn = useCallback(() => {
     socket.on("monsterescape-play", (yourData) => {
@@ -94,8 +106,14 @@ const MonsterEscapeFrame = ({
       setIsPlay(true);
     });
 
+    socket.on("monsterescape-restart", () => {
+      setIsInitGame(false);
+      setIsPlay(false);
+      setIsFinished(false);
+    });
+
     socket.on("monsterescape-finish", () => {
-      console.log("finish");
+      console.log("on finish");
       setIsFinished(true);
     });
     return () => {
@@ -103,7 +121,7 @@ const MonsterEscapeFrame = ({
       socket.off("monsterescape-start");
       socket.off("monsterescape-finish");
     };
-  }, [socket]);
+  }, [socket, setIsFinished, setIsPlay, setIsInitGame]);
 
   const drawCanvas = useCallback(() => {
     if (!isInitGame || !volumeMeter) { return };
@@ -139,11 +157,13 @@ const MonsterEscapeFrame = ({
       };
 
       const gameStatus = {
-        isFinished: isFinished,
         isPlay: isPlay,
+        isFinished: isFinished,
+        goalDistance: GOAL_DISTANCE
       };
 
       myMonster.setIsCollision([enemy], FPS, "easy");
+      if (!myMonster.life) { setIsInitGame(false) }
 
       ctx.clearRect(0, 0, canvasWidth, canvasHeight);
       background.animate(ctx);
@@ -170,10 +190,11 @@ const MonsterEscapeFrame = ({
           yourMonster.animate(ctx, myDataRef.current, yourDataRef.current, singleFrameRef.current);
         }
 
-        if (myDataRef.current.normDistance > 5) {
+        if (myDataRef.current.normDistance >= GOAL_DISTANCE) {
           myMonster.isWinner = true;
           socket.emit("monsterescape-finish", roomId);
-          setIsFinished(true);
+          // setIsFinished(true);
+          console.log("finish")
         }
       } else {
         const monsterSpd = { spdX: 0, spdY: 0 };
@@ -204,6 +225,7 @@ const MonsterEscapeFrame = ({
     socket,
     roomId,
     isFinished,
+    setIsInitGame,
   ]);
 
   useEffect(socketOn, [socketOn]);

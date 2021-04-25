@@ -1,5 +1,3 @@
-let i = 0
-
 class PlayInfo {
   constructor (canvasWidth, canvasHeight, images, fps){
     this.canvasWidth = canvasWidth;
@@ -10,7 +8,7 @@ class PlayInfo {
 
   animate (ctx, characterInfo, gameStatus, frame) {
     const { distance, life, maxLife, isWinner } = characterInfo;
-    const { isPlay, isFinished } = gameStatus;
+    const { goalDistance, isPlay, isFinished } = gameStatus;
     const { getReady, gameOver, victory, youLose } = this.images;
 
     const heart = this.images.heart;
@@ -30,20 +28,25 @@ class PlayInfo {
       );
     }
 
-    ctx.font = `bold ${0.05 * this.canvasWidth}px sans-serif`;
-    ctx.textAlign = "right";
+    ctx.font = `900 ${0.03 * this.canvasWidth}px sans-serif`;
+    ctx.textAlign = "left";
     ctx.fillStyle = "#7B1FA2";
     ctx.fillText(
-      `${Math.round(0.1 * distance)} m`,
-      0.2 * this.canvasWidth,
-      0.1 * this.canvasHeight,
+      "남은거리",
+      0.03 * this.canvasWidth,
+      0.08 * this.canvasHeight,
+    );
+    ctx.textAlign = "right";
+    ctx.fillText(
+      `${Math.max(Math.floor(100 * (goalDistance - distance / this.canvasWidth)), 0)} m`,
+      0.23 * this.canvasWidth,
+      0.08 * this.canvasHeight,
     );
 
-    if (!isPlay || !life || isFinished) {
+    if (!isPlay || isFinished) {
       let gameStatusImg;
 
       if (!isPlay) { gameStatusImg = getReady }
-      if (!life) { gameStatusImg = gameOver }
 
       if (isFinished) {
         if (isWinner) {
