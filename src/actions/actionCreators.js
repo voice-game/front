@@ -28,7 +28,7 @@ export const checkAuthorization = () => async (dispatch) => {
       dispatch({ type: getActionTypes().CHECK_AUTHORIZATION_FAIL });
     }
   } catch (err) {
-    dispatch({ type: getActionTypes().CHECK_AUTHORIZATION_FAIL });
+    dispatch({ type: getActionTypes().CHECK_AUTHORIZATION_FAIL, payload: err });
   }
 };
 
@@ -54,7 +54,7 @@ export const playerLogin = (data) => async (dispatch) => {
       payload: result.data,
     });
   } catch (err) {
-    dispatch({ type: getActionTypes().PLAYER_LOGIN_FAIL });
+    dispatch({ type: getActionTypes().PLAYER_LOGIN_FAIL, payload: err });
   }
 };
 
@@ -74,7 +74,6 @@ export const fetchRoomsAction = (gameTitle) => async (dispatch) => {
   try {
     const response = await fetch(`${USER_SERVER_API}/games/${gameTitle}`);
     const result = await response.json();
-    console.log(result);
 
     dispatch({
       type: getActionTypes().FETCH_ROOMS_SUCCESS,
@@ -84,12 +83,12 @@ export const fetchRoomsAction = (gameTitle) => async (dispatch) => {
       },
     });
   } catch (err) {
-    dispatch({ type: getActionTypes().FETCH_ROOMS_FAIL });
+    dispatch({ type: getActionTypes().FETCH_ROOMS_FAIL, payload: err });
   }
 };
 
 export const createRoomAction = (gameTitle, newRoomId, createdBy) => async (
-  dispatch,
+  dispatch
 ) => {
   dispatch({ type: getActionTypes().CREATE_ROOM });
 
@@ -109,12 +108,12 @@ export const createRoomAction = (gameTitle, newRoomId, createdBy) => async (
       payload: result.data,
     });
   } catch (err) {
-    dispatch({ type: getActionTypes().CREATE_ROOM_FAIL });
+    dispatch({ type: getActionTypes().CREATE_ROOM_FAIL, payload: err });
   }
 };
 
 export const joinRoomAction = (gameTitle, roomId, playerData) => async (
-  dispatch,
+  dispatch
 ) => {
   dispatch({ type: getActionTypes().JOIN_ROOM });
 
@@ -127,7 +126,7 @@ export const joinRoomAction = (gameTitle, roomId, playerData) => async (
           "Content-Type": "application/json",
         },
         body: JSON.stringify({ gameTitle, roomId, playerData, type: "JOIN" }),
-      },
+      }
     );
 
     const result = await response.json();
@@ -140,12 +139,12 @@ export const joinRoomAction = (gameTitle, roomId, playerData) => async (
       },
     });
   } catch (err) {
-    dispatch({ type: getActionTypes().JOIN_ROOM_FAIL });
+    dispatch({ type: getActionTypes().JOIN_ROOM_FAIL, payload: err });
   }
 };
 
 export const leaveRoomAction = (gameTitle, roomId, playerData) => async (
-  dispatch,
+  dispatch
 ) => {
   dispatch({ type: getActionTypes().LEAVE_ROOM });
 
@@ -158,7 +157,7 @@ export const leaveRoomAction = (gameTitle, roomId, playerData) => async (
           "Content-Type": "application/json",
         },
         body: JSON.stringify({ gameTitle, roomId, playerData, type: "LEAVE" }),
-      },
+      }
     );
 
     const result = await response.json();
@@ -171,7 +170,7 @@ export const leaveRoomAction = (gameTitle, roomId, playerData) => async (
       },
     });
   } catch (err) {
-    dispatch({ type: getActionTypes().LEAVE_ROOM_FAIL });
+    dispatch({ type: getActionTypes().LEAVE_ROOM_FAIL, payload: err });
   }
 };
 
@@ -187,7 +186,7 @@ export const deleteRoomAction = (gameTitle, roomId) => async (dispatch) => {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({ gameTitle, roomId }),
-      },
+      }
     );
 
     const result = await response.json();
@@ -200,12 +199,12 @@ export const deleteRoomAction = (gameTitle, roomId) => async (dispatch) => {
       },
     });
   } catch (err) {
-    dispatch({ type: getActionTypes().DELETE_ROOM_FAIL });
+    dispatch({ type: getActionTypes().DELETE_ROOM_FAIL, payload: err });
   }
 };
 
 export const changeRoomStatus = (gameTitle, roomId, status) => async (
-  dispatch,
+  dispatch
 ) => {
   dispatch({ type: getActionTypes().CHANGE_ROOM_STATUS });
 
@@ -228,6 +227,46 @@ export const changeRoomStatus = (gameTitle, roomId, status) => async (
       },
     });
   } catch (err) {
-    dispatch({ type: getActionTypes().CHANGE_ROOM_STATUS_FAIL });
+    dispatch({ type: getActionTypes().CHANGE_ROOM_STATUS_FAIL, payload: err });
+  }
+};
+
+export const gameResultAction = (
+  type,
+  gameTitle,
+  roomId,
+  player,
+  gameResult
+) => async (dispatch) => {
+  dispatch({ type: getActionTypes().PATCH_RESULT });
+
+  try {
+    const response = await fetch(
+      `${USER_SERVER_API}/games/${gameTitle}/${roomId}`,
+      {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          type,
+          gameTitle,
+          playerData: player,
+          gameResult,
+        }),
+      }
+    );
+
+    const result = await response.json();
+
+    dispatch({
+      type: getActionTypes().PATCH_RESULT_SUCCESS,
+      payload: {
+        title: gameTitle,
+        player: result.data,
+      },
+    });
+  } catch (err) {
+    dispatch({ type: getActionTypes().PATCH_RESULT_FAIL, payload: err });
   }
 };

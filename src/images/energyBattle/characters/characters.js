@@ -10,6 +10,8 @@ import skillComet from "./energyBattle_skill_comet.png";
 import pad1 from "./energyBattle_pad_1.png";
 import pad2 from "./energyBattle_pad_2.png";
 import pad3 from "./energyBattle_pad_3.png";
+import win from "./text_win.png";
+import lose from "./text_lose.png";
 
 const CHARACTERS = {
   myCharacter: {
@@ -31,6 +33,10 @@ const CHARACTERS = {
     pad1,
     pad2,
     pad3,
+  },
+  result: {
+    win,
+    lose,
   },
 };
 

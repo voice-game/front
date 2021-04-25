@@ -3,50 +3,67 @@ import { useHistory, useLocation } from "react-router-dom";
 import styled from "styled-components";
 
 const GameOptionContainer = styled.div`
-  width: 96%;
-  height: 8vh;
-  padding: 0 40px;
+  width: 100%;
+  padding: 1vh 1vw;
   display: flex;
   justify-content: flex-end;
   align-items: center;
 `;
 
-const GameOptionButton = styled.button`
-  width: 7vw;
-  height: 3vh;
+const LeaveRoomButton = styled.button`
   margin-right: 1vw;
-  border: none;
-  background-color: #ec6998;
-  border-radius: 5px;
-  font-size: 0.9rem;
+  background-color: #dfe4ea;
   font-weight: 600;
-  color: white;
-  box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
-  cursor: pointer;
+  font-size: 0.9rem;
+`;
+
+const ChooseGameButton = styled.button`
+  margin-right: 1vw;
+  font-weight: 600;
+  font-size: 0.9rem;
+`;
+
+const LogoutButton = styled.button`
+  margin-right: 1vw;
+  font-weight: 600;
+  font-size: 0.9rem;
+  background-color: #eb4d4b;
 `;
 
 const GameOption = () => {
   const history = useHistory();
   const location = useLocation();
 
+  const gameTitle = location.pathname.split("/")[2];
+  const roomId = location.pathname.split("/")[3];
+
   return (
     <GameOptionContainer>
+      {gameTitle && roomId && (
+        <LeaveRoomButton
+          onClick={() => {
+            history.push(`/games/${gameTitle}`);
+          }}
+        >
+          Leave Room
+        </LeaveRoomButton>
+      )}
       {location.pathname !== "/" && location.pathname !== "/games" && (
-        <GameOptionButton
+        <ChooseGameButton
           onClick={() => {
             history.push("/games");
           }}
         >
-          다른게임
-        </GameOptionButton>
+          Choose Game
+        </ChooseGameButton>
       )}
-      <GameOptionButton
+      <LogoutButton
         onClick={() => {
           history.push("/logout");
         }}
       >
-        로그아웃
-      </GameOptionButton>
+        Log Out
+      </LogoutButton>
     </GameOptionContainer>
   );
 };
