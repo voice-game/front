@@ -13,3 +13,10 @@ export const IMAGE_TYPE = {
   TILE: "TILE",
   OBJECT: "OBJECT",
 };
+
+export const ROOM_STATUS = {
+  WAITING: "WAITING",
+  READY: "READY",
+  START: "START",
+  END: "END",
+};
