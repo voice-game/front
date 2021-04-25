@@ -6,6 +6,7 @@ import io from "socket.io-client";
 import GameOption from "../GameOption/GameOption";
 import EnergyBattle from "../EnergyBattle/EnergyBattle";
 import MonsterEscape from "../MonsterEscape/MonsterEscape";
+import RoadRoller from "../RoadRoller/RoadRoller";
 
 import {
   joinRoomAction,
@@ -13,6 +14,7 @@ import {
   deleteRoomAction,
   changeRoomStatus,
 } from "../../actions/actionCreators";
+
 import { USER_SERVER, MAX_PLAYER } from "../../constants/constants";
 
 const socket = io(USER_SERVER, {
@@ -119,7 +121,7 @@ const GameRoom = () => {
         />
       )}
       {gameTitle === "roadRoller" && (
-        <EnergyBattle
+        <RoadRoller
           socket={socket}
           creater={currentRoom?.createdBy}
           player={playerData}

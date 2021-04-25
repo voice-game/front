@@ -10,11 +10,11 @@ const Canvas = styled.canvas`
   z-index: ${props => {
     switch (props.id) {
       case "ui-layer":
-        return -1;
+        return 1;
       case "game-layer":
-        return -2;
+        return 0;
       case "background-layer":
-        return -3;
+        return -1;
       default:
         return 0;
     }

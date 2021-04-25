@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 const loadImages = async (url) => {
   return new Promise((resolve, reject) => {
@@ -8,7 +8,9 @@ const loadImages = async (url) => {
   });
 };
 
-const useImage = (urls, setImages) => {
+const useImage = (urls, initialState) => {
+  const [images, setImages] = useState(initialState);
+
   useEffect(() => {
     if (Array.isArray(urls)) {
       (async () => {
@@ -35,6 +37,8 @@ const useImage = (urls, setImages) => {
       })();
     }
   }, [urls, setImages]);
+
+  return images;
 };
 
 export default useImage;
