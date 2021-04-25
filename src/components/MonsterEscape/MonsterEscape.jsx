@@ -43,7 +43,7 @@ const MonsterEscape = ({ socket, roomId, player, otherPlayers }) => {
   const monsterImages = useImage(monsterImageUrls, []);
   const groundImages = useImage(groundImageUrls, []);
   const ceilingImages = useImage(ceilingImageUrls, []);
-  const enemyImages = useImage(enenmyImageUrls, []);
+  const enemyImages = useImage(enenmyImageUrls, []); 
 
   useEffect(() => {
     (async () => {
