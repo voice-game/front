@@ -14,6 +14,7 @@ class Pad {
 
     this.width = point.width;
     this.height = point.height;
+
     this.posX = point.posX - point.pad.range;
     this.posY = point.posY;
     this.minX = this.posX;
@@ -74,6 +75,11 @@ class Pad {
     if (100 <= pitch && this.posX < this.maxX) {
       this.posX += this.speed;
     }
+
+    if (this.posX < this.posX + pitch) {
+      this.posX += this.speed;
+    }
+    this.posX += pitch;
   }
 
   checkOnBoard(characterController) {

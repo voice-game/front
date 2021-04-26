@@ -8,8 +8,10 @@ class CharacterController {
     this.canvasWidth = canvasWidth;
     this.canvasHeight = canvasHeight;
 
-    this.posX = 1050;
-    this.posY = 100;
+    this.initialX = 1050;
+    this.initialY = 100;
+    this.posX = this.initialX;
+    this.posY = this.initialY;
 
     this.isImgChanged = false;
     this.gravity = 0;
@@ -48,8 +50,8 @@ class CharacterController {
     this.characterCenterX = this.posX + this.character.widthHalf;
 
     if (this.canvasHeight < this.posY - this.character.height) {
-      this.posX = 80;
-      this.posY = 40;
+      this.posX = this.initialX;
+      this.posY = this.initialY;
     }
 
     if (!this.maxY) {
@@ -106,14 +108,19 @@ class CharacterController {
 
   handleCharacterMovement(dots) {
     this.handleCharacterImage();
+    this.character.frameSpeed = 10;
 
     if (this.characterMove.left) {
+      this.character.frameSpeed = 50;
+
       if (0 < this.posX - this.characterMove.speed) {
         this.posX -= this.characterMove.speed;
       }
     }
 
     if (this.characterMove.right) {
+      this.character.frameSpeed = 50;
+
       if (this.posX + this.character.width < this.canvasWidth) {
         this.posX += this.characterMove.speed;
       }
