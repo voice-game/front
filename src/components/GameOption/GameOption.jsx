@@ -24,7 +24,7 @@ const GameOption = () => {
         <Button
           onClick={() => history.push(`/games/${gameTitle}`)}
           bgColor={"#dfe4ea"}
-          margin={["0vh", "1vw", "0vh", "0vw"]}
+          margin={["0", "1vw", "0", "0"]}
           fontWeight={"600"}
           fontSize={"0.9rem"}
         >
@@ -34,7 +34,7 @@ const GameOption = () => {
       {gameTitle && (
         <Button
           onClick={() => history.push("/games")}
-          margin={["0vh", "1vw", "0vh", "0vw"]}
+          margin={["0", "1vw", "0", "0"]}
           fontWeight={"600"}
           fontSize={"0.9rem"}
         >
@@ -43,7 +43,7 @@ const GameOption = () => {
       )}
       <Button
         onClick={() => history.push("/logout")}
-        margin={["0vh", "1vw", "0vh", "0vw"]}
+        margin={["0", "1vw", "0", "0"]}
         bgColor={"#eb4d4b"}
         fontWeight={"600"}
         fontSize={"0.9rem"}

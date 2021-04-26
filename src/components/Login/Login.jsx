@@ -21,14 +21,10 @@ const MainTitle = styled.div`
   margin-bottom: 5vh;
 `;
 
-// const LoginButton = styled.button`
-//   margin-top: 5vh;
-// `;
-
 const Login = ({ authService }) => {
   const dispatch = useDispatch();
   const [error, showErrorMessage] = useErrorMessage("");
-  
+
   const onLogin = useCallback(
     async (event) => {
       try {
@@ -49,7 +45,7 @@ const Login = ({ authService }) => {
       <Button
         name="Google"
         onClick={onLogin}
-        margin={["5vh", "0vh", "0vh", "0vh"]}
+        margin={["5vh", "0", "0", "0"]}
       >
         Google Login
       </Button>

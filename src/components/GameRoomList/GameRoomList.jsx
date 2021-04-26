@@ -114,14 +114,14 @@ const GameRoomList = () => {
       <ButtonContainer>
         <Button
           onClick={createRoom}
-          margin={["0px", "10px", "0px", "0px"]}
+          margin={["0", "10px", "0", "0"]}
           bgColor={"#1e90ff"}
         >
           New Room
         </Button>
         <Button
           onClick={enterRandom}
-          margin={["0px", "0px", "0px", "10px"]}
+          margin={["0", "0", "0", "10px"]}
           bgColor={"#27ae60"}
         >
           Enter Random

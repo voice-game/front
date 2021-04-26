@@ -43,7 +43,7 @@ const Logout = ({ authService }) => {
       <LogoutMessage>Are You Leaving?</LogoutMessage>
       <Button
         onClick={onLogout}
-        margin={["5vh", "0vw", "0vh", "1vw"]}
+        margin={["5vh", "0", "0", "1vw"]}
         bgColor={"#eb4d4b"}
         fontWeight={"600"}
       >
@@ -51,7 +51,7 @@ const Logout = ({ authService }) => {
       </Button>
       <Button
         onClick={() => history.push("/games")}
-        margin={["1vh", "0vw", "0vh", "1vw"]}
+        margin={["1vh", "0", "0", "1vw"]}
         fontWeight={"600"}
       >
         Back to game
