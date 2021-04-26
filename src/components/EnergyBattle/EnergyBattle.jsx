@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect, useCallback, useRef } from "react";
 import styled from "styled-components";
 
@@ -9,11 +10,9 @@ import Pads from "../../games/energyBattle/Pads";
 import SkillEffect from "../../games/energyBattle/SkillEffect";
 
 import useImage from "../../hooks/useImage";
-import getMedia from "../../utils/getMedia";
-import VolumeMeter from "../../utils/VolumeMeter";
-import wait from "../../utils/wait";
 import CHARACTERS from "../../games/energyBattle/CHARACTERS";
 import { ROOM_STATUS } from "../../constants/constants";
+import usePlayEnergyBattle from "../../hooks/usePlayEnergyBattle";
 
 const GameTitle = styled.h1`
   margin: 0;
@@ -53,10 +52,8 @@ const PlayerData = styled.span`
 `;
 
 const EnergyBattle = ({ socket, roomId, player, otherPlayers }) => {
-  const [volumeMeter, setVolumeMeter] = useState({});
   const [roomStatus, setRoomStatus] = useState("");
   const [isStartDisabled, setIsStartDisabled] = useState(false);
-  const [counter, setCounter] = useState("");
 
   const playerAvatar = useRef(null);
   const otherAvatar = useRef(null);
@@ -71,52 +68,12 @@ const EnergyBattle = ({ socket, roomId, player, otherPlayers }) => {
   const skillEffect = useImage(CHARACTERS.skillEffect);
   const pads = useImage(CHARACTERS.pads);
   const resultImages = useImage(CHARACTERS.result);
+  const [volumeMeter, counter, playGame] = usePlayEnergyBattle(
+    setRoomStatus,
+    setIsStartDisabled
+  );
 
-  const playGame = useCallback(async () => {
-    setIsStartDisabled(true);
-    setRoomStatus(ROOM_STATUS.READY);
-
-    const mediaStream = await getMedia({ audio: true });
-    const volumeMeter = new VolumeMeter(mediaStream, {
-      bufferSize: 2048,
-      minDecibels: -60,
-      maxDecibels: -30,
-      timeConstant: 0.9,
-    });
-
-    setCounter("3");
-    await wait(1000);
-    setCounter("2");
-    await wait(1000);
-    setCounter("1");
-    await wait(1000);
-    setCounter("SHOUT!!");
-
-    setVolumeMeter(volumeMeter);
-    setRoomStatus(ROOM_STATUS.START);
-
-    await wait(5000);
-
-    setCounter("3");
-    await wait(1000);
-    setCounter("2");
-    await wait(1000);
-    setCounter("1");
-    await wait(1000);
-    setCounter("END");
-
-    setRoomStatus(ROOM_STATUS.END);
-    setIsStartDisabled(false);
-    setVolumeMeter({});
-
-    mediaStream.getTracks()[0].stop();
-
-    await wait(3000);
-    setRoomStatus(ROOM_STATUS.READY);
-    setCounter("");
-  }, []);
-
-  const startGame = useCallback(async () => {   
+  const startGame = useCallback(async () => {
     if (isStartDisabled) {
       return;
     }
@@ -125,12 +82,12 @@ const EnergyBattle = ({ socket, roomId, player, otherPlayers }) => {
       socket.emit("start-game");
       playGame();
     }
-
   }, [isStartDisabled, playGame, roomStatus, socket]);
 
   useEffect(() => {
     canvasWidth.current = document.body.clientWidth * 0.8;
     canvasHeight.current = document.body.clientWidth * 0.4;
+    socket.on("start-by-other", playGame);
 
     if (myCharacter && otherCharacter && skillEffect && pads && resultImages) {
       playerAvatar.current = new PlayerAvatar(
@@ -157,8 +114,6 @@ const EnergyBattle = ({ socket, roomId, player, otherPlayers }) => {
         setRoomStatus(ROOM_STATUS.READY);
       }
     }
-
-    socket.on("start-by-other", playGame);
 
     return () => {
       socket.off("start-by-other");

@@ -3,6 +3,7 @@ import _ from "lodash";
 
 const initialState = {
   isAuthorized: false,
+  isMicOn: false,
   playerData: null,
   error: null,
 };
@@ -15,6 +16,10 @@ const authReducer = (state = initialState, action) => {
     case ACTION_TYPES.CHECK_AUTHORIZATION:
     case ACTION_TYPES.PLAYER_LOGIN:
     case ACTION_TYPES.PATCH_RESULT:
+      return copiedState;
+
+    case ACTION_TYPES.PLAYER_MIC_ON:
+      copiedState.isMicOn = true;
       return copiedState;
 
     case ACTION_TYPES.CHECK_AUTHORIZATION_SUCCESS:

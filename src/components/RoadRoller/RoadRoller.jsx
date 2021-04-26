@@ -8,7 +8,7 @@ import Game from "../../games/roadRoller";
 import BackGround from "../../games/roadRoller/background";
 import GameFrame from "../GameFrame/GameFrame";
 import GameOption from "../GameOption/GameOption";
-import GameMap from "../../games/roadRoller/GameMap";
+import GameMap from "../../games/roadRoller/gameMap";
 
 import b0 from "../../assets/image/background/0.png";
 import b1 from "../../assets/image/background/1.png";
@@ -20,20 +20,27 @@ const RoadRoller = (props) => {
   const WIDTH = TILE_SIZE * 43;
   const HEIGHT = TILE_SIZE * 19;
 
-  const {
+  const { isAudioUse, audioContextRef, micStreamRef } = useAudio(
+    { samplerate: 12000 },
+    { audio: true, video: false }
+  );
+  const pitchDetectorRef = usePitchDetector(
     isAudioUse,
     audioContextRef,
-    micStreamRef,
-  } = useAudio({ samplerate: 12000 }, { audio: true, video: false });
-  const pitchDetectorRef = usePitchDetector(isAudioUse, audioContextRef, micStreamRef);
+    micStreamRef
+  );
 
-  const {
+  const { staticDots, staticMap, interactionPoints } = new GameMap(
+    TILE_SIZE,
+    WIDTH,
+    HEIGHT
+  ).gameMap;
+
+  const game = useCanvas(Game, {
+    pitchDetectorRef,
     staticDots,
-    staticMap,
     interactionPoints,
-  } = new GameMap(TILE_SIZE, WIDTH, HEIGHT).gameMap;
-
-  const game = useCanvas(Game, { pitchDetectorRef, staticDots, interactionPoints });
+  });
   const background = useCanvas(BackGround, { staticMap });
 
   return (

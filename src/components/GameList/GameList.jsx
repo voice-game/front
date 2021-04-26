@@ -12,6 +12,8 @@ import { GAME_TITLE } from "../../constants/constants";
 import energyBattleThumbnail from "../../images/thumbnails/energyBattle_thumbnail.png";
 import comingSoonThumbnail from "../../images/thumbnails/comingSoon_thumbnail.png";
 import energyBattleGif from "../../images/thumbnails/energyBattle_gif.gif";
+import useMicInput from "../../hooks/useMicInput";
+import { useSelector } from "react-redux";
 
 const MainPage = styled.section`
   width: 100vw;
@@ -40,8 +42,14 @@ const GameCardGrid = styled.div`
 const GameList = () => {
   const history = useHistory();
   const [error, showErrorMessage] = useErrorMessage("");
+  const { isMicOn } = useSelector((state) => state.authReducer);
+  useMicInput(showErrorMessage);
 
   const selectGame = (game) => {
+    if (!isMicOn) {
+      return showErrorMessage("마이크를 허용하고 새로고침 해주세요");
+    }
+
     switch (game) {
       case GAME_TITLE.ROAD_ROLLER:
         history.push("/games/roadRoller");
@@ -63,7 +71,7 @@ const GameList = () => {
   return (
     <MainPage>
       <GameOption />
-      {error.length > 0 && <ErrorMessage />}
+      {error.length > 0 && <ErrorMessage error={error} />}
       <MainTitle> WELCOME TO VOICE GAME !! </MainTitle>
       <GameCardGrid>
         <GameCard
