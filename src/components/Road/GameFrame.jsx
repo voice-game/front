@@ -21,7 +21,7 @@ const Canvas = styled.canvas`
   }};
 `;
 
-const GameFrame = ({
+const RoadRoller = ({
   id,
   canvasRef,
   width,
@@ -41,4 +41,4 @@ const GameFrame = ({
   );
 };
 
-export default GameFrame;
+export default RoadRoller;
