@@ -116,17 +116,16 @@ const EnergyBattle = ({ socket, roomId, player, otherPlayers }) => {
     setCounter("");
   }, []);
 
-  const startGame = useCallback(async () => {
-    if (roomStatus !== ROOM_STATUS.READY || roomStatus !== ROOM_STATUS.END) {
-      return;
-    }
-
+  const startGame = useCallback(async () => {   
     if (isStartDisabled) {
       return;
     }
 
-    socket.emit("start-game");
-    playGame();
+    if (roomStatus === ROOM_STATUS.READY || roomStatus === ROOM_STATUS.END) {
+      socket.emit("start-game");
+      playGame();
+    }
+
   }, [isStartDisabled, playGame, roomStatus, socket]);
 
   useEffect(() => {

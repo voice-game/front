@@ -2,21 +2,13 @@ import React, { useEffect, useRef } from "react";
 import styled from "styled-components";
 import { useDispatch } from "react-redux";
 
+import Canvas from "../../components/shared/Canvas/Canvas";
 import BACKGROUNDS from "../../games/energyBattle/BACKGROUND";
 import pickRandom from "../../utils/pickRandom";
 import { gameResultAction } from "../../actions/actionCreators";
 import { ROOM_STATUS } from "../../constants/constants";
 
 let randomBackground = pickRandom(BACKGROUNDS);
-
-const Canvas = styled.canvas`
-  display: block;
-  margin: 0 auto;
-  background-image: url(${randomBackground});
-  background-size: contain;
-  margin-top: 20px;
-  border: 1px solid black;
-`;
 
 const EnergyBattleFrame = ({
   socket,
@@ -197,7 +189,13 @@ const EnergyBattleFrame = ({
 
   return (
     <>
-      <Canvas ref={canvasRef} width={canvasWidth} height={canvasHeight} />
+      <Canvas
+        ref={canvasRef}
+        width={canvasWidth}
+        height={canvasHeight}
+        margin={["20px", "auto", "0", "auto"]}
+        bgImage={randomBackground}
+      />
     </>
   );
 };
