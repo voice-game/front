@@ -1,6 +1,7 @@
 import React from "react";
 import { useHistory, useLocation } from "react-router-dom";
 import styled from "styled-components";
+import Button from "../shared/Button/Button";
 
 const GameOptionContainer = styled.div`
   width: 100%;
@@ -8,26 +9,6 @@ const GameOptionContainer = styled.div`
   display: flex;
   justify-content: flex-end;
   align-items: center;
-`;
-
-const LeaveRoomButton = styled.button`
-  margin-right: 1vw;
-  background-color: #dfe4ea;
-  font-weight: 600;
-  font-size: 0.9rem;
-`;
-
-const ChooseGameButton = styled.button`
-  margin-right: 1vw;
-  font-weight: 600;
-  font-size: 0.9rem;
-`;
-
-const LogoutButton = styled.button`
-  margin-right: 1vw;
-  font-weight: 600;
-  font-size: 0.9rem;
-  background-color: #eb4d4b;
 `;
 
 const GameOption = () => {
@@ -40,30 +21,35 @@ const GameOption = () => {
   return (
     <GameOptionContainer>
       {gameTitle && roomId && (
-        <LeaveRoomButton
-          onClick={() => {
-            history.push(`/games/${gameTitle}`);
-          }}
+        <Button
+          onClick={() => history.push(`/games/${gameTitle}`)}
+          bgColor={"#dfe4ea"}
+          margin={["0vh", "1vw", "0vh", "0vw"]}
+          fontWeight={"600"}
+          fontSize={"0.9rem"}
         >
           Leave Room
-        </LeaveRoomButton>
+        </Button>
       )}
       {gameTitle && (
-        <ChooseGameButton
-          onClick={() => {
-            history.push("/games");
-          }}
+        <Button
+          onClick={() => history.push("/games")}
+          margin={["0vh", "1vw", "0vh", "0vw"]}
+          fontWeight={"600"}
+          fontSize={"0.9rem"}
         >
           Choose Game
-        </ChooseGameButton>
+        </Button>
       )}
-      <LogoutButton
-        onClick={() => {
-          history.push("/logout");
-        }}
+      <Button
+        onClick={() => history.push("/logout")}
+        margin={["0vh", "1vw", "0vh", "0vw"]}
+        bgColor={"#eb4d4b"}
+        fontWeight={"600"}
+        fontSize={"0.9rem"}
       >
         Log Out
-      </LogoutButton>
+      </Button>
     </GameOptionContainer>
   );
 };

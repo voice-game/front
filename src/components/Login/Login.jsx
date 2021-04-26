@@ -3,6 +3,7 @@ import { useDispatch } from "react-redux";
 import styled from "styled-components";
 
 import ErrorMessage from "../ErrorMessage/ErrorMessage";
+import Button from "../shared/Button/Button";
 import useErrorMessage from "../../hooks/useErrorMessage";
 import { playerLogin } from "../../actions/actionCreators";
 
@@ -20,14 +21,14 @@ const MainTitle = styled.div`
   margin-bottom: 5vh;
 `;
 
-const LoginButton = styled.button`
-  margin-top: 5vh;
-`;
+// const LoginButton = styled.button`
+//   margin-top: 5vh;
+// `;
 
 const Login = ({ authService }) => {
   const dispatch = useDispatch();
   const [error, showErrorMessage] = useErrorMessage("");
-
+  
   const onLogin = useCallback(
     async (event) => {
       try {
@@ -45,9 +46,13 @@ const Login = ({ authService }) => {
     <LoginContainer>
       {error.length > 0 && <ErrorMessage error={error} />}
       <MainTitle>VOICE GAME</MainTitle>
-      <LoginButton name="Google" onClick={onLogin}>
+      <Button
+        name="Google"
+        onClick={onLogin}
+        margin={["5vh", "0vh", "0vh", "0vh"]}
+      >
         Google Login
-      </LoginButton>
+      </Button>
     </LoginContainer>
   );
 };

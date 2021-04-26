@@ -8,6 +8,7 @@ import Pusher from "pusher-js";
 import GameOption from "../GameOption/GameOption";
 import GameRoomCard from "../GameRoomCard/GameRoomCard";
 import ErrorMessage from "../ErrorMessage/ErrorMessage";
+import Button from "../shared/Button/Button";
 import useErrorMessage from "../../hooks/useErrorMessage";
 import {
   fetchRoomsAction,
@@ -39,15 +40,15 @@ const GameRoomGrid = styled.div`
   padding: 30px;
 `;
 
-const NewRoomButton = styled.button`
-  background-color: #1e90ff;
-  margin-right: 10px;
-`;
+// const NewRoomButton = styled.button`
+//   background-color: #1e90ff;
+//   margin-right: 10px;
+// `;
 
-const EnterRandomButton = styled.button`
-  background-color: #27ae60;
-  margin-left: 10px;
-`;
+// const EnterRandomButton = styled.button`
+//   background-color: #27ae60;
+//   margin-left: 10px;
+// `;
 
 const GameRoomList = () => {
   const history = useHistory();
@@ -111,10 +112,20 @@ const GameRoomList = () => {
       <GameOption />
       <GameTitle>{gameTitle}</GameTitle>
       <ButtonContainer>
-        <NewRoomButton onClick={createRoom}>New Room</NewRoomButton>
-        <EnterRandomButton onClick={enterRandom}>
+        <Button
+          onClick={createRoom}
+          margin={["0px", "10px", "0px", "0px"]}
+          bgColor={"#1e90ff"}
+        >
+          New Room
+        </Button>
+        <Button
+          onClick={enterRandom}
+          margin={["0px", "0px", "0px", "10px"]}
+          bgColor={"#27ae60"}
+        >
           Enter Random
-        </EnterRandomButton>
+        </Button>
       </ButtonContainer>
       <GameRoomGrid>
         {roomList &&
