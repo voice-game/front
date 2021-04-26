@@ -17,7 +17,7 @@ const LogoutContainer = styled.div`
 `;
 
 const LogoutMessage = styled.div`
-  font-size: 1.7rem;
+  font-size: 3rem;
   font-weight: 600;
 `;
 
@@ -50,7 +50,7 @@ const Logout = ({ authService }) => {
   return (
     <LogoutContainer>
       {error.length > 0 && <ErrorMessage error={error} />}
-      <LogoutMessage>로그아웃 하시겠습니까?</LogoutMessage>
+      <LogoutMessage>Are You Leaving?</LogoutMessage>
       <LogoutButton onClick={onLogout}>Log Out</LogoutButton>
       <CancelButton
         onClick={() => {

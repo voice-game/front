@@ -20,3 +20,9 @@ export const ROOM_STATUS = {
   START: "START",
   END: "END",
 };
+
+export const GAME_TITLE = {
+  ROAD_ROLLER: "ROAD ROLLER",
+  MONSTER_ESCAPE: "MONSTER ESCAPE",
+  ENERGY_BATTLE: "ENERGY BATTLE",
+};
