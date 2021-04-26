@@ -1,183 +1,200 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useState, useEffect, useCallback, useRef } from "react";
-import styled from "styled-components";
+import React, { useEffect, useRef } from "react";
+import { useDispatch } from "react-redux";
 
-import EnergyBattleFrame from "../EnergyBattleFrame/EnergyBattleFrame";
-
-import PlayerAvatar from "../../games/energyBattle/PlayerAvatar";
-import OtherAvatar from "../../games/energyBattle/OtherAvatar";
-import Pads from "../../games/energyBattle/Pads";
-import SkillEffect from "../../games/energyBattle/SkillEffect";
-
-import useImage from "../../hooks/useImage";
-import CHARACTERS from "../../games/energyBattle/CHARACTERS";
+import Canvas from "../shared/Canvas/Canvas";
+import BACKGROUNDS from "../../games/energyBattle/BACKGROUND";
+import pickRandom from "../../utils/pickRandom";
+import { gameResultAction } from "../../actions/actionCreators";
 import { ROOM_STATUS } from "../../constants/constants";
-import usePlayEnergyBattle from "../../hooks/usePlayEnergyBattle";
 
-const GameTitle = styled.h1`
-  margin: 0;
-  margin-bottom: 2vh;
-  width: 100%;
-  font-size: 3rem;
-  text-align: center;
-`;
+let randomBackground = pickRandom(BACKGROUNDS);
 
-const OperationContainer = styled.div`
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
-  width: 50%;
-  height: 5vh;
-  margin: 0 auto;
-  margin-bottom: 40px;
-`;
+const EnergyBattle = ({
+  socket,
+  volumeMeter,
+  roomId,
+  player,
+  roomStatus,
+  playerAvatar,
+  otherAvatar,
+  pad,
+  skill,
+  resultImage,
+  canvasWidth,
+  canvasHeight,
+}) => {
+  const dispatch = useDispatch();
+  const canvasRef = useRef(null);
+  const otherPlayerInputRef = useRef(null);
 
-const PlayerDataContainer = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background-color: white;
-  border-radius: 20px;
-  width: 14vw;
-  min-width: 180px;
-  height: 8vh;
-`;
+  const gameAnimationIdRef = useRef(null);
+  const waitAnimationIdRef = useRef(null);
+  const resultAnimationIdRef = useRef(null);
 
-const PlayerData = styled.span`
-  width: 100%;
-  font-size: 1.2rem;
-  text-align: center;
-  display: block;
-  color: black;
-`;
-
-const EnergyBattle = ({ socket, roomId, player, otherPlayers }) => {
-  const [roomStatus, setRoomStatus] = useState("");
-  const [isStartDisabled, setIsStartDisabled] = useState(false);
-
-  const playerAvatar = useRef(null);
-  const otherAvatar = useRef(null);
-  const pad = useRef(null);
-  const resultImage = useRef(null);
-  const skill = useRef(null);
-  const canvasWidth = useRef(document.body.clientWidth * 0.8);
-  const canvasHeight = useRef(document.body.clientWidth * 0.4);
-
-  const myCharacter = useImage(CHARACTERS.myCharacter);
-  const otherCharacter = useImage(CHARACTERS.otherCharacter);
-  const skillEffect = useImage(CHARACTERS.skillEffect);
-  const pads = useImage(CHARACTERS.pads);
-  const resultImages = useImage(CHARACTERS.result);
-  const [volumeMeter, counter, playGame] = usePlayEnergyBattle(
-    setRoomStatus,
-    setIsStartDisabled
-  );
-
-  const startGame = useCallback(async () => {
-    if (isStartDisabled) {
-      return;
-    }
-
-    if (roomStatus === ROOM_STATUS.READY || roomStatus === ROOM_STATUS.END) {
-      socket.emit("start-game");
-      playGame();
-    }
-  }, [isStartDisabled, playGame, roomStatus, socket]);
+  const volumeSum = useRef(0);
+  const myVolumeSum = useRef(0);
+  const otherVolumeSum = useRef(0);
 
   useEffect(() => {
-    canvasWidth.current = document.body.clientWidth * 0.8;
-    canvasHeight.current = document.body.clientWidth * 0.4;
-    socket.on("start-by-other", playGame);
+    const ctx = canvasRef.current.getContext("2d");
+    let frameCount = 0;
+    let spriteCount = 0;
+    randomBackground = pickRandom(BACKGROUNDS);
 
-    if (myCharacter && otherCharacter && skillEffect && pads && resultImages) {
-      playerAvatar.current = new PlayerAvatar(
-        myCharacter,
-        canvasWidth.current,
-        canvasHeight.current
-      );
-      otherAvatar.current = new OtherAvatar(
-        otherCharacter,
-        canvasWidth.current,
-        canvasHeight.current
-      );
-      pad.current = new Pads(pads, canvasWidth.current, canvasHeight.current);
-      skill.current = new SkillEffect(
-        skillEffect,
-        canvasWidth.current,
-        canvasHeight.current
-      );
-      resultImage.current = resultImages;
+    socket.on("input-other-player", (data) => {
+      otherPlayerInputRef.current = data;
+    });
 
-      if (!otherPlayers || (otherPlayers && otherPlayers.length === 0)) {
-        setRoomStatus(ROOM_STATUS.WAITING);
-      } else {
-        setRoomStatus(ROOM_STATUS.READY);
+    if (
+      roomStatus === ROOM_STATUS.READY ||
+      roomStatus === ROOM_STATUS.WAITING
+    ) {
+      frameCount = 0;
+      spriteCount = 0;
+
+      const drawWait = () => {
+        ctx.clearRect(0, 0, canvasWidth, canvasHeight);
+        frameCount++;
+
+        if (frameCount % 4 === 0) {
+          spriteCount++;
+        }
+
+        pad.myPad(ctx);
+        playerAvatar.idle(ctx, spriteCount);
+
+        ctx.scale(-1, 1);
+
+        pad.otherPad(ctx);
+        if (roomStatus === ROOM_STATUS.READY) {
+          otherAvatar.idle(ctx, spriteCount);
+        }
+
+        waitAnimationIdRef.current = requestAnimationFrame(drawWait);
+      };
+
+      drawWait();
+    }
+
+    if (roomStatus === ROOM_STATUS.START) {
+      volumeSum.current = 0;
+      myVolumeSum.current = 0;
+      otherVolumeSum.current = 0;
+      frameCount = 0;
+      spriteCount = 0;
+
+      const drawGame = () => {
+        const volume = volumeMeter.getVolume();
+        socket.emit("input-player", volume);
+
+        myVolumeSum.current += volume;
+        otherVolumeSum.current += otherPlayerInputRef.current;
+        volumeSum.current = myVolumeSum.current + otherVolumeSum.current;
+
+        ctx.clearRect(0, 0, canvasWidth, canvasHeight);
+        frameCount++;
+
+        if (frameCount % 4 === 0) {
+          spriteCount++;
+        }
+
+        pad.myPad(ctx);
+        skill.spark(ctx, spriteCount, volumeSum.current, myVolumeSum.current);
+        skill.mySkill(ctx, spriteCount, volumeSum.current, myVolumeSum.current);
+        playerAvatar.cast(ctx, spriteCount);
+
+        ctx.scale(-1, 1);
+
+        pad.otherPad(ctx);
+        skill.otherSkill(
+          ctx,
+          spriteCount,
+          volumeSum.current,
+          otherVolumeSum.current
+        );
+        otherAvatar.cast(ctx, spriteCount);
+
+        gameAnimationIdRef.current = requestAnimationFrame(drawGame);
+      };
+
+      drawGame();
+    }
+
+    if (roomStatus === ROOM_STATUS.END) {
+      frameCount = 0;
+      spriteCount = 0;
+
+      if (myVolumeSum.current > otherVolumeSum.current) {
+        dispatch(
+          gameResultAction("GAME_RESULT", "energyBattle", roomId, player)
+        );
       }
+
+      const drawResult = () => {
+        ctx.clearRect(0, 0, canvasWidth, canvasHeight);
+        frameCount++;
+
+        if (frameCount % 4 === 0) {
+          spriteCount++;
+        }
+
+        pad.myPad(ctx);
+
+        if (myVolumeSum.current > otherVolumeSum.current) {
+          ctx.drawImage(
+            resultImage.win,
+            canvasWidth / 2 -
+              ((resultImage.win.width / canvasWidth) * canvasHeight) / 2,
+            canvasHeight / 4,
+            (resultImage.win.width / canvasWidth) * canvasHeight,
+            (resultImage.win.height / canvasWidth) * canvasHeight
+          );
+          playerAvatar.idle(ctx, spriteCount);
+        } else {
+          ctx.drawImage(
+            resultImage.lose,
+            canvasWidth / 2 -
+              ((resultImage.lose.width / canvasWidth) * canvasHeight) / 2,
+            canvasHeight / 4,
+            (resultImage.lose.width / canvasWidth) * canvasHeight,
+            (resultImage.lose.height / canvasWidth) * canvasHeight
+          );
+          playerAvatar.lose(ctx, spriteCount);
+        }
+
+        ctx.scale(-1, 1);
+
+        pad.otherPad(ctx);
+
+        if (myVolumeSum.current > otherVolumeSum.current) {
+          otherAvatar.lose(ctx, spriteCount);
+        } else {
+          otherAvatar.idle(ctx, spriteCount);
+        }
+
+        resultAnimationIdRef.current = requestAnimationFrame(drawResult);
+      };
+
+      drawResult();
     }
 
     return () => {
-      socket.off("start-by-other");
+      cancelAnimationFrame(waitAnimationIdRef.current);
+      cancelAnimationFrame(gameAnimationIdRef.current);
+      cancelAnimationFrame(resultAnimationIdRef.current);
+      socket.off("input-other-player");
     };
-  }, [
-    socket,
-    myCharacter,
-    otherCharacter,
-    otherPlayers,
-    pads,
-    skillEffect,
-    playGame,
-  ]);
+  }, [roomStatus, canvasHeight, canvasWidth]);
 
   return (
     <>
-      <GameTitle>ENERGY BATTLE</GameTitle>
-      <OperationContainer>
-        <PlayerDataContainer>
-          <PlayerData>
-            {player.name}
-            <br />
-            {player.gameRecords.energyBattle}승
-          </PlayerData>
-        </PlayerDataContainer>
-        <div>
-          {counter.length > 0 && <h1>{counter}</h1>}
-          {counter.length === 0 && roomStatus === ROOM_STATUS.WAITING && (
-            <button onClick={startGame}>WAITING</button>
-          )}
-          {counter.length === 0 && roomStatus === ROOM_STATUS.READY && (
-            <button onClick={startGame}>START</button>
-          )}
-        </div>
-        <PlayerDataContainer>
-          {otherPlayers && otherPlayers.length !== 0 ? (
-            <PlayerData>
-              {otherPlayers[0].name}
-              <br />
-              {otherPlayers[0].gameRecords.energyBattle}승
-            </PlayerData>
-          ) : (
-            <PlayerData>
-              Waiting...
-              <br />
-              😛
-            </PlayerData>
-          )}
-        </PlayerDataContainer>
-      </OperationContainer>
-      <EnergyBattleFrame
-        socket={socket}
-        volumeMeter={volumeMeter}
-        roomStatus={roomStatus}
-        roomId={roomId}
-        player={player}
-        otherPlayer={otherPlayers && otherPlayers[0]}
-        playerAvatar={playerAvatar.current}
-        otherAvatar={otherAvatar.current}
-        pad={pad.current}
-        skill={skill.current}
-        resultImage={resultImage.current}
-        canvasWidth={canvasWidth.current}
-        canvasHeight={canvasHeight.current}
+      <Canvas
+        ref={canvasRef}
+        width={canvasWidth}
+        height={canvasHeight}
+        margin={["20px", "auto", "0", "auto"]}
+        bgImage={randomBackground}
       />
     </>
   );

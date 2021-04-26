@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import io from "socket.io-client";
 
 import GameOption from "../GameOption/GameOption";
-import EnergyBattle from "../EnergyBattle/EnergyBattle";
+import EnergyBattleContainer from "../EnergyBattleContainer/EnergyBattleContainer";
 import MonsterEscape from "../MonsterEscape/MonsterEscape";
 import RoadRoller from "../RoadRoller/RoadRoller";
 
@@ -111,7 +111,7 @@ const GameRoom = () => {
     <>
       <GameOption />
       {gameTitle === "energyBattle" && (
-        <EnergyBattle
+        <EnergyBattleContainer
           socket={socket}
           roomId={roomId}
           player={playerData}
