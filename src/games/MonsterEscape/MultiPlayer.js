@@ -1,6 +1,6 @@
 class MultiPlayer {
   constructor(canvasWidth, canvasHeight, images, size, fps) {
-    this.images = images;
+    this.images = images.characters.goblin;
     this.size = size;
     this.canvasWidth = canvasWidth;
     this.canvasHeight = canvasHeight;

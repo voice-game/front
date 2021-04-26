@@ -1,6 +1,6 @@
 class Monster {
   constructor(canvasWidth, canvasHeight, images, size, life, fps) {
-    this.images = images;
+    this.images = images.characters.bat;
     this.size = size;
     this.life = life;
     this.maxLife = life;

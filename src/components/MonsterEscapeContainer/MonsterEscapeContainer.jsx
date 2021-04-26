@@ -1,23 +1,15 @@
 import React, { useState, useEffect } from "react";
-import useImage from "../../hooks/useImage";
 import MonsterEscape from "../MonsterEscape/MonsterEscape";
-import getMedia from "../../utils/getMedia";
-import VolumeMeter from "../../utils/VolumeMeter";
-import Background from "../../games/MonsterEscape/Background";
 import ControlBox from "../../games/MonsterEscape/ControlBox";
 import Monster from "../../games/MonsterEscape/Monster";
 import Obstacle from "../../games/MonsterEscape/Obstacle";
 import PlayInfo from "../../games/MonsterEscape/PlayInfo";
 import GameMap from "../../games/MonsterEscape/GameMap";
 import MultiPlayer from "../../games/MonsterEscape/MultiPlayer";
-
-import BACKGROUNDS from "../../images/monsterEscape/backgrounds/backgrounds";
-import CHARACTERS from "../../images/monsterEscape/characters/characters";
-import OBSTACLES from "../../images/monsterEscape/obstacles/obstacles";
-import CONTROLBOXES from "../../images/monsterEscape/controlBoxes/controlBoxes";
-import PLAYINFORMATIONS from "../../images/monsterEscape/playInformations/playInformations";
-
 import gameMap from "../../games/MonsterEscape/gameMap.json";
+import useMyImage from "../../hooks/useMyImage";
+import getMedia from "../../utils/getMedia";
+import VolumeMeter from "../../utils/VolumeMeter";
 
 const FPS = 36;
 const { innerWidth, innerHeight } = window;
@@ -25,29 +17,12 @@ const minViewPort = Math.min(innerWidth, innerHeight);
 const canvasWidth = 0.8 * minViewPort;
 const canvasHeight = 0.6 * minViewPort;
 
-const playInfoImageUrl = PLAYINFORMATIONS.playInformation;
-const ctrlboxImageUrl = CONTROLBOXES.controlBox;
-const backgroundImageUrl = BACKGROUNDS.background;
-const myMonsterImageUrl = CHARACTERS.bat;
-const yourMonsterImageUrl = CHARACTERS.goblin;
-const enenmyImageUrl = OBSTACLES.enemy;
-const ceilingImageUrl = OBSTACLES.ceiling;
-const groundImageUrl = OBSTACLES.ground;
-
 const MonsterEscapeContainer = ({ socket, creater, player, roomId, otherPlayers }) => {
   const [volumeMeter, setVolumeMeter] = useState(null);
-  const [isImageLoaded, setIsImageLoaded] = useState(false);
   const [isInitGame, setIsInitGame] = useState(false);
   const [gameElement, setGameElement] = useState({});
 
-  const backgroundImages = useImage(backgroundImageUrl, null);
-  const ctrlBoxImages = useImage(ctrlboxImageUrl, null);
-  const playInfoImages = useImage(playInfoImageUrl, null);
-  const myMonsterImages = useImage(myMonsterImageUrl, null);
-  const yourMonsterImages = useImage(yourMonsterImageUrl, null);
-  const groundImages = useImage(groundImageUrl, null);
-  const ceilingImages = useImage(ceilingImageUrl, null);
-  const enemyImages = useImage(enenmyImageUrl, null);
+  const { image, isLoaded } = useMyImage("monsterEscape");
 
   useEffect(() => {
     (async () => {
@@ -64,94 +39,45 @@ const MonsterEscapeContainer = ({ socket, creater, player, roomId, otherPlayers 
   }, []);
 
   useEffect(() => {
-    const images = [
-      myMonsterImages,
-      yourMonsterImages,
-      groundImages,
-      enemyImages,
-      ceilingImages,
-      playInfoImages,
-      ctrlBoxImages,
-    ];
-    const isImageLoaded = images.every((image) => image);
-    if (isImageLoaded) {
-      setIsImageLoaded(true);
-    }
-  }, [
-    myMonsterImages,
-    yourMonsterImages,
-    groundImages,
-    enemyImages,
-    ceilingImages,
-    playInfoImages,
-    ctrlBoxImages,
-  ]);
-
-  useEffect(() => {
-    if (!isImageLoaded) {
+    if (!isLoaded) {
       return;
     }
-
     const ceilingMap = new GameMap(
       "ceiling",
       canvasWidth,
       canvasHeight,
-      ceilingImages
+      image.obstacles.ceiling,
     );
     const groundMap = new GameMap(
       "ground",
       canvasWidth,
       canvasHeight,
-      groundImages
+      image.obstacles.ground,
     );
     const enemyMap = new GameMap(
       "enemy",
       canvasWidth,
       canvasHeight,
-      enemyImages
+      image.obstacles.enemy,
     );
 
     enemyMap.setGameMap(gameMap.enemy);
     groundMap.setGameMap(gameMap.ground);
     ceilingMap.setGameMap(gameMap.ceiling);
 
-    const background = new Background(
-      canvasWidth,
-      canvasHeight,
-      backgroundImages
-    );
-    const controlBox = new ControlBox(canvasWidth, canvasHeight, ctrlBoxImages);
-    const playInfo = new PlayInfo(
-      canvasWidth,
-      canvasHeight,
-      playInfoImages,
-      FPS
-    );
+    const controlBox = new ControlBox(canvasWidth, canvasHeight, image);
+    const playInfo = new PlayInfo(canvasWidth, canvasHeight, image, FPS);
     const ceiling = new Obstacle(ceilingMap.gameMap, canvasWidth);
     const ground = new Obstacle(groundMap.gameMap, canvasWidth);
     const enemy = new Obstacle(enemyMap.gameMap, canvasWidth);
-    const myMonster = new Monster(
-      canvasWidth,
-      canvasHeight,
-      myMonsterImages,
-      0.1,
-      3,
-      FPS
-    );
-    const yourMonster = new MultiPlayer(
-      canvasWidth,
-      canvasHeight,
-      yourMonsterImages,
-      0.1,
-      FPS
-    );
+    const myMonster = new Monster(canvasWidth, canvasHeight, image, 0.1, 3, FPS);
+    const yourMonster = new MultiPlayer(canvasWidth, canvasHeight, image, 0.1, FPS);
 
     setIsInitGame(true);
 
     setGameElement({
       controlBox,
       playInfo,
-      background,
       ceiling,
       ground,
       enemy,
@@ -160,20 +86,12 @@ const MonsterEscapeContainer = ({ socket, creater, player, roomId, otherPlayers 
     });
   }, [
     isInitGame,
-    isImageLoaded,
-    ctrlBoxImages,
-    playInfoImages,
-    backgroundImages,
-    ceilingImages,
-    groundImages,
-    enemyImages,
-    myMonsterImages,
-    yourMonsterImages,
+    isLoaded,
+    image,
   ]);
 
   return (
     <div>
-      <div>Monster Escape</div>
       <MonsterEscape
         isInitGame={isInitGame}
         setIsInitGame={setIsInitGame}

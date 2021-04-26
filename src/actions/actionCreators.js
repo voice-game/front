@@ -1,6 +1,7 @@
 import Cookies from "universal-cookie";
 import getActionTypes from "./actionTypes.js";
 import { USER_SERVER_API } from "../constants/constants";
+// import loadImage from "../utils/loadImage";
 
 export const checkAuthorization = () => async (dispatch) => {
   dispatch({ type: getActionTypes().CHECK_AUTHORIZATION });
@@ -305,4 +306,32 @@ export const gameResultAction = (
   } catch (err) {
     dispatch({ type: getActionTypes().PATCH_RESULT_FAIL, payload: err });
   }
+};
+
+export const loadImages = (imageName, imageSrc) => async (dispatch) => {
+  const loadImage = async (imageSrc) => {
+    const loadedImage = Array.isArray(imageSrc) ? [] : {};
+
+    for (const key in imageSrc) {
+      if (typeof imageSrc[key] === "object") {
+        loadedImage[key] = await loadImage(imageSrc[key]);
+      } else {
+        loadedImage[key] = await ( async (url) => {
+          return new Promise((resolve, reject) => {
+            const image = new Image();
+            image.onload = () => resolve(image);
+            image.src = url;
+          });
+        })(imageSrc[key]);
+      }
+    }
+
+    return loadedImage;
+  };
+
+  const loadedImage = await loadImage(imageSrc);
+  dispatch({ type: getActionTypes().STORE_IMAGE, payload: {
+    name: imageName,
+    image: loadedImage,
+  }});
 };

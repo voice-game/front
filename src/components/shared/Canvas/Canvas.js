@@ -2,7 +2,7 @@ import styled from "styled-components";
 
 const Canvas = styled.canvas`
   display: block;
-  /* position: absolute; */
+  position: ${(props) => props.position || "static"};
 
   margin-top: ${(props) => (props.margin && props.margin[0]) || "0"};
   margin-right: ${(props) => (props.margin && props.margin[1]) || "0"};

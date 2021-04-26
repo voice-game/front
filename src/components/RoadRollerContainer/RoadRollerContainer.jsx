@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import useAudio from "../../hooks/useAudio";
 import useCanvas from "../../hooks/useCanvas";
 import usePitchDetector from "../../hooks/usePitchDetector";
+import useMyImage from "../../hooks/useMyImage";
 
 import Canvas from "../shared/Canvas/Canvas";
 
@@ -16,6 +17,8 @@ import b2 from "../../assets/image/background/2.png";
 import b3 from "../../assets/image/background/3.png";
 
 const RoadRollerContainer = (props) => {
+  const { image, isLoaded } = useMyImage("roadRoller");
+
   const TILE_SIZE = 32;
   const WIDTH = TILE_SIZE * 43;
   const HEIGHT = TILE_SIZE * 19;
@@ -42,10 +45,17 @@ const RoadRollerContainer = (props) => {
 
   return (
     <>
-      <Canvas id="game-layer" ref={game} width={WIDTH} height={HEIGHT} />
+      <Canvas
+        id="game-layer"
+        ref={game}
+        position="absolute"
+        width={WIDTH}
+        height={HEIGHT}
+      />
       <Canvas
         id="background-layer"
         ref={background}
+        position="absolute"
         width={WIDTH}
         height={HEIGHT}
         bgImage={b2}
