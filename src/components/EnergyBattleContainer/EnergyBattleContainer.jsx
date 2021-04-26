@@ -16,6 +16,8 @@ import CHARACTERS from "../../games/energyBattle/CHARACTERS";
 import { ROOM_STATUS } from "../../constants/constants";
 import usePlayEnergyBattle from "../../hooks/usePlayEnergyBattle";
 import PlayerCard from "../PlayerCard/PlayerCard";
+import GameManual from "../GameManual/GameManual";
+import manualImage from "../../images/manuals/manual_energyBattle.png";
 
 const GameTitle = styled.h1`
   margin-bottom: 2vh;
@@ -127,6 +129,7 @@ const EnergyBattleContainer = ({ socket, roomId, player, otherPlayers }) => {
   return (
     <>
       <GameTitle>ENERGY BATTLE</GameTitle>
+      <GameManual imgSrc={manualImage} />
       <OperationContainer>
         <PlayerCardContainer>
           <PlayerCard player={player} />
