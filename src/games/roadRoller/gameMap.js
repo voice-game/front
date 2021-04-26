@@ -35,26 +35,8 @@ class GameMap {
     this.fillInteractionPointsHelper(IMAGE_TYPE.ROAD, 0, 11, length - 2, 12, 3);
     this.fillInteractionPointsHelper(IMAGE_TYPE.ROAD, 0, 3, 4, 14, 3);
 
-    this.fillInteractionPointsHelper(
-      IMAGE_TYPE.PAD,
-      1,
-      38,
-      10,
-      5,
-      2,
-      12,
-      this.pads[0]
-    );
-    this.fillInteractionPointsHelper(
-      IMAGE_TYPE.PAD,
-      1,
-      24,
-      9,
-      5,
-      2,
-      18,
-      this.pads[0]
-    );
+    this.fillInteractionPointsHelper(IMAGE_TYPE.PAD, 1, 38, 10, 5, 2, 12, this.pads[0]);
+    this.fillInteractionPointsHelper(IMAGE_TYPE.PAD, 1, 24, 9, 5, 2, 18, this.pads[0]);
   }
 
   fillInteractionPointsHelper(type, index, x, y, width, height, range, pad) {
