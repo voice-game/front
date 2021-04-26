@@ -68,6 +68,36 @@ export const playerLogout = () => {
   };
 };
 
+export const logUnAuthMode = (playerId, name, email) => async (dispatch) => {
+  dispatch({ type: getActionTypes().UNAUTH_MODE });
+
+  try {
+    const data = { playerId, name, email };
+    const response = await fetch(`${USER_SERVER_API}/unAuth`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+    });
+
+    const result = await response.json();
+
+    dispatch({
+      type: getActionTypes().UNAUTH_MODE_SUCCESS,
+      payload: result.data,
+    });
+  } catch (err) {
+    dispatch({ type: getActionTypes().UNAUTH_MODE_FAIL, payload: err });
+  }
+};
+
+export const stopUnAuthMode = () => {
+  return {
+    type: getActionTypes().STOP_UNAUTH_MODE,
+  };
+};
+
 export const fetchRoomsAction = (gameTitle) => async (dispatch) => {
   dispatch({ type: getActionTypes().FETCH_ROOMS });
 

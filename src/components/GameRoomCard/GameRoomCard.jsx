@@ -5,7 +5,8 @@ import useErrorMessage from "../../hooks/useErrorMessage";
 import ErrorMessage from "../ErrorMessage/ErrorMessage";
 
 const GameRoomCardContainer = styled.div`
-  position: relative;
+  display: flex;
+  flex: 1;
   padding: 30px;
   background-color: white;
   border-radius: 10px;
@@ -17,24 +18,19 @@ const GameRoomCardContainer = styled.div`
   cursor: pointer;
 `;
 
-const GameRoomFull = styled.div`
-  position: absolute;
-  font-size: 1.5rem;
-  color: #e74c3c;
-  bottom: 10%;
-  right: 10%;
-`;
-
-const GameRoomEnter = styled.div`
-  position: absolute;
-  font-size: 1.5rem;
-  color: #0984e3;
-  bottom: 10%;
-  right: 10%;
-`;
-
 const GameRoomData = styled.div`
+  flex-basis: 80%;
   color: black;
+`;
+
+const GameRoomStatus = styled.div`
+  display: flex;
+  align-items: flex-end;
+  flex-basis: 20%;
+  font-size: 1.5rem;
+  color: ${(props) => props.color || "black"};
+  bottom: 10%;
+  right: 10%;
 `;
 
 const GameRoomCard = ({
@@ -55,16 +51,16 @@ const GameRoomCard = ({
       {error.length > 0 && <ErrorMessage error={error} />}
       <GameRoomCardContainer onClick={handleClickRoomCard}>
         <GameRoomData>
-          Room: {_id}
+          {_id}
           <br />
           Players: {players.length}
           <br />
           Created: {createdAt.slice(0, 16)}
         </GameRoomData>
         {status === "Full" ? (
-          <GameRoomFull>{status}</GameRoomFull>
+          <GameRoomStatus color="#e74c3c">{status}</GameRoomStatus>
         ) : (
-          <GameRoomEnter>{status}</GameRoomEnter>
+          <GameRoomStatus color="#0984e3">{status}</GameRoomStatus>
         )}
       </GameRoomCardContainer>
     </>

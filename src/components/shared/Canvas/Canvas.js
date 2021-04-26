@@ -2,7 +2,7 @@ import styled from "styled-components";
 
 const Canvas = styled.canvas`
   display: block;
-  position: absolute;
+  /* position: absolute; */
 
   margin-top: ${(props) => (props.margin && props.margin[0]) || "0"};
   margin-right: ${(props) => (props.margin && props.margin[1]) || "0"};
@@ -14,7 +14,7 @@ const Canvas = styled.canvas`
   background-image: ${(props) => `url(${props.bgImage})`};
   background-size: contain;
 
-  z-index: ${props => {
+  z-index: ${(props) => {
     switch (props.id) {
       case "ui-layer":
         return 1;

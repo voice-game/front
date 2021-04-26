@@ -12,17 +12,21 @@ import ErrorPage from "../ErrorPage/ErrorPage";
 import { checkAuthorization } from "../../actions/actionCreators";
 
 const App = ({ authService }) => {
-  const { isAuthorized } = useSelector((state) => state.authReducer);
+  const { isAuthorized, isUnAuthMode } = useSelector(
+    (state) => state.authReducer
+  );
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(checkAuthorization());
-  }, [dispatch]);
+    if (!isUnAuthMode) {
+      dispatch(checkAuthorization());
+    }
+  }, [dispatch, isUnAuthMode]);
 
   return (
     <Router>
       <Switch>
-        {!isAuthorized ? (
+        {!isUnAuthMode && !isAuthorized ? (
           <Login authService={authService} />
         ) : (
           <>

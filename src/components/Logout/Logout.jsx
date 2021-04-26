@@ -1,12 +1,12 @@
 import React from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 import styled from "styled-components";
 
 import ErrorMessage from "../ErrorMessage/ErrorMessage";
 import Button from "../shared/Button/Button";
 import useErrorMessage from "../../hooks/useErrorMessage";
-import { playerLogout } from "../../actions/actionCreators";
+import { playerLogout, stopUnAuthMode } from "../../actions/actionCreators";
 
 const LogoutContainer = styled.div`
   width: 100vw;
@@ -23,11 +23,17 @@ const LogoutMessage = styled.div`
 `;
 
 const Logout = ({ authService }) => {
+  const { isUnAuthMode } = useSelector((state) => state.authReducer);
   const [error, showErrorMessage] = useErrorMessage("");
   const dispatch = useDispatch();
   const history = useHistory();
 
-  const onLogout = async (event) => {
+  const onLogout = async () => {
+    if (isUnAuthMode) {
+      dispatch(stopUnAuthMode());
+      history.push("/");
+    }
+
     try {
       await authService.logout();
       dispatch(playerLogout());
