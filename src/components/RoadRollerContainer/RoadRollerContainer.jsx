@@ -42,10 +42,17 @@ const RoadRollerContainer = (props) => {
 
   return (
     <>
-      <Canvas id="game-layer" ref={game} width={WIDTH} height={HEIGHT} />
+      <Canvas
+        id="game-layer"
+        ref={game}
+        position="absolute"
+        width={WIDTH}
+        height={HEIGHT}
+      />
       <Canvas
         id="background-layer"
         ref={background}
+        position="absolute"
         width={WIDTH}
         height={HEIGHT}
         bgImage={b2}
