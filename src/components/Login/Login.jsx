@@ -5,7 +5,10 @@ import styled from "styled-components";
 import ErrorMessage from "../ErrorMessage/ErrorMessage";
 import Button from "../shared/Button/Button";
 import useErrorMessage from "../../hooks/useErrorMessage";
-import { playerLogin } from "../../actions/actionCreators";
+import { v4 as uuidv4 } from "uuid";
+import { logUnAuthMode, playerLogin } from "../../actions/actionCreators";
+import { RANDOM_WORD } from "../../constants/constants";
+import pickRandom from "../../utils/pickRandom";
 
 const LoginContainer = styled.section`
   width: 100vw;
@@ -25,7 +28,7 @@ const Login = ({ authService }) => {
   const dispatch = useDispatch();
   const [error, showErrorMessage] = useErrorMessage("");
 
-  const onLogin = useCallback(
+  const handleLogin = useCallback(
     async (event) => {
       try {
         const loginData = await authService.login(event.target.name);
@@ -38,16 +41,32 @@ const Login = ({ authService }) => {
     [authService, dispatch, showErrorMessage]
   );
 
+  const handleUnAuthMode = useCallback(() => {
+    const tempId = uuidv4();
+    const tempName = pickRandom(RANDOM_WORD);
+    const tempEmail = "temp@temp.temp";
+
+    dispatch(logUnAuthMode(tempId, tempName, tempEmail));
+  }, [dispatch]);
+
   return (
     <LoginContainer>
       {error.length > 0 && <ErrorMessage error={error} />}
       <MainTitle>VOICE GAME</MainTitle>
       <Button
         name="Google"
-        onClick={onLogin}
+        onClick={handleLogin}
         margin={["5vh", "0", "0", "0"]}
       >
         Google Login
+      </Button>
+      <Button
+        onClick={handleUnAuthMode}
+        bgColor={"#54a0ff"}
+        fontWeight={800}
+        margin={["2vh", "0", "0", "0"]}
+      >
+        비회원 입장하기
       </Button>
     </LoginContainer>
   );

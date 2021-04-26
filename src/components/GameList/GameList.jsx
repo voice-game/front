@@ -30,6 +30,10 @@ const MainTitle = styled.h1`
   text-align: center;
 `;
 
+const Name = styled.span`
+  color: #f1c40f;
+`;
+
 const GameCardGrid = styled.div`
   width: 90%;
   display: grid;
@@ -42,7 +46,9 @@ const GameCardGrid = styled.div`
 const GameList = () => {
   const history = useHistory();
   const [error, showErrorMessage] = useErrorMessage("");
-  const { isMicOn } = useSelector((state) => state.authReducer);
+  const { isMicOn, isUnAuthMode, playerData } = useSelector(
+    (state) => state.authReducer
+  );
   useMicInput(showErrorMessage);
 
   const selectGame = (game) => {
@@ -73,6 +79,17 @@ const GameList = () => {
       <GameOption />
       {error.length > 0 && <ErrorMessage error={error} />}
       <MainTitle> WELCOME TO VOICE GAME !! </MainTitle>
+      {isUnAuthMode ? (
+        <h1>
+          비회원으로 접속하셨네요! &nbsp; &nbsp; 현재 이름은{" "}
+          <Name>{playerData.name}</Name>
+          입니다 😃
+        </h1>
+      ) : (
+        <h1>
+          <Name>{playerData.name}</Name>님 환영합니다 😃
+        </h1>
+      )}
       <GameCardGrid>
         <GameCard
           onClick={selectGame}

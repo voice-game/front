@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useRef } from "react";
 import { useDispatch } from "react-redux";
 
@@ -193,6 +194,7 @@ const EnergyBattle = ({
         width={canvasWidth}
         height={canvasHeight}
         margin={["20px", "auto", "0", "auto"]}
+        // marginCenter="20px auto"
         bgImage={randomBackground}
       />
     </>
