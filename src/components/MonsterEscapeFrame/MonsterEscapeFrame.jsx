@@ -1,9 +1,7 @@
 import React, { useState, useEffect, useRef, useCallback } from "react";
-import styled from "styled-components";
-import getIsCanvasButtonClicked from "../../utils/getIsCanvasButtonClicked";
 
-const Canvas = styled.canvas`
-`;
+import Canvas from "../../components/shared/Canvas/Canvas";
+import getIsCanvasButtonClicked from "../../utils/getIsCanvasButtonClicked";
 
 const FPS = 36;
 const GOAL_DISTANCE = 3;
@@ -235,6 +233,7 @@ const MonsterEscapeFrame = ({
       onClick={handleControlBox}
       width={canvasWidth}
       height={canvasHeight}
+      margin={["10vh", "auto", "0", "auto"]}
     />
   );
 };
