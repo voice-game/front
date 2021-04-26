@@ -1,9 +1,9 @@
 import MapImage from "./MapImage";
-import tile0 from "../../assets/image/tile/forest/tile_0.png";
-import tile1 from "../../assets/image/tile/forest/tile_1.png";
+import tile0 from "../../assets/image/tiles/1.png";
+import tile1 from "../../assets/image/tiles/2.png";
 import point0 from "../../assets/image/pitchPoint/point_0.png";
 import point1 from "../../assets/image/pitchPoint/point_1.png";
-import pad0 from "../../assets/image/tile/forest/pad_0.png";
+import pad0 from "../../assets/image/pads/1.png";
 import { IMAGE_TYPE } from "../../constants/constants";
 
 class GameMap {
