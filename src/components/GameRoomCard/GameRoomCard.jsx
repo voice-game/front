@@ -11,19 +11,34 @@ const GameRoomCardContainer = styled.div`
   border-radius: 10px;
   font-size: 0.9rem;
   font-weight: 400;
+  color: black;
   box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
   cursor: pointer;
   cursor: pointer;
 `;
 
-const GameRoomStatus = styled.div`
+const GameRoomFull = styled.div`
   position: absolute;
+  font-size: 1.5rem;
+  color: #e74c3c;
   bottom: 10%;
   right: 10%;
 `;
 
+const GameRoomEnter = styled.div`
+  position: absolute;
+  font-size: 1.5rem;
+  color: #0984e3;
+  bottom: 10%;
+  right: 10%;
+`;
+
+const GameRoomData = styled.div`
+  color: black;
+`;
+
 const GameRoomCard = ({
-  room: { _id, players, createdBy, createdAt, status },
+  room: { _id, players, createdAt, status },
   onClick,
 }) => {
   const [error, showErrorMessage] = useErrorMessage("");
@@ -39,13 +54,18 @@ const GameRoomCard = ({
     <>
       {error.length > 0 && <ErrorMessage error={error} />}
       <GameRoomCardContainer onClick={handleClickRoomCard}>
-        <div>{_id}</div>
-        <div>
-          <div>참여자: {players.length}</div>
-          <div>{createdAt}</div>
-        </div>
-
-        <GameRoomStatus>{status}</GameRoomStatus>
+        <GameRoomData>
+          Room: {_id}
+          <br />
+          Players: {players.length}
+          <br />
+          Created: {createdAt.slice(0, 16)}
+        </GameRoomData>
+        {status === "Full" ? (
+          <GameRoomFull>{status}</GameRoomFull>
+        ) : (
+          <GameRoomEnter>{status}</GameRoomEnter>
+        )}
       </GameRoomCardContainer>
     </>
   );

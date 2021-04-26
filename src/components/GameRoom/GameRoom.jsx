@@ -4,16 +4,18 @@ import { useDispatch, useSelector } from "react-redux";
 import io from "socket.io-client";
 
 import GameOption from "../GameOption/GameOption";
-import { USER_SERVER, MAX_PLAYER } from "../../constants/constants";
+import EnergyBattle from "../EnergyBattle/EnergyBattle";
+import MonsterEscape from "../MonsterEscape/MonsterEscape";
+import RoadRoller from "../RoadRoller/RoadRoller";
+
 import {
   joinRoomAction,
   leaveRoomAction,
   deleteRoomAction,
   changeRoomStatus,
 } from "../../actions/actionCreators";
-import EnergyBattle from "../EnergyBattle/EnergyBattle";
-import MonsterEscape from "../MonsterEscape/MonsterEscape";
-import RoadRoller from "../RoadRoller/RoadRoller";
+
+import { USER_SERVER, MAX_PLAYER } from "../../constants/constants";
 
 const socket = io(USER_SERVER, {
   withCredential: true,
@@ -95,7 +97,6 @@ const GameRoom = () => {
     return () => {
       socket.emit("leave-player", playerData);
       socket.off("player-connected");
-      socket.off("input-other-player");
       socket.off("player-disconnected");
       handlePlayerLeave();
     };
@@ -107,7 +108,7 @@ const GameRoom = () => {
       {gameTitle === "energyBattle" && (
         <EnergyBattle
           socket={socket}
-          creater={currentRoom?.createdBy}
+          roomId={roomId}
           player={playerData}
           otherPlayers={otherPlayers}
         />
@@ -115,6 +116,7 @@ const GameRoom = () => {
       {gameTitle === "monsterEscape" && (
         <MonsterEscape
           socket={socket}
+          creater={currentRoom?.createdBy}
           roomId={roomId}
           player={playerData}
           otherPlayers={otherPlayers}

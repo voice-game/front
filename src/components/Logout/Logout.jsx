@@ -3,9 +3,9 @@ import { useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
 import styled from "styled-components";
 
-import { playerLogout } from "../../actions/actionCreators";
-import useErrorMessage from "../../hooks/useErrorMessage";
 import ErrorMessage from "../ErrorMessage/ErrorMessage";
+import useErrorMessage from "../../hooks/useErrorMessage";
+import { playerLogout } from "../../actions/actionCreators";
 
 const LogoutContainer = styled.div`
   width: 100vw;
@@ -17,34 +17,19 @@ const LogoutContainer = styled.div`
 `;
 
 const LogoutMessage = styled.div`
-  font-size: 1.7rem;
+  font-size: 3rem;
   font-weight: 600;
 `;
 
 const LogoutButton = styled.button`
-  padding: 10px 20px;
   margin-left: 1vw;
   margin-top: 5vh;
-  background-color: #ec6998;
-  border-radius: 5px;
-  font-size: 1rem;
-  font-weight: 600;
-  color: white;
-  box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
-  cursor: pointer;
+  background-color: #eb4d4b;
 `;
 
 const CancelButton = styled.button`
-  padding: 10px 20px;
   margin-left: 1vw;
   margin-top: 2vh;
-  background-color: #636e72;
-  border-radius: 5px;
-  font-size: 1rem;
-  font-weight: 600;
-  color: white;
-  box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
-  cursor: pointer;
 `;
 
 const Logout = ({ authService }) => {
@@ -65,14 +50,14 @@ const Logout = ({ authService }) => {
   return (
     <LogoutContainer>
       {error.length > 0 && <ErrorMessage error={error} />}
-      <LogoutMessage>로그아웃 하시겠습니까?</LogoutMessage>
-      <LogoutButton onClick={onLogout}>로그아웃</LogoutButton>
+      <LogoutMessage>Are You Leaving?</LogoutMessage>
+      <LogoutButton onClick={onLogout}>Log Out</LogoutButton>
       <CancelButton
         onClick={() => {
           history.push("/games");
         }}
       >
-        게임창으로 돌아가기
+        Back to game
       </CancelButton>
     </LogoutContainer>
   );

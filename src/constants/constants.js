@@ -13,3 +13,16 @@ export const IMAGE_TYPE = {
   TILE: "TILE",
   OBJECT: "OBJECT",
 };
+
+export const ROOM_STATUS = {
+  WAITING: "WAITING",
+  READY: "READY",
+  START: "START",
+  END: "END",
+};
+
+export const GAME_TITLE = {
+  ROAD_ROLLER: "ROAD ROLLER",
+  MONSTER_ESCAPE: "MONSTER ESCAPE",
+  ENERGY_BATTLE: "ENERGY BATTLE",
+};
