@@ -16,7 +16,7 @@ function Game(ref, { pitchDetectorRef, staticDots, interactionPoints }) {
   this.characterController = new CharacterController(
     this.eventList,
     this.width,
-    this.height
+    this.height,
   );
   this.interactionController = new InteractionController(
     this.height,
