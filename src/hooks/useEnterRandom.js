@@ -8,7 +8,7 @@ import pickRandomRoom from "../utils/pickRandomRoom";
  * @param {*} gameTitle current game title
  * @param {function} showErrorMessage function display current error message
  */
-const useEnterRoom = (gameTitle, showErrorMessage) => {
+const useEnterRandom = (gameTitle, showErrorMessage) => {
   const history = useHistory();
   const location = useLocation();
   const roomList = useSelector((state) => state.roomReducer[gameTitle]);
@@ -28,4 +28,4 @@ const useEnterRoom = (gameTitle, showErrorMessage) => {
   return enterRandomRoom;
 };
 
-export default useEnterRoom;
+export default useEnterRandom;

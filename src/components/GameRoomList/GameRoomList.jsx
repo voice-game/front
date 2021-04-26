@@ -2,18 +2,16 @@ import React, { useCallback, useEffect } from "react";
 import { useHistory, useLocation } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
-import { v4 as uuidv4 } from "uuid";
 import Pusher from "pusher-js";
 
 import GameOption from "../GameOption/GameOption";
 import GameRoomCard from "../GameRoomCard/GameRoomCard";
 import ErrorMessage from "../ErrorMessage/ErrorMessage";
 import useErrorMessage from "../../hooks/useErrorMessage";
-import {
-  fetchRoomsAction,
-  createRoomAction,
-} from "../../actions/actionCreators";
-import pickRandomRoom from "../../utils/pickRandomRoom";
+import { fetchRoomsAction } from "../../actions/actionCreators";
+import useEnterRandom from "../../hooks/useEnterRandom";
+import useFetchRooms from "../../hooks/useFetchRoom";
+import useCreateRoom from "../../hooks/useCreateRoom";
 
 const GameTitle = styled.h1`
   margin: 0;
@@ -59,28 +57,13 @@ const GameRoomList = () => {
   const roomList = useSelector((state) => state.roomReducer[gameTitle]);
 
   const [error, showErrorMessage] = useErrorMessage("");
+  const enterRandom = useEnterRandom(gameTitle, showErrorMessage);
+  // const fetchRooms = useFetchRooms(gameTitle, showErrorMessage);
+  const createRoom = useCreateRoom(gameTitle, player);
 
   const fetchRooms = useCallback(() => {
     dispatch(fetchRoomsAction(gameTitle));
   }, [dispatch, gameTitle]);
-
-  const createRoom = useCallback(async () => {
-    const newRoomId = uuidv4();
-
-    await dispatch(createRoomAction(gameTitle, newRoomId, player._id));
-
-    history.push(`${location.pathname}/${newRoomId}`);
-  }, [history, location.pathname, dispatch, gameTitle, player]);
-
-  const enterRandom = useCallback(() => {
-    const picked = pickRandomRoom(roomList);
-
-    if (!picked) {
-      showErrorMessage("입장 가능한 방이 없습니다.");
-    } else {
-      history.push(`${location.pathname}/${picked.roomId}`);
-    }
-  }, [history, location.pathname, roomList, showErrorMessage]);
 
   useEffect(() => {
     if (location.state) {
