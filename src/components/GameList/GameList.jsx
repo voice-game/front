@@ -5,11 +5,13 @@ import styled from "styled-components";
 import ErrorMessage from "../ErrorMessage/ErrorMessage";
 import GameCard from "../GameCard/GameCard";
 import GameOption from "../GameOption/GameOption";
+
+import useErrorMessage from "../../hooks/useErrorMessage";
+import { GAME_TITLE } from "../../constants/constants";
+
 import energyBattleThumbnail from "../../images/thumbnails/energyBattle_thumbnail.png";
 import comingSoonThumbnail from "../../images/thumbnails/comingSoon_thumbnail.png";
 import energyBattleGif from "../../images/thumbnails/energyBattle_gif.gif";
-
-import useErrorMessage from "../../hooks/useErrorMessage";
 
 const MainPage = styled.section`
   width: 100vw;
@@ -27,7 +29,7 @@ const MainTitle = styled.h1`
 `;
 
 const GameCardGrid = styled.div`
-  width: 80%;
+  width: 90%;
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   column-gap: 2vw;
@@ -41,15 +43,15 @@ const GameList = () => {
 
   const selectGame = (game) => {
     switch (game) {
-      case "Road Roller":
+      case GAME_TITLE.ROAD_ROLLER:
         history.push("/games/roadRoller");
         break;
 
-      case "Monster Escape":
+      case GAME_TITLE.MONSTER_ESCAPE:
         history.push("/games/monsterEscape");
         break;
 
-      case "Energy Battle":
+      case GAME_TITLE.ENERGY_BATTLE:
         history.push("/games/energyBattle");
         break;
 
@@ -62,28 +64,27 @@ const GameList = () => {
     <MainPage>
       <GameOption />
       {error.length > 0 && <ErrorMessage />}
-      <MainTitle> Game List </MainTitle>
+      <MainTitle> WELCOME TO VOICE GAME !! </MainTitle>
       <GameCardGrid>
         <GameCard
           onClick={selectGame}
-          title="Road Roller"
+          title={GAME_TITLE.ROAD_ROLLER}
           thumbnail="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTc3srjeOY0c1PBqO1DPmjHBuB1zjgDEtfe6Q&usqp=CAU"
           gif="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTc3srjeOY0c1PBqO1DPmjHBuB1zjgDEtfe6Q&usqp=CAU"
         />
         <GameCard
           onClick={selectGame}
-          title="Monster Escape"
+          title={GAME_TITLE.MONSTER_ESCAPE}
           thumbnail="https://lh3.googleusercontent.com/qgotsceXqd0uMmfMjRNgm09jxGkIgAmCcwwe8uFCNb_-9xi3uei8iEcwcaFB8uBKnratsMU7wgSyGBkB8V5vJkSbrQ=w640-h400-e365-rj-sc0x00ffffff"
           gif="https://lh3.googleusercontent.com/qgotsceXqd0uMmfMjRNgm09jxGkIgAmCcwwe8uFCNb_-9xi3uei8iEcwcaFB8uBKnratsMU7wgSyGBkB8V5vJkSbrQ=w640-h400-e365-rj-sc0x00ffffff"
         />
         <GameCard
           onClick={selectGame}
-          title="Energy Battle"
+          title={GAME_TITLE.ENERGY_BATTLE}
           thumbnail={energyBattleThumbnail}
           gif={energyBattleGif}
         />
         <GameCard
-          onClick={selectGame}
           title="Coming Soon"
           thumbnail={comingSoonThumbnail}
           gif={comingSoonThumbnail}

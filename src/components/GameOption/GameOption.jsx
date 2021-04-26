@@ -48,7 +48,7 @@ const GameOption = () => {
           Leave Room
         </LeaveRoomButton>
       )}
-      {location.pathname !== "/" && location.pathname !== "/games" && (
+      {gameTitle && (
         <ChooseGameButton
           onClick={() => {
             history.push("/games");

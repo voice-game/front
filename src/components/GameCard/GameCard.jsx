@@ -15,7 +15,7 @@ const GameCardContainer = styled.div`
 `;
 
 const GameTitle = styled.div`
-  font-size: 1.3rem;
+  font-size: 2rem;
   font-weight: 600;
 `;
 
@@ -45,8 +45,15 @@ const GameThumbnailGif = styled.img`
 `;
 
 const GameCard = ({ title, thumbnail, gif, onClick }) => {
+  const handleClick = () => {
+    if (title === "Coming Soon") {
+      return;
+    }
+
+    onClick(title);
+  };
   return (
-    <GameCardContainer onClick={() => onClick(title)}>
+    <GameCardContainer onClick={handleClick}>
       <GameTitle>{title}</GameTitle>
       <GameThumbnailContainer>
         <GameThumbnailImage src={thumbnail} alt="gameThumbnail" />

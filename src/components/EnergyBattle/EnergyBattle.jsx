@@ -12,7 +12,7 @@ import useImage from "../../hooks/useImage";
 import getMedia from "../../utils/getMedia";
 import VolumeMeter from "../../utils/VolumeMeter";
 import wait from "../../utils/wait";
-import CHARACTERS from "../../images/energyBattle/characters/CHARACTERS";
+import CHARACTERS from "../../games/energyBattle/CHARACTERS";
 import { ROOM_STATUS } from "../../constants/constants";
 
 const GameTitle = styled.h1`
@@ -34,6 +34,9 @@ const OperationContainer = styled.div`
 `;
 
 const PlayerDataContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
   background-color: white;
   border-radius: 20px;
   width: 14vw;
@@ -60,8 +63,8 @@ const EnergyBattle = ({ socket, roomId, player, otherPlayers }) => {
   const pad = useRef(null);
   const resultImage = useRef(null);
   const skill = useRef(null);
-  const canvasWidth = useRef(document.body.clientWidth);
-  const canvasHeight = useRef(document.body.clientWidth * 0.5);
+  const canvasWidth = useRef(document.body.clientWidth * 0.8);
+  const canvasHeight = useRef(document.body.clientWidth * 0.4);
 
   const myCharacter = useImage(CHARACTERS.myCharacter);
   const otherCharacter = useImage(CHARACTERS.otherCharacter);
@@ -114,18 +117,21 @@ const EnergyBattle = ({ socket, roomId, player, otherPlayers }) => {
   }, []);
 
   const startGame = useCallback(async () => {
-    if (
-      (roomStatus === ROOM_STATUS.READY || roomStatus === ROOM_STATUS.END) &&
-      !isStartDisabled
-    ) {
-      socket.emit("start-game");
-      playGame();
+    if (roomStatus !== ROOM_STATUS.READY || roomStatus !== ROOM_STATUS.END) {
+      return;
     }
+
+    if (isStartDisabled) {
+      return;
+    }
+
+    socket.emit("start-game");
+    playGame();
   }, [isStartDisabled, playGame, roomStatus, socket]);
 
   useEffect(() => {
-    canvasWidth.current = document.body.clientWidth;
-    canvasHeight.current = document.body.clientWidth * 0.5;
+    canvasWidth.current = document.body.clientWidth * 0.8;
+    canvasHeight.current = document.body.clientWidth * 0.4;
 
     if (myCharacter && otherCharacter && skillEffect && pads && resultImages) {
       playerAvatar.current = new PlayerAvatar(
@@ -146,7 +152,7 @@ const EnergyBattle = ({ socket, roomId, player, otherPlayers }) => {
       );
       resultImage.current = resultImages;
 
-      if ((otherPlayers && otherPlayers.length === 0) || !otherPlayers) {
+      if (!otherPlayers || (otherPlayers && otherPlayers.length === 0)) {
         setRoomStatus(ROOM_STATUS.WAITING);
       } else {
         setRoomStatus(ROOM_STATUS.READY);

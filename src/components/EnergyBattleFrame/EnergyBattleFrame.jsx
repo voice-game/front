@@ -2,7 +2,7 @@ import React, { useEffect, useRef } from "react";
 import styled from "styled-components";
 import { useDispatch } from "react-redux";
 
-import BACKGROUNDS from "../../images/energyBattle/backgrounds/BACKGROUND";
+import BACKGROUNDS from "../../games/energyBattle/BACKGROUND";
 import pickRandom from "../../utils/pickRandom";
 import { gameResultAction } from "../../actions/actionCreators";
 import { ROOM_STATUS } from "../../constants/constants";
@@ -110,7 +110,6 @@ const EnergyBattleFrame = ({
         pad.myPad(ctx);
         skill.spark(ctx, spriteCount, volumeSum.current, myVolumeSum.current);
         skill.mySkill(ctx, spriteCount, volumeSum.current, myVolumeSum.current);
-        // skill.spark(ctx, spriteCount, volumeSum.current, myVolumeSum.current);
         playerAvatar.cast(ctx, spriteCount);
 
         ctx.scale(-1, 1);
