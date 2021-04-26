@@ -163,7 +163,6 @@ const MonsterEscape = ({
       if (!myMonster.life) { setIsInitGame(false) }
 
       ctx.clearRect(0, 0, canvasWidth, canvasHeight);
-
       ground.animate(ctx, speed * grndSpd);
       ceiling.animate(ctx, 0.5 * speed * grndSpd);
 

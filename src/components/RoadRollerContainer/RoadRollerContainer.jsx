@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 
 import useAudio from "../../hooks/useAudio";
 import useCanvas from "../../hooks/useCanvas";
@@ -23,26 +23,23 @@ const RoadRollerContainer = (props) => {
   const WIDTH = TILE_SIZE * 43;
   const HEIGHT = TILE_SIZE * 19;
 
-  const { isAudioUse, audioContextRef, micStreamRef } = useAudio(
-    { samplerate: 12000 },
-    { audio: true, video: false }
-  );
+  const [currentMap, setCurrentMap] = useState(0);
   const pitchDetectorRef = usePitchDetector(
-    isAudioUse,
-    audioContextRef,
-    micStreamRef
+    useAudio({ samplerate: 12000 }, { audio: true, video: false })
   );
 
   const { staticDots, staticMap, interactionPoints } = new GameMap(
     TILE_SIZE,
     WIDTH,
-    HEIGHT
+    HEIGHT,
+    currentMap
   ).gameMap;
 
   const game = useCanvas(Game, {
     pitchDetectorRef,
     staticDots,
     interactionPoints,
+    setCurrentMap,
   });
   const background = useCanvas(BackGround, { staticMap });
 
@@ -51,12 +48,14 @@ const RoadRollerContainer = (props) => {
       <Canvas
         id="game-layer"
         ref={game}
+        position="absolute"
         width={WIDTH}
         height={HEIGHT}
       />
       <Canvas
         id="background-layer"
         ref={background}
+        position="absolute"
         width={WIDTH}
         height={HEIGHT}
         bgImage={b2}
