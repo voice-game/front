@@ -1,5 +1,5 @@
 /**
- *
+ * The function makes intended delay time
  * @param {number} delay Delay time (ms)
  * @returns Promise containing setTimeout
  */

@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import useImage from "../../hooks/useImage";
 import MonsterEscapeFrame from "../MonsterEscapeFrame/MonsterEscapeFrame";
-import GameResult from "../GameResult/GameResult";
 import getMedia from "../../utils/getMedia";
 import VolumeMeter from "../../utils/VolumeMeter";
 import Background from "../../games/MonsterEscape/Background";
@@ -43,7 +42,7 @@ const MonsterEscape = ({ socket, roomId, player, otherPlayers }) => {
   const monsterImages = useImage(monsterImageUrls, []);
   const groundImages = useImage(groundImageUrls, []);
   const ceilingImages = useImage(ceilingImageUrls, []);
-  const enemyImages = useImage(enenmyImageUrls, []); 
+  const enemyImages = useImage(enenmyImageUrls, []);
 
   useEffect(() => {
     (async () => {
@@ -61,23 +60,50 @@ const MonsterEscape = ({ socket, roomId, player, otherPlayers }) => {
   }, []);
 
   useEffect(() => {
-    if (!monsterImages.length) { return };
-    if (!groundImages.length) { return };
-    if (!enemyImages.length) { return };
-    if (!ceilingImages.length) { return } ;
-    if (!playInfoImages.length) { return };
-    if (!ctrlBoxImages.length) { return } ;
+    if (!monsterImages.length) {
+      return;
+    }
+    if (!groundImages.length) {
+      return;
+    }
+    if (!enemyImages.length) {
+      return;
+    }
+    if (!ceilingImages.length) {
+      return;
+    }
+    if (!playInfoImages.length) {
+      return;
+    }
+    if (!ctrlBoxImages.length) {
+      return;
+    }
 
-    const ceilingMap = new GameMap("celing", canvasWidth, canvasHeight, ceilingImages);
-    const groundMap = new GameMap("ground", canvasWidth, canvasHeight, groundImages);
-    const enemyMap = new GameMap("enemy", canvasWidth, canvasHeight, enemyImages);
+    const ceilingMap = new GameMap(
+      "celing",
+      canvasWidth,
+      canvasHeight,
+      ceilingImages
+    );
+    const groundMap = new GameMap(
+      "ground",
+      canvasWidth,
+      canvasHeight,
+      groundImages
+    );
+    const enemyMap = new GameMap(
+      "enemy",
+      canvasWidth,
+      canvasHeight,
+      enemyImages
+    );
 
     enemyMap.setGameMap(
       "onAir",
       7,
       [0.5, 0.2, 0.6, 0.2, 0.3, 0.6, 0.4],
       [0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1],
-      [0, 1, 2, 3, 0, 2, 1],
+      [0, 1, 2, 3, 0, 2, 1]
     );
 
     groundMap.setGameMap(
@@ -85,19 +111,47 @@ const MonsterEscape = ({ socket, roomId, player, otherPlayers }) => {
       7,
       [0, 0, 0, 0, 0, 0, 0],
       [0.05, 0.1, 0.2, 0.2, 0.3, 0.05, 0.2],
-      [2, 5, 0, 4, 3, 6, 1],
+      [2, 5, 0, 4, 3, 6, 1]
     );
 
-    ceilingMap.setGameMap("onCeiling", 4, [0, 0, 0, 0], [0.2, 0.2, 0.2, 0.2], [0, 0, 0, 0]);
+    ceilingMap.setGameMap(
+      "onCeiling",
+      4,
+      [0, 0, 0, 0],
+      [0.2, 0.2, 0.2, 0.2],
+      [0, 0, 0, 0]
+    );
 
-    const background = new Background(canvasWidth, canvasHeight, backgroundImages);
+    const background = new Background(
+      canvasWidth,
+      canvasHeight,
+      backgroundImages
+    );
     const controlBox = new ControlBox(canvasWidth, canvasHeight, ctrlBoxImages);
-    const playInfo = new PlayInfo(canvasWidth, canvasHeight, playInfoImages, 72);
+    const playInfo = new PlayInfo(
+      canvasWidth,
+      canvasHeight,
+      playInfoImages,
+      72
+    );
     const ceiling = new Obstacle(ceilingMap.gameMap, canvasWidth);
     const ground = new Obstacle(groundMap.gameMap, canvasWidth);
     const enemy = new Obstacle(enemyMap.gameMap, canvasWidth);
-    const monster = new Monster(canvasWidth, canvasHeight, monsterImages, 0.1, 3, 36);
-    const multiPlayer = new MultiPlayer(canvasWidth, canvasHeight, monsterImages, 0.1, 36);
+    const monster = new Monster(
+      canvasWidth,
+      canvasHeight,
+      monsterImages,
+      0.1,
+      3,
+      36
+    );
+    const multiPlayer = new MultiPlayer(
+      canvasWidth,
+      canvasHeight,
+      monsterImages,
+      0.1,
+      36
+    );
 
     setIsInitGame(true);
 
@@ -136,7 +190,6 @@ const MonsterEscape = ({ socket, roomId, player, otherPlayers }) => {
         isInitGame={isInitGame}
         setIsInitGame={setIsInitGame}
       />
-      <GameResult />
     </div>
   );
 };

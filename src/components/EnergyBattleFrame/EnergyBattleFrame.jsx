@@ -108,7 +108,9 @@ const EnergyBattleFrame = ({
         }
 
         pad.myPad(ctx);
+        skill.spark(ctx, spriteCount, volumeSum.current, myVolumeSum.current);
         skill.mySkill(ctx, spriteCount, volumeSum.current, myVolumeSum.current);
+        // skill.spark(ctx, spriteCount, volumeSum.current, myVolumeSum.current);
         playerAvatar.cast(ctx, spriteCount);
 
         ctx.scale(-1, 1);
