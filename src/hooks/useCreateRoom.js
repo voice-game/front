@@ -6,8 +6,8 @@ import { createRoomAction } from "../actions/actionCreators";
 
 /**
  *
- * @param {*} gameTitle current game title
- * @param {*} playerId current player id
+ * @param {string} gameTitle current game title
+ * @param {object} player current player
  * @returns function create new room
  */
 const useCreateRoom = (gameTitle, player) => {
