@@ -17,6 +17,8 @@ import {
 } from "../../actions/actionCreators";
 
 import { USER_SERVER, MAX_PLAYER } from "../../constants/constants";
+import useSetInitialRoom from "../../hooks/useSetInitialRoom";
+import usePlayerConnection from "../../hooks/usePlayerConnection";
 
 const socket = io(USER_SERVER, {
   withCredential: true,
@@ -39,7 +41,7 @@ const GameRoom = () => {
     (room) => room.roomId === roomId
   )[0];
 
-  const setInitialRoomSet = useCallback(() => {
+  const setInitialRoom = useCallback(() => {
     socket.emit("join-room", roomId, playerData);
 
     if (currentRoom?.createdBy !== playerData._id) {
@@ -52,6 +54,7 @@ const GameRoom = () => {
       setOtherPlayers(existingPlayers);
     }
   }, []);
+  // const setInitialRoom = useSetInitialRoom(socket, setOtherPlayers);
 
   const handlePlayerConnect = useCallback((data) => {
     if (data.playerData.playerId !== playerData.playerId) {
@@ -86,10 +89,11 @@ const GameRoom = () => {
       history.push(`/games/${gameTitle}`);
     }
   }, []);
+  // const { handlePlayerConnect, handlePlayerDisconnect, handlePlayerLeave } = usePlayerConnection(otherPlayers, setOtherPlayers);
 
   useEffect(() => {
-    setInitialRoomSet();
-  }, [setInitialRoomSet]);
+    setInitialRoom();
+  }, [setInitialRoom]);
 
   useEffect(() => {
     socket.on("player-connected", handlePlayerConnect);

@@ -1,15 +1,15 @@
-import React, { useCallback, useEffect } from "react";
+import React from "react";
+import { useSelector } from "react-redux";
 import { useHistory, useLocation } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
-import Pusher from "pusher-js";
 
 import GameOption from "../GameOption/GameOption";
+
 import GameRoomCard from "../GameRoomCard/GameRoomCard";
 import ErrorMessage from "../ErrorMessage/ErrorMessage";
+import Button from "../shared/Button/Button";
 import useErrorMessage from "../../hooks/useErrorMessage";
-import { fetchRoomsAction } from "../../actions/actionCreators";
-import useEnterRandom from "../../hooks/useEnterRandom";
+import useEnterRandom from "../../hooks/useEnterRoom";
 import useFetchRooms from "../../hooks/useFetchRoom";
 import useCreateRoom from "../../hooks/useCreateRoom";
 
@@ -21,13 +21,11 @@ const GameTitle = styled.h1`
   text-align: center;
   text-transform: uppercase;
 `;
-
 const ButtonContainer = styled.div`
   width: 100%;
   display: flex;
   justify-content: center;
 `;
-
 const GameRoomGrid = styled.div`
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -37,56 +35,22 @@ const GameRoomGrid = styled.div`
   padding: 30px;
 `;
 
-const NewRoomButton = styled.button`
-  background-color: #1e90ff;
-  margin-right: 10px;
-`;
-
-const EnterRandomButton = styled.button`
-  background-color: #27ae60;
-  margin-left: 10px;
-`;
-
 const GameRoomList = () => {
   const history = useHistory();
   const location = useLocation();
   const gameTitle = location.pathname.split("/")[2];
 
-  const dispatch = useDispatch();
   const player = useSelector((state) => state.authReducer.playerData);
   const roomList = useSelector((state) => state.roomReducer[gameTitle]);
-
   const [error, showErrorMessage] = useErrorMessage("");
   const enterRandom = useEnterRandom(gameTitle, showErrorMessage);
   // const fetchRooms = useFetchRooms(gameTitle, showErrorMessage);
   const createRoom = useCreateRoom(gameTitle, player);
 
-  const fetchRooms = useCallback(() => {
-    dispatch(fetchRoomsAction(gameTitle));
-  }, [dispatch, gameTitle]);
+  const enterRandom = useEnterRandom(gameTitle, showErrorMessage);
+  const createRoom = useCreateRoom(gameTitle, player);
 
-  useEffect(() => {
-    if (location.state) {
-      showErrorMessage(location.state);
-      location.state = null;
-    }
-
-    fetchRooms(gameTitle);
-
-    const pusher = new Pusher(process.env.REACT_APP_PUSHER_KEY, {
-      cluster: "ap3",
-    });
-    const channel = pusher.subscribe("rooms");
-
-    channel.bind("changed", () => {
-      fetchRooms(gameTitle);
-    });
-
-    return () => {
-      channel.unbind_all();
-      channel.unsubscribe();
-    };
-  }, [fetchRooms, location, gameTitle, showErrorMessage]);
+  useFetchRooms(gameTitle, showErrorMessage);
 
   return (
     <>
@@ -94,10 +58,20 @@ const GameRoomList = () => {
       <GameOption />
       <GameTitle>{gameTitle}</GameTitle>
       <ButtonContainer>
-        <NewRoomButton onClick={createRoom}>New Room</NewRoomButton>
-        <EnterRandomButton onClick={enterRandom}>
+        <Button
+          onClick={createRoom}
+          margin={["0", "10px", "0", "0"]}
+          bgColor={"#1e90ff"}
+        >
+          New Room
+        </Button>
+        <Button
+          onClick={enterRandom}
+          margin={["0", "0", "0", "10px"]}
+          bgColor={"#27ae60"}
+        >
           Enter Random
-        </EnterRandomButton>
+        </Button>
       </ButtonContainer>
       <GameRoomGrid>
         {roomList &&
@@ -116,5 +90,4 @@ const GameRoomList = () => {
     </>
   );
 };
-
 export default GameRoomList;

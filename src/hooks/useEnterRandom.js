@@ -5,7 +5,7 @@ import pickRandomRoom from "../utils/pickRandomRoom";
 
 /**
  *
- * @param {*} gameTitle current game title
+ * @param {string} gameTitle current game title
  * @param {function} showErrorMessage function display current error message
  */
 const useEnterRandom = (gameTitle, showErrorMessage) => {
