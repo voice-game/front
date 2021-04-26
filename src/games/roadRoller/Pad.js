@@ -14,6 +14,7 @@ class Pad {
 
     this.width = point.width;
     this.height = point.height;
+
     this.posX = point.posX - point.pad.range;
     this.posY = point.posY;
     this.minX = this.posX;

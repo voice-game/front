@@ -1,13 +1,14 @@
+import mapList from "./mapList";
 import MapImage from "./MapImage";
+
 import tile0 from "../../assets/image/tiles/1.png";
 import tile1 from "../../assets/image/tiles/2.png";
 import point0 from "../../assets/image/pitchPoint/point_0.png";
 import point1 from "../../assets/image/pitchPoint/point_1.png";
 import pad0 from "../../assets/image/pads/1.png";
-import { IMAGE_TYPE } from "../../constants/constants";
 
 class GameMap {
-  constructor(tileSize, canvasWidth, canvasHeight) {
+  constructor(tileSize, canvasWidth, canvasHeight, currentMap) {
     this.canvasWidth = canvasWidth;
     this.canvasHeight = canvasHeight;
 
@@ -25,25 +26,23 @@ class GameMap {
       interactionPoints: [],
     };
 
+    this.currentMap = currentMap;
+
     this.fillTiles();
     this.fillInteractionPoints();
   }
 
   fillInteractionPoints() {
-    const length = this.canvasHeight / this.tileHeight;
-
-    this.fillInteractionPointsHelper(IMAGE_TYPE.ROAD, 0, 11, length - 2, 12, 3);
-    this.fillInteractionPointsHelper(IMAGE_TYPE.ROAD, 0, 3, 4, 14, 3);
-
-    this.fillInteractionPointsHelper(IMAGE_TYPE.PAD, 1, 38, 10, 5, 2, 12, this.pads[0]);
-    this.fillInteractionPointsHelper(IMAGE_TYPE.PAD, 1, 24, 9, 5, 2, 18, this.pads[0]);
+    for (const interactionPoint of mapList[this.currentMap].interactionPoints) {
+      this.fillInteractionPointsHelper(...interactionPoint);
+    }
   }
 
-  fillInteractionPointsHelper(type, index, x, y, width, height, range, pad) {
+  fillInteractionPointsHelper(type, pointIndex, x, y, width, height, range, padIndex) {
     this.gameMap.interactionPoints.push({
       type,
       pointer: {
-        src: this.pitchPoints[index],
+        src: this.pitchPoints[pointIndex],
         range: this.tileWidth,
       },
       posX: x * this.tileWidth,
@@ -51,36 +50,16 @@ class GameMap {
       width: width * this.tileWidth,
       height: height * this.tileHeight,
       pad: {
-        src: pad,
+        src: this.pads[padIndex],
         range: this.tileWidth * range,
       },
     });
   }
 
   fillTiles() {
-    const length = this.canvasHeight / this.tileHeight;
-
-    this.fillTilesHelper(IMAGE_TYPE.TILE, 1, 0, length - 1, 1, 1, 12);
-
-    this.fillTilesHelper(IMAGE_TYPE.TILE, 1, 24, length - 2, 1, 1);
-    this.fillTilesHelper(IMAGE_TYPE.TILE, 0, 24, length - 1, 1, 1);
-
-    this.fillTilesHelper(IMAGE_TYPE.TILE, 1, 33, length - 6, 1, 1, 4);
-    this.fillTilesHelper(IMAGE_TYPE.TILE, 1, 30, length - 4, 1, 1, 2);
-
-    this.fillTilesHelper(IMAGE_TYPE.TILE, 1, 38, length - 8, 1, 1, 1);
-    this.fillTilesHelper(IMAGE_TYPE.TILE, 1, 38, length - 6, 1, 1, 1);
-
-    this.fillTilesHelper(IMAGE_TYPE.TILE, 1, 24, length - 9, 1, 1, 2);
-
-    this.fillTilesHelper(IMAGE_TYPE.TILE, 1, 2, length - 10, 1, 1, 4);
-
-    this.fillTilesHelper(IMAGE_TYPE.TILE, 1, 3, 5, 1, 1, 1);
-    this.fillTilesHelper(IMAGE_TYPE.TILE, 1, 2, 7, 1, 1, 1);
-
-    this.fillTilesHelper(IMAGE_TYPE.TILE, 1, 18, 3, 1, 1, 8);
-    this.fillTilesHelper(IMAGE_TYPE.TILE, 0, 18, 4, 1, 1, 8);
-    this.fillTilesHelper(IMAGE_TYPE.TILE, 0, 18, 5, 1, 1, 8);
+    for (const tile of mapList[this.currentMap].tiles) {
+      this.fillTilesHelper(...tile);
+    }
   }
 
   fillTilesHelper(type, index, x, y, width, height, length) {
