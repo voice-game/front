@@ -75,11 +75,6 @@ class Pad {
     if (100 <= pitch && this.posX < this.maxX) {
       this.posX += this.speed;
     }
-
-    if (this.posX < this.posX + pitch) {
-      this.posX += this.speed;
-    }
-    this.posX += pitch;
   }
 
   checkOnBoard(characterController) {
