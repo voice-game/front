@@ -9,7 +9,7 @@ import GameRoomCard from "../GameRoomCard/GameRoomCard";
 import ErrorMessage from "../ErrorMessage/ErrorMessage";
 import Button from "../shared/Button/Button";
 import useErrorMessage from "../../hooks/useErrorMessage";
-import useEnterRandom from "../../hooks/useEnterRoom";
+import useEnterRandom from "../../hooks/useEnterRandom";
 import useFetchRooms from "../../hooks/useFetchRoom";
 import useCreateRoom from "../../hooks/useCreateRoom";
 
@@ -42,11 +42,10 @@ const GameRoomList = () => {
 
   const player = useSelector((state) => state.authReducer.playerData);
   const roomList = useSelector((state) => state.roomReducer[gameTitle]);
-  const [error, showErrorMessage] = useErrorMessage("");
 
+  const [error, showErrorMessage] = useErrorMessage("");
   const enterRandom = useEnterRandom(gameTitle, showErrorMessage);
   const createRoom = useCreateRoom(gameTitle, player);
-
   useFetchRooms(gameTitle, showErrorMessage);
 
   return (

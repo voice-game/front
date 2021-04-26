@@ -3,9 +3,9 @@
  * @param {array} array Target Arrary for pick random element
  * @returns picked random element
  */
-const pickRandomRoom = (array) => {
+const pickRandom = (array) => {
   const randomIndex = Math.floor(Math.random() * array.length);
   return array[randomIndex];
 };
 
-export default pickRandomRoom;
+export default pickRandom;

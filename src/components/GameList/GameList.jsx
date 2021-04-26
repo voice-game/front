@@ -12,6 +12,8 @@ import { GAME_TITLE } from "../../constants/constants";
 import energyBattleThumbnail from "../../images/thumbnails/energyBattle_thumbnail.png";
 import comingSoonThumbnail from "../../images/thumbnails/comingSoon_thumbnail.png";
 import energyBattleGif from "../../images/thumbnails/energyBattle_gif.gif";
+import useMicInput from "../../hooks/useMicInput";
+import { useSelector } from "react-redux";
 
 const MainPage = styled.section`
   width: 100vw;
@@ -28,6 +30,10 @@ const MainTitle = styled.h1`
   text-align: center;
 `;
 
+const Name = styled.span`
+  color: #f1c40f;
+`;
+
 const GameCardGrid = styled.div`
   width: 90%;
   display: grid;
@@ -40,8 +46,16 @@ const GameCardGrid = styled.div`
 const GameList = () => {
   const history = useHistory();
   const [error, showErrorMessage] = useErrorMessage("");
+  const { isMicOn, isUnAuthMode, playerData } = useSelector(
+    (state) => state.authReducer
+  );
+  useMicInput(showErrorMessage);
 
   const selectGame = (game) => {
+    if (!isMicOn) {
+      return showErrorMessage("마이크를 허용하고 새로고침 해주세요");
+    }
+
     switch (game) {
       case GAME_TITLE.ROAD_ROLLER:
         history.push("/games/roadRoller");
@@ -63,8 +77,19 @@ const GameList = () => {
   return (
     <MainPage>
       <GameOption />
-      {error.length > 0 && <ErrorMessage />}
+      {error.length > 0 && <ErrorMessage error={error} />}
       <MainTitle> WELCOME TO VOICE GAME !! </MainTitle>
+      {isUnAuthMode ? (
+        <h1>
+          비회원으로 접속하셨네요! &nbsp; &nbsp; 현재 이름은{" "}
+          <Name>{playerData.name}</Name>
+          입니다 😃
+        </h1>
+      ) : (
+        <h1>
+          <Name>{playerData.name}</Name>님 환영합니다 😃
+        </h1>
+      )}
       <GameCardGrid>
         <GameCard
           onClick={selectGame}

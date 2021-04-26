@@ -15,20 +15,23 @@ import { checkAuthorization } from "../../actions/actionCreators";
 import monsterImages from "../../images/monsterEscape/monsterEscapeImage";
 
 const App = ({ authService }) => {
-  console.log("app");
-  const { isAuthorized } = useSelector((state) => state.authReducer);
+  const { isAuthorized, isUnAuthMode } = useSelector(
+    (state) => state.authReducer
+  );
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(checkAuthorization());
-  }, [dispatch]);
+    if (!isUnAuthMode) {
+      dispatch(checkAuthorization());
+    }
+  }, [dispatch, isUnAuthMode]);
 
   useImages("monsterEscape", monsterImages);
 
   return (
     <Router>
       <Switch>
-        {!isAuthorized ? (
+        {!isUnAuthMode && !isAuthorized ? (
           <Login authService={authService} />
         ) : (
           <>
