@@ -1,20 +1,17 @@
-import React, { useCallback, useEffect } from "react";
+import React from "react";
+import { useSelector } from "react-redux";
 import { useHistory, useLocation } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
-import { v4 as uuidv4 } from "uuid";
-import Pusher from "pusher-js";
 
 import GameOption from "../GameOption/GameOption";
+
 import GameRoomCard from "../GameRoomCard/GameRoomCard";
 import ErrorMessage from "../ErrorMessage/ErrorMessage";
 import Button from "../shared/Button/Button";
 import useErrorMessage from "../../hooks/useErrorMessage";
-import {
-  fetchRoomsAction,
-  createRoomAction,
-} from "../../actions/actionCreators";
-import pickRandomRoom from "../../utils/pickRandomRoom";
+import useEnterRandom from "../../hooks/useEnterRoom";
+import useFetchRooms from "../../hooks/useFetchRoom";
+import useCreateRoom from "../../hooks/useCreateRoom";
 
 const GameTitle = styled.h1`
   margin: 0;
@@ -24,13 +21,11 @@ const GameTitle = styled.h1`
   text-align: center;
   text-transform: uppercase;
 `;
-
 const ButtonContainer = styled.div`
   width: 100%;
   display: flex;
   justify-content: center;
 `;
-
 const GameRoomGrid = styled.div`
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -40,71 +35,19 @@ const GameRoomGrid = styled.div`
   padding: 30px;
 `;
 
-// const NewRoomButton = styled.button`
-//   background-color: #1e90ff;
-//   margin-right: 10px;
-// `;
-
-// const EnterRandomButton = styled.button`
-//   background-color: #27ae60;
-//   margin-left: 10px;
-// `;
-
 const GameRoomList = () => {
   const history = useHistory();
   const location = useLocation();
   const gameTitle = location.pathname.split("/")[2];
 
-  const dispatch = useDispatch();
   const player = useSelector((state) => state.authReducer.playerData);
   const roomList = useSelector((state) => state.roomReducer[gameTitle]);
-
   const [error, showErrorMessage] = useErrorMessage("");
 
-  const fetchRooms = useCallback(() => {
-    dispatch(fetchRoomsAction(gameTitle));
-  }, [dispatch, gameTitle]);
+  const enterRandom = useEnterRandom(gameTitle, showErrorMessage);
+  const createRoom = useCreateRoom(gameTitle, player);
 
-  const createRoom = useCallback(async () => {
-    const newRoomId = uuidv4();
-
-    await dispatch(createRoomAction(gameTitle, newRoomId, player._id));
-
-    history.push(`${location.pathname}/${newRoomId}`);
-  }, [history, location.pathname, dispatch, gameTitle, player]);
-
-  const enterRandom = useCallback(() => {
-    const picked = pickRandomRoom(roomList);
-
-    if (!picked) {
-      showErrorMessage("입장 가능한 방이 없습니다.");
-    } else {
-      history.push(`${location.pathname}/${picked.roomId}`);
-    }
-  }, [history, location.pathname, roomList, showErrorMessage]);
-
-  useEffect(() => {
-    if (location.state) {
-      showErrorMessage(location.state);
-      location.state = null;
-    }
-
-    fetchRooms(gameTitle);
-
-    const pusher = new Pusher(process.env.REACT_APP_PUSHER_KEY, {
-      cluster: "ap3",
-    });
-    const channel = pusher.subscribe("rooms");
-
-    channel.bind("changed", () => {
-      fetchRooms(gameTitle);
-    });
-
-    return () => {
-      channel.unbind_all();
-      channel.unsubscribe();
-    };
-  }, [fetchRooms, location, gameTitle, showErrorMessage]);
+  useFetchRooms(gameTitle, showErrorMessage);
 
   return (
     <>
@@ -144,5 +87,4 @@ const GameRoomList = () => {
     </>
   );
 };
-
 export default GameRoomList;

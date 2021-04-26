@@ -7,7 +7,7 @@ import { fetchRoomsAction } from "../actions/actionCreators";
 
 /**
  *
- * @param {*} gameTitle current game title
+ * @param {string} gameTitle current game title
  * @param {function} showErrorMessage functioin display current error message
  */
 const useFetchRooms = (gameTitle, showErrorMessage) => {
@@ -40,6 +40,8 @@ const useFetchRooms = (gameTitle, showErrorMessage) => {
       channel.unsubscribe();
     };
   }, [fetchRooms, location, gameTitle, location.state, showErrorMessage]);
+
+  return fetchRooms;
 };
 
 export default useFetchRooms;
