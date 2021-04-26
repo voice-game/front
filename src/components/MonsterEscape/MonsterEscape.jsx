@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef, useCallback } from "react";
 
 import Canvas from "../shared/Canvas/Canvas";
 import getIsCanvasButtonClicked from "../../utils/getIsCanvasButtonClicked";
+import background from "../../images/monsterEscape/backgrounds/background.png"
 
 const FPS = 36;
 const GOAL_DISTANCE = 3;
@@ -131,7 +132,6 @@ const MonsterEscape = ({
       const {
         controlBox,
         playInfo,
-        background,
         ceiling,
         ground,
         enemy,
@@ -164,7 +164,7 @@ const MonsterEscape = ({
       if (!myMonster.life) { setIsInitGame(false) }
 
       ctx.clearRect(0, 0, canvasWidth, canvasHeight);
-      background.animate(ctx);
+
       ground.animate(ctx, speed * grndSpd);
       ceiling.animate(ctx, 0.5 * speed * grndSpd);
 
@@ -234,6 +234,7 @@ const MonsterEscape = ({
       width={canvasWidth}
       height={canvasHeight}
       margin={["10vh", "auto", "0", "auto"]}
+      bgImage={background}
     />
   );
 };

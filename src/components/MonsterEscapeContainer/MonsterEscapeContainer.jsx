@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import MonsterEscapeFrame from "../MonsterEscapeFrame/MonsterEscapeFrame";
+import MonsterEscape from "../MonsterEscape/MonsterEscape";
 import ControlBox from "../../games/MonsterEscape/ControlBox";
 import Monster from "../../games/MonsterEscape/Monster";
 import Obstacle from "../../games/MonsterEscape/Obstacle";
@@ -17,7 +17,7 @@ const minViewPort = Math.min(innerWidth, innerHeight);
 const canvasWidth = 0.8 * minViewPort;
 const canvasHeight = 0.6 * minViewPort;
 
-const MonsterEscape = ({ socket, creater, player, roomId, otherPlayers }) => {
+const MonsterEscapeContainer = ({ socket, creater, player, roomId, otherPlayers }) => {
   const [volumeMeter, setVolumeMeter] = useState(null);
   const [isInitGame, setIsInitGame] = useState(false);
   const [gameElement, setGameElement] = useState({});
@@ -92,7 +92,7 @@ const MonsterEscape = ({ socket, creater, player, roomId, otherPlayers }) => {
 
   return (
     <div>
-      <MonsterEscapeFrame
+      <MonsterEscape
         isInitGame={isInitGame}
         setIsInitGame={setIsInitGame}
         gameElement={gameElement}
@@ -108,4 +108,4 @@ const MonsterEscape = ({ socket, creater, player, roomId, otherPlayers }) => {
   );
 };
 
-export default MonsterEscape;
+export default MonsterEscapeContainer;
