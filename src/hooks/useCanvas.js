@@ -22,7 +22,7 @@ const useCanvas = (CanvasConstructor, options) => {
         removeEventHelper(myCanvas.eventList);
       }
     };
-  }, []);
+  }, [CanvasConstructor, options]);
 
   return canvasRef;
 };

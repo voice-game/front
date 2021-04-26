@@ -1,5 +1,5 @@
-import idle from "../../assets/image/charactor/hedgehog/idle.png";
-import walking from "../../assets/image/charactor/hedgehog/walking.png";
+import idle from "../../assets/image/characters/hedgehog/idle.png";
+import walking from "../../assets/image/characters/hedgehog/walking.png";
 
 const createImageInfo = (width, height, totalFrame, src) => {
   return {
