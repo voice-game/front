@@ -27,16 +27,18 @@ class ControlBox {
   minusBtnPosY = 0;
 
   animate(ctx, isPlay, speed, volumeData) {
-    const {volume, volThreshold} = volumeData;
-    const ctrlBox = this.images[0];
-    const playBtn = this.images[1];
-    const replayBtn = this.images[2];
-    const minusBtn = this.images[3];
-    const plusBtn = this.images[4];
-    const downBtn = this.images[5];
-    const upBtn = this.images[6];
-    const volumeIcon = this.images[7];
-    const batSpdIcon = this.images[8];
+    const MAX_VOL_DISP = 10;
+
+    const { volume, volThreshold } = volumeData;
+    const ctrlBox = this.images.controlBox;
+    const playBtn = this.images.playButton;
+    const replayBtn = this.images.replayButton;
+    const minusBtn = this.images.minusButton;
+    const plusBtn = this.images.plusButton;
+    const downBtn = this.images.downButton;
+    const upBtn = this.images.upButton;
+    const volumeIcon = this.images.volumeIcon;
+    const speedIcon = this.images.speedIcon;
 
     const ctrlBoxAspectRatio = ctrlBox.width / ctrlBox.height;
     const ctrlBoxHeight = 0.2 * this.canvasHeight;
@@ -50,7 +52,7 @@ class ControlBox {
     const playBtnPosX = ctrlBoxPosX + 0.05 * ctrlBoxWidth;
     const playBtnPosY = ctrlBoxPosY + 0.5 * ctrlBoxHeight - 0.5 * playBtnHeight;
 
-    const batSpeedAspectRatio = batSpdIcon.width / batSpdIcon.height;
+    const batSpeedAspectRatio = speedIcon.width / speedIcon.height;
     const batSpeedHeight = 0.2 * ctrlBoxHeight;
     const batSpeedWidth = batSpeedAspectRatio * batSpeedHeight;
     const batSpeedPosX = ctrlBoxPosX + 0.3 * ctrlBoxWidth;
@@ -106,9 +108,8 @@ class ControlBox {
     const volumePosX = volBarPosX + 0.02 * ctrlBoxWidth;
     const volDisp = Math.round(10 * volume) / 10;
 
-    const maxVolDisp = 10;
-    const volDispBar = volBarHeight * (volDisp / maxVolDisp);
-    const settingVolDispBar = volBarHeight * (volThreshold / maxVolDisp);
+    const volDispBar = volBarHeight * (volDisp / MAX_VOL_DISP);
+    const settingVolDispBar = volBarHeight * (volThreshold / MAX_VOL_DISP);
 
     this.playBtnHeight = playBtnHeight;
     this.playBtnWidth = playBtnWidth;
@@ -145,7 +146,7 @@ class ControlBox {
     ctx.fillText(speed, settingSpdPosX, settingSpdPosY);
     ctx.drawImage(minusBtn, minusBtnPosX, minusBtnPosY, minusBtnWidth, minusBtnHeight);
 
-    ctx.drawImage(batSpdIcon, batSpeedPosX, batSpeedPosY, batSpeedWidth, batSpeedHeight);
+    ctx.drawImage(speedIcon, batSpeedPosX, batSpeedPosY, batSpeedWidth, batSpeedHeight);
     ctx.drawImage(upBtn, upBtnPosX, upBtnPosY, upBtnWidth, upBtnHeight);
     ctx.font = `bold ${settingVolFontSize}px sans-serif`;
     ctx.fillStyle = "black";
