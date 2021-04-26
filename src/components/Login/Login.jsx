@@ -10,6 +10,8 @@ import { logUnAuthMode, playerLogin } from "../../actions/actionCreators";
 import { RANDOM_WORD } from "../../constants/constants";
 import pickRandom from "../../utils/pickRandom";
 
+import micImage from "../../images/thumbnails/mic.png";
+
 const LoginContainer = styled.section`
   width: 100vw;
   height: 100vh;
@@ -21,7 +23,7 @@ const LoginContainer = styled.section`
 
 const MainTitle = styled.div`
   font-size: 4rem;
-  margin-bottom: 5vh;
+  margin-top: 2vh;
 `;
 
 const Login = ({ authService }) => {
@@ -52,11 +54,12 @@ const Login = ({ authService }) => {
   return (
     <LoginContainer>
       {error.length > 0 && <ErrorMessage error={error} />}
+      <img src={micImage} alt="mic" />
       <MainTitle>VOICE GAME</MainTitle>
       <Button
         name="Google"
         onClick={handleLogin}
-        margin={["5vh", "0", "0", "0"]}
+        margin={["2vh", "0", "0", "0"]}
       >
         Google Login
       </Button>
