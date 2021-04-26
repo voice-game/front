@@ -14,13 +14,13 @@ class Character {
 
     this.currentFrame = 0;
     this.frameSpeed = 10;
-    this.fpsTime = 1000 / this.frameSpeed;
 
     this.isFlipped = false;
   }
 
   draw(ctx, x, y, timeStamp) {
     this.img.src = this.currentImg.src;
+    this.fpsTime = 1000 / this.frameSpeed;
 
     if (!this.pivotTime) {
       this.pivotTime = timeStamp;
