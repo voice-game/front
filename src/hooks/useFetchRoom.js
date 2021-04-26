@@ -40,8 +40,6 @@ const useFetchRooms = (gameTitle, showErrorMessage) => {
       channel.unsubscribe();
     };
   }, [fetchRooms, location, gameTitle, location.state, showErrorMessage]);
-
-  return fetchRooms;
 };
 
 export default useFetchRooms;
