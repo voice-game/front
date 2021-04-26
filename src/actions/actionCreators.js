@@ -87,6 +87,12 @@ export const fetchRoomsAction = (gameTitle) => async (dispatch) => {
   }
 };
 
+export const playerMicOn = () => {
+  return {
+    type: getActionTypes().PLAYER_MIC_ON,
+  };
+};
+
 export const createRoomAction = (gameTitle, newRoomId, createdBy) => async (
   dispatch
 ) => {

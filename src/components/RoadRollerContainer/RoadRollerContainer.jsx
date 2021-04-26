@@ -20,20 +20,27 @@ const RoadRollerContainer = (props) => {
   const WIDTH = TILE_SIZE * 43;
   const HEIGHT = TILE_SIZE * 19;
 
-  const {
+  const { isAudioUse, audioContextRef, micStreamRef } = useAudio(
+    { samplerate: 12000 },
+    { audio: true, video: false }
+  );
+  const pitchDetectorRef = usePitchDetector(
     isAudioUse,
     audioContextRef,
-    micStreamRef,
-  } = useAudio({ samplerate: 12000 }, { audio: true, video: false });
-  const pitchDetectorRef = usePitchDetector(isAudioUse, audioContextRef, micStreamRef);
+    micStreamRef
+  );
 
-  const {
+  const { staticDots, staticMap, interactionPoints } = new GameMap(
+    TILE_SIZE,
+    WIDTH,
+    HEIGHT
+  ).gameMap;
+
+  const game = useCanvas(Game, {
+    pitchDetectorRef,
     staticDots,
-    staticMap,
     interactionPoints,
-  } = new GameMap(TILE_SIZE, WIDTH, HEIGHT).gameMap;
-
-  const game = useCanvas(Game, { pitchDetectorRef, staticDots, interactionPoints });
+  });
   const background = useCanvas(BackGround, { staticMap });
 
   return (

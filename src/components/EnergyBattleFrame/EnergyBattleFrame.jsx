@@ -1,7 +1,9 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useRef } from "react";
+import styled from "styled-components";
 import { useDispatch } from "react-redux";
 
-import Canvas from "../shared/Canvas/Canvas";
+import Canvas from "../../components/shared/Canvas/Canvas";
 import BACKGROUNDS from "../../games/energyBattle/BACKGROUND";
 import pickRandom from "../../utils/pickRandom";
 import { gameResultAction } from "../../actions/actionCreators";
@@ -9,7 +11,7 @@ import { ROOM_STATUS } from "../../constants/constants";
 
 let randomBackground = pickRandom(BACKGROUNDS);
 
-const EnergyBattle = ({
+const EnergyBattleFrame = ({
   socket,
   volumeMeter,
   roomId,
@@ -199,4 +201,4 @@ const EnergyBattle = ({
   );
 };
 
-export default EnergyBattle;
+export default EnergyBattleFrame;
