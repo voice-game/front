@@ -22,17 +22,14 @@ const RoadRollerContainer = (props) => {
 
   const [currentMap, setCurrentMap] = useState(0);
   const pitchDetectorRef = usePitchDetector(
-    useAudio(
-      { samplerate: 12000 },
-      { audio: true, video: false }
-    )
+    useAudio({ samplerate: 12000 }, { audio: true, video: false })
   );
 
   const { staticDots, staticMap, interactionPoints } = new GameMap(
     TILE_SIZE,
     WIDTH,
     HEIGHT,
-    currentMap,
+    currentMap
   ).gameMap;
 
   const game = useCanvas(Game, {

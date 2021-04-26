@@ -8,7 +8,6 @@ import GameList from "../GameList/GameList";
 import GameRoomList from "../GameRoomList/GameRoomList";
 import GameRoom from "../GameRoom/GameRoom";
 import ErrorPage from "../ErrorPage/ErrorPage";
-
 import { checkAuthorization } from "../../actions/actionCreators";
 
 const App = ({ authService }) => {
