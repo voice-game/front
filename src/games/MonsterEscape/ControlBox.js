@@ -2,7 +2,7 @@ class ControlBox {
   constructor(canvasWidth, canvasHeight, images) {
     this.canvasWidth = canvasWidth;
     this.canvasHeight = canvasHeight;
-    this.images = images;
+    this.images = images.controlBoxes.controlBox;
   }
 
   playBtnHeight = 0;

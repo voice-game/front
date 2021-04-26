@@ -38,6 +38,8 @@ const getActionTypes = () => ({
   PATCH_RESULT: "PATCH_RESULT",
   PATCH_RESULT_SUCCESS: "PATCH_RESULT_SUCCESS",
   PATCH_RESULT_FAIL: "PATCH_RESULT_FAIL",
+
+  STORE_IMAGE: "STORE_IMAGE",
 });
 
 export default getActionTypes;

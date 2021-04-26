@@ -8,16 +8,22 @@ import GameList from "../GameList/GameList";
 import GameRoomList from "../GameRoomList/GameRoomList";
 import GameRoom from "../GameRoom/GameRoom";
 import ErrorPage from "../ErrorPage/ErrorPage";
+import useImages from "../../hooks/useImages";
 
 import { checkAuthorization } from "../../actions/actionCreators";
 
+import monsterImages from "../../images/monsterEscape/monsterEscapeImage";
+
 const App = ({ authService }) => {
+  console.log("app");
   const { isAuthorized } = useSelector((state) => state.authReducer);
   const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(checkAuthorization());
   }, [dispatch]);
+
+  useImages("monsterEscape", monsterImages);
 
   return (
     <Router>
