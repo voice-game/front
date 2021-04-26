@@ -11,6 +11,7 @@ import Pads from "../../games/energyBattle/Pads";
 import SkillEffect from "../../games/energyBattle/SkillEffect";
 
 import useImage from "../../hooks/useImage";
+import useMyImage from "../../hooks/useMyImage";
 import CHARACTERS from "../../games/energyBattle/CHARACTERS";
 import { ROOM_STATUS } from "../../constants/constants";
 import usePlayEnergyBattle from "../../hooks/usePlayEnergyBattle";
@@ -65,6 +66,8 @@ const EnergyBattleContainer = ({ socket, roomId, player, otherPlayers }) => {
     setRoomStatus,
     setIsStartDisabled
   );
+
+  const { image, isLoaded } = useMyImage("energyBattle");
 
   const startGame = useCallback(async () => {
     if (isStartDisabled) {
