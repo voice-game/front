@@ -9,7 +9,6 @@ const initialState = {
 };
 
 const imageReducer = (state = initialState, action) => {
-  console.log(state)
   const ACTION_TYPES = getActionTypes();
   const copiedState = _.cloneDeep(state);
 
@@ -18,6 +17,7 @@ const imageReducer = (state = initialState, action) => {
       const { name, image } = action.payload;
       copiedState[name] = image;
       copiedState.isLoaded[name] = true;
+
       return copiedState;
     default:
       return copiedState;

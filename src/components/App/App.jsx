@@ -12,7 +12,9 @@ import useImages from "../../hooks/useImages";
 
 import { checkAuthorization } from "../../actions/actionCreators";
 
-import monsterImages from "../../images/monsterEscape/monsterEscapeImage";
+import energyBattleImages from "../../games/energyBattle/energyBattleImages";
+import monsterEscapeImages from "../../games/MonsterEscape/monsterEscapeImages";
+import roadRollerImages from "../../games/roadRoller/roadRollerImages";
 
 const App = ({ authService }) => {
   const { isAuthorized, isUnAuthMode } = useSelector(
@@ -26,7 +28,9 @@ const App = ({ authService }) => {
     }
   }, [dispatch, isUnAuthMode]);
 
-  useImages("monsterEscape", monsterImages);
+  useImages("energyBattle", energyBattleImages);
+  useImages("monsterEscape", monsterEscapeImages);
+  useImages("roadRoller", roadRollerImages);
 
   return (
     <Router>

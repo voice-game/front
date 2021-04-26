@@ -11,3 +11,4 @@ const useImage = (imageName, imageSrc) => {
 };
 
 export default useImage;
+// 오타아님... 기존 useImage 제거하면 useImages.js -> useImage로 바꿀 예정

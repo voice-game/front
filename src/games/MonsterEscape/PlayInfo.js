@@ -2,7 +2,7 @@ class PlayInfo {
   constructor (canvasWidth, canvasHeight, images, fps){
     this.canvasWidth = canvasWidth;
     this.canvasHeight = canvasHeight;
-    this.images = images.playInformations.playInformation;
+    this.images = images.playInfos.playInfo;
     this.fps = fps;
   }
 

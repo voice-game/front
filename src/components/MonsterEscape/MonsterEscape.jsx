@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef, useCallback } from "react";
 
 import Canvas from "../shared/Canvas/Canvas";
 import getIsCanvasButtonClicked from "../../utils/getIsCanvasButtonClicked";
-import background from "../../images/monsterEscape/backgrounds/background.png"
+import background from "../../images/monsterEscape/backgrounds/background.png";
 
 const FPS = 36;
 const GOAL_DISTANCE = 3;
@@ -63,7 +63,6 @@ const MonsterEscape = ({
     const isMinusBtnClicked = getIsCanvasButtonClicked(clickedInfo, minusBtnInfo);
 
     if (isPlayBtnClicked) {
-      console.log(isPlay, isFinished);
       if (isPlay && isFinished) {
         myDataRef.current.normDistance = 0;
         socket.emit("monsterescape-restart", roomId);

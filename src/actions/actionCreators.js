@@ -310,7 +310,7 @@ export const gameResultAction = (
 
 export const loadImages = (imageName, imageSrc) => async (dispatch) => {
   const loadImage = async (imageSrc) => {
-    const loadedImage = {};
+    const loadedImage = Array.isArray(imageSrc) ? [] : {};
 
     for (const key in imageSrc) {
       if (typeof imageSrc[key] === "object") {
