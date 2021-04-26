@@ -9,7 +9,7 @@ const Button = styled.button`
   border: 3px solid black;
   box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
   background-color: ${(props) => props.bgColor || "#f1c40f"};
-  font-weight: ${(props) => props.fontWeight || "400"};
+  font-weight: ${(props) => props.fontWeight || "600"};
   font-size: ${(props) => props.fontSize || "1.2rem"};
   color: black;
   text-transform: uppercase;

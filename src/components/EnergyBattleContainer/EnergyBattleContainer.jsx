@@ -3,6 +3,7 @@ import React, { useState, useEffect, useCallback, useRef } from "react";
 import styled from "styled-components";
 
 import EnergyBattle from "../EnergyBattle/EnergyBattle";
+import EnergyBattleController from "../EnergyBattleController/EnergyBattleController";
 
 import PlayerAvatar from "../../games/energyBattle/PlayerAvatar";
 import OtherAvatar from "../../games/energyBattle/OtherAvatar";
@@ -13,10 +14,9 @@ import useImage from "../../hooks/useImage";
 import CHARACTERS from "../../games/energyBattle/CHARACTERS";
 import { ROOM_STATUS } from "../../constants/constants";
 import usePlayEnergyBattle from "../../hooks/usePlayEnergyBattle";
-import Button from "../shared/Button/Button";
+import PlayerCard from "../PlayerCard/PlayerCard";
 
 const GameTitle = styled.h1`
-  margin: 0;
   margin-bottom: 2vh;
   width: 100%;
   font-size: 3rem;
@@ -33,7 +33,7 @@ const OperationContainer = styled.div`
   margin-bottom: 40px;
 `;
 
-const PlayerDataContainer = styled.div`
+const PlayerCardContainer = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
@@ -42,18 +42,6 @@ const PlayerDataContainer = styled.div`
   width: 14vw;
   min-width: 180px;
   height: 8vh;
-`;
-
-const Counter = styled.h1`
-  color: #f9ca24;
-`;
-
-const PlayerData = styled.span`
-  width: 100%;
-  font-size: 1.2rem;
-  text-align: center;
-  display: block;
-  color: black;
 `;
 
 const EnergyBattleContainer = ({ socket, roomId, player, otherPlayers }) => {
@@ -65,8 +53,8 @@ const EnergyBattleContainer = ({ socket, roomId, player, otherPlayers }) => {
   const pad = useRef(null);
   const resultImage = useRef(null);
   const skill = useRef(null);
-  const canvasWidth = useRef(document.body.clientWidth * 0.8);
-  const canvasHeight = useRef(document.body.clientWidth * 0.4);
+  const canvasWidth = useRef(document.body.clientWidth * 0.9);
+  const canvasHeight = useRef(document.body.clientWidth * 0.5);
 
   const myCharacter = useImage(CHARACTERS.myCharacter);
   const otherCharacter = useImage(CHARACTERS.otherCharacter);
@@ -90,8 +78,8 @@ const EnergyBattleContainer = ({ socket, roomId, player, otherPlayers }) => {
   }, [isStartDisabled, playGame, roomStatus, socket]);
 
   useEffect(() => {
-    canvasWidth.current = document.body.clientWidth * 0.8;
-    canvasHeight.current = document.body.clientWidth * 0.4;
+    canvasWidth.current = document.body.clientWidth * 0.9;
+    canvasHeight.current = document.body.clientWidth * 0.5;
     socket.on("start-by-other", playGame);
 
     if (myCharacter && otherCharacter && skillEffect && pads && resultImages) {
@@ -137,35 +125,21 @@ const EnergyBattleContainer = ({ socket, roomId, player, otherPlayers }) => {
     <>
       <GameTitle>ENERGY BATTLE</GameTitle>
       <OperationContainer>
-        <PlayerDataContainer>
-          <PlayerData>
-            {player.name}
-            <br />
-            {player.gameRecords.energyBattleContainer}승
-          </PlayerData>
-        </PlayerDataContainer>
-        {counter.length > 0 && <Counter>{counter}</Counter>}
-        {counter.length === 0 && roomStatus === ROOM_STATUS.WAITING && (
-          <Button onClick={startGame}>WAITING</Button>
-        )}
-        {counter.length === 0 && roomStatus === ROOM_STATUS.READY && (
-          <Button onClick={startGame}>START</Button>
-        )}
-        <PlayerDataContainer>
+        <PlayerCardContainer>
+          <PlayerCard player={player} />
+        </PlayerCardContainer>
+        <EnergyBattleController
+          counter={counter}
+          roomStatus={roomStatus}
+          onClick={startGame}
+        />
+        <PlayerCardContainer>
           {otherPlayers && otherPlayers.length !== 0 ? (
-            <PlayerData>
-              {otherPlayers[0].name}
-              <br />
-              {otherPlayers[0].gameRecords.energyBattle}승
-            </PlayerData>
+            <PlayerCard player={otherPlayers[0]} />
           ) : (
-            <PlayerData>
-              Waiting...
-              <br />
-              😛
-            </PlayerData>
+            <PlayerCard />
           )}
-        </PlayerDataContainer>
+        </PlayerCardContainer>
       </OperationContainer>
       <EnergyBattle
         socket={socket}

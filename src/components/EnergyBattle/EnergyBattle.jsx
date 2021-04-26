@@ -194,6 +194,7 @@ const EnergyBattle = ({
         width={canvasWidth}
         height={canvasHeight}
         margin={["20px", "auto", "0", "auto"]}
+        // marginCenter="20px auto"
         bgImage={randomBackground}
       />
     </>
