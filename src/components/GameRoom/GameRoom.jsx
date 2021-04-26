@@ -5,9 +5,9 @@ import { useDispatch, useSelector } from "react-redux";
 import io from "socket.io-client";
 
 import GameOption from "../GameOption/GameOption";
-import EnergyBattle from "../EnergyBattle/EnergyBattle";
-import MonsterEscape from "../MonsterEscape/MonsterEscape";
-import RoadRoller from "../RoadRoller/RoadRoller";
+import EnergyBattleContainer from "../EnergyBattleContainer/EnergyBattleContainer";
+import MonsterEscapeContainer from "../MonsterEscapeContainer/MonsterEscapeContainer";
+import RoadRollerContainer from "../RoadRollerContainer/RoadRollerContainer";
 
 import {
   joinRoomAction,
@@ -111,7 +111,7 @@ const GameRoom = () => {
     <>
       <GameOption />
       {gameTitle === "energyBattle" && (
-        <EnergyBattle
+        <EnergyBattleContainer
           socket={socket}
           roomId={roomId}
           player={playerData}
@@ -119,7 +119,7 @@ const GameRoom = () => {
         />
       )}
       {gameTitle === "monsterEscape" && (
-        <MonsterEscape
+        <MonsterEscapeContainer
           socket={socket}
           creater={currentRoom?.createdBy}
           roomId={roomId}
@@ -128,7 +128,7 @@ const GameRoom = () => {
         />
       )}
       {gameTitle === "roadRoller" && (
-        <RoadRoller
+        <RoadRollerContainer
           socket={socket}
           creater={currentRoom?.createdBy}
           player={playerData}

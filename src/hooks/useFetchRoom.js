@@ -18,30 +18,28 @@ const useFetchRooms = (gameTitle, showErrorMessage) => {
     dispatch(fetchRoomsAction(gameTitle));
   }, [dispatch, gameTitle]);
 
-  // useEffect(() => {
-  //   if (location.state) {
-  //     showErrorMessage(location.state);
-  //     location.state = null;
-  //   }
+  useEffect(() => {
+    if (location.state) {
+      showErrorMessage(location.state);
+      location.state = null;
+    }
 
-  //   fetchRooms(gameTitle);
+    fetchRooms(gameTitle);
 
-  //   const pusher = new Pusher(process.env.REACT_APP_PUSHER_KEY, {
-  //     cluster: "ap3",
-  //   });
-  //   const channel = pusher.subscribe("rooms");
+    const pusher = new Pusher(process.env.REACT_APP_PUSHER_KEY, {
+      cluster: "ap3",
+    });
+    const channel = pusher.subscribe("rooms");
 
-  //   channel.bind("changed", () => {
-  //     fetchRooms(gameTitle);
-  //   });
+    channel.bind("changed", () => {
+      fetchRooms(gameTitle);
+    });
 
-  //   return () => {
-  //     channel.unbind_all();
-  //     channel.unsubscribe();
-  //   };
-  // }, [fetchRooms, location, gameTitle, location.state, showErrorMessage]);
-
-  return fetchRooms;
+    return () => {
+      channel.unbind_all();
+      channel.unsubscribe();
+    };
+  }, [fetchRooms, location, gameTitle, location.state, showErrorMessage]);
 };
 
 export default useFetchRooms;
