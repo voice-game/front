@@ -39,7 +39,23 @@
     "extends": [
       "react-app",
       "react-app/jest"
-    ]
+    ],
+    "rules": {
+      "semi": ["warn", "always", { "omitLastInOneLineBlock": true }],
+      "semi-style": ["warn", "last"],
+      "quotes": ["warn", "double"],
+      "indent": ["warn", 2, { "SwitchCase": 1 }],
+      "no-multi-spaces": "warn",
+      "no-multiple-empty-lines": ["warn", {"max": 1, "maxEOF": 0 }],
+      "space-infix-ops": "warn",
+      "comma-spacing": "warn",
+      "block-spacing": "warn",
+      "semi-spacing": "warn",
+      "object-curly-spacing": ["warn", "always"],
+      "key-spacing": "warn",
+      "eol-last": "warn",
+      "no-undef": "warn"
+    }
   },
   "browserslist": {
     "production": [
