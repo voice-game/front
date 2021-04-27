@@ -1,26 +1,27 @@
-import { imageController } from "./imageController";
-
 class Character {
-  constructor() {
-    this.img = new Image();
-
-    this.imgList = imageController();
+  constructor(images) {
+    this.imgList = images;
     this.currentImg = this.imgList.idle;
 
     this.ratio = 4;
-    this.width = this.currentImg.width / this.ratio;
-    this.height = this.currentImg.height / this.ratio;
-    this.widthHalf = this.width / 2;
 
     this.currentFrame = 0;
     this.frameSpeed = 10;
+    this.fpsTime = 1000 / this.frameSpeed;
 
     this.isFlipped = false;
   }
 
   draw(ctx, x, y, timeStamp) {
-    this.img.src = this.currentImg.src;
-    this.fpsTime = 1000 / this.frameSpeed;
+    this.img = this.currentImg.img;
+    this.frame = this.currentImg.frame;
+
+    this.frameWidth = this.img.width / this.frame;
+    this.frameHeight = this.img.height;
+
+    this.width = this.frameWidth / this.ratio;
+    this.height = this.frameHeight / this.ratio;
+
 
     if (!this.pivotTime) {
       this.pivotTime = timeStamp;
@@ -33,7 +34,7 @@ class Character {
       this.currentFrame += 1;
     }
 
-    if (this.currentImg.totalFrame <= this.currentFrame) {
+    if (this.frame <= this.currentFrame) {
       this.currentFrame = 0;
     }
 
@@ -54,10 +55,10 @@ class Character {
 
     ctx.drawImage(
       this.img,
-      this.currentImg.width * this.currentFrame,
+      this.frameWidth * this.currentFrame,
       0,
-      this.currentImg.width,
-      this.currentImg.height,
+      this.frameWidth,
+      this.frameHeight,
       characterX,
       y,
       width,
