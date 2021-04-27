@@ -9,11 +9,8 @@ import GameOption from "../GameOption/GameOption";
 import useErrorMessage from "../../hooks/useErrorMessage";
 import { GAME_TITLE } from "../../constants/constants";
 
-import energyBattleThumbnail from "../../images/thumbnails/energyBattle_thumbnail.png";
 import energyBattleGif from "../../images/thumbnails/energyBattle_gif.gif";
-import monsterEscapeThumbnail from "../../images/thumbnails/monsterEscape_thumbnail.png";
 import monsterEscapeGif from "../../images/thumbnails/monsterEscape_gif.gif";
-import roadRollerThumbnail from "../../images/thumbnails/roadRoller_thumbnail.png";
 import roadRollerGif from "../../images/thumbnails/roadRoller_gif.gif";
 import comingSoonThumbnail from "../../images/thumbnails/comingSoon_thumbnail.png";
 import useMicInput from "../../hooks/useMicInput";
@@ -104,26 +101,19 @@ const GameList = () => {
         <GameCard
           onClick={selectGame}
           title={GAME_TITLE.ROAD_ROLLER}
-          thumbnail={roadRollerThumbnail}
           gif={roadRollerGif}
         />
         <GameCard
           onClick={selectGame}
           title={GAME_TITLE.MONSTER_ESCAPE}
-          thumbnail={monsterEscapeThumbnail}
           gif={monsterEscapeGif}
         />
         <GameCard
           onClick={selectGame}
           title={GAME_TITLE.ENERGY_BATTLE}
-          thumbnail={energyBattleThumbnail}
           gif={energyBattleGif}
         />
-        <GameCard
-          onClick={selectGame}
-          thumbnail={comingSoonThumbnail}
-          gif={comingSoonThumbnail}
-        />
+        <GameCard onClick={selectGame} gif={comingSoonThumbnail} />
       </GameCardGrid>
     </MainPage>
   );
