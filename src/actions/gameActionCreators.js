@@ -1,11 +1,10 @@
 import getActionTypes from "./actionTypes.js";
-import { USER_SERVER_API } from "../constants/constants";
 
 export const fetchRoomsAction = (gameTitle) => async (dispatch) => {
   dispatch({ type: getActionTypes().FETCH_ROOMS });
 
   try {
-    const response = await fetch(`${USER_SERVER_API}/games/${gameTitle}`);
+    const response = await fetch(`${process.env.REACT_APP_USER_SERVER_API}/games/${gameTitle}`);
     const result = await response.json();
 
     dispatch({
@@ -26,7 +25,7 @@ export const createRoomAction = (gameTitle, newRoomId, createdBy) => async (
   dispatch({ type: getActionTypes().CREATE_ROOM });
 
   try {
-    const response = await fetch(`${USER_SERVER_API}/games/${gameTitle}`, {
+    const response = await fetch(`${process.env.REACT_APP_USER_SERVER_API}/games/${gameTitle}`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -52,7 +51,7 @@ export const joinRoomAction = (gameTitle, roomId, playerData) => async (
 
   try {
     const response = await fetch(
-      `${USER_SERVER_API}/games/${gameTitle}/${roomId}`,
+      `${process.env.REACT_APP_USER_SERVER_API}/games/${gameTitle}/${roomId}`,
       {
         method: "PATCH",
         headers: {
@@ -83,7 +82,7 @@ export const leaveRoomAction = (gameTitle, roomId, playerData) => async (
 
   try {
     const response = await fetch(
-      `${USER_SERVER_API}/games/${gameTitle}/${roomId}`,
+      `${process.env.REACT_APP_USER_SERVER_API}/games/${gameTitle}/${roomId}`,
       {
         method: "PATCH",
         headers: {
@@ -112,7 +111,7 @@ export const deleteRoomAction = (gameTitle, roomId) => async (dispatch) => {
 
   try {
     const response = await fetch(
-      `${USER_SERVER_API}/games/${gameTitle}/${roomId}`,
+      `${process.env.REACT_APP_USER_SERVER_API}/games/${gameTitle}/${roomId}`,
       {
         method: "DELETE",
         headers: {
@@ -142,7 +141,7 @@ export const changeRoomStatus = (gameTitle, roomId, status) => async (
   dispatch({ type: getActionTypes().CHANGE_ROOM_STATUS });
 
   try {
-    const response = await fetch(`${USER_SERVER_API}/games/${gameTitle}`, {
+    const response = await fetch(`${process.env.REACT_APP_USER_SERVER_API}/games/${gameTitle}`, {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json",
@@ -175,7 +174,7 @@ export const gameResultAction = (
 
   try {
     const response = await fetch(
-      `${USER_SERVER_API}/games/${gameTitle}/${roomId}`,
+      `${process.env.REACT_APP_USER_SERVER_API}/games/${gameTitle}/${roomId}`,
       {
         method: "PATCH",
         headers: {
