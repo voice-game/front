@@ -17,8 +17,8 @@ import {
 } from "../../actions/actionCreators";
 
 import { USER_SERVER, MAX_PLAYER } from "../../constants/constants";
-import useSetInitialRoom from "../../hooks/useSetInitialRoom";
-import usePlayerConnection from "../../hooks/usePlayerConnection";
+// import useSetInitialRoom from "../../hooks/useSetInitialRoom";
+// import usePlayerConnection from "../../hooks/usePlayerConnection";
 
 const socket = io(USER_SERVER, {
   withCredential: true,

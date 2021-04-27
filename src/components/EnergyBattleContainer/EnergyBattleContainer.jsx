@@ -5,7 +5,7 @@ import styled from "styled-components";
 import EnergyBattle from "../EnergyBattle/EnergyBattle";
 import EnergyBattleController from "../EnergyBattleController/EnergyBattleController";
 
-import useMyImage from "../../hooks/useMyImage";
+import useLoadedImage from "../../hooks/useLoadedImage";
 import { ROOM_STATUS } from "../../constants/constants";
 import usePlayEnergyBattle from "../../hooks/usePlayEnergyBattle";
 import PlayerCard from "../PlayerCard/PlayerCard";
@@ -55,7 +55,7 @@ const EnergyBattleContainer = ({ socket, roomId, player, otherPlayers }) => {
     setRoomStatus,
     setIsStartDisabled
   );
-  const { image, isLoaded } = useMyImage("energyBattle");
+  const { image, isLoaded } = useLoadedImage("energyBattle");
 
   const startGame = useCallback(async () => {
     if (isStartDisabled) {

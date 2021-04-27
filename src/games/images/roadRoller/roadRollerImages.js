@@ -4,7 +4,7 @@ import objects from "./objectImages";
 import pads from "./padImages";
 import pitchPoints from "./pitchPointImages";
 import tiles from "./tileImages";
-import portal from "./portalImage"
+import portal from "./portalImages";
 
 const roadRollerImages = {
   backgrounds,

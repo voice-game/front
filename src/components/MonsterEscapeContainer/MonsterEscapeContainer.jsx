@@ -1,14 +1,14 @@
 import React, { useState, useEffect, useRef } from "react";
-import GameManual from "../GameManual/GameManual"
+import GameManual from "../GameManual/GameManual";
 import MonsterEscape from "../MonsterEscape/MonsterEscape";
-import ControlBox from "../../games/MonsterEscape/ControlBox";
-import Monster from "../../games/MonsterEscape/Monster";
-import Obstacle from "../../games/MonsterEscape/Obstacle";
-import PlayInfo from "../../games/MonsterEscape/PlayInfo";
-import GameMap from "../../games/MonsterEscape/GameMap";
-import MultiPlayer from "../../games/MonsterEscape/MultiPlayer";
-import gameMap from "../../games/MonsterEscape/gameMap.json";
-import useMyImage from "../../hooks/useMyImage";
+import ControlBox from "../../games/monsterEscape/ControlBox";
+import Monster from "../../games/monsterEscape/Monster";
+import Obstacle from "../../games/monsterEscape/Obstacle";
+import PlayInfo from "../../games/monsterEscape/PlayInfo";
+import GameMap from "../../games/monsterEscape/GameMap";
+import MultiPlayer from "../../games/monsterEscape/MultiPlayer";
+import gameMap from "../../games/monsterEscape/gameMap.json";
+import useLoadedImage from "../../hooks/useLoadedImage";
 import getMedia from "../../utils/getMedia";
 import VolumeMeter from "../../utils/VolumeMeter";
 import manualImage from "../../images/manuals/manual_monsterEscape.png";
@@ -30,7 +30,7 @@ const MonsterEscapeContainer = ({
   const [isInitGame, setIsInitGame] = useState(false);
   const [gameElement, setGameElement] = useState({});
 
-  const { image, isLoaded } = useMyImage("monsterEscape");
+  const { image, isLoaded } = useLoadedImage("monsterEscape");
   const streamRef = useRef(null);
 
   useEffect(() => {
