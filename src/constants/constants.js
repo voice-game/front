@@ -8,10 +8,11 @@ export const MAX_PLAYER = {
 };
 
 export const IMAGE_TYPE = {
-  ROAD: "ROAD",
-  PAD: "PAD",
-  TILE: "TILE",
   OBJECT: "OBJECT",
+  PAD: "PAD",
+  PORTAL: "PORTAL",
+  ROAD: "ROAD",
+  TILE: "TILE",
 };
 
 export const ROOM_STATUS = {
