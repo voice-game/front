@@ -8,7 +8,7 @@ class PlayerAvatar {
   idle(ctx, spriteCount) {
     ctx.drawImage(
       this.imgObj.idle,
-      (this.imgObj.idle.width / 12) * (spriteCount % 11),
+      (this.imgObj.idle.width / 12) * (spriteCount % 12),
       0,
       (this.imgObj.idle.width / 12) * 1,
       this.imgObj.idle.height,
@@ -22,7 +22,7 @@ class PlayerAvatar {
   cast(ctx, spriteCount) {
     ctx.drawImage(
       this.imgObj.cast,
-      (this.imgObj.cast.width / 12) * (spriteCount % 11),
+      (this.imgObj.cast.width / 12) * (spriteCount % 12),
       0,
       this.imgObj.cast.width / 12,
       this.imgObj.cast.height,
