@@ -7,14 +7,14 @@ import useLoadedImage from "../../hooks/useLoadedImage";
 
 import Canvas from "../shared/Canvas/Canvas";
 
-import Game from "../../games/roadRoller";
-import BackGround from "../../games/roadRoller/Background";
-import GameMap from "../../games/roadRoller/GameMap";
+import Game from "../../games/littleForest";
+import BackGround from "../../games/littleForest/Background";
+import GameMap from "../../games/littleForest/GameMap";
 
 import pickRandom from "../../utils/pickRandom";
 
-const RoadRollerContainer = () => {
-  const { image, isLoaded } = useLoadedImage("roadRoller");
+const LittleForestContainer = () => {
+  const { image, isLoaded } = useLoadedImage("littleForest");
   const [currentMap, setCurrentMap] = useState(0);
   const pitchDetectorRef = usePitchDetector(
     useAudio({ samplerate: 12000 }, { audio: true, video: false })
@@ -78,4 +78,4 @@ const RoadRollerContainer = () => {
   );
 };
 
-export default RoadRollerContainer;
+export default LittleForestContainer;

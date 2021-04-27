@@ -2,10 +2,10 @@ import getActionTypes from "../actions/actionTypes";
 import _ from "lodash";
 
 const initialState = {
-  roadRoller: {},
+  littleForest: {},
   monsterEscape: {},
   energyBattle: {},
-  isLoaded: { roadRoller: false, monsterEscape: false, energyBattle: false },
+  isLoaded: { littleForest: false, monsterEscape: false, energyBattle: false },
 };
 
 const imageReducer = (state = initialState, action) => {

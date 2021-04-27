@@ -11,7 +11,7 @@ import { GAME_TITLE } from "../../constants/constants";
 
 import energyBattleGif from "../../images/thumbnails/energyBattle_gif.gif";
 import monsterEscapeGif from "../../images/thumbnails/monsterEscape_gif.gif";
-import roadRollerGif from "../../images/thumbnails/roadRoller_gif.gif";
+import littleForestGif from "../../images/thumbnails/littleForest_gif.gif";
 import comingSoonThumbnail from "../../images/thumbnails/comingSoon_thumbnail.png";
 import useMicInput from "../../hooks/useMicInput";
 import { useSelector } from "react-redux";
@@ -65,7 +65,7 @@ const GameList = () => {
 
       switch (game) {
         case GAME_TITLE.ROAD_ROLLER:
-          history.push("/games/roadRoller");
+          history.push("/games/littleForest");
           break;
 
         case GAME_TITLE.MONSTER_ESCAPE:
@@ -103,7 +103,7 @@ const GameList = () => {
         <GameCard
           onClick={selectGame}
           title={GAME_TITLE.ROAD_ROLLER}
-          gif={roadRollerGif}
+          gif={littleForestGif}
         />
         <GameCard
           onClick={selectGame}
