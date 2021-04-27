@@ -3,14 +3,14 @@ import PitchPoint from "./PitchPoint";
 class Pad {
   constructor(
     pitchDetectorRef,
-    point
+    point,
+    images
   ) {
     this.pitchDetectorRef = pitchDetectorRef;
 
-    this.pitchPoint = new PitchPoint(point);
+    this.pitchPoint = new PitchPoint(point, images.pitchPoints);
 
-    this.img = new Image();
-    this.img.src = point.pad.src;
+    this.img = images.pads[point.pad.index];
 
     this.width = point.width;
     this.height = point.height;

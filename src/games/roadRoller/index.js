@@ -3,7 +3,7 @@ import DotsController from "./Dots";
 import InteractionController from "./InteractionController";
 
 class Game {
-  constructor(ref, { pitchDetectorRef, staticDots, interactionPoints }) {
+  constructor(ref, { pitchDetectorRef, staticDots, interactionPoints, images }) {
     this.canvas = ref.current;
     this.ctx = this.canvas.getContext("2d");
     this.width = this.canvas.width;
@@ -18,11 +18,13 @@ class Game {
       this.eventList,
       this.width,
       this.height,
+      images,
     );
     this.interactionController = new InteractionController(
       this.height,
       pitchDetectorRef,
-      interactionPoints
+      interactionPoints,
+      images
     );
 
     window.requestAnimationFrame(this.animate.bind(this));

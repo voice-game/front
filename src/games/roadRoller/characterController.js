@@ -1,12 +1,14 @@
 import { addEventHelper } from "../../utils/eventListHelper";
 import Character from "./Character";
+import pickRandom from "../../utils/pickRandom";
 
 class CharacterController {
-  constructor(eventList, canvasWidth, canvasHeight) {
+  constructor(eventList, canvasWidth, canvasHeight, images) {
     this.eventList = eventList;
 
     this.canvasWidth = canvasWidth;
     this.canvasHeight = canvasHeight;
+    this.images = images.characters;
 
     this.initialX = 1050;
     this.initialY = 100;
@@ -30,7 +32,7 @@ class CharacterController {
       W: 87,
     };
 
-    this.character = new Character();
+    this.character = new Character(pickRandom(this.images));
 
     addEventHelper(
       this.eventList,
@@ -47,7 +49,7 @@ class CharacterController {
   }
 
   draw(ctx, dots, timeStamp) {
-    this.characterCenterX = this.posX + this.character.widthHalf;
+    this.characterCenterX = this.posX + (this.character.width / 2);
 
     if (this.canvasHeight < this.posY - this.character.height) {
       this.posX = this.initialX;
