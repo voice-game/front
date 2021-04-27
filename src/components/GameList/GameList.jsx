@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useCallback } from "react";
 import { useHistory } from "react-router-dom";
 import styled from "styled-components";
 
@@ -10,8 +10,12 @@ import useErrorMessage from "../../hooks/useErrorMessage";
 import { GAME_TITLE } from "../../constants/constants";
 
 import energyBattleThumbnail from "../../images/thumbnails/energyBattle_thumbnail.png";
-import comingSoonThumbnail from "../../images/thumbnails/comingSoon_thumbnail.png";
 import energyBattleGif from "../../images/thumbnails/energyBattle_gif.gif";
+import monsterEscapeThumbnail from "../../images/thumbnails/monsterEscape_thumbnail.png";
+import monsterEscapeGif from "../../images/thumbnails/monsterEscape_gif.gif";
+import roadRollerThumbnail from "../../images/thumbnails/roadRoller_thumbnail.png";
+import roadRollerGif from "../../images/thumbnails/roadRoller_gif.gif";
+import comingSoonThumbnail from "../../images/thumbnails/comingSoon_thumbnail.png";
 import useMicInput from "../../hooks/useMicInput";
 import { useSelector } from "react-redux";
 
@@ -35,12 +39,15 @@ const Name = styled.span`
 `;
 
 const GameCardGrid = styled.div`
-  width: 90%;
+  width: 80%;
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   column-gap: 2vw;
   row-gap: 2vw;
   padding: 30px;
+  @media only screen and (max-width: 1120px) {
+    grid-template-columns: repeat(1, 1fr);
+  }
 `;
 
 const GameList = () => {
@@ -51,28 +58,31 @@ const GameList = () => {
   );
   useMicInput(showErrorMessage);
 
-  const selectGame = (game) => {
-    if (!isMicOn) {
-      return showErrorMessage("마이크를 허용하고 새로고침 해주세요");
-    }
+  const selectGame = useCallback(
+    (game) => {
+      if (!isMicOn) {
+        return showErrorMessage("마이크를 허용하고 새로고침 해주세요");
+      }
 
-    switch (game) {
-      case GAME_TITLE.ROAD_ROLLER:
-        history.push("/games/roadRoller");
-        break;
+      switch (game) {
+        case GAME_TITLE.ROAD_ROLLER:
+          history.push("/games/roadRoller");
+          break;
 
-      case GAME_TITLE.MONSTER_ESCAPE:
-        history.push("/games/monsterEscape");
-        break;
+        case GAME_TITLE.MONSTER_ESCAPE:
+          history.push("/games/monsterEscape");
+          break;
 
-      case GAME_TITLE.ENERGY_BATTLE:
-        history.push("/games/energyBattle");
-        break;
+        case GAME_TITLE.ENERGY_BATTLE:
+          history.push("/games/energyBattle");
+          break;
 
-      default:
-        showErrorMessage("Wrong game name");
-    }
-  };
+        default:
+          showErrorMessage("준비 중입니다 🤠");
+      }
+    },
+    [history, isMicOn, showErrorMessage]
+  );
 
   return (
     <MainPage>
@@ -94,14 +104,14 @@ const GameList = () => {
         <GameCard
           onClick={selectGame}
           title={GAME_TITLE.ROAD_ROLLER}
-          thumbnail="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTc3srjeOY0c1PBqO1DPmjHBuB1zjgDEtfe6Q&usqp=CAU"
-          gif="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTc3srjeOY0c1PBqO1DPmjHBuB1zjgDEtfe6Q&usqp=CAU"
+          thumbnail={roadRollerThumbnail}
+          gif={roadRollerGif}
         />
         <GameCard
           onClick={selectGame}
           title={GAME_TITLE.MONSTER_ESCAPE}
-          thumbnail="https://lh3.googleusercontent.com/qgotsceXqd0uMmfMjRNgm09jxGkIgAmCcwwe8uFCNb_-9xi3uei8iEcwcaFB8uBKnratsMU7wgSyGBkB8V5vJkSbrQ=w640-h400-e365-rj-sc0x00ffffff"
-          gif="https://lh3.googleusercontent.com/qgotsceXqd0uMmfMjRNgm09jxGkIgAmCcwwe8uFCNb_-9xi3uei8iEcwcaFB8uBKnratsMU7wgSyGBkB8V5vJkSbrQ=w640-h400-e365-rj-sc0x00ffffff"
+          thumbnail={monsterEscapeThumbnail}
+          gif={monsterEscapeGif}
         />
         <GameCard
           onClick={selectGame}
@@ -110,7 +120,7 @@ const GameList = () => {
           gif={energyBattleGif}
         />
         <GameCard
-          title="Coming Soon"
+          onClick={selectGame}
           thumbnail={comingSoonThumbnail}
           gif={comingSoonThumbnail}
         />
