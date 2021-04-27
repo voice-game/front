@@ -3,7 +3,7 @@ import { useDispatch } from "react-redux";
 import { useLocation } from "react-router";
 import Pusher from "pusher-js";
 
-import { fetchRoomsAction } from "../actions/actionCreators";
+import { fetchRoomsAction } from "../actions/gameActionCreators";
 
 /**
  *

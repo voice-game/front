@@ -3,18 +3,18 @@ import React, { useState } from "react";
 import useAudio from "../../hooks/useAudio";
 import useCanvas from "../../hooks/useCanvas";
 import usePitchDetector from "../../hooks/usePitchDetector";
-import useMyImage from "../../hooks/useMyImage";
+import useLoadedImage from "../../hooks/useLoadedImage";
 
 import Canvas from "../shared/Canvas/Canvas";
 
 import Game from "../../games/roadRoller";
-import BackGround from "../../games/roadRoller/background";
+import BackGround from "../../games/roadRoller/Background";
 import GameMap from "../../games/roadRoller/GameMap";
 
 import pickRandom from "../../utils/pickRandom";
 
-const RoadRollerContainer = (props) => {
-  const { image, isLoaded } = useMyImage("roadRoller");
+const RoadRollerContainer = () => {
+  const { image, isLoaded } = useLoadedImage("roadRoller");
   const [currentMap, setCurrentMap] = useState(0);
   const pitchDetectorRef = usePitchDetector(
     useAudio({ samplerate: 12000 }, { audio: true, video: false })
@@ -42,6 +42,7 @@ const RoadRollerContainer = (props) => {
     },
     isLoaded
   );
+
   const background = useCanvas(
     BackGround,
     {

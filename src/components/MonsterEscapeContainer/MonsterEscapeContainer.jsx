@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
+import GameManual from "../GameManual/GameManual";
 import MonsterEscape from "../MonsterEscape/MonsterEscape";
 import ControlBox from "../../games/MonsterEscape/ControlBox";
 import Monster from "../../games/MonsterEscape/Monster";
@@ -7,15 +8,16 @@ import PlayInfo from "../../games/MonsterEscape/PlayInfo";
 import GameMap from "../../games/MonsterEscape/GameMap";
 import MultiPlayer from "../../games/MonsterEscape/MultiPlayer";
 import gameMap from "../../games/MonsterEscape/gameMap.json";
-import useMyImage from "../../hooks/useMyImage";
+import useLoadedImage from "../../hooks/useLoadedImage";
 import getMedia from "../../utils/getMedia";
 import VolumeMeter from "../../utils/VolumeMeter";
+import manualImage from "../../images/manuals/manual_monsterEscape.png";
 
 const FPS = 36;
 const { innerWidth, innerHeight } = window;
-const minViewPort = Math.min(innerWidth, innerHeight);
-const canvasWidth = 0.8 * minViewPort;
-const canvasHeight = 0.6 * minViewPort;
+// const minViewPort = Math.min(innerWidth, innerHeight);
+const canvasWidth = 0.8 * innerWidth;
+const canvasHeight = 0.8 * innerHeight;
 
 const MonsterEscapeContainer = ({
   socket,
@@ -28,7 +30,7 @@ const MonsterEscapeContainer = ({
   const [isInitGame, setIsInitGame] = useState(false);
   const [gameElement, setGameElement] = useState({});
 
-  const { image, isLoaded } = useMyImage("monsterEscape");
+  const { image, isLoaded } = useLoadedImage("monsterEscape");
   const streamRef = useRef(null);
 
   useEffect(() => {
@@ -112,7 +114,8 @@ const MonsterEscapeContainer = ({
   }, [isInitGame, isLoaded, image]);
 
   return (
-    <div>
+    <>
+      <GameManual imgSrc={manualImage} />
       <MonsterEscape
         isInitGame={isInitGame}
         setIsInitGame={setIsInitGame}
@@ -125,7 +128,7 @@ const MonsterEscapeContainer = ({
         creater={creater}
         player={player}
       />
-    </div>
+    </>
   );
 };
 

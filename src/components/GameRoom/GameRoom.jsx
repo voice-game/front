@@ -14,13 +14,13 @@ import {
   leaveRoomAction,
   deleteRoomAction,
   changeRoomStatus,
-} from "../../actions/actionCreators";
+} from "../../actions/gameActionCreators";
 
-import { USER_SERVER, MAX_PLAYER } from "../../constants/constants";
-import useSetInitialRoom from "../../hooks/useSetInitialRoom";
-import usePlayerConnection from "../../hooks/usePlayerConnection";
+import { MAX_PLAYER } from "../../constants/constants";
+// import useSetInitialRoom from "../../hooks/useSetInitialRoom";
+// import usePlayerConnection from "../../hooks/usePlayerConnection";
 
-const socket = io(USER_SERVER, {
+const socket = io(process.env.REACT_APP_USER_SERVER, {
   withCredential: true,
 });
 
