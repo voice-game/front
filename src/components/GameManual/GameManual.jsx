@@ -17,7 +17,7 @@ const ModalContainer = styled.div`
 
 const ManualImage = styled.img`
   display: block;
-  width: 60%;
+  width: 40%;
   max-width: 1000px;
   min-width: 600px;
   margin: 0 auto;
@@ -31,14 +31,20 @@ const CloseContainer = styled.div`
   justify-content: center;
 `;
 
-const GameManual = ({ imgSrc }) => {
+const GameManual = ({ imgSrc, onClick }) => {
   const [isShow, setIsShow] = useState(true);
 
-  const closeModal = useCallback((e) => {
-    if (e.target === e.currentTarget) {
-      setIsShow(false);
-    }
-  }, []);
+  const closeModal = useCallback(
+    (e) => {
+      if (e.target === e.currentTarget) {
+        if (onClick) {
+          onClick();
+        }
+        setIsShow(false);
+      }
+    },
+    [onClick]
+  );
 
   return (
     <ModalContainer onClick={closeModal} isShow={isShow}>

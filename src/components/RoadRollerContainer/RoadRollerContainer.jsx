@@ -11,22 +11,18 @@ import Game from "../../games/roadRoller";
 import BackGround from "../../games/roadRoller/background";
 import GameMap from "../../games/roadRoller/GameMap";
 
-import b0 from "../../assets/image/background/0.png";
-import b1 from "../../assets/image/background/1.png";
-import b2 from "../../assets/image/background/2.png";
-import b3 from "../../assets/image/background/3.png";
+import pickRandom from "../../utils/pickRandom";
 
 const RoadRollerContainer = (props) => {
   const { image, isLoaded } = useMyImage("roadRoller");
-
-  const TILE_SIZE = 32;
-  const WIDTH = TILE_SIZE * 43;
-  const HEIGHT = TILE_SIZE * 19;
-
   const [currentMap, setCurrentMap] = useState(0);
   const pitchDetectorRef = usePitchDetector(
     useAudio({ samplerate: 12000 }, { audio: true, video: false })
   );
+
+  const TILE_SIZE = 32;
+  const WIDTH = TILE_SIZE * 43;
+  const HEIGHT = TILE_SIZE * 19;
 
   const { staticDots, staticMap, interactionPoints } = new GameMap(
     TILE_SIZE,
@@ -35,13 +31,29 @@ const RoadRollerContainer = (props) => {
     currentMap
   ).gameMap;
 
-  const game = useCanvas(Game, {
-    pitchDetectorRef,
-    staticDots,
-    interactionPoints,
-    setCurrentMap,
-  });
-  const background = useCanvas(BackGround, { staticMap });
+  const game = useCanvas(
+    Game,
+    {
+      pitchDetectorRef,
+      staticDots,
+      interactionPoints,
+      setCurrentMap,
+      images: image,
+    },
+    isLoaded
+  );
+  const background = useCanvas(
+    BackGround,
+    {
+      staticMap,
+      images: image,
+    },
+    isLoaded
+  );
+
+  if (!isLoaded) {
+    return null;
+  }
 
   return (
     <>
@@ -58,7 +70,7 @@ const RoadRollerContainer = (props) => {
         position="absolute"
         width={WIDTH}
         height={HEIGHT}
-        bgImage={b2}
+        bgImage={pickRandom(image.backgrounds).src}
       />
       <div>W: 점프 A: 좌 D: 우</div>
     </>
