@@ -1,4 +1,4 @@
-import background from "../../images/monsterEscape/backgrounds/background.png";
+import background from "../../../images/monsterEscape/backgrounds/background.png";
 
 const backgroundImages = {
   background: {

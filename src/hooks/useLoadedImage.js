@@ -1,7 +1,7 @@
 import { useSelector } from "react-redux";
 import _ from "lodash";
 
-const useMyImage = (name) => {
+const useLoadedImage = (name) => {
   const myImage = { image: null, isLoaded: false };
 
   const isLoaded = useSelector((state) => state.imageReducer.isLoaded[name]);
@@ -23,4 +23,4 @@ const useMyImage = (name) => {
   return myImage;
 };
 
-export default useMyImage;
+export default useLoadedImage;

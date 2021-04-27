@@ -22,7 +22,6 @@ class Character {
     this.width = this.frameWidth / this.ratio;
     this.height = this.frameHeight / this.ratio;
 
-
     if (!this.pivotTime) {
       this.pivotTime = timeStamp;
     }
