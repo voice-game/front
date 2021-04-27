@@ -231,7 +231,7 @@ const MonsterEscape = ({
       onClick={handleControlBox}
       width={canvasWidth}
       height={canvasHeight}
-      margin={["10vh", "auto", "0", "auto"]}
+      margin={["5vh", "auto", "0", "auto"]}
       bgImage={background}
     />
   );
