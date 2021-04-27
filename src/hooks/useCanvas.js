@@ -7,10 +7,14 @@ import { removeEventHelper } from "../utils/eventListHelper";
  * @param {object} options Options of canvas
  * @returns Ref of canvas
  */
-const useCanvas = (CanvasConstructor, options) => {
+const useCanvas = (CanvasConstructor, options, isLoaded) => {
   const canvasRef = useRef(null);
 
   useEffect(() => {
+    if (!isLoaded) {
+      return;
+    }
+
     const myCanvas = new CanvasConstructor(canvasRef, options);
 
     return () => {
@@ -22,7 +26,7 @@ const useCanvas = (CanvasConstructor, options) => {
         removeEventHelper(myCanvas.eventList);
       }
     };
-  }, [CanvasConstructor, options]);
+  }, [CanvasConstructor, options, isLoaded]);
 
   return canvasRef;
 };

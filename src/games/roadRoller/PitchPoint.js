@@ -1,7 +1,6 @@
 class PitchPoint {
-  constructor(point) {
-    this.img = new Image();
-    this.img.src = point.pointer.src;
+  constructor(point, images) {
+    this.img = images[point.pointer.index];
 
     this.posX = point.posX;
     this.posY = point.posY;

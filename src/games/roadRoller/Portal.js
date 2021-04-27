@@ -1,7 +1,6 @@
 class Portal {
-  constructor(point) {
-    this.img = new Image();
-    this.img.src = point.pointer.src;
+  constructor(point, image) {
+    this.img = image;
 
     this.posX = point.posX;
     this.posY = point.posY;

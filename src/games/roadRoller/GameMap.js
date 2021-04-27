@@ -1,11 +1,5 @@
 import mapList from "./mapList";
-import MapImage from "./MapImage";
 
-import tile0 from "../../assets/image/tiles/1.png";
-import tile1 from "../../assets/image/tiles/2.png";
-import point0 from "../../assets/image/pitchPoint/point_0.png";
-import point1 from "../../assets/image/pitchPoint/point_1.png";
-import pad0 from "../../assets/image/pads/1.png";
 import portal from "../../assets/image/portal/0.png";
 import { IMAGE_TYPE } from "../../constants/constants";
 
@@ -17,10 +11,6 @@ class GameMap {
     this.tileWidth = tileSize;
     this.tileHeight = tileSize;
 
-    this.tiles = [new MapImage(tile0), new MapImage(tile1)];
-
-    this.pitchPoints = [point0, point1];
-    this.pads = [pad0];
     this.portal = portal;
 
     this.gameMap = {
@@ -53,25 +43,24 @@ class GameMap {
     switch (type) {
       case IMAGE_TYPE.ROAD:
         point.pointer = {
-          src: this.pitchPoints[pointIndex],
+          index: pointIndex,
           range: this.tileWidth * range,
         };
 
         break;
       case IMAGE_TYPE.PAD:
         point.pointer = {
-          src: this.pitchPoints[pointIndex],
+          index: pointIndex,
           range: this.tileWidth,
         };
         point.pad = {
-          src: this.pads[padIndex],
+          index: padIndex,
           range: this.tileWidth * range,
         };
 
         break;
       case IMAGE_TYPE.PORTAL:
         point.pointer = {
-          src: this.portal,
           range: 64,
         };
 
@@ -115,7 +104,7 @@ class GameMap {
 
       this.gameMap.staticMap.push({
         type,
-        img: this.tiles[index],
+        index,
         posX,
         posY,
         width: myWidth,

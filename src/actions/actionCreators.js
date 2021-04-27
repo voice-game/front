@@ -315,8 +315,16 @@ export const loadImages = (imageName, imageSrc) => async (dispatch) => {
     for (const key in imageSrc) {
       if (typeof imageSrc[key] === "object") {
         loadedImage[key] = await loadImage(imageSrc[key]);
-      } else {
-        loadedImage[key] = await (async (url) => {
+        continue;
+      }
+
+      if (typeof imageSrc[key] === "number") {
+        loadedImage[key] = imageSrc[key];
+        continue;
+      }
+
+      if (typeof imageSrc[key] === "string") {
+        loadedImage[key] = await ( async (url) => {
           return new Promise((resolve, reject) => {
             const image = new Image();
             image.onload = () => resolve(image);

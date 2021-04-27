@@ -7,12 +7,15 @@ class InteractionController {
   constructor(
     canvasHeight,
     pitchDetectorRef,
-    interactionPoints
+    interactionPoints,
+    images,
   ) {
     this.canvasHeight = canvasHeight;
 
     this.pitchDetectorRef = pitchDetectorRef;
     this.detectorReady = false;
+
+    this.images = images;
 
     this.interactionPoints = this.setInteractionPoints(interactionPoints);
   }
@@ -30,7 +33,8 @@ class InteractionController {
             new Road(
               this.canvasHeight,
               this.pitchDetectorRef,
-              point
+              point,
+              this.images,
             )
           );
 
@@ -39,13 +43,14 @@ class InteractionController {
           points[IMAGE_TYPE.PAD].push(
             new Pad(
               this.pitchDetectorRef,
-              point
+              point,
+              this.images,
             )
           );
 
           break;
         case IMAGE_TYPE.PORTAL:
-          points[IMAGE_TYPE.PORTAL] = new Portal(point);
+          points[IMAGE_TYPE.PORTAL] = new Portal(point, this.images.portal);
 
           break;
         default:

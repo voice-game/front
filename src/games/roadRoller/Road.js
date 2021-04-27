@@ -5,12 +5,12 @@ class Road {
   constructor(
     canvasHeight,
     pitchDetectorRef,
-    point
+    point,
+    images
   ) {
     this.canvasHeight = canvasHeight;
     this.pitchDetectorRef = pitchDetectorRef;
-
-    this.pitchPoint = new PitchPoint(point);
+    this.pitchPoint = new PitchPoint(point, images.pitchPoints);
     this.brush = new RoadBrush(point);
 
     this.ready = false;
