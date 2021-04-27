@@ -6,7 +6,7 @@ import pitchPoints from "./pitchPointImages";
 import tiles from "./tileImages";
 import portal from "./portalImages";
 
-const roadRollerImages = {
+const littleForestImages = {
   backgrounds,
   characters,
   objects,
@@ -16,4 +16,4 @@ const roadRollerImages = {
   tiles,
 };
 
-export default roadRollerImages;
+export default littleForestImages;

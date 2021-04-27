@@ -2,7 +2,7 @@ export const USER_SERVER = "http://localhost:5000";
 export const USER_SERVER_API = "http://localhost:5000/api";
 
 export const MAX_PLAYER = {
-  roadRoller: 5,
+  littleForest: 5,
   monsterEscape: 20,
   energyBattle: 2,
 };
@@ -23,7 +23,7 @@ export const ROOM_STATUS = {
 };
 
 export const GAME_TITLE = {
-  ROAD_ROLLER: "ROAD ROLLER",
+  ROAD_ROLLER: "LITTLE FOREST",
   MONSTER_ESCAPE: "MONSTER ESCAPE",
   ENERGY_BATTLE: "ENERGY BATTLE",
 };

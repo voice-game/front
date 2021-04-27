@@ -7,7 +7,7 @@ import io from "socket.io-client";
 import GameOption from "../GameOption/GameOption";
 import EnergyBattleContainer from "../EnergyBattleContainer/EnergyBattleContainer";
 import MonsterEscapeContainer from "../MonsterEscapeContainer/MonsterEscapeContainer";
-import RoadRollerContainer from "../RoadRollerContainer/RoadRollerContainer";
+import LittleForestContainer from "../LittleForestContainer/LittleForestContainer";
 
 import {
   joinRoomAction,
@@ -127,8 +127,8 @@ const GameRoom = () => {
           otherPlayers={otherPlayers}
         />
       )}
-      {gameTitle === "roadRoller" && (
-        <RoadRollerContainer
+      {gameTitle === "littleForest" && (
+        <LittleForestContainer
           socket={socket}
           creater={currentRoom?.createdBy}
           player={playerData}
