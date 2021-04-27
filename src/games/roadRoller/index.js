@@ -17,7 +17,7 @@ class Game {
     this.characterController = new CharacterController(
       this.eventList,
       this.width,
-      this.height,
+      this.height
     );
     this.interactionController = new InteractionController(
       this.height,
@@ -51,8 +51,10 @@ class Game {
     this.interactionController.drawPortal(this.ctx, this.characterController);
     this.characterController.draw(this.ctx, dots, timeStamp);
 
-    this.animationFrameId = window.requestAnimationFrame(this.animate.bind(this));
-  };
+    this.animationFrameId = window.requestAnimationFrame(
+      this.animate.bind(this)
+    );
+  }
 }
 
 export default Game;

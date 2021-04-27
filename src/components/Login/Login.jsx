@@ -65,7 +65,7 @@ const Login = ({ authService }) => {
       </Button>
       <Button
         onClick={handleUnAuthMode}
-        bgColor={"#54a0ff"}
+        bgColor="#4bcffa"
         fontWeight={800}
         margin={["2vh", "0", "0", "0"]}
       >
