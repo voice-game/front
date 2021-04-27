@@ -1,6 +1,7 @@
 import Road from "./Road";
 import { IMAGE_TYPE } from "../../constants/constants";
 import Pad from "./Pad";
+import Portal from "./Portal";
 
 class InteractionController {
   constructor(
@@ -18,30 +19,37 @@ class InteractionController {
 
   setInteractionPoints(interactionPoints) {
     const points = {
-      [IMAGE_TYPE.ROAD]: [],
       [IMAGE_TYPE.PAD]: [],
+      [IMAGE_TYPE.ROAD]: [],
     };
 
     for (const point of interactionPoints) {
-      if (point.type === IMAGE_TYPE.ROAD) {
-        points[IMAGE_TYPE.ROAD].push(
-          new Road(
-            this.canvasHeight,
-            this.pitchDetectorRef,
-            point
-          )
-        );
+      switch (point.type) {
+        case IMAGE_TYPE.ROAD:
+          points[IMAGE_TYPE.ROAD].push(
+            new Road(
+              this.canvasHeight,
+              this.pitchDetectorRef,
+              point
+            )
+          );
 
-        continue;
-      }
+          break;
+        case IMAGE_TYPE.PAD:
+          points[IMAGE_TYPE.PAD].push(
+            new Pad(
+              this.pitchDetectorRef,
+              point
+            )
+          );
 
-      if (point.type === IMAGE_TYPE.PAD) {
-        points[IMAGE_TYPE.PAD].push(
-          new Pad(
-            this.pitchDetectorRef,
-            point
-          )
-        );
+          break;
+        case IMAGE_TYPE.PORTAL:
+          points[IMAGE_TYPE.PORTAL] = new Portal(point);
+
+          break;
+        default:
+          break;
       }
     }
 
@@ -66,6 +74,10 @@ class InteractionController {
     }
 
     return padDots;
+  }
+
+  drawPortal(ctx, characterController) {
+    this.interactionPoints[IMAGE_TYPE.PORTAL].draw(ctx, characterController);
   }
 }
 

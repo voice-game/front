@@ -6,6 +6,8 @@ import tile1 from "../../assets/image/tiles/2.png";
 import point0 from "../../assets/image/pitchPoint/point_0.png";
 import point1 from "../../assets/image/pitchPoint/point_1.png";
 import pad0 from "../../assets/image/pads/1.png";
+import portal from "../../assets/image/portal/0.png";
+import { IMAGE_TYPE } from "../../constants/constants";
 
 class GameMap {
   constructor(tileSize, canvasWidth, canvasHeight, currentMap) {
@@ -19,6 +21,7 @@ class GameMap {
 
     this.pitchPoints = [point0, point1];
     this.pads = [pad0];
+    this.portal = portal;
 
     this.gameMap = {
       staticDots: [],
@@ -38,22 +41,46 @@ class GameMap {
     }
   }
 
-  fillInteractionPointsHelper(type, pointIndex, x, y, width, height, range, padIndex) {
-    this.gameMap.interactionPoints.push({
+  fillInteractionPointsHelper(type, x, y, width, height, range, pointIndex, padIndex) {
+    const point = {
       type,
-      pointer: {
-        src: this.pitchPoints[pointIndex],
-        range: this.tileWidth,
-      },
       posX: x * this.tileWidth,
       posY: y * this.tileHeight,
       width: width * this.tileWidth,
       height: height * this.tileHeight,
-      pad: {
-        src: this.pads[padIndex],
-        range: this.tileWidth * range,
-      },
-    });
+    };
+
+    switch (type) {
+      case IMAGE_TYPE.ROAD:
+        point.pointer = {
+          src: this.pitchPoints[pointIndex],
+          range: this.tileWidth * range,
+        };
+
+        break;
+      case IMAGE_TYPE.PAD:
+        point.pointer = {
+          src: this.pitchPoints[pointIndex],
+          range: this.tileWidth,
+        };
+        point.pad = {
+          src: this.pads[padIndex],
+          range: this.tileWidth * range,
+        };
+
+        break;
+      case IMAGE_TYPE.PORTAL:
+        point.pointer = {
+          src: this.portal,
+          range: 64,
+        };
+
+        break;
+      default:
+        break;
+    }
+
+    this.gameMap.interactionPoints.push(point);
   }
 
   fillTiles() {
