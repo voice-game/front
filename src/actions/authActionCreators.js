@@ -1,6 +1,5 @@
 import Cookies from "universal-cookie";
 import getActionTypes from "./actionTypes.js";
-import { USER_SERVER_API } from "../constants/constants";
 
 export const checkAuthorization = () => async (dispatch) => {
   dispatch({ type: getActionTypes().CHECK_AUTHORIZATION });
@@ -9,7 +8,7 @@ export const checkAuthorization = () => async (dispatch) => {
     const cookies = new Cookies();
     const token = cookies.get("jwt");
 
-    const response = await fetch(`${USER_SERVER_API}/check_auth`, {
+    const response = await fetch(`${process.env.REACT_APP_USER_SERVER_API}/check_auth`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -36,7 +35,7 @@ export const playerLogin = (data) => async (dispatch) => {
   dispatch({ type: getActionTypes().PLAYER_LOGIN });
 
   try {
-    const response = await fetch(`${USER_SERVER_API}/login`, {
+    const response = await fetch(`${process.env.REACT_APP_USER_SERVER_API}/login`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -73,7 +72,7 @@ export const logUnAuthMode = (playerId, name, email) => async (dispatch) => {
 
   try {
     const data = { playerId, name, email };
-    const response = await fetch(`${USER_SERVER_API}/unAuth`, {
+    const response = await fetch(`${process.env.REACT_APP_USER_SERVER_API}/unAuth`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
