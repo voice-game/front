@@ -1,7 +1,7 @@
 import { useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation, useParams } from "react-router";
-import { joinRoomAction } from "../actions/actionCreators";
+import { joinRoomAction } from "../actions/gameActionCreators";
 
 const useSetInitialRoom = (socket, updateOtherPlayers) => {
   const dispatch = useDispatch();

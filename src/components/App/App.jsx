@@ -10,7 +10,7 @@ import GameRoom from "../GameRoom/GameRoom";
 import ErrorPage from "../ErrorPage/ErrorPage";
 import useImageLoad from "../../hooks/useImageLoad";
 
-import { checkAuthorization } from "../../actions/actionCreators";
+import { checkAuthorization } from "../../actions/authActionCreators";
 
 import energyBattleImages from "../../games/images/energyBattle/energyBattleImages";
 import monsterEscapeImages from "../../games/images/monsterEscape/monsterEscapeImages";

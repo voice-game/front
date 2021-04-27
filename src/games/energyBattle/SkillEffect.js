@@ -28,10 +28,10 @@ class SkillEffect {
       this.imgObj.light.width / 4,
       this.imgObj.light.height,
       (myVolumeSum / volumeSum) * this.canvasWidth -
-        (this.canvasWidth / 8 / 10) * 5,
-      this.canvasHeight * 0.4,
-      this.canvasWidth / 8,
-      (this.canvasWidth / 8 / 10) * 9
+        (this.canvasWidth / 4 / 10) * 5,
+      this.canvasHeight * 0.3,
+      this.canvasWidth / 4,
+      (this.canvasWidth / 4 / 10) * 9
     );
   }
 

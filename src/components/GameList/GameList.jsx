@@ -58,7 +58,9 @@ const GameList = () => {
   const selectGame = useCallback(
     (game) => {
       if (!isMicOn) {
-        return showErrorMessage("마이크를 허용하고 새로고침 해주세요");
+        return showErrorMessage(
+          "우측 상단에서 마이크를 허용하고 새로고침 해주세요 🥲"
+        );
       }
 
       switch (game) {
