@@ -9,13 +9,16 @@ class Road {
     images
   ) {
     this.canvasHeight = canvasHeight;
-    this.pitchDetectorRef = pitchDetectorRef;
+    this.pitchDetector = pitchDetectorRef.current;
+
     this.pitchPoint = new PitchPoint(point, images.pitchPoints);
     this.brush = new RoadBrush(point);
 
     this.ready = false;
     this.isDrawingRoad = false;
     this.roadDots = [];
+
+    this.detectorOn = false;
   }
 
   draw(ctx, characterX, characterY) {
@@ -31,6 +34,11 @@ class Road {
     } else {
       this.ready = false;
       this.brush.resetBrush();
+
+      if (this.detectorOn) {
+        this.pitchDetector.toggleLiveInput(false);
+        this.detectorOn = false;
+      }
     }
 
     if (this.ready) {
@@ -44,7 +52,13 @@ class Road {
   }
 
   async fillRoadDots() {
-    const pitch = await this.pitchDetectorRef.current.getPitch();
+    if (!this.detectorOn) {
+      this.pitchDetector.toggleLiveInput(true);
+
+      this.detectorOn = true;
+    }
+
+    const pitch = this.pitchDetector.pitch;
 
     if (pitch) {
       this.isDrawingRoad = true;
