@@ -1,4 +1,4 @@
-import { IMAGE_TYPE } from "../../../constants/constants";
+import { IMAGE_TYPE } from "../../constants/constants";
 
 class BackGround {
   constructor(ref, { staticMap, images }) {
@@ -6,21 +6,14 @@ class BackGround {
     this.ctx = this.canvas.getContext("2d");
 
     this.staticMap = staticMap;
-    this.images  = images;
+    this.images = images;
 
     this.draw(this.staticMap, this.ctx);
   }
 
   draw(mapData, ctx) {
     for (let i = 0; i < mapData.length; i++) {
-      const {
-        type,
-        index,
-        posX,
-        posY,
-        width,
-        height
-      } = mapData[i];
+      const { type, index, posX, posY, width, height } = mapData[i];
 
       ctx.save();
 
@@ -28,12 +21,7 @@ class BackGround {
         const img = this.images.tiles[index];
 
         ctx.fillStyle = ctx.createPattern(img, "repeat");
-        ctx.fillRect(
-          posX,
-          posY,
-          width,
-          height
-        );
+        ctx.fillRect(posX, posY, width, height);
       }
 
       ctx.restore();

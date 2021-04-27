@@ -27,21 +27,6 @@ const GameThumbnailContainer = styled.div`
   max-height: 30vh;
 `;
 
-const GameThumbnailImage = styled.img`
-  position: absolute;
-  margin: 2vh 0;
-  width: 30vw;
-  height: 25vh;
-
-  &:hover {
-    opacity: 0;
-  }
-
-  @media only screen and (max-width: 1120px) {
-    width: 50vw;
-  }
-`;
-
 const GameThumbnailGif = styled.img`
   margin: 2vh 0;
   width: 30vw;
@@ -52,13 +37,12 @@ const GameThumbnailGif = styled.img`
   }
 `;
 
-const GameCard = ({ title, thumbnail, gif, onClick }) => {
+const GameCard = ({ title, gif, onClick }) => {
   return (
     <GameCardContainer onClick={() => onClick(title)}>
       <GameTitle>{title}</GameTitle>
       <GameThumbnailContainer>
-        <GameThumbnailImage src={thumbnail} alt="gameThumbnail" />
-        {gif && <GameThumbnailGif src={gif} alt="gameGif" />}
+        <GameThumbnailGif src={gif} alt="gameGif" />
       </GameThumbnailContainer>
     </GameCardContainer>
   );

@@ -6,7 +6,7 @@ import Canvas from "../shared/Canvas/Canvas";
 import pickRandom from "../../utils/pickRandom";
 import { gameResultAction } from "../../actions/actionCreators";
 import { ROOM_STATUS } from "../../constants/constants";
-import backgroundImages from "../../games/energyBattle/backgroundImages";
+import backgroundImages from "../../games/images/energyBattle/backgroundImages";
 
 let randomBackground = pickRandom(backgroundImages);
 
