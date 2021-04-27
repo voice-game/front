@@ -338,8 +338,11 @@ export const loadImages = (imageName, imageSrc) => async (dispatch) => {
   };
 
   const loadedImage = await loadImage(imageSrc);
-  dispatch({ type: getActionTypes().STORE_IMAGE, payload: {
-    name: imageName,
-    image: loadedImage,
-  }});
+  dispatch({
+    type: getActionTypes().STORE_IMAGE,
+    payload: {
+      name: imageName,
+      image: loadedImage,
+    },
+  });
 };

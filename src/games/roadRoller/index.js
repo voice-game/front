@@ -53,8 +53,10 @@ class Game {
     this.interactionController.drawPortal(this.ctx, this.characterController);
     this.characterController.draw(this.ctx, dots, timeStamp);
 
-    this.animationFrameId = window.requestAnimationFrame(this.animate.bind(this));
-  };
+    this.animationFrameId = window.requestAnimationFrame(
+      this.animate.bind(this)
+    );
+  }
 }
 
 export default Game;

@@ -3,12 +3,12 @@ import React, { useEffect, useRef } from "react";
 import { useDispatch } from "react-redux";
 
 import Canvas from "../shared/Canvas/Canvas";
-import BACKGROUNDS from "../../games/energyBattle/BACKGROUND";
 import pickRandom from "../../utils/pickRandom";
 import { gameResultAction } from "../../actions/actionCreators";
 import { ROOM_STATUS } from "../../constants/constants";
+import backgroundImages from "../../games/energyBattle/backgroundImages";
 
-let randomBackground = pickRandom(BACKGROUNDS);
+let randomBackground = pickRandom(backgroundImages);
 
 const EnergyBattle = ({
   socket,
@@ -16,13 +16,9 @@ const EnergyBattle = ({
   roomId,
   player,
   roomStatus,
-  playerAvatar,
-  otherAvatar,
-  pad,
-  skill,
-  resultImage,
   canvasWidth,
   canvasHeight,
+  gameResource,
 }) => {
   const dispatch = useDispatch();
   const canvasRef = useRef(null);
@@ -37,10 +33,15 @@ const EnergyBattle = ({
   const otherVolumeSum = useRef(0);
 
   useEffect(() => {
+    if (!gameResource) {
+      return;
+    }
+
+    const { playerAvatar, otherAvatar, pad, skill, resultImage } = gameResource;
     const ctx = canvasRef.current.getContext("2d");
     let frameCount = 0;
     let spriteCount = 0;
-    randomBackground = pickRandom(BACKGROUNDS);
+    randomBackground = pickRandom(backgroundImages);
 
     socket.on("input-other-player", (data) => {
       otherPlayerInputRef.current = data;
@@ -142,24 +143,10 @@ const EnergyBattle = ({
         pad.myPad(ctx);
 
         if (myVolumeSum.current > otherVolumeSum.current) {
-          ctx.drawImage(
-            resultImage.win,
-            canvasWidth / 2 -
-              ((resultImage.win.width / canvasWidth) * canvasHeight) / 2,
-            canvasHeight / 4,
-            (resultImage.win.width / canvasWidth) * canvasHeight,
-            (resultImage.win.height / canvasWidth) * canvasHeight
-          );
+          resultImage.win(ctx);
           playerAvatar.idle(ctx, spriteCount);
         } else {
-          ctx.drawImage(
-            resultImage.lose,
-            canvasWidth / 2 -
-              ((resultImage.lose.width / canvasWidth) * canvasHeight) / 2,
-            canvasHeight / 4,
-            (resultImage.lose.width / canvasWidth) * canvasHeight,
-            (resultImage.lose.height / canvasWidth) * canvasHeight
-          );
+          resultImage.lose(ctx);
           playerAvatar.lose(ctx, spriteCount);
         }
 

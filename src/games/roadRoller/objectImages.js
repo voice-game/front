@@ -10,19 +10,8 @@ import tree2 from "../../images/roadRoller/objects/trees/2.png";
 import tree3 from "../../images/roadRoller/objects/trees/3.png";
 
 const objectImages = {
-  bushes: [
-    bush1,
-    bush2,
-    bush3,
-    bush4,
-    bush5,
-    bush6,
-  ],
-  trees: [
-    tree1,
-    tree2,
-    tree3,
-  ],
+  bushes: [bush1, bush2, bush3, bush4, bush5, bush6],
+  trees: [tree1, tree2, tree3],
 };
 
 export default objectImages;
