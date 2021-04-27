@@ -1,19 +1,12 @@
-import ACTION_TYPES from "../actions/actionTypes";
+import authReducer from "./authReducer";
+import roomReducer from "./roomReducer";
+import imageReducer from "./imageReducer";
+import { combineReducers } from "redux";
 
-const initialState = {};
-
-const reducer = (state = initialState, action) => {
-  switch (action.type) {
-    case ACTION_TYPES.ACTION_NAME:
-      return {
-        ...state,
-      };
-
-    default:
-      return {
-        ...state,
-      };
-  }
-};
+const reducer = combineReducers({
+  authReducer,
+  roomReducer,
+  imageReducer,
+});
 
 export default reducer;

@@ -1,55 +1,78 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
 
-import Login from "./components/Login/Login";
-import Logout from "./components/Logout/Logout";
-import GameList from "./components/GameList/GameList";
+import Login from "../Login/Login";
+import Logout from "../Logout/Logout";
+import GameList from "../GameList/GameList";
 import GameRoomList from "../GameRoomList/GameRoomList";
-import RoadRoller from "../RoadRoller/RoadRoller";
-import FlappyBird from "../FlappyBird/FlappyBird";
-import EnergyBattle from "../EnergyBattle/EnergyBattle";
+import GameRoom from "../GameRoom/GameRoom";
 import ErrorPage from "../ErrorPage/ErrorPage";
+import useImages from "../../hooks/useImages";
 
-const App = () => {
-  const [isAuthorized, setIsAuthorized] = useState(false);
+import { checkAuthorization } from "../../actions/actionCreators";
+
+import energyBattleImages from "../../games/energyBattle/energyBattleImages";
+import monsterEscapeImages from "../../games/MonsterEscape/monsterEscapeImages";
+import roadRollerImages from "../../games/roadRoller/roadRollerImages";
+
+const App = ({ authService }) => {
+  const { isAuthorized, isUnAuthMode } = useSelector(
+    (state) => state.authReducer
+  );
+  const dispatch = useDispatch();
 
   useEffect(() => {
-    setIsAuthorized(false);
-  }, []);
+    if (!isUnAuthMode) {
+      dispatch(checkAuthorization());
+    }
+  }, [dispatch, isUnAuthMode]);
+
+  useImages("energyBattle", energyBattleImages);
+  useImages("monsterEscape", monsterEscapeImages);
+  useImages("roadRoller", roadRollerImages);
 
   return (
     <Router>
       <Switch>
-        {!isAuthorized ? (
-          <Login />
+        {!isUnAuthMode && !isAuthorized ? (
+          <Login authService={authService} />
         ) : (
           <>
             <Route exact path="/">
               <GameList />
             </Route>
 
-            <Route path="/games">
+            <Route exact path="/games">
               <GameList />
             </Route>
 
-            <Route path="/games/road-roller">
-              <RoadRoller />
-            </Route>
-
-            <Route path="/games/flappy-bird">
-              <FlappyBird />
-            </Route>
-
-            <Route path="/games/energy-battle">
+            <Route exact path="/games/roadRoller">
               <GameRoomList />
             </Route>
 
-            <Route path="/games/energy-battle/:roomId">
-              <EnergyBattle />
+            <Route path="/games/roadRoller/:roomId">
+              <GameRoom />
+            </Route>
+
+            <Route exact path="/games/monsterEscape">
+              <GameRoomList />
+            </Route>
+
+            <Route path="/games/monsterEscape/:roomId">
+              <GameRoom />
+            </Route>
+
+            <Route exact path="/games/energyBattle">
+              <GameRoomList />
+            </Route>
+
+            <Route path="/games/energyBattle/:roomId">
+              <GameRoom />
             </Route>
 
             <Route path="/logout">
-              <Logout />
+              <Logout authService={authService} />
             </Route>
 
             <Route path="/error">

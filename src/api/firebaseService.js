@@ -1,21 +1,21 @@
 import firebase from "firebase";
-import firebaseApp from "./firebase";
+import firebaseApp from "./firebaseAPIs";
 
-class AuthService {
-  login(providerName) {
-    const authProvider = new firebase.auth[`${providerName}AuthProvider`]();
-    return firebaseApp.auth().signInWithPopup(authProvider);
-  }
+function AuthService() {}
 
-  logout() {
-    firebase.auth().signOut();
-  }
+AuthService.prototype.login = (providerName) => {
+  const authProvider = new firebase.auth[`${providerName}AuthProvider`]();
+  return firebaseApp.auth().signInWithPopup(authProvider);
+};
 
-  onAuthChange(callback) {
-    firebase.auth().onAuthStateChanged((user) => {
-      callback(user);
-    });
-  }
-}
+AuthService.prototype.logout = () => {
+  firebase.auth().signOut();
+};
+
+AuthService.prototype.onAuthChange = (callback) => {
+  firebase.auth().onAuthStateChanged((user) => {
+    callback(user);
+  });
+};
 
 export default AuthService;
