@@ -316,7 +316,7 @@ export const loadImages = (imageName, imageSrc) => async (dispatch) => {
       if (typeof imageSrc[key] === "object") {
         loadedImage[key] = await loadImage(imageSrc[key]);
       } else {
-        loadedImage[key] = await ( async (url) => {
+        loadedImage[key] = await (async (url) => {
           return new Promise((resolve, reject) => {
             const image = new Image();
             image.onload = () => resolve(image);
@@ -330,8 +330,11 @@ export const loadImages = (imageName, imageSrc) => async (dispatch) => {
   };
 
   const loadedImage = await loadImage(imageSrc);
-  dispatch({ type: getActionTypes().STORE_IMAGE, payload: {
-    name: imageName,
-    image: loadedImage,
-  }});
+  dispatch({
+    type: getActionTypes().STORE_IMAGE,
+    payload: {
+      name: imageName,
+      image: loadedImage,
+    },
+  });
 };
