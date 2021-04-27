@@ -10,7 +10,7 @@ class CharacterController {
     this.canvasHeight = canvasHeight;
     this.images = images.characters;
 
-    this.initialX = 1050;
+    this.initialX = 300;
     this.initialY = 100;
     this.posX = this.initialX;
     this.posY = this.initialY;

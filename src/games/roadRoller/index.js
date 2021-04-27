@@ -18,7 +18,7 @@ class Game {
       this.eventList,
       this.width,
       this.height,
-      images,
+      images
     );
     this.interactionController = new InteractionController(
       this.height,

@@ -6,7 +6,7 @@ class Pad {
     point,
     images
   ) {
-    this.pitchDetectorRef = pitchDetectorRef;
+    this.pitchDetector = pitchDetectorRef.current;
 
     this.pitchPoint = new PitchPoint(point, images.pitchPoints);
 
@@ -25,6 +25,7 @@ class Pad {
     this.correction = 20;
 
     this.ready = false;
+    this.detectorOn = false;
   }
 
   draw(ctx, characterController) {
@@ -52,6 +53,11 @@ class Pad {
         this.posX -= this.speed;
         this.checkOnBoard(characterController);
       }
+
+      if (this.detectorOn) {
+        this.pitchDetector.toggleLiveInput(false);
+        this.detectorOn = false;
+      }
     }
 
     if (this.ready) {
@@ -66,7 +72,13 @@ class Pad {
   }
 
   async movePad() {
-    const pitch = await this.pitchDetectorRef.current.getPitch();
+    if (!this.detectorOn) {
+      this.pitchDetector.toggleLiveInput(true);
+
+      this.detectorOn = true;
+    }
+
+    const pitch = this.pitchDetector.pitch;
 
     if (pitch < 100 && this.minX < this.posX) {
       this.posX -= this.speed;
