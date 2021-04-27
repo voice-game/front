@@ -6,7 +6,7 @@ import ErrorMessage from "../ErrorMessage/ErrorMessage";
 import Button from "../shared/Button/Button";
 import useErrorMessage from "../../hooks/useErrorMessage";
 import { v4 as uuidv4 } from "uuid";
-import { logUnAuthMode, playerLogin } from "../../actions/actionCreators";
+import { logUnAuthMode, playerLogin } from "../../actions/authActionCreators";
 import { RANDOM_WORD } from "../../constants/constants";
 import pickRandom from "../../utils/pickRandom";
 

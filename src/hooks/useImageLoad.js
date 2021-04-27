@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
-import { loadImages } from "../actions/actionCreators";
+import { loadImages } from "../actions/gameActionCreators";
 
 const useImageLoad = (imageName, imageSrc) => {
   const dispatch = useDispatch();

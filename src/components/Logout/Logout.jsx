@@ -6,7 +6,7 @@ import styled from "styled-components";
 import ErrorMessage from "../ErrorMessage/ErrorMessage";
 import Button from "../shared/Button/Button";
 import useErrorMessage from "../../hooks/useErrorMessage";
-import { playerLogout, stopUnAuthMode } from "../../actions/actionCreators";
+import { playerLogout, stopUnAuthMode } from "../../actions/authActionCreators";
 
 const LogoutContainer = styled.div`
   width: 100vw;

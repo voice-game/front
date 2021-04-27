@@ -14,7 +14,7 @@ import {
   leaveRoomAction,
   deleteRoomAction,
   changeRoomStatus,
-} from "../../actions/actionCreators";
+} from "../../actions/gameActionCreators";
 
 import { MAX_PLAYER } from "../../constants/constants";
 // import useSetInitialRoom from "../../hooks/useSetInitialRoom";
