@@ -4,7 +4,7 @@ import { useDispatch } from "react-redux";
 
 import Canvas from "../shared/Canvas/Canvas";
 import pickRandom from "../../utils/pickRandom";
-import { gameResultAction } from "../../actions/actionCreators";
+import { gameResultAction } from "../../actions/gameActionCreators";
 import { ROOM_STATUS } from "../../constants/constants";
 import backgroundImages from "../../games/images/energyBattle/backgroundImages";
 
@@ -79,9 +79,9 @@ const EnergyBattle = ({
     }
 
     if (roomStatus === ROOM_STATUS.START) {
-      volumeSum.current = 0;
-      myVolumeSum.current = 0;
-      otherVolumeSum.current = 0;
+      volumeSum.current = 20;
+      myVolumeSum.current = 10;
+      otherVolumeSum.current = 10;
       frameCount = 0;
       spriteCount = 0;
 

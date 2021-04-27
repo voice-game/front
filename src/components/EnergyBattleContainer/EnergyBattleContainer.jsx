@@ -108,10 +108,6 @@ const EnergyBattleContainer = ({ socket, roomId, player, otherPlayers }) => {
     };
   }, [socket, otherPlayers, playGame, isModalClosed, isOtherModalClosed]);
 
-  console.log(isModalClosed);
-  console.log(isOtherModalClosed);
-  console.log(roomStatus);
-
   return (
     <>
       <GameTitle>ENERGY BATTLE</GameTitle>

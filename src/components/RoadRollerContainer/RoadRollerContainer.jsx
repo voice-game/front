@@ -42,6 +42,7 @@ const RoadRollerContainer = () => {
     },
     isLoaded
   );
+
   const background = useCanvas(
     BackGround,
     {

@@ -1,7 +1,11 @@
 import { useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory, useLocation, useParams } from "react-router";
-import { changeRoomStatus, deleteRoomAction, leaveRoomAction } from "../actions/actionCreators";
+import {
+  changeRoomStatus,
+  deleteRoomAction,
+  leaveRoomAction,
+} from "../actions/actionCreators";
 
 import { MAX_PLAYER } from "../constants/constants";
 

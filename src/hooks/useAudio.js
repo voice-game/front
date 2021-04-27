@@ -26,6 +26,12 @@ const useAudio = (contextOption, mediaOption) => {
         console.log(err);
       }
     })();
+
+    return () => {
+      console.log("micStreamRef");
+      console.log(micStreamRef.current);
+      micStreamRef.current?.getTracks()[0].stop();
+    };
   }, [contextOption, mediaOption]);
 
   return {
