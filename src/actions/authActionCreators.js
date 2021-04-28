@@ -8,13 +8,16 @@ export const checkAuthorization = () => async (dispatch) => {
     const cookies = new Cookies();
     const token = cookies.get("jwt");
 
-    const response = await fetch(`${process.env.REACT_APP_USER_SERVER_API}/check_auth`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ token }),
-    });
+    const response = await fetch(
+      `${process.env.REACT_APP_USER_SERVER_API}/check_auth`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ token }),
+      }
+    );
 
     const result = await response.json();
 
@@ -35,13 +38,16 @@ export const playerLogin = (data) => async (dispatch) => {
   dispatch({ type: getActionTypes().PLAYER_LOGIN });
 
   try {
-    const response = await fetch(`${process.env.REACT_APP_USER_SERVER_API}/login`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(data),
-    });
+    const response = await fetch(
+      `${process.env.REACT_APP_USER_SERVER_API}/login`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      }
+    );
 
     const result = await response.json();
     const cookies = new Cookies();
@@ -72,13 +78,16 @@ export const logUnAuthMode = (playerId, name, email) => async (dispatch) => {
 
   try {
     const data = { playerId, name, email };
-    const response = await fetch(`${process.env.REACT_APP_USER_SERVER_API}/unAuth`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(data),
-    });
+    const response = await fetch(
+      `${process.env.REACT_APP_USER_SERVER_API}/unAuth`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      }
+    );
 
     const result = await response.json();
 
