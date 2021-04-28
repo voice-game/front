@@ -79,6 +79,7 @@ const GameRoomList = () => {
                   history.push(`${location.pathname}/${room.roomId}`)
                 }
                 room={room}
+                gameTitle={gameTitle}
               />
             );
           })}

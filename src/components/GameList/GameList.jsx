@@ -29,10 +29,15 @@ const MainTitle = styled.h1`
   width: 100vw;
   font-size: 3rem;
   text-align: center;
+  line-height: 1.3em;
 `;
 
 const Name = styled.span`
   color: #f1c40f;
+`;
+
+const WelcomeMessage = styled.h1`
+  line-height: 1.3em;
 `;
 
 const GameCardGrid = styled.div`
@@ -89,11 +94,11 @@ const GameList = () => {
       {error.length > 0 && <ErrorMessage error={error} />}
       <MainTitle> WELCOME TO VOICE GAME !! </MainTitle>
       {isUnAuthMode ? (
-        <h1>
+        <WelcomeMessage>
           비회원으로 접속하셨네요! &nbsp; &nbsp; 현재 이름은{" "}
           <Name>{playerData.name}</Name>
           입니다 😃
-        </h1>
+        </WelcomeMessage>
       ) : (
         <h1>
           <Name>{playerData.name}</Name>님 환영합니다 😃

@@ -21,6 +21,8 @@ const GameRoomCardContainer = styled.div`
 const GameRoomData = styled.div`
   flex-basis: 80%;
   color: black;
+  text-align: left;
+  line-height: 1.2rem;
 `;
 
 const GameRoomStatus = styled.div`
@@ -33,9 +35,12 @@ const GameRoomStatus = styled.div`
   right: 10%;
 `;
 
+const ROOM_NUM = Math.floor(Math.random() * 1000);
+
 const GameRoomCard = ({
   room: { _id, players, createdAt, status },
   onClick,
+  gameTitle,
 }) => {
   const [error, showErrorMessage] = useErrorMessage("");
   const handleClickRoomCard = () => {
@@ -51,11 +56,12 @@ const GameRoomCard = ({
       {error.length > 0 && <ErrorMessage error={error} />}
       <GameRoomCardContainer onClick={handleClickRoomCard}>
         <GameRoomData>
-          {_id}
+          {gameTitle} &nbsp;
+          {ROOM_NUM}
           <br />
           Players: {players.length}
           <br />
-          Created: {createdAt.slice(0, 16)}
+          {createdAt.slice(0, 16)}
         </GameRoomData>
         {status === "Full" ? (
           <GameRoomStatus color="#e74c3c">{status}</GameRoomStatus>
