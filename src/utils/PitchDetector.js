@@ -25,14 +25,16 @@ SOFTWARE.
 class PitchDetector {
 	constructor(audioContext) {
 		this.audioContext = audioContext;
-		this.isPlaying = false;
 		this.sourceNode = null;
 		this.analyser = null;
-		this.theBuffer = null;
 		this.mediaStreamSource = null;
-		this.buflen = 2048
+
+		this.theBuffer = null;
+		this.buflen = 2048;
     this.buf = new Float32Array(this.buflen);
     this.rafID = null;
+
+		this.isPlaying = false;
 	}
 
   error() {
@@ -52,12 +54,9 @@ class PitchDetector {
   }
 
   gotStream(stream) {
-    // Create an AudioNode from the stream.
     this.mediaStreamSource = this.audioContext.createMediaStreamSource(stream);
-    // Connect it to the destination.
-    this.analyser = this.audioContext.createAnalyser();
-    this.analyser.fftSize = 2048;
     this.mediaStreamSource.connect(this.analyser);
+
     this.updatePitch();
   }
 
@@ -73,6 +72,7 @@ class PitchDetector {
       }
 
       window.cancelAnimationFrame(this.rafID);
+
       return;
     }
 
@@ -82,10 +82,11 @@ class PitchDetector {
 
 	  this.analyser = this.audioContext.createAnalyser();
 	  this.analyser.fftSize = 2048;
+
 	  this.sourceNode.connect(this.analyser);
 	  this.analyser.connect(this.audioContext.destination);
+
 	  this.sourceNode.start(0);
-	  this.isLiveInput = false;
 
     this.getUserMedia({
       "audio": {
@@ -120,6 +121,7 @@ class PitchDetector {
     for (let i = 0; i < SIZE / 2; i++) {
       if (Math.abs(buf[i]) < thres) {
         r1 = i;
+
         break;
       }
     }
@@ -127,6 +129,7 @@ class PitchDetector {
     for (let i = 1; i < SIZE / 2; i++) {
       if (Math.abs(buf[SIZE - i]) < thres) {
         r2 = SIZE - i;
+
         break;
       }
     }
@@ -184,7 +187,7 @@ class PitchDetector {
 		if (ac !== -1) {
       const pitch = ac;
 
-      this.pitch = Math.round(pitch);
+      this.pitch = Math.floor(pitch);
     } else {
       this.pitch = 0;
     }
