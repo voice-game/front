@@ -13,6 +13,14 @@ const roomReducer = (state = initialState, action) => {
   const copiedState = _.cloneDeep(state);
 
   switch (action.type) {
+    case ACTION_TYPES.FETCH_ROOMS:
+    case ACTION_TYPES.CREATE_ROOM:
+    case ACTION_TYPES.JOIN_ROOM:
+    case ACTION_TYPES.LEAVE_ROOM:
+    case ACTION_TYPES.DELETE_ROOM:
+    case ACTION_TYPES.CHANGE_ROOM_STATUS:
+      return copiedState;
+
     case ACTION_TYPES.FETCH_ROOMS_SUCCESS:
       copiedState[action.payload.gameTitle] = action.payload.rooms;
       return copiedState;
