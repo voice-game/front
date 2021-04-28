@@ -12,6 +12,9 @@ import BackGround from "../../games/littleForest/Background";
 import GameMap from "../../games/littleForest/GameMap";
 
 import pickRandom from "../../utils/pickRandom";
+import GameManual from "../GameManual/GameManual";
+
+import manualImage from "../../images/manuals/manual_littleForest.png";
 
 const LittleForestContainer = () => {
   const { image, isLoaded } = useLoadedImage("littleForest");
@@ -58,6 +61,7 @@ const LittleForestContainer = () => {
 
   return (
     <>
+      <GameManual imgSrc={manualImage} />
       <Canvas
         id="game-layer"
         ref={game}
