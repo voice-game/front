@@ -1,6 +1,6 @@
 import mapList from "./mapList";
 
-import portal from "../../assets/image/portal/0.png";
+import portal from "../../images/littleForest/portals/0.png";
 import { IMAGE_TYPE } from "../../constants/constants";
 
 class GameMap {
