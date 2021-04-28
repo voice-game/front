@@ -6,7 +6,6 @@
     "babel-runtime": "^6.26.0",
     "firebase": "^8.4.1",
     "lodash": "^4.17.21",
-    "ml5": "^0.6.1",
     "prop-types": "^15.7.2",
     "pusher-js": "^7.0.3",
     "react": "^17.0.2",
@@ -41,17 +40,44 @@
       "react-app/jest"
     ],
     "rules": {
-      "semi": ["warn", "always", { "omitLastInOneLineBlock": true }],
-      "semi-style": ["warn", "last"],
-      "quotes": ["warn", "double"],
-      "indent": ["warn", 2, { "SwitchCase": 1 }],
+      "semi": [
+        "warn",
+        "always",
+        {
+          "omitLastInOneLineBlock": true
+        }
+      ],
+      "semi-style": [
+        "warn",
+        "last"
+      ],
+      "quotes": [
+        "warn",
+        "double"
+      ],
+      "indent": [
+        "warn",
+        2,
+        {
+          "SwitchCase": 1
+        }
+      ],
       "no-multi-spaces": "warn",
-      "no-multiple-empty-lines": ["warn", { "max": 1, "maxEOF": 0 }],
+      "no-multiple-empty-lines": [
+        "warn",
+        {
+          "max": 1,
+          "maxEOF": 0
+        }
+      ],
       "space-infix-ops": "warn",
       "comma-spacing": "warn",
       "block-spacing": "warn",
       "semi-spacing": "warn",
-      "object-curly-spacing": ["warn", "always"],
+      "object-curly-spacing": [
+        "warn",
+        "always"
+      ],
       "key-spacing": "warn",
       "eol-last": "warn",
       "no-undef": "warn"

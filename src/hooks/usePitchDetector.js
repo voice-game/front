@@ -1,40 +1,27 @@
 import { useEffect, useRef } from "react";
-import ml5 from "ml5";
+import PitchDetector from "../utils/PitchDetector";
 
 /**
  *
  * @param {boolean} isAudioUse state of audio
  * @param {object} audioContextRef ref of audioContext
- * @param {object} micStreamRef ref of mideaStream
  * @returns Ref of pitchDetector
  *
- * You can get the pitch value through the method of pitchDetector, getPitch().
- * The getPitch method returns a promise.
- *
- * reference https://ml5js.org/reference/api-PitchDetection/
  */
-const usePitchDetector = ({ isAudioUse, audioContextRef, micStreamRef }) => {
+const usePitchDetector = ({ isAudioUse, audioContextRef }) => {
   const pitchDetectorRef = useRef(null);
 
   useEffect(() => {
     if (isAudioUse) {
-      (async () => {
-        try {
-          const pitchDetector = ml5.pitchDetection(
-            "/model/",
-            audioContextRef.current,
-            micStreamRef.current
-          );
+      const pitchDetector = new PitchDetector(audioContextRef.current);
 
-          pitchDetectorRef.current = pitchDetector;
-        } catch (err) {
-          console.log(err);
-        }
-      })();
-    } else {
-      pitchDetectorRef.current = null;
+      pitchDetectorRef.current = pitchDetector;
     }
-  }, [isAudioUse, audioContextRef, micStreamRef]);
+
+    return (() => {
+      pitchDetectorRef.current?.mediaStreamSource?.mediaStream.getTracks()[0].stop();
+    });
+  }, [isAudioUse, audioContextRef]);
 
   return pitchDetectorRef;
 };

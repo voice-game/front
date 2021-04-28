@@ -8,13 +8,13 @@ import GameList from "../GameList/GameList";
 import GameRoomList from "../GameRoomList/GameRoomList";
 import GameRoom from "../GameRoom/GameRoom";
 import ErrorPage from "../ErrorPage/ErrorPage";
-import useImages from "../../hooks/useImages";
+import useImageLoad from "../../hooks/useImageLoad";
 
-import { checkAuthorization } from "../../actions/actionCreators";
+import { checkAuthorization } from "../../actions/authActionCreators";
 
-import energyBattleImages from "../../games/energyBattle/energyBattleImages";
-import monsterEscapeImages from "../../games/MonsterEscape/monsterEscapeImages";
-import roadRollerImages from "../../games/roadRoller/roadRollerImages";
+import energyBattleImages from "../../games/images/energyBattle/energyBattleImages";
+import monsterEscapeImages from "../../games/images/monsterEscape/monsterEscapeImages";
+import littleForestImages from "../../games/images/littleForest/littleForestImages";
 
 const App = ({ authService }) => {
   const { isAuthorized, isUnAuthMode } = useSelector(
@@ -28,9 +28,9 @@ const App = ({ authService }) => {
     }
   }, [dispatch, isUnAuthMode]);
 
-  useImages("energyBattle", energyBattleImages);
-  useImages("monsterEscape", monsterEscapeImages);
-  useImages("roadRoller", roadRollerImages);
+  useImageLoad("energyBattle", energyBattleImages);
+  useImageLoad("monsterEscape", monsterEscapeImages);
+  useImageLoad("littleForest", littleForestImages);
 
   return (
     <Router>
@@ -47,11 +47,11 @@ const App = ({ authService }) => {
               <GameList />
             </Route>
 
-            <Route exact path="/games/roadRoller">
+            <Route exact path="/games/littleForest">
               <GameRoomList />
             </Route>
 
-            <Route path="/games/roadRoller/:roomId">
+            <Route path="/games/littleForest/:roomId">
               <GameRoom />
             </Route>
 

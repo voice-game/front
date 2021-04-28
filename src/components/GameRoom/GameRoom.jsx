@@ -7,20 +7,20 @@ import io from "socket.io-client";
 import GameOption from "../GameOption/GameOption";
 import EnergyBattleContainer from "../EnergyBattleContainer/EnergyBattleContainer";
 import MonsterEscapeContainer from "../MonsterEscapeContainer/MonsterEscapeContainer";
-import RoadRollerContainer from "../RoadRollerContainer/RoadRollerContainer";
+import LittleForestContainer from "../LittleForestContainer/LittleForestContainer";
 
 import {
   joinRoomAction,
   leaveRoomAction,
   deleteRoomAction,
   changeRoomStatus,
-} from "../../actions/actionCreators";
+} from "../../actions/gameActionCreators";
 
-import { USER_SERVER, MAX_PLAYER } from "../../constants/constants";
-import useSetInitialRoom from "../../hooks/useSetInitialRoom";
-import usePlayerConnection from "../../hooks/usePlayerConnection";
+import { MAX_PLAYER } from "../../constants/constants";
+// import useSetInitialRoom from "../../hooks/useSetInitialRoom";
+// import usePlayerConnection from "../../hooks/usePlayerConnection";
 
-const socket = io(USER_SERVER, {
+const socket = io(process.env.REACT_APP_USER_SERVER, {
   withCredential: true,
 });
 
@@ -127,8 +127,8 @@ const GameRoom = () => {
           otherPlayers={otherPlayers}
         />
       )}
-      {gameTitle === "roadRoller" && (
-        <RoadRollerContainer
+      {gameTitle === "littleForest" && (
+        <LittleForestContainer
           socket={socket}
           creater={currentRoom?.createdBy}
           player={playerData}
