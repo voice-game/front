@@ -21,7 +21,13 @@ const LoginContainer = styled.section`
   align-items: center;
 `;
 
+const MainImage = styled.img`
+  max-width: 80vw;
+`;
+
 const MainTitle = styled.div`
+  width: 80%;
+  text-align: center;
   font-size: 4rem;
   margin-top: 2vh;
 `;
@@ -54,7 +60,7 @@ const Login = ({ authService }) => {
   return (
     <LoginContainer>
       {error.length > 0 && <ErrorMessage error={error} />}
-      <img src={micImage} alt="mic" />
+      <MainImage src={micImage} alt="mic" />
       <MainTitle>VOICE GAME</MainTitle>
       <Button
         name="Google"
