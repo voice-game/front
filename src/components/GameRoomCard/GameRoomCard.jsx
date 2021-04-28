@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useRef } from "react";
 import styled from "styled-components";
 
 import useErrorMessage from "../../hooks/useErrorMessage";
@@ -35,13 +35,12 @@ const GameRoomStatus = styled.div`
   right: 10%;
 `;
 
-const ROOM_NUM = Math.floor(Math.random() * 1000);
-
 const GameRoomCard = ({
-  room: { _id, players, createdAt, status },
+  room: { players, createdAt, status },
   onClick,
   gameTitle,
 }) => {
+  const roomNumberRef = useRef(Math.floor(Math.random() * 1000));
   const [error, showErrorMessage] = useErrorMessage("");
   const handleClickRoomCard = () => {
     if (status === "Enter") {
@@ -51,13 +50,17 @@ const GameRoomCard = ({
     showErrorMessage("입장이 불가능합니다.");
   };
 
+  useEffect(() => {
+    roomNumberRef.current = Math.floor(Math.random() * 1000);
+  }, [gameTitle]);
+
   return (
     <>
       {error.length > 0 && <ErrorMessage error={error} />}
       <GameRoomCardContainer onClick={handleClickRoomCard}>
         <GameRoomData>
           {gameTitle} &nbsp;
-          {ROOM_NUM}
+          {roomNumberRef.current}
           <br />
           Players: {players.length}
           <br />
