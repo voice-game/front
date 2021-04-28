@@ -1,5 +1,5 @@
-import hedgehog_idle from "../../../images/roadRoller/characters/hedgehog/idle.png";
-import hedgehog_walking from "../../../images/roadRoller/characters/hedgehog/walking.png";
+import hedgehog_idle from "../../../images/littleForest/characters/hedgehog/idle.png";
+import hedgehog_walking from "../../../images/littleForest/characters/hedgehog/walking.png";
 
 const characterImages = [
   {

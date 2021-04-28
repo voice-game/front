@@ -14,7 +14,7 @@ import { checkAuthorization } from "../../actions/authActionCreators";
 
 import energyBattleImages from "../../games/images/energyBattle/energyBattleImages";
 import monsterEscapeImages from "../../games/images/monsterEscape/monsterEscapeImages";
-import roadRollerImages from "../../games/images/roadRoller/roadRollerImages";
+import littleForestImages from "../../games/images/littleForest/littleForestImages";
 
 const App = ({ authService }) => {
   const { isAuthorized, isUnAuthMode } = useSelector(
@@ -30,7 +30,7 @@ const App = ({ authService }) => {
 
   useImageLoad("energyBattle", energyBattleImages);
   useImageLoad("monsterEscape", monsterEscapeImages);
-  useImageLoad("roadRoller", roadRollerImages);
+  useImageLoad("littleForest", littleForestImages);
 
   return (
     <Router>
@@ -47,11 +47,11 @@ const App = ({ authService }) => {
               <GameList />
             </Route>
 
-            <Route exact path="/games/roadRoller">
+            <Route exact path="/games/littleForest">
               <GameRoomList />
             </Route>
 
-            <Route path="/games/roadRoller/:roomId">
+            <Route path="/games/littleForest/:roomId">
               <GameRoom />
             </Route>
 
