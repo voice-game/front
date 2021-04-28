@@ -24,12 +24,12 @@ class Road {
   draw(ctx, characterX, characterY) {
     this.pitchPoint.draw(ctx);
 
-    if (this.pitchPoint.checkCharacterReached(characterX ,characterY)) {
+    if (this.pitchPoint.checkCharacterReached(characterX, characterY)) {
       if (!this.ready) {
         this.roadDots = [];
       }
 
-      this.ready  = true;
+      this.ready = true;
       this.brush.draw(ctx);
     } else {
       this.ready = false;
