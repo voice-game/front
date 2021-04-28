@@ -69,7 +69,7 @@ const GameList = () => {
       }
 
       switch (game) {
-        case GAME_TITLE.ROAD_ROLLER:
+        case GAME_TITLE.LITTLE_FOREST:
           history.push("/games/littleForest");
           break;
 
@@ -107,7 +107,7 @@ const GameList = () => {
       <GameCardGrid>
         <GameCard
           onClick={selectGame}
-          title={GAME_TITLE.ROAD_ROLLER}
+          title={GAME_TITLE.LITTLE_FOREST}
           gif={littleForestGif}
         />
         <GameCard
