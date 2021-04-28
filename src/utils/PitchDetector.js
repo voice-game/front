@@ -23,19 +23,19 @@ SOFTWARE.
 */
 
 class PitchDetector {
-	constructor(audioContext) {
-		this.audioContext = audioContext;
-		this.sourceNode = null;
-		this.analyser = null;
-		this.mediaStreamSource = null;
+  constructor(audioContext) {
+    this.audioContext = audioContext;
+	  this.sourceNode = null;
+	  this.analyser = null;
+	  this.mediaStreamSource = null;
 
-		this.theBuffer = null;
-		this.buflen = 2048;
+	  this.theBuffer = null;
+	  this.buflen = 2048;
     this.buf = new Float32Array(this.buflen);
     this.rafID = null;
 
-		this.isPlaying = false;
-	}
+    this.isPlaying = false;
+  }
 
   error() {
     console.log("Stream generation failed.");
@@ -184,7 +184,7 @@ class PitchDetector {
 
     this.rafID = window.requestAnimationFrame(this.updatePitch.bind(this));
 
-		if (ac !== -1) {
+    if (ac !== -1) {
       const pitch = ac;
 
       this.pitch = Math.floor(pitch);
