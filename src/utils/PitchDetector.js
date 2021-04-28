@@ -55,10 +55,10 @@ class PitchDetector {
 
   gotStream(stream) {
     this.mediaStreamSource = this.audioContext.createMediaStreamSource(stream);
-    this.mediaStreamSource.connect(this.analyser);
 
     this.analyser = this.audioContext.createAnalyser();
     this.analyser.fftSize = 2048;
+
     this.mediaStreamSource.connect(this.analyser);
     this.updatePitch();
   }
@@ -177,6 +177,8 @@ class PitchDetector {
   }
 
   updatePitch(time) {
+    this.analyser = this.audioContext.createAnalyser();
+    this.analyser.fftSize = 2048;
     this.analyser.getFloatTimeDomainData(this.buf);
 
     const ac = this.autoCorrelate(this.buf, this.audioContext.sampleRate);
