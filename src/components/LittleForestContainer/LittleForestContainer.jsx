@@ -10,21 +10,19 @@ import Canvas from "../shared/Canvas/Canvas";
 import Game from "../../games/littleForest";
 import BackGround from "../../games/littleForest/Background";
 import GameMap from "../../games/littleForest/GameMap";
-
-import pickRandom from "../../utils/pickRandom";
 import GameManual from "../GameManual/GameManual";
 
 import manualImage from "../../images/manuals/manual_littleForest.png";
 
 const LittleForestContainer = () => {
-  const { image, isLoaded } = useLoadedImage("littleForest");
   const [currentMap, setCurrentMap] = useState(0);
+  const { image, isLoaded } = useLoadedImage("littleForest");
   const pitchDetectorRef = usePitchDetector(
     useAudio({ samplerate: 12000 }, { audio: true, video: false })
   );
 
   const TILE_SIZE = 32;
-  const WIDTH = TILE_SIZE * 43;
+  const WIDTH = TILE_SIZE * 35;
   const HEIGHT = TILE_SIZE * 19;
 
   const { staticDots, staticMap, interactionPoints } = new GameMap(
@@ -60,8 +58,10 @@ const LittleForestContainer = () => {
   }
 
   return (
-    <>
-      <GameManual imgSrc={manualImage} />
+    <div>
+      {currentMap === 0 &&
+        <GameManual imgSrc={manualImage} />
+      }
       <Canvas
         id="game-layer"
         ref={game}
@@ -75,10 +75,10 @@ const LittleForestContainer = () => {
         position="absolute"
         width={WIDTH}
         height={HEIGHT}
-        bgImage={pickRandom(image.backgrounds).src}
+        bgImage={image.backgrounds[currentMap].src}
       />
       <div>W: 점프 A: 좌 D: 우</div>
-    </>
+    </div>
   );
 };
 
