@@ -16,6 +16,7 @@ import manualImage from "../../images/manuals/manual_littleForest.png";
 
 const LittleForestContainer = () => {
   const [currentMap, setCurrentMap] = useState(0);
+
   const { image, isLoaded } = useLoadedImage("littleForest");
   const pitchDetectorRef = usePitchDetector(
     useAudio({ samplerate: 12000 }, { audio: true, video: false })
