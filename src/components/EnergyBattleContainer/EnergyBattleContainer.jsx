@@ -20,14 +20,17 @@ const GameTitle = styled.h1`
   text-align: center;
 `;
 
+const RoomNumber = styled.h3`
+  margin-top: 1vh;
+`;
+
 const OperationContainer = styled.div`
   display: flex;
   justify-content: space-around;
   align-items: center;
   width: 50%;
   height: 5vh;
-  margin: 0 auto;
-  margin-bottom: 40px;
+  margin: 4vh auto;
 `;
 
 const PlayerCardContainer = styled.div`
@@ -41,15 +44,21 @@ const PlayerCardContainer = styled.div`
   height: 8vh;
 `;
 
-const EnergyBattleContainer = ({ socket, roomId, player, otherPlayers }) => {
+const EnergyBattleContainer = ({
+  socket,
+  roomId,
+  roomNumber,
+  player,
+  otherPlayers,
+}) => {
   const [roomStatus, setRoomStatus] = useState("");
   const [isStartDisabled, setIsStartDisabled] = useState(false);
   const [isModalClosed, setIsModalClosed] = useState(false);
   const [isOtherModalClosed, setIsOtherModalClosed] = useState(false);
 
   const gameResource = useRef(null);
-  const canvasWidth = useRef(document.body.clientWidth * 0.9);
-  const canvasHeight = useRef(document.body.clientWidth * 0.5);
+  const canvasWidth = useRef(document.body.clientWidth * 0.8);
+  const canvasHeight = useRef(document.body.clientWidth * 0.4);
 
   const [volumeMeter, counter, playGame] = usePlayEnergyBattle(
     setRoomStatus,
@@ -74,9 +83,9 @@ const EnergyBattleContainer = ({ socket, roomId, player, otherPlayers }) => {
   }, []);
 
   useEffect(() => {
-    canvasWidth.current = document.body.clientWidth * 0.9;
-    canvasHeight.current = document.body.clientWidth * 0.5;
-    socket.on("start-by-other", playGame);
+    canvasWidth.current = document.body.clientWidth * 0.8;
+    canvasHeight.current = document.body.clientWidth * 0.4;
+    socket.on("start-game", playGame);
     socket.on("close-other-modal", () => {
       setIsOtherModalClosed(true);
     });
@@ -103,7 +112,7 @@ const EnergyBattleContainer = ({ socket, roomId, player, otherPlayers }) => {
     }
 
     return () => {
-      socket.off("start-by-other");
+      socket.off("start-game");
       socket.off("close-other-modal");
     };
   }, [socket, otherPlayers, playGame, isModalClosed, isOtherModalClosed]);
@@ -112,6 +121,7 @@ const EnergyBattleContainer = ({ socket, roomId, player, otherPlayers }) => {
     <>
       <GameTitle>ENERGY BATTLE</GameTitle>
       <GameManual imgSrc={manualImage} onClick={closeModal} />
+      <RoomNumber>Room Number {roomNumber}</RoomNumber>
       <OperationContainer>
         <PlayerCardContainer>
           <PlayerCard player={player} />

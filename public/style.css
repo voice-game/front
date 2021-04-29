@@ -5,6 +5,8 @@
   box-sizing: border-box;
   color: white;
   user-select: none;
+  text-align: center;
+  line-height: 1em;
 }
 
 body {
