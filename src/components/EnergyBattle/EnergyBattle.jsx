@@ -4,9 +4,9 @@ import { useDispatch } from "react-redux";
 
 import Canvas from "../shared/Canvas/Canvas";
 import pickRandom from "../../utils/pickRandom";
-import { gameResultAction } from "../../actions/gameActionCreators";
-import { ROOM_STATUS } from "../../constants/constants";
 import backgroundImages from "../../games/images/energyBattle/backgroundImages";
+import { ROOM_STATUS } from "../../constants/constants";
+import { gameResultAction } from "../../actions/gameActionCreators";
 
 let randomBackground = pickRandom(backgroundImages);
 

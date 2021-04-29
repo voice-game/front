@@ -1,4 +1,3 @@
-import backgrounds from "./backgroundImages";
 import characters from "./characterImages";
 import objects from "./objectImages";
 import pads from "./padImages";
@@ -7,7 +6,6 @@ import tiles from "./tileImages";
 import portal from "./portalImages";
 
 const littleForestImages = {
-  backgrounds,
   characters,
   objects,
   pads,
