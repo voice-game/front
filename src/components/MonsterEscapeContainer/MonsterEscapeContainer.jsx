@@ -18,12 +18,8 @@ import VolumeMeter from "../../utils/VolumeMeter";
 import manualImage from "../../images/manuals/manual_monsterEscape.png";
 
 const FPS = 36;
-<<<<<<< HEAD
-const { innerWidth, innerHeight } = window;
-=======
 const ASPECT_RATIO = 9 / 16;
 const { innerWidth } = window;
->>>>>>> 802dec7c77c1e411c18de3f1246735197417ec3e
 const canvasWidth = 0.8 * innerWidth;
 const canvasHeight = ASPECT_RATIO * canvasWidth;
 
