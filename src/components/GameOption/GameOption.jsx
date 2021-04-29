@@ -1,6 +1,7 @@
 import React from "react";
 import { useHistory, useLocation } from "react-router-dom";
 import styled from "styled-components";
+
 import Button from "../shared/Button/Button";
 
 const GameOptionContainer = styled.div`

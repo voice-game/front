@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
+
 import GameManual from "../GameManual/GameManual";
 import MonsterEscape from "../MonsterEscape/MonsterEscape";
 import ControlBox from "../../games/monsterEscape/ControlBox";
@@ -7,25 +8,26 @@ import Obstacle from "../../games/monsterEscape/Obstacle";
 import PlayInfo from "../../games/monsterEscape/PlayInfo";
 import GameMap from "../../games/monsterEscape/GameMap";
 import MultiPlayer from "../../games/monsterEscape/MultiPlayer";
-import gameMap from "../../games/monsterEscape/gameMap.json";
+import Loading from "../Loading/Loading";
+
 import useLoadedImage from "../../hooks/useLoadedImage";
+
+import gameMap from "../../games/monsterEscape/gameMap.json";
 import getMedia from "../../utils/getMedia";
 import VolumeMeter from "../../utils/VolumeMeter";
 import manualImage from "../../images/manuals/manual_monsterEscape.png";
 
 const FPS = 36;
+<<<<<<< HEAD
 const { innerWidth, innerHeight } = window;
-// const minViewPort = Math.min(innerWidth, innerHeight);
+=======
+const ASPECT_RATIO = 9 / 16;
+const { innerWidth } = window;
+>>>>>>> 802dec7c77c1e411c18de3f1246735197417ec3e
 const canvasWidth = 0.8 * innerWidth;
-const canvasHeight = 0.8 * innerHeight;
+const canvasHeight = ASPECT_RATIO * canvasWidth;
 
-const MonsterEscapeContainer = ({
-  socket,
-  creater,
-  player,
-  roomId,
-  otherPlayers,
-}) => {
+const MonsterEscapeContainer = ({ socket, creater, player, roomId }) => {
   const [volumeMeter, setVolumeMeter] = useState(null);
   const [isInitGame, setIsInitGame] = useState(false);
   const [gameElement, setGameElement] = useState({});
@@ -56,24 +58,9 @@ const MonsterEscapeContainer = ({
     if (!isLoaded) {
       return;
     }
-    const ceilingMap = new GameMap(
-      "ceiling",
-      canvasWidth,
-      canvasHeight,
-      image.obstacles.ceiling
-    );
-    const groundMap = new GameMap(
-      "ground",
-      canvasWidth,
-      canvasHeight,
-      image.obstacles.ground
-    );
-    const enemyMap = new GameMap(
-      "enemy",
-      canvasWidth,
-      canvasHeight,
-      image.obstacles.enemy
-    );
+    const ceilingMap = new GameMap("ceiling", canvasWidth, canvasHeight, image.obstacles.ceiling);
+    const groundMap = new GameMap("ground", canvasWidth, canvasHeight, image.obstacles.ground);
+    const enemyMap = new GameMap("enemy", canvasWidth, canvasHeight, image.obstacles.enemy);
 
     enemyMap.setGameMap(gameMap.enemy);
     groundMap.setGameMap(gameMap.ground);
@@ -84,21 +71,8 @@ const MonsterEscapeContainer = ({
     const ceiling = new Obstacle(ceilingMap.gameMap, canvasWidth);
     const ground = new Obstacle(groundMap.gameMap, canvasWidth);
     const enemy = new Obstacle(enemyMap.gameMap, canvasWidth);
-    const myMonster = new Monster(
-      canvasWidth,
-      canvasHeight,
-      image,
-      0.1,
-      3,
-      FPS
-    );
-    const yourMonster = new MultiPlayer(
-      canvasWidth,
-      canvasHeight,
-      image,
-      0.1,
-      FPS
-    );
+    const myMonster = new Monster(canvasWidth, canvasHeight, image, 0.1, 3, FPS);
+    const yourMonster = new MultiPlayer(canvasWidth, canvasHeight, image, 0.1, FPS);
 
     setIsInitGame(true);
 
@@ -115,19 +89,25 @@ const MonsterEscapeContainer = ({
 
   return (
     <>
-      <GameManual imgSrc={manualImage} />
-      <MonsterEscape
-        isInitGame={isInitGame}
-        setIsInitGame={setIsInitGame}
-        gameElement={gameElement}
-        canvasWidth={canvasWidth}
-        canvasHeight={canvasHeight}
-        volumeMeter={volumeMeter}
-        socket={socket}
-        roomId={roomId}
-        creater={creater}
-        player={player}
-      />
+      {isLoaded ? (
+        <>
+          <GameManual imgSrc={manualImage} />
+          <MonsterEscape
+            isInitGame={isInitGame}
+            setIsInitGame={setIsInitGame}
+            gameElement={gameElement}
+            canvasWidth={canvasWidth}
+            canvasHeight={canvasHeight}
+            volumeMeter={volumeMeter}
+            socket={socket}
+            roomId={roomId}
+            creater={creater}
+            player={player}
+          />
+        </>
+      ) : (
+        <Loading />
+      )}
     </>
   );
 };
