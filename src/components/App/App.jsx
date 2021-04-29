@@ -16,6 +16,7 @@ const App = ({ authService }) => {
     (state) => state.authReducer
   );
   const dispatch = useDispatch();
+  console.log("test");
 
   useEffect(() => {
     if (!isUnAuthMode) {
