@@ -7,13 +7,13 @@ import GameCard from "../GameCard/GameCard";
 import GameOption from "../GameOption/GameOption";
 
 import useErrorMessage from "../../hooks/useErrorMessage";
-import { GAME_TITLE } from "../../constants/constants";
+import useMicInput from "../../hooks/useMicInput";
 
 import energyBattleGif from "../../images/thumbnails/energyBattle_gif.gif";
 import monsterEscapeGif from "../../images/thumbnails/monsterEscape_gif.gif";
 import littleForestGif from "../../images/thumbnails/littleForest_gif.gif";
 import comingSoonThumbnail from "../../images/thumbnails/comingSoon_thumbnail.png";
-import useMicInput from "../../hooks/useMicInput";
+import { GAME_TITLE } from "../../constants/constants";
 import { useSelector } from "react-redux";
 
 const MainPage = styled.section`
