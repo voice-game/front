@@ -1,6 +1,5 @@
 import React, { useCallback, useState } from "react";
 import styled from "styled-components";
-import Button from "../shared/Button/Button";
 
 const ModalContainer = styled.div`
   display: ${(props) => (props.isShow ? "block" : "none")};
@@ -17,47 +16,26 @@ const ModalContainer = styled.div`
 
 const ManualImage = styled.img`
   display: block;
-  width: 40%;
+  width: 50%;
   max-width: 1000px;
   min-width: 600px;
   margin: 0 auto;
   margin-top: 20vh;
 `;
 
-const CloseContainer = styled.div`
-  width: 100%;
-  display: flex;
-  margin-top: -150px;
-  justify-content: center;
-`;
-
 const GameManual = ({ imgSrc, onClick }) => {
   const [isShow, setIsShow] = useState(true);
 
-  const closeModal = useCallback(
-    (e) => {
-      if (e.target === e.currentTarget) {
-        if (onClick) {
-          onClick();
-        }
-        setIsShow(false);
-      }
-    },
-    [onClick]
-  );
+  const closeModal = useCallback(() => {
+    if (onClick) {
+      onClick();
+    }
+    setIsShow(false);
+  }, [onClick]);
 
   return (
     <ModalContainer onClick={closeModal} isShow={isShow}>
       <ManualImage src={imgSrc} alt="manual Img" />
-      <CloseContainer>
-        <Button
-          margin={[0, "auto", 0, "auto"]}
-          onClick={closeModal}
-          bgColor="#dfe6e9"
-        >
-          Close
-        </Button>
-      </CloseContainer>
     </ModalContainer>
   );
 };

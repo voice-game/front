@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import { HashRouter as Router, Route, Switch } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 
 import Login from "../Login/Login";
@@ -8,13 +8,8 @@ import GameList from "../GameList/GameList";
 import GameRoomList from "../GameRoomList/GameRoomList";
 import GameRoom from "../GameRoom/GameRoom";
 import ErrorPage from "../ErrorPage/ErrorPage";
-import useImageLoad from "../../hooks/useImageLoad";
 
 import { checkAuthorization } from "../../actions/authActionCreators";
-
-import energyBattleImages from "../../games/images/energyBattle/energyBattleImages";
-import monsterEscapeImages from "../../games/images/monsterEscape/monsterEscapeImages";
-import littleForestImages from "../../games/images/littleForest/littleForestImages";
 
 const App = ({ authService }) => {
   const { isAuthorized, isUnAuthMode } = useSelector(
@@ -27,10 +22,6 @@ const App = ({ authService }) => {
       dispatch(checkAuthorization());
     }
   }, [dispatch, isUnAuthMode]);
-
-  useImageLoad("energyBattle", energyBattleImages);
-  useImageLoad("monsterEscape", monsterEscapeImages);
-  useImageLoad("littleForest", littleForestImages);
 
   return (
     <Router>

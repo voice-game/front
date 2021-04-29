@@ -1,5 +1,5 @@
-import background2 from "../../../images/energyBattle/backgrounds/energyBattle_background_2.png";
 import background1 from "../../../images/energyBattle/backgrounds/energyBattle_background_1.png";
+import background2 from "../../../images/energyBattle/backgrounds/energyBattle_background_2.png";
 import background3 from "../../../images/energyBattle/backgrounds/energyBattle_background_3.png";
 import background4 from "../../../images/energyBattle/backgrounds/energyBattle_background_4.png";
 import background5 from "../../../images/energyBattle/backgrounds/energyBattle_background_5.png";

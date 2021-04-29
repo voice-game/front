@@ -1,16 +1,17 @@
 import React, { useCallback } from "react";
 import { useDispatch } from "react-redux";
 import styled from "styled-components";
+import { v4 as uuidv4 } from "uuid";
 
 import ErrorMessage from "../ErrorMessage/ErrorMessage";
 import Button from "../shared/Button/Button";
+
 import useErrorMessage from "../../hooks/useErrorMessage";
-import { v4 as uuidv4 } from "uuid";
+
+import pickRandom from "../../utils/pickRandom";
+import micImage from "../../images/thumbnails/mic.png";
 import { logUnAuthMode, playerLogin } from "../../actions/authActionCreators";
 import { RANDOM_WORD } from "../../constants/constants";
-import pickRandom from "../../utils/pickRandom";
-
-import micImage from "../../images/thumbnails/mic.png";
 
 const LoginContainer = styled.section`
   width: 100vw;
@@ -21,7 +22,13 @@ const LoginContainer = styled.section`
   align-items: center;
 `;
 
+const MainImage = styled.img`
+  max-width: 80vw;
+`;
+
 const MainTitle = styled.div`
+  width: 80%;
+  text-align: center;
   font-size: 4rem;
   margin-top: 2vh;
 `;
@@ -54,7 +61,7 @@ const Login = ({ authService }) => {
   return (
     <LoginContainer>
       {error.length > 0 && <ErrorMessage error={error} />}
-      <img src={micImage} alt="mic" />
+      <MainImage src={micImage} alt="mic" />
       <MainTitle>VOICE GAME</MainTitle>
       <Button
         name="Google"
