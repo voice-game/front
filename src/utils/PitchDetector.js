@@ -55,7 +55,6 @@ class PitchDetector {
 
   gotStream(stream) {
     this.mediaStreamSource = this.audioContext.createMediaStreamSource(stream);
-    this.mediaStreamSource.connect(this.analyser);
 
     this.analyser = this.audioContext.createAnalyser();
     this.analyser.fftSize = 2048;
