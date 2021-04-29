@@ -20,8 +20,8 @@ class Monster {
 
   setPosition() {
     const image = this.images.normal;
-    this.height = this.size * this.canvasHeight;
-    this.width = this.height * (image.width / this.fps) / image.height;
+    this.width = this.size * this.canvasWidth;
+    this.height = this.width * image.height / (image.width / this.fps);
     this.posX = 0.5 * (this.canvasWidth - this.width);
     this.posY = 0.5 * (this.canvasHeight - this.height);
   };

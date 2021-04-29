@@ -17,14 +17,14 @@ import manualImage from "../../images/manuals/manual_littleForest.png";
 import backgroundImages from "../../games/images/littleForest/backgroundImages";
 
 const LittleForestContainer = () => {
-  const { image, isLoaded } = useLoadedImage("littleForest");
   const [currentMap, setCurrentMap] = useState(0);
+  const { image, isLoaded } = useLoadedImage("littleForest");
   const pitchDetectorRef = usePitchDetector(
     useAudio({ samplerate: 12000 }, { audio: true, video: false })
   );
-console.log(image)
+  console.log(image);
   const TILE_SIZE = 32;
-  const WIDTH = TILE_SIZE * 43;
+  const WIDTH = TILE_SIZE * 35;
   const HEIGHT = TILE_SIZE * 19;
 
   const { staticDots, staticMap, interactionPoints } = new GameMap(
@@ -58,8 +58,8 @@ console.log(image)
   return (
     <>
       {isLoaded ? (
-        <>
-          <GameManual imgSrc={manualImage} />
+        <div>
+          {currentMap === 0 && <GameManual imgSrc={manualImage} />}
           <Canvas
             id="game-layer"
             ref={game}
@@ -73,10 +73,10 @@ console.log(image)
             position="absolute"
             width={WIDTH}
             height={HEIGHT}
-            bgImage={backgroundImages[currentMap]}
+            bgImage={image.backgrounds[currentMap].src}
           />
           <div>W: 점프 A: 좌 D: 우</div>
-        </>
+        </div>
       ) : (
         <Loading />
       )}

@@ -10,8 +10,8 @@ class MultiPlayer {
 
   setSize() {
     const image = this.images.normal;
-    this.height = this.size * this.canvasHeight;
-    this.width = this.height * (image.width / this.fps) / image.height;
+    this.width = this.size * this.canvasWidth;
+    this.height = this.width * image.height / (image.width / this.fps);
   };
 
   animate(ctx, myData, yourData, frame) {

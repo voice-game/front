@@ -7,7 +7,7 @@ import background from "../../images/monsterEscape/backgrounds/background.png";
 const FPS = 36;
 const GOAL_DISTANCE = 3;
 const TIME_LEFT_TO_RIGHT = 10;
-const TIME_TO_TO_BOTTOM = 5;
+const TIME_TOP_TO_BOTTOM = 5;
 const SPEED_STEP = 0.5;
 const VOLUME_STEP = 0.5;
 
@@ -22,7 +22,7 @@ const MonsterEscape = ({
   roomId,
 }) => {
   const grndSpd = canvasWidth / (FPS * TIME_LEFT_TO_RIGHT);
-  const verticalSpd = canvasHeight / (FPS * TIME_TO_TO_BOTTOM);
+  const verticalSpd = canvasHeight / (FPS * TIME_TOP_TO_BOTTOM);
 
   const canvasRef = useRef(null);
   const animationIdRef = useRef(null);
