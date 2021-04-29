@@ -15,7 +15,10 @@ import {
   deleteRoomAction,
   changeRoomStatus,
 } from "../../actions/gameActionCreators";
+
 import { MAX_PLAYER } from "../../constants/constants";
+// import useSetInitialRoom from "../../hooks/useSetInitialRoom";
+// import usePlayerConnection from "../../hooks/usePlayerConnection";
 
 const socket = io(process.env.REACT_APP_USER_SERVER, {
   withCredential: true,
@@ -51,6 +54,7 @@ const GameRoom = () => {
       setOtherPlayers(existingPlayers);
     }
   }, []);
+  // const setInitialRoom = useSetInitialRoom(socket, setOtherPlayers);
 
   const handlePlayerConnect = useCallback((data) => {
     if (data.playerData.playerId !== playerData.playerId) {
@@ -85,6 +89,7 @@ const GameRoom = () => {
       history.push(`/games/${gameTitle}`);
     }
   }, []);
+  // const { handlePlayerConnect, handlePlayerDisconnect, handlePlayerLeave } = usePlayerConnection(otherPlayers, setOtherPlayers);
 
   useEffect(() => {
     setInitialRoom();
@@ -117,7 +122,6 @@ const GameRoom = () => {
       {gameTitle === "monsterEscape" && (
         <MonsterEscapeContainer
           socket={socket}
-          creater={currentRoom?.createdBy}
           roomId={roomId}
           player={playerData}
           otherPlayers={otherPlayers}
