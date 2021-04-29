@@ -4,14 +4,15 @@ import { useHistory, useLocation } from "react-router-dom";
 import styled from "styled-components";
 
 import GameOption from "../GameOption/GameOption";
-
 import GameRoomCard from "../GameRoomCard/GameRoomCard";
 import ErrorMessage from "../ErrorMessage/ErrorMessage";
 import Button from "../shared/Button/Button";
+
 import useErrorMessage from "../../hooks/useErrorMessage";
 import useEnterRandom from "../../hooks/useEnterRandom";
 import useFetchRooms from "../../hooks/useFetchRoom";
 import useCreateRoom from "../../hooks/useCreateRoom";
+import useImageLoad from "../../hooks/useImageLoad";
 
 const GameTitle = styled.h1`
   margin: 0;
@@ -21,11 +22,13 @@ const GameTitle = styled.h1`
   text-align: center;
   text-transform: uppercase;
 `;
+
 const ButtonContainer = styled.div`
   width: 100%;
   display: flex;
   justify-content: center;
 `;
+
 const GameRoomGrid = styled.div`
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -46,7 +49,9 @@ const GameRoomList = () => {
   const [error, showErrorMessage] = useErrorMessage("");
   const enterRandom = useEnterRandom(gameTitle, showErrorMessage);
   const createRoom = useCreateRoom(gameTitle, player);
+
   useFetchRooms(gameTitle, showErrorMessage);
+  useImageLoad(gameTitle);
 
   return (
     <>
