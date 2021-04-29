@@ -20,10 +20,10 @@ class Portal {
     );
     ctx.restore();
 
-    this.checkOnboardPortal(characterController);
+    this.checkReachedPortal(characterController);
   }
 
-  checkOnboardPortal(characterController) {
+  checkReachedPortal(characterController) {
     const characterX = characterController.characterCenterX;
     const characterY = characterController.posY - 20;
 
