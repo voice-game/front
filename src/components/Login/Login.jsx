@@ -1,16 +1,17 @@
 import React, { useCallback } from "react";
 import { useDispatch } from "react-redux";
 import styled from "styled-components";
+import { v4 as uuidv4 } from "uuid";
 
 import ErrorMessage from "../ErrorMessage/ErrorMessage";
 import Button from "../shared/Button/Button";
+
 import useErrorMessage from "../../hooks/useErrorMessage";
-import { v4 as uuidv4 } from "uuid";
+
+import pickRandom from "../../utils/pickRandom";
+import micImage from "../../images/thumbnails/mic.png";
 import { logUnAuthMode, playerLogin } from "../../actions/authActionCreators";
 import { RANDOM_WORD } from "../../constants/constants";
-import pickRandom from "../../utils/pickRandom";
-
-import micImage from "../../images/thumbnails/mic.png";
 
 const LoginContainer = styled.section`
   width: 100vw;
