@@ -56,10 +56,6 @@ const LittleForestContainer = () => {
     isLoaded
   );
 
-  if (!isLoaded) {
-    return null;
-  }
-
   return (
     <>
       {isLoaded ? (
