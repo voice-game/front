@@ -13,7 +13,6 @@ import useLoadedImage from "../../hooks/useLoadedImage";
 
 import Canvas from "../shared/Canvas/Canvas";
 
-import pickRandom from "../../utils/pickRandom";
 import manualImage from "../../images/manuals/manual_littleForest.png";
 import backgroundImages from "../../games/images/littleForest/backgroundImages";
 
@@ -23,7 +22,7 @@ const LittleForestContainer = () => {
   const pitchDetectorRef = usePitchDetector(
     useAudio({ samplerate: 12000 }, { audio: true, video: false })
   );
-
+console.log(image)
   const TILE_SIZE = 32;
   const WIDTH = TILE_SIZE * 43;
   const HEIGHT = TILE_SIZE * 19;
@@ -74,7 +73,7 @@ const LittleForestContainer = () => {
             position="absolute"
             width={WIDTH}
             height={HEIGHT}
-            bgImage={pickRandom(backgroundImages)}
+            bgImage={backgroundImages[currentMap]}
           />
           <div>W: 점프 A: 좌 D: 우</div>
         </>

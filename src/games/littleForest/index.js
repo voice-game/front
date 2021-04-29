@@ -3,7 +3,13 @@ import DotsController from "./Dots";
 import InteractionController from "./InteractionController";
 
 class Game {
-  constructor(ref, { pitchDetectorRef, staticDots, interactionPoints, images }) {
+  constructor(ref, {
+    pitchDetectorRef,
+    staticDots,
+    interactionPoints,
+    setCurrentMap,
+    images,
+  }) {
     this.canvas = ref.current;
     this.ctx = this.canvas.getContext("2d");
     this.width = this.canvas.width;

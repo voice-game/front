@@ -16,6 +16,7 @@ describe("room", () => {
         getActionTypes().CREATE_ROOM_SUCCESS,
         getActionTypes().JOIN_ROOM_SUCCESS,
       ];
+
       expect(actions).toEqual(expectedActions);
     });
   });
