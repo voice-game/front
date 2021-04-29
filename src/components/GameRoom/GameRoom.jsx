@@ -114,6 +114,7 @@ const GameRoom = () => {
         <EnergyBattleContainer
           socket={socket}
           roomId={roomId}
+          roomNumber={currentRoom?.roomNumber}
           player={playerData}
           otherPlayers={otherPlayers}
         />
