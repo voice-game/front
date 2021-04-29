@@ -14,7 +14,6 @@ import useLoadedImage from "../../hooks/useLoadedImage";
 import Canvas from "../shared/Canvas/Canvas";
 
 import manualImage from "../../images/manuals/manual_littleForest.png";
-import backgroundImages from "../../games/images/littleForest/backgroundImages";
 
 const LittleForestContainer = () => {
   const [currentMap, setCurrentMap] = useState(0);
