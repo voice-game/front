@@ -19,7 +19,6 @@ const useFetchRooms = (gameTitle, showErrorMessage) => {
   }, [dispatch, gameTitle]);
 
   useEffect(() => {
-    console.log("fetchRooms");
     if (location.state) {
       showErrorMessage(location.state);
       location.state = null;

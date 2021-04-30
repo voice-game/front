@@ -13,7 +13,7 @@ class CharacterController {
 
     this.character = new Character(pickRandom(this.images));
 
-    this.initialX = 900;
+    this.initialX = 100;
     this.initialY = 100;
     this.posX = this.initialX;
     this.posY = this.initialY;
@@ -29,7 +29,6 @@ class CharacterController {
       speed: 3,
       isJumping: false,
       jumpHeight: 20,
-      direction: "right",
     };
 
     addEventHelper(
@@ -115,22 +114,21 @@ class CharacterController {
     this.handleCharacterImage();
     this.character.frameSpeed = 10;
 
-    if (this.characterMove.left) {
-      this.character.frameSpeed = 50;
+    const isInnerLeftEnd = 0 < this.posX - this.characterMove.speed;
+    const isInnerRightEnd = this.posX + this.character.width < this.canvasWidth;
 
-      if (0 < this.posX - this.characterMove.speed) {
-        this.posX -= this.characterMove.speed;
-      }
+    if (this.characterMove.left && isInnerLeftEnd) {
+      this.character.frameSpeed = 50;
+      this.posX -= this.characterMove.speed;
     }
 
-    if (this.characterMove.right) {
+    if (!isInnerLeftEnd || !isInnerRightEnd) {
+      this.reaction = 0;
+    }
+
+    if (this.characterMove.right && isInnerRightEnd) {
       this.character.frameSpeed = 50;
-
-      if (this.posX + this.character.width < this.canvasWidth) {
-        this.posX += this.characterMove.speed;
-      }
-
-      this.characterMove.direction = "right";
+      this.posX += this.characterMove.speed;
     }
 
     if (this.characterMove.jump && !this.characterMove.isJumping && !this.isHit) {

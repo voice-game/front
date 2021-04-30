@@ -13,7 +13,7 @@ import useSetInitialRoom from "../../hooks/useSetInitialRoom";
 import useImageLoad from "../../hooks/useImageLoad";
 import energyBattleBGM from "../../assets/audio/bgm_energyBattle.mp3";
 import littleForestBGM from "../../assets/audio/bgm_littleForest.mp3";
-// import monsterEscapeBGM from "../../assets/audio/bgm_energyBattle.mp3";
+import monsterEscapeBGM from "../../assets/audio/bgm_monsterEscape.mp3";
 
 import {
   leaveRoomAction,
@@ -45,7 +45,7 @@ const GameRoom = () => {
 
   const bgm = {
     energyBattle: energyBattleBGM,
-    // monsterEscape: monsterEscapeBGM,
+    monsterEscape: monsterEscapeBGM,
     littleForest: littleForestBGM,
   };
 
