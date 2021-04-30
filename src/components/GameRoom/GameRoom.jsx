@@ -10,15 +10,13 @@ import MonsterEscapeContainer from "../MonsterEscapeContainer/MonsterEscapeConta
 import LittleForestContainer from "../LittleForestContainer/LittleForestContainer";
 
 import {
-  joinRoomAction,
   leaveRoomAction,
   deleteRoomAction,
   changeRoomStatus,
 } from "../../actions/gameActionCreators";
 
 import { MAX_PLAYER } from "../../constants/constants";
-// import useSetInitialRoom from "../../hooks/useSetInitialRoom";
-// import usePlayerConnection from "../../hooks/usePlayerConnection";
+import useSetInitialRoom from "../../hooks/useSetInitialRoom";
 
 const socket = io(process.env.REACT_APP_USER_SERVER, {
   withCredential: true,
@@ -41,20 +39,7 @@ const GameRoom = () => {
     (room) => room.roomId === roomId
   )[0];
 
-  const setInitialRoom = useCallback(() => {
-    socket.emit("join-room", roomId, playerData);
-
-    if (currentRoom?.createdBy !== playerData._id) {
-      dispatch(joinRoomAction(gameTitle, roomId, playerData));
-
-      const existingPlayers = currentRoom?.players.filter(
-        (player) => player.playerId !== playerData.playerId
-      );
-
-      setOtherPlayers(existingPlayers);
-    }
-  }, []);
-  // const setInitialRoom = useSetInitialRoom(socket, setOtherPlayers);
+  const setInitialRoom = useSetInitialRoom(socket, setOtherPlayers);
 
   const handlePlayerConnect = useCallback((data) => {
     if (data.playerData.playerId !== playerData.playerId) {
@@ -89,7 +74,6 @@ const GameRoom = () => {
       history.push(`/games/${gameTitle}`);
     }
   }, []);
-  // const { handlePlayerConnect, handlePlayerDisconnect, handlePlayerLeave } = usePlayerConnection(otherPlayers, setOtherPlayers);
 
   useEffect(() => {
     setInitialRoom();
