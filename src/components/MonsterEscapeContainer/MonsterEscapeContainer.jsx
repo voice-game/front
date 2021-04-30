@@ -17,7 +17,6 @@ import gameMap from "../../games/monsterEscape/gameMap.json";
 import getMedia from "../../utils/getMedia";
 import VolumeMeter from "../../utils/VolumeMeter";
 import manualImage from "../../images/manuals/manual_monsterEscape.png";
-import bgm from "../../assets/audio/bgm_monsterEscape.mp3";
 
 const FPS = 36;
 const ASPECT_RATIO = 9 / 16;
@@ -84,8 +83,22 @@ const MonsterEscapeContainer = ({ socket, roomId, player, otherPlayers }) => {
     const ceiling = new Obstacle(ceilingMap.gameMap, canvasWidth);
     const ground = new Obstacle(groundMap.gameMap, canvasWidth);
     const enemy = new Obstacle(enemyMap.gameMap, canvasWidth);
-    const myMonster = new Monster(canvasWidth, canvasHeight, image, player, 0.1, 3, FPS, );
-    const yourMonster = new MultiPlayer(canvasWidth, canvasHeight, image, 0.06, FPS);
+    const myMonster = new Monster(
+      canvasWidth,
+      canvasHeight,
+      image,
+      player,
+      0.1,
+      3,
+      FPS
+    );
+    const yourMonster = new MultiPlayer(
+      canvasWidth,
+      canvasHeight,
+      image,
+      0.06,
+      FPS
+    );
 
     setIsInitGame(true);
 
@@ -116,9 +129,6 @@ const MonsterEscapeContainer = ({ socket, roomId, player, otherPlayers }) => {
             roomId={roomId}
             otherPlayers={otherPlayers}
           />
-          <audio loop autoPlay={true}>
-            <source src={bgm} type="audio/mpeg" />
-          </audio>
         </>
       ) : (
         <Loading />
