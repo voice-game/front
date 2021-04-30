@@ -23,6 +23,7 @@ const mapList = [
       [IMAGE_TYPE.ROAD, 3, 4, 14, 3, 1, 0],
       [IMAGE_TYPE.PAD, 38, 10, 5, 2, 12, 1, 0],
       [IMAGE_TYPE.PAD, 24, 9, 5, 2, 18, 1, 0],
+      [IMAGE_TYPE.OBSTACLE, 3, 3, 1, 1, 10],
       [IMAGE_TYPE.PORTAL, 25, 14, 3, 3],
     ],
   },
