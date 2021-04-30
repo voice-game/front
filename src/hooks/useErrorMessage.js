@@ -2,11 +2,11 @@ import { useState, useEffect, useCallback } from "react";
 
 /**
  *
- * @param {*} initialValue
- * @returns
+ * @param {String} message
+ * @returns error message & show message func
  */
-const useErrorMessage = (initialValue = "") => {
-  const [error, setError] = useState(initialValue);
+const useErrorMessage = (message = "") => {
+  const [error, setError] = useState(message);
   const showMessage = useCallback((errMessage) => {
     setError(errMessage);
   }, []);
