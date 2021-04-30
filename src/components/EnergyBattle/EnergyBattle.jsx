@@ -6,7 +6,7 @@ import PropTypes from "prop-types";
 import Canvas from "../shared/Canvas/Canvas";
 import pickRandom from "../../utils/pickRandom";
 import backgroundImages from "../../games/images/energyBattle/backgroundImages";
-import bgm from "../../assets/audio/bgm.mp3";
+import bgm from "../../assets/audio/bgm_energyBattle.mp3";
 import { ROOM_STATUS } from "../../constants/constants";
 import { gameResultAction } from "../../actions/gameActionCreators";
 
