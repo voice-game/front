@@ -11,6 +11,8 @@ describe("<EnergyBattleController />", () => {
     component = shallow(
       <EnergyBattleController
         counter={"counter"}
+        roomStatus={ROOM_STATUS.WAITING}
+        onClick={() => {}}
       />
     );
 
