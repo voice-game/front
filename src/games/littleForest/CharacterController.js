@@ -71,6 +71,7 @@ class CharacterController {
     this.maxY = this.getMaxY(dots, this.characterCenterX);
 
     this.handleCharacterMovement(dots);
+
     this.character.draw(
       ctx,
       this.posX,

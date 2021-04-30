@@ -14,13 +14,13 @@ class Character {
 
   draw(ctx, x, y, timeStamp) {
     this.img = this.currentImg.img;
-    this.frame = this.currentImg.frame;
+    this.totalFrame = this.currentImg.frame;
 
-    this.frameWidth = this.img.width / this.frame;
-    this.frameHeight = this.img.height;
+    this.sWidth = this.img.width / this.totalFrame;
+    this.sHeight = this.img.height;
 
-    this.width = this.frameWidth / this.ratio;
-    this.height = this.frameHeight / this.ratio;
+    this.width = this.sWidth / this.ratio;
+    this.height = this.sHeight / this.ratio;
 
     if (!this.pivotTime) {
       this.pivotTime = timeStamp;
@@ -33,7 +33,7 @@ class Character {
       this.currentFrame += 1;
     }
 
-    if (this.frame <= this.currentFrame) {
+    if (this.totalFrame <= this.currentFrame) {
       this.currentFrame = 0;
     }
 
@@ -41,27 +41,29 @@ class Character {
   }
 
   animate(ctx, x, y) {
-    let characterX = x;
-    let width = this.width;
+    const dy = y;
+    const dHeight = this.height + 3;
+    let dx = x;
+    let dWidth = this.width;
 
     ctx.save();
 
     if (this.isFlipped) {
       ctx.scale(-1, 1);
-      characterX = -characterX;
-      width = -width;
+      dx = -dx;
+      dWidth = -dWidth;
     }
 
     ctx.drawImage(
       this.img,
-      this.frameWidth * this.currentFrame,
+      this.sWidth * this.currentFrame,
       0,
-      this.frameWidth,
-      this.frameHeight,
-      characterX,
-      y,
-      width,
-      this.height + 3
+      this.sWidth,
+      this.sHeight,
+      dx,
+      dy,
+      dWidth,
+      dHeight
     );
 
     ctx.restore();

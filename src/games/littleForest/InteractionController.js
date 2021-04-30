@@ -95,8 +95,8 @@ class InteractionController {
     }
   }
 
-  drawPortal(ctx, characterController) {
-    this.interactions[IMAGE_TYPE.PORTAL].draw(ctx, characterController);
+  drawPortal(ctx, characterController, timeStamp) {
+    this.interactions[IMAGE_TYPE.PORTAL].draw(ctx, characterController, timeStamp);
   }
 }
 

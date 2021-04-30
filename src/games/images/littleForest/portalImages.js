@@ -1,5 +1,8 @@
-import portal1 from "../../../images/littleForest/portals/0.png";
+import portal from "../../../images/littleForest/portals/portal.png";
 
-const portalImage = portal1;
+const portalImage = {
+  img: portal,
+  frame: 8,
+};
 
 export default portalImage;
