@@ -6,11 +6,20 @@ export const MAX_PLAYER = {
 
 export const IMAGE_TYPE = {
   OBJECT: "OBJECT",
+  OBSTACLE: "OBSTACLE",
   PAD: "PAD",
   PORTAL: "PORTAL",
   ROAD: "ROAD",
   TILE: "TILE",
 };
+
+export const KEY_CODE = {
+  A: 65,
+  D: 68,
+  W: 87,
+};
+
+export const ROAD_COLOR = "white";
 
 export const ROOM_STATUS = {
   WAITING: "WAITING",

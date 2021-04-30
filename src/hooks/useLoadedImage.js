@@ -1,15 +1,20 @@
 import { useSelector } from "react-redux";
 import _ from "lodash";
 
-const useLoadedImage = (name) => {
+/**
+ *
+ * @param {string} gameName current game name
+ * @returns Object with image list and load status
+ */
+const useLoadedImage = (gameName) => {
   const myImage = { image: null, isLoaded: false };
 
-  const isLoaded = useSelector((state) => state.imageReducer.isLoaded[name]);
+  const isLoaded = useSelector((state) => state.imageReducer.isLoaded[gameName]);
 
   const image = useSelector(
     (state) => {
-      if (state.imageReducer.isLoaded[name]) {
-        return state.imageReducer[name];
+      if (state.imageReducer.isLoaded[gameName]) {
+        return state.imageReducer[gameName];
       }
     },
     (prev, next) => _.cloneDeep(prev) === _.cloneDeep(next)

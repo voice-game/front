@@ -1,8 +1,10 @@
-import React, { useEffect, useRef } from "react";
+import React from "react";
 import styled from "styled-components";
+import PropTypes from "prop-types";
+
+import ErrorMessage from "../ErrorMessage/ErrorMessage";
 
 import useErrorMessage from "../../hooks/useErrorMessage";
-import ErrorMessage from "../ErrorMessage/ErrorMessage";
 
 const GameRoomCardContainer = styled.div`
   display: flex;
@@ -36,11 +38,10 @@ const GameRoomStatus = styled.div`
 `;
 
 const GameRoomCard = ({
-  room: { players, createdAt, status },
+  room: { players, createdAt, status, roomNumber },
   onClick,
   gameTitle,
 }) => {
-  const roomNumberRef = useRef(Math.floor(Math.random() * 1000));
   const [error, showErrorMessage] = useErrorMessage("");
   const handleClickRoomCard = () => {
     if (status === "Enter") {
@@ -50,17 +51,13 @@ const GameRoomCard = ({
     showErrorMessage("입장이 불가능합니다.");
   };
 
-  useEffect(() => {
-    roomNumberRef.current = Math.floor(Math.random() * 1000);
-  }, [gameTitle]);
-
   return (
     <>
       {error.length > 0 && <ErrorMessage error={error} />}
       <GameRoomCardContainer onClick={handleClickRoomCard}>
         <GameRoomData>
           {gameTitle} &nbsp;
-          {roomNumberRef.current}
+          {roomNumber ? roomNumber : Math.floor(Math.random() * 1000)}
           <br />
           Players: {players.length}
           <br />
@@ -74,6 +71,17 @@ const GameRoomCard = ({
       </GameRoomCardContainer>
     </>
   );
+};
+
+GameRoomCard.propTypes = {
+  room: PropTypes.shape({
+    players: PropTypes.arrayOf(PropTypes.string).isRequired,
+    createdAt: PropTypes.string.isRequired,
+    status: PropTypes.string.isRequired,
+    roomNumber: PropTypes.number,
+  }),
+  onClick: PropTypes.func.isRequired,
+  gameTitle: PropTypes.string.isRequired,
 };
 
 export default GameRoomCard;

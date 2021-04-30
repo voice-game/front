@@ -3,7 +3,13 @@ import DotsController from "./Dots";
 import InteractionController from "./InteractionController";
 
 class Game {
-  constructor(ref, { pitchDetectorRef, staticDots, interactionPoints, images }) {
+  constructor(ref, {
+    pitchDetectorRef,
+    staticDots,
+    interactionPoints,
+    setCurrentMap,
+    images,
+  }) {
     this.canvas = ref.current;
     this.ctx = this.canvas.getContext("2d");
     this.width = this.canvas.width;
@@ -50,8 +56,10 @@ class Game {
     this.dotsController.mergeRoadDots(this.ctx, dots, roadDots);
     this.dotsController.mergePadDots(dots, padDots);
 
-    this.interactionController.drawPortal(this.ctx, this.characterController);
     this.characterController.draw(this.ctx, dots, timeStamp);
+
+    this.interactionController.drawPortal(this.ctx, this.characterController, timeStamp);
+    this.interactionController.drawObstacle(this.ctx, this.characterController);
 
     this.animationFrameId = window.requestAnimationFrame(
       this.animate.bind(this)

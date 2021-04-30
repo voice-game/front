@@ -1,6 +1,7 @@
 import { addEventHelper } from "../../utils/eventListHelper";
 import Character from "./Character";
 import pickRandom from "../../utils/pickRandom";
+import { KEY_CODE } from "../../constants/constants";
 
 class CharacterController {
   constructor(eventList, canvasWidth, canvasHeight, images) {
@@ -10,13 +11,17 @@ class CharacterController {
     this.canvasHeight = canvasHeight;
     this.images = images.characters;
 
-    this.initialX = 300;
+    this.character = new Character(pickRandom(this.images));
+
+    this.initialX = 900;
     this.initialY = 100;
     this.posX = this.initialX;
     this.posY = this.initialY;
 
-    this.isImgChanged = false;
     this.gravity = 0;
+    this.reaction = 0;
+
+    this.isHit = false;
     this.characterMove = {
       left: false,
       right: false,
@@ -26,13 +31,6 @@ class CharacterController {
       jumpHeight: 20,
       direction: "right",
     };
-    this.KEY_CODE = {
-      A: 65,
-      D: 68,
-      W: 87,
-    };
-
-    this.character = new Character(pickRandom(this.images));
 
     addEventHelper(
       this.eventList,
@@ -60,15 +58,20 @@ class CharacterController {
       this.maxY = this.getMaxY(dots, this.characterCenterX);
     }
 
-    if (this.maxY <= this.posY) {
+    if (this.maxY < this.posY) {
       this.posY = this.maxY;
       this.characterMove.isJumping = false;
+
       this.gravity = 0;
+      this.reaction = 0;
+
+      this.isHit = false;
     }
 
     this.maxY = this.getMaxY(dots, this.characterCenterX);
 
     this.handleCharacterMovement(dots);
+
     this.character.draw(
       ctx,
       this.posX,
@@ -91,15 +94,15 @@ class CharacterController {
     const isKeyDown = event.type === "keydown" ? true : false;
 
     switch (event.keyCode) {
-      case this.KEY_CODE.A:
+      case KEY_CODE.A:
         this.characterMove.left = isKeyDown;
 
         break;
-      case this.KEY_CODE.D:
+      case KEY_CODE.D:
         this.characterMove.right = isKeyDown;
 
         break;
-      case this.KEY_CODE.W:
+      case KEY_CODE.W:
         this.characterMove.jump = isKeyDown;
 
         break;
@@ -108,7 +111,7 @@ class CharacterController {
     }
   }
 
-  handleCharacterMovement(dots) {
+  handleCharacterMovement() {
     this.handleCharacterImage();
     this.character.frameSpeed = 10;
 
@@ -130,7 +133,7 @@ class CharacterController {
       this.characterMove.direction = "right";
     }
 
-    if (this.characterMove.jump && !this.characterMove.isJumping) {
+    if (this.characterMove.jump && !this.characterMove.isJumping && !this.isHit) {
       this.characterMove.isJumping = true;
       this.gravity -= this.characterMove.jumpHeight;
     }
@@ -139,8 +142,22 @@ class CharacterController {
       this.posY += Math.floor(this.gravity);
     }
 
-    this.gravity += 1.5;
-    this.gravity *= 0.9;
+    if (this.posY !== this.maxY) {
+      this.gravity += 1.5;
+      this.gravity *= 0.9;
+    }
+
+    if (this.reaction) {
+      this.posX += Math.floor(this.reaction);
+    }
+
+    if (0 < this.reaction) {
+      this.reaction -= 0.1;
+    }
+
+    if (this.reaction < 0) {
+      this.reaction += 0.1;
+    }
   }
 
   handleCharacterImage() {

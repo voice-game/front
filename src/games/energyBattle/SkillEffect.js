@@ -13,10 +13,10 @@ class SkillEffect {
       this.imgObj.fire.width / 10,
       this.imgObj.fire.height,
       (myVolumeSum / volumeSum) * this.canvasWidth -
-        (this.canvasWidth / 8 / 10) * 6,
-      this.canvasHeight * 0.4,
-      this.canvasWidth / 8,
-      (this.canvasWidth / 8 / 10) * 9
+        (this.canvasWidth / 4 / 10) * 6.8,
+      this.canvasHeight * 0.24,
+      this.canvasWidth / 4,
+      (this.canvasWidth / 4 / 10) * 9
     );
   }
 
@@ -59,10 +59,10 @@ class SkillEffect {
       this.imgObj.ice.height,
       -this.canvasWidth +
         (otherVolumeSum / volumeSum) * this.canvasWidth -
-        (this.canvasWidth / 8 / 10) * 6,
-      this.canvasHeight * 0.4,
-      this.canvasWidth / 8,
-      (this.canvasWidth / 8 / 10) * 9
+        (this.canvasWidth / 4 / 10) * 6.8,
+      this.canvasHeight * 0.27,
+      this.canvasWidth / 4,
+      (this.canvasWidth / 4 / 10) * 9
     );
   }
 }

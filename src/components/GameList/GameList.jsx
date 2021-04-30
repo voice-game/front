@@ -7,13 +7,13 @@ import GameCard from "../GameCard/GameCard";
 import GameOption from "../GameOption/GameOption";
 
 import useErrorMessage from "../../hooks/useErrorMessage";
-import { GAME_TITLE } from "../../constants/constants";
+import useMicInput from "../../hooks/useMicInput";
 
 import energyBattleGif from "../../images/thumbnails/energyBattle_gif.gif";
 import monsterEscapeGif from "../../images/thumbnails/monsterEscape_gif.gif";
 import littleForestGif from "../../images/thumbnails/littleForest_gif.gif";
 import comingSoonThumbnail from "../../images/thumbnails/comingSoon_thumbnail.png";
-import useMicInput from "../../hooks/useMicInput";
+import { GAME_TITLE } from "../../constants/constants";
 import { useSelector } from "react-redux";
 
 const MainPage = styled.section`
@@ -27,6 +27,7 @@ const MainPage = styled.section`
 
 const MainTitle = styled.h1`
   width: 100vw;
+  margin-top: -2vh;
   font-size: 3rem;
   text-align: center;
   line-height: 1.3em;
@@ -38,14 +39,15 @@ const Name = styled.span`
 
 const WelcomeMessage = styled.h1`
   line-height: 1.3em;
+  margin-bottom: 2vh;
 `;
 
 const GameCardGrid = styled.div`
-  width: 80%;
+  width: 90%;
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  column-gap: 2vw;
-  row-gap: 2vw;
+  column-gap: 1.3vw;
+  row-gap: 1.3vw;
   padding: 30px;
   @media only screen and (max-width: 1120px) {
     grid-template-columns: repeat(1, 1fr);

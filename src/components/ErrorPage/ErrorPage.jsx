@@ -29,7 +29,7 @@ const HomeButton = styled.button`
   cursor: pointer;
 `;
 
-const ErrorPage = (props) => {
+const ErrorPage = () => {
   const history = useHistory();
 
   return (

@@ -3,6 +3,12 @@ import { useDispatch, useSelector } from "react-redux";
 import { useLocation, useParams } from "react-router";
 import { joinRoomAction } from "../actions/gameActionCreators";
 
+/**
+ *
+ * @param {object} socket socket
+ * @param {function} updateOtherPlayers
+ * @returns memoized function for setting initial room
+ */
 const useSetInitialRoom = (socket, updateOtherPlayers) => {
   const dispatch = useDispatch();
   const location = useLocation();

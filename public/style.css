@@ -4,6 +4,7 @@
   padding: 0;
   box-sizing: border-box;
   color: white;
+  user-select: none;
   text-align: center;
   line-height: 1em;
 }
@@ -18,4 +19,7 @@ body {
 
 button:hover {
   transform: scale(1.1, 1.1);
+}
+button:focus {
+  outline: none;
 }

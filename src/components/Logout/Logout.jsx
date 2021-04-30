@@ -1,11 +1,14 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
+import PropTypes from "prop-types";
 import styled from "styled-components";
 
-import ErrorMessage from "../ErrorMessage/ErrorMessage";
-import Button from "../shared/Button/Button";
 import useErrorMessage from "../../hooks/useErrorMessage";
+
+import ErrorMessage from "../ErrorMessage/ErrorMessage";
+
+import Button from "../shared/Button/Button";
 import { playerLogout, stopUnAuthMode } from "../../actions/authActionCreators";
 
 const LogoutContainer = styled.div`
@@ -64,6 +67,10 @@ const Logout = ({ authService }) => {
       </Button>
     </LogoutContainer>
   );
+};
+
+Logout.propTypes = {
+  authService: PropTypes.object.isRequired,
 };
 
 export default Logout;

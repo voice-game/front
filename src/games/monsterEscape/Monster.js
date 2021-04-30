@@ -1,6 +1,7 @@
 class Monster {
-  constructor(canvasWidth, canvasHeight, images, size, life, fps) {
+  constructor(canvasWidth, canvasHeight, images, player, size, life, fps) {
     this.images = images.characters.bat;
+    this.player = player;
     this.size = size;
     this.life = life;
     this.maxLife = life;
@@ -20,8 +21,8 @@ class Monster {
 
   setPosition() {
     const image = this.images.normal;
-    this.height = this.size * this.canvasHeight;
-    this.width = this.height * (image.width / this.fps) / image.height;
+    this.width = this.size * this.canvasWidth;
+    this.height = this.width * image.height / (image.width / this.fps);
     this.posX = 0.5 * (this.canvasWidth - this.width);
     this.posY = 0.5 * (this.canvasHeight - this.height);
   };
@@ -112,6 +113,11 @@ class Monster {
     if (!this.life) { image = this.images.dead }
 
     const gap = image.width / this.fps;
+
+    ctx.font = `900 ${0.015 * this.canvasWidth}px sans-serif`;
+    ctx.fillStyle = "blue";
+    ctx.textAlign = "center";
+    ctx.fillText(this.player.name, this.posX + 0.55 * this.width, this.posY);
 
     ctx.drawImage(
       image,

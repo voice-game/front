@@ -1,5 +1,11 @@
 import React, { useState } from "react";
 
+import Game from "../../games/littleForest";
+import BackGround from "../../games/littleForest/Background";
+import GameMap from "../../games/littleForest/GameMap";
+import GameManual from "../GameManual/GameManual";
+import Loading from "../Loading/Loading";
+
 import useAudio from "../../hooks/useAudio";
 import useCanvas from "../../hooks/useCanvas";
 import usePitchDetector from "../../hooks/usePitchDetector";
@@ -7,18 +13,13 @@ import useLoadedImage from "../../hooks/useLoadedImage";
 
 import Canvas from "../shared/Canvas/Canvas";
 
-import Game from "../../games/littleForest";
-import BackGround from "../../games/littleForest/Background";
-import GameMap from "../../games/littleForest/GameMap";
-
-import pickRandom from "../../utils/pickRandom";
-import GameManual from "../GameManual/GameManual";
-
 import manualImage from "../../images/manuals/manual_littleForest.png";
+import bgm from "../../assets/audio/bgm.mp3";
+import Wrapper from "../shared/Wrapper/Wrapper";
 
 const LittleForestContainer = () => {
-  const { image, isLoaded } = useLoadedImage("littleForest");
   const [currentMap, setCurrentMap] = useState(0);
+  const { image, isLoaded } = useLoadedImage("littleForest");
   const pitchDetectorRef = usePitchDetector(
     useAudio({ samplerate: 12000 }, { audio: true, video: false })
   );
@@ -55,29 +56,34 @@ const LittleForestContainer = () => {
     isLoaded
   );
 
-  if (!isLoaded) {
-    return null;
-  }
-
   return (
     <>
-      <GameManual imgSrc={manualImage} />
-      <Canvas
-        id="game-layer"
-        ref={game}
-        position="absolute"
-        width={WIDTH}
-        height={HEIGHT}
-      />
-      <Canvas
-        id="background-layer"
-        ref={background}
-        position="absolute"
-        width={WIDTH}
-        height={HEIGHT}
-        bgImage={pickRandom(image.backgrounds).src}
-      />
-      <div>W: 점프 A: 좌 D: 우</div>
+      {isLoaded ? (
+        <Wrapper>
+          {currentMap === 0 && <GameManual imgSrc={manualImage} />}
+          <Canvas
+            id="game-layer"
+            ref={game}
+            position="absolute"
+            width={WIDTH}
+            height={HEIGHT}
+          />
+          <Canvas
+            id="background-layer"
+            ref={background}
+            position="absolute"
+            width={WIDTH}
+            height={HEIGHT}
+            bgImage={image.backgrounds[currentMap].src}
+          />
+          <div>W: 점프 A: 좌 D: 우</div>
+          {/* <audio loop autoPlay={true}>
+            <source src={bgm} type="audio/mpeg" />
+          </audio> */}
+        </Wrapper>
+      ) : (
+        <Loading />
+      )}
     </>
   );
 };

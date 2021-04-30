@@ -54,11 +54,10 @@ class PitchDetector {
   }
 
   gotStream(stream) {
-    this.mediaStreamSource = this.audioContext.createMediaStreamSource(stream);
-    this.mediaStreamSource.connect(this.analyser);
-
     this.analyser = this.audioContext.createAnalyser();
-    this.analyser.fftSize = 2048;
+	  this.analyser.fftSize = 2048;
+
+    this.mediaStreamSource = this.audioContext.createMediaStreamSource(stream);
     this.mediaStreamSource.connect(this.analyser);
     this.updatePitch();
   }
@@ -67,12 +66,8 @@ class PitchDetector {
     if (!toggle) {
       this.sourceNode.stop(0);
       this.sourceNode = null;
-      this.analyser = null;
+      // this.analyser = null;
       this.mediaStreamSource.mediaStream.getTracks()[0].stop();
-
-      if (!window.cancelAnimationFrame) {
-        window.cancelAnimationFrame = window.webkitCancelAnimationFrame;
-      }
 
       window.cancelAnimationFrame(this.rafID);
 
@@ -180,10 +175,6 @@ class PitchDetector {
     this.analyser.getFloatTimeDomainData(this.buf);
 
     const ac = this.autoCorrelate(this.buf, this.audioContext.sampleRate);
-
-    if (!window.requestAnimationFrame) {
-      window.requestAnimationFrame = window.webkitRequestAnimationFrame;
-    }
 
     this.rafID = window.requestAnimationFrame(this.updatePitch.bind(this));
 

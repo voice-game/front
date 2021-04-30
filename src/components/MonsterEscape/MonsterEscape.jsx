@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef, useCallback } from "react";
+import PropTypes from "prop-types";
 
 import Canvas from "../shared/Canvas/Canvas";
 import getIsCanvasButtonClicked from "../../utils/getIsCanvasButtonClicked";
@@ -7,7 +8,7 @@ import background from "../../images/monsterEscape/backgrounds/background.png";
 const FPS = 36;
 const GOAL_DISTANCE = 3;
 const TIME_LEFT_TO_RIGHT = 10;
-const TIME_TO_TO_BOTTOM = 5;
+const TIME_TOP_TO_BOTTOM = 5;
 const SPEED_STEP = 0.5;
 const VOLUME_STEP = 0.5;
 
@@ -20,9 +21,10 @@ const MonsterEscape = ({
   volumeMeter,
   socket,
   roomId,
+  otherPlayers,
 }) => {
   const grndSpd = canvasWidth / (FPS * TIME_LEFT_TO_RIGHT);
-  const verticalSpd = canvasHeight / (FPS * TIME_TO_TO_BOTTOM);
+  const verticalSpd = canvasHeight / (FPS * TIME_TOP_TO_BOTTOM);
 
   const canvasRef = useRef(null);
   const animationIdRef = useRef(null);
@@ -37,63 +39,118 @@ const MonsterEscape = ({
   const [speed, setSpeed] = useState(1);
   const [volThreshold, setVolThreshold] = useState(3);
 
-  const handleControlBox = useCallback((ev) => {
-    const controlBox = gameElement.controlBox;
+  const handleControlBox = useCallback(
+    (ev) => {
+      const controlBox = gameElement.controlBox;
 
-    const { playBtnPosX, playBtnPosY, playBtnWidth, playBtnHeight } = controlBox;
-    const { upBtnPosX, upBtnPosY, upBtnWidth, upBtnHeight } = controlBox;
-    const { downBtnPosX, downBtnPosY, downBtnWidth, downBtnHeight } = controlBox;
-    const { plusBtnPosX, plusBtnPosY, plusBtnWidth, plusBtnHeight } = controlBox;
-    const { minusBtnPosX, minusBtnPosY, minusBtnWidth, minusBtnHeight } = controlBox;
+      const {
+        playBtnPosX,
+        playBtnPosY,
+        playBtnWidth,
+        playBtnHeight,
+      } = controlBox;
+      const { upBtnPosX, upBtnPosY, upBtnWidth, upBtnHeight } = controlBox;
+      const {
+        downBtnPosX,
+        downBtnPosY,
+        downBtnWidth,
+        downBtnHeight,
+      } = controlBox;
+      const {
+        plusBtnPosX,
+        plusBtnPosY,
+        plusBtnWidth,
+        plusBtnHeight,
+      } = controlBox;
+      const {
+        minusBtnPosX,
+        minusBtnPosY,
+        minusBtnWidth,
+        minusBtnHeight,
+      } = controlBox;
 
-    const clickedPosX = ev.nativeEvent.offsetX;
-    const clickedPosY = ev.nativeEvent.offsetY;
+      const clickedPosX = ev.nativeEvent.offsetX;
+      const clickedPosY = ev.nativeEvent.offsetY;
 
-    const clickedInfo = [clickedPosX, clickedPosY];
-    const playBtnInfo = [playBtnPosX, playBtnPosY, playBtnWidth, playBtnHeight];
-    const upBtnInfo = [upBtnPosX, upBtnPosY, upBtnWidth, upBtnHeight];
-    const downBtnInfo = [downBtnPosX, downBtnPosY, downBtnWidth, downBtnHeight];
-    const plusBtnInfo = [plusBtnPosX, plusBtnPosY, plusBtnWidth, plusBtnHeight];
-    const minusBtnInfo = [minusBtnPosX, minusBtnPosY, minusBtnWidth, minusBtnHeight];
+      const clickedInfo = [clickedPosX, clickedPosY];
+      const playBtnInfo = [
+        playBtnPosX,
+        playBtnPosY,
+        playBtnWidth,
+        playBtnHeight,
+      ];
+      const upBtnInfo = [upBtnPosX, upBtnPosY, upBtnWidth, upBtnHeight];
+      const downBtnInfo = [
+        downBtnPosX,
+        downBtnPosY,
+        downBtnWidth,
+        downBtnHeight,
+      ];
+      const plusBtnInfo = [
+        plusBtnPosX,
+        plusBtnPosY,
+        plusBtnWidth,
+        plusBtnHeight,
+      ];
+      const minusBtnInfo = [
+        minusBtnPosX,
+        minusBtnPosY,
+        minusBtnWidth,
+        minusBtnHeight,
+      ];
 
-    const isPlayBtnClicked = getIsCanvasButtonClicked(clickedInfo, playBtnInfo);
-    const isUpBtnClicked = getIsCanvasButtonClicked(clickedInfo, upBtnInfo);
-    const isDownBtnClicked = getIsCanvasButtonClicked(clickedInfo, downBtnInfo);
-    const isPlusBtnClicked = getIsCanvasButtonClicked(clickedInfo, plusBtnInfo);
-    const isMinusBtnClicked = getIsCanvasButtonClicked(clickedInfo, minusBtnInfo);
+      const isPlayBtnClicked = getIsCanvasButtonClicked(
+        clickedInfo,
+        playBtnInfo
+      );
+      const isUpBtnClicked = getIsCanvasButtonClicked(clickedInfo, upBtnInfo);
+      const isDownBtnClicked = getIsCanvasButtonClicked(
+        clickedInfo,
+        downBtnInfo
+      );
+      const isPlusBtnClicked = getIsCanvasButtonClicked(
+        clickedInfo,
+        plusBtnInfo
+      );
+      const isMinusBtnClicked = getIsCanvasButtonClicked(
+        clickedInfo,
+        minusBtnInfo
+      );
 
-    if (isPlayBtnClicked) {
-      if (isPlay && isFinished) {
-        myDataRef.current.normDistance = 0;
-        socket.emit("monsterescape-restart", roomId);
-      } else if (isPlay && !isFinished) {
-        setIsInitGame(false);
-      } else {
-        socket.emit("monsterescape-start", roomId);
+      if (isPlayBtnClicked) {
+        if (isPlay && isFinished) {
+          myDataRef.current.normDistance = 0;
+          socket.emit("monsterescape-restart", roomId);
+        } else if (isPlay && !isFinished) {
+          setIsInitGame(false);
+        } else {
+          socket.emit("monsterescape-start", roomId);
+        }
       }
-    }
 
-    if (isUpBtnClicked) {
-      setSpeed(speed + SPEED_STEP);
-    } else if (isDownBtnClicked) {
-      setSpeed(Math.max(SPEED_STEP, speed - SPEED_STEP));
-    }
+      if (isUpBtnClicked) {
+        setSpeed(speed + SPEED_STEP);
+      } else if (isDownBtnClicked) {
+        setSpeed(Math.max(SPEED_STEP, speed - SPEED_STEP));
+      }
 
-    if (isPlusBtnClicked) {
-      setVolThreshold(volThreshold + VOLUME_STEP);
-    } else if (isMinusBtnClicked) {
-      setVolThreshold(Math.max(VOLUME_STEP, volThreshold - VOLUME_STEP));
-    }
-  }, [
-    isPlay,
-    speed,
-    roomId,
-    socket,
-    setIsInitGame,
-    volThreshold,
-    gameElement.controlBox,
-    isFinished,
-  ]);
+      if (isPlusBtnClicked) {
+        setVolThreshold(volThreshold + VOLUME_STEP);
+      } else if (isMinusBtnClicked) {
+        setVolThreshold(Math.max(VOLUME_STEP, volThreshold - VOLUME_STEP));
+      }
+    },
+    [
+      isPlay,
+      speed,
+      roomId,
+      socket,
+      setIsInitGame,
+      volThreshold,
+      gameElement.controlBox,
+      isFinished,
+    ]
+  );
 
   const socketOn = useCallback(() => {
     socket.on("monsterescape-play", (yourData) => {
@@ -111,7 +168,6 @@ const MonsterEscape = ({
     });
 
     socket.on("monsterescape-finish", () => {
-      console.log("on finish");
       setIsFinished(true);
     });
     return () => {
@@ -122,7 +178,9 @@ const MonsterEscape = ({
   }, [socket, setIsFinished, setIsPlay, setIsInitGame]);
 
   const drawCanvas = useCallback(() => {
-    if (!isInitGame || !volumeMeter) { return };
+    if (!isInitGame || !volumeMeter) {
+      return;
+    }
 
     const ctx = canvasRef.current.getContext("2d");
 
@@ -138,10 +196,12 @@ const MonsterEscape = ({
         yourMonster,
       } = gameElement;
 
-      if (!thenTimeRef.current) { thenTimeRef.current = timeStamp }
+      if (!thenTimeRef.current) {
+        thenTimeRef.current = timeStamp;
+      }
 
       if (timeStamp - thenTimeRef.current <= timeStep) {
-        return animationIdRef.current = requestAnimationFrame(draw);
+        return (animationIdRef.current = requestAnimationFrame(draw));
       }
 
       thenTimeRef.current = timeStamp;
@@ -156,11 +216,13 @@ const MonsterEscape = ({
       const gameStatus = {
         isPlay: isPlay,
         isFinished: isFinished,
-        goalDistance: GOAL_DISTANCE
+        goalDistance: GOAL_DISTANCE,
       };
 
       myMonster.setIsCollision([enemy], FPS, "easy");
-      if (!myMonster.life) { setIsInitGame(false) }
+      if (!myMonster.life) {
+        setIsInitGame(false);
+      }
 
       ctx.clearRect(0, 0, canvasWidth, canvasHeight);
       ground.animate(ctx, speed * grndSpd);
@@ -177,13 +239,19 @@ const MonsterEscape = ({
           normPosY: myMonster.posY / canvasHeight,
           normDistance: myMonster.distance / canvasWidth,
           shieldTime: myMonster.shieldTime,
-          life: myMonster.life
+          life: myMonster.life,
         };
 
         socket.emit("monsterescape-play", roomId, myDataRef?.current);
 
-        if (yourDataRef.current) {
-          yourMonster.animate(ctx, myDataRef.current, yourDataRef.current, singleFrameRef.current);
+        if (yourDataRef.current && otherPlayers.length !== 0) {
+          yourMonster.animate(
+            ctx,
+            myDataRef.current,
+            yourDataRef.current,
+            otherPlayers[0],
+            singleFrameRef.current
+          );
         }
 
         if (myDataRef.current.normDistance >= GOAL_DISTANCE) {
@@ -193,6 +261,16 @@ const MonsterEscape = ({
       } else {
         const monsterSpd = { spdX: 0, spdY: 0 };
         myMonster.animate(ctx, monsterSpd, volumeData, singleFrameRef.current);
+
+        if (otherPlayers.length !== 0) {
+          yourMonster.animate(
+            ctx,
+            0,
+            0,
+            otherPlayers[0],
+            singleFrameRef.current
+          );
+        }
       }
 
       controlBox.animate(ctx, isPlay, speed, volumeData);
@@ -204,7 +282,6 @@ const MonsterEscape = ({
     draw();
 
     return () => cancelAnimationFrame(animationIdRef.current);
-
   }, [
     isPlay,
     speed,
@@ -220,6 +297,7 @@ const MonsterEscape = ({
     roomId,
     isFinished,
     setIsInitGame,
+    otherPlayers,
   ]);
 
   useEffect(socketOn, [socketOn]);
@@ -235,6 +313,18 @@ const MonsterEscape = ({
       bgImage={background}
     />
   );
+};
+
+MonsterEscape.propTypes = {
+  isInitGame: PropTypes.bool.isRequired,
+  setIsInitGame: PropTypes.func.isRequired,
+  gameElement: PropTypes.object.isRequired,
+  canvasWidth: PropTypes.number.isRequired,
+  canvasHeight: PropTypes.number.isRequired,
+  volumeMeter: PropTypes.object,
+  socket: PropTypes.object.isRequired,
+  roomId: PropTypes.string.isRequired,
+  otherPlayers: PropTypes.array.isRequired,
 };
 
 export default MonsterEscape;

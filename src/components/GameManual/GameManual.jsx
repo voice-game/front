@@ -1,5 +1,6 @@
 import React, { useCallback, useState } from "react";
 import styled from "styled-components";
+import PropTypes from "prop-types";
 
 const ModalContainer = styled.div`
   display: ${(props) => (props.isShow ? "block" : "none")};
@@ -38,6 +39,11 @@ const GameManual = ({ imgSrc, onClick }) => {
       <ManualImage src={imgSrc} alt="manual Img" />
     </ModalContainer>
   );
+};
+
+GameManual.propTypes = {
+  imgSrc: PropTypes.string.isRequired,
+  onClick: PropTypes.func,
 };
 
 export default GameManual;

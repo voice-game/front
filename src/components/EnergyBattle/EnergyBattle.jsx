@@ -1,12 +1,14 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useRef } from "react";
 import { useDispatch } from "react-redux";
+import PropTypes from "prop-types";
 
 import Canvas from "../shared/Canvas/Canvas";
 import pickRandom from "../../utils/pickRandom";
-import { gameResultAction } from "../../actions/gameActionCreators";
-import { ROOM_STATUS } from "../../constants/constants";
 import backgroundImages from "../../games/images/energyBattle/backgroundImages";
+import bgm from "../../assets/audio/bgm.mp3";
+import { ROOM_STATUS } from "../../constants/constants";
+import { gameResultAction } from "../../actions/gameActionCreators";
 
 let randomBackground = pickRandom(backgroundImages);
 
@@ -183,8 +185,22 @@ const EnergyBattle = ({
         margin={["20px", "auto", "0", "auto"]}
         bgImage={randomBackground}
       />
+      <audio loop autoPlay={true}>
+        <source src={bgm} type="audio/mpeg" />
+      </audio>
     </>
   );
+};
+
+EnergyBattle.propTypes = {
+  socket: PropTypes.object.isRequired,
+  volumeMeter: PropTypes.object.isRequired,
+  roomId: PropTypes.string.isRequired,
+  player: PropTypes.object.isRequired,
+  roomStatus: PropTypes.string.isRequired,
+  canvasWidth: PropTypes.number.isRequired,
+  canvasHeight: PropTypes.number.isRequired,
+  gameResource: PropTypes.object,
 };
 
 export default EnergyBattle;
