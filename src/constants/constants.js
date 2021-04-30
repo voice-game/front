@@ -19,6 +19,8 @@ export const KEY_CODE = {
   W: 87,
 };
 
+export const ROAD_COLOR = "white";
+
 export const ROOM_STATUS = {
   WAITING: "WAITING",
   READY: "READY",

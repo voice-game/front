@@ -1,3 +1,5 @@
+import { ROAD_COLOR } from "../../constants/constants";
+
 class DotsController {
   constructor(canvasWidth, canvasHeight) {
     this.canvasWidth = canvasWidth;
@@ -17,7 +19,7 @@ class DotsController {
   }
 
   mergeRoadDots(ctx, staticDots, roadDots) {
-    ctx.strokeStyle = "green";
+    ctx.strokeStyle = ROAD_COLOR;
     ctx.lineWidth = 3;
 
     for (const eachRoad of roadDots) {

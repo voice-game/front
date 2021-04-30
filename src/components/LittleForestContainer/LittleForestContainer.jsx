@@ -15,6 +15,7 @@ import Canvas from "../shared/Canvas/Canvas";
 
 import manualImage from "../../images/manuals/manual_littleForest.png";
 import bgm from "../../assets/audio/bgm.mp3";
+import Wrapper from "../shared/Wrapper/Wrapper";
 
 const LittleForestContainer = () => {
   const [currentMap, setCurrentMap] = useState(0);
@@ -58,7 +59,7 @@ const LittleForestContainer = () => {
   return (
     <>
       {isLoaded ? (
-        <div>
+        <Wrapper>
           {currentMap === 0 && <GameManual imgSrc={manualImage} />}
           <Canvas
             id="game-layer"
@@ -79,7 +80,7 @@ const LittleForestContainer = () => {
           {/* <audio loop autoPlay={true}>
             <source src={bgm} type="audio/mpeg" />
           </audio> */}
-        </div>
+        </Wrapper>
       ) : (
         <Loading />
       )}

@@ -58,7 +58,7 @@ class Game {
 
     this.characterController.draw(this.ctx, dots, timeStamp);
 
-    this.interactionController.drawPortal(this.ctx, this.characterController);
+    this.interactionController.drawPortal(this.ctx, this.characterController, timeStamp);
     this.interactionController.drawObstacle(this.ctx, this.characterController);
 
     this.animationFrameId = window.requestAnimationFrame(
