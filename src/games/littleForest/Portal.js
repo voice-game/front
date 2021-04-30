@@ -15,6 +15,8 @@ class Portal {
     this.currentFrame = 0;
     this.frameSpeed = 10;
     this.fpsTime = 1000 / this.frameSpeed;
+
+    this.isPortalCall = false;
   }
 
   draw(ctx, characterController, timeStamp, getNextMap) {
@@ -58,14 +60,21 @@ class Portal {
     const characterY = characterController.posY - 20;
 
     const checkX =
-      this.posX <= characterX &&
-      characterX <= this.posX + this.width;
+      this.dx <= characterX &&
+      characterX <= this.dx + this.dWidth;
     const checkY =
-      this.posY <= characterY &&
-      characterY <= this.posY + this.height;
+      this.dy <= characterY &&
+      characterY <= this.dy + this.dHeight;
 
-    if (checkX && checkY) {
-      getNextMap();
+    if (checkX && checkY && !this.isPortalCall) {
+      this.isPortalCall = true;
+      characterController.isInPortal = true;
+      characterController.character.isInPortal = true;
+
+
+      setTimeout(() => {
+        getNextMap();
+      }, 3000);
     }
   }
 }

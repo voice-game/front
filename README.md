@@ -15,7 +15,7 @@ voice game은 플레이어의 음성을 인식하여 플레이 할 수 있는 3�
 <br>
 
 ## 📖 Contents
----
+
 - 🤔 [Motivation](#-Motivation)
 - 🥁 [Preview](#-Preview)
 - 📆 [Schedule](#-Schedule)
@@ -25,7 +25,7 @@ voice game은 플레이어의 음성을 인식하여 플레이 할 수 있는 3�
 <br>
 
 ## 🤔 Motivation
----
+
 팀원 모두 게임 제작에 대한 흥미가 있어 게임 제작을 결정하게 되었습니다.
 
 서비스되고 있는 게임 중 음성인식 기반의 게임에 영감을 받아  
@@ -34,7 +34,7 @@ voice game은 플레이어의 음성을 인식하여 플레이 할 수 있는 3�
 <br>
 
 ## 🥁 Preview
----
+
 <p>
   <img src="./readmeAssets/littleForest_gif.gif" alt="LittleForest" width="32%" />
   <img src="./readmeAssets/monsterEscape_gif.gif" alt="MonsterEscape" width="32%" />
@@ -44,7 +44,7 @@ voice game은 플레이어의 음성을 인식하여 플레이 할 수 있는 3�
 <br>
 
 ## 📆 Schedule
----
+
 2021.04.12 - 04.30 / 3주
 
 - 1주차 - 프로젝트 주제 선정, Mock-Up 제작, DB-Schema 설계, 구현 가능 여부 검토
@@ -73,7 +73,7 @@ voice game은 플레이어의 음성을 인식하여 플레이 할 수 있는 3�
 <br>
 
 ## 😃 Installation
----
+
 Git Hub를 통해 플레이 해보실 수 있습니다.
 
 ### Front
@@ -91,8 +91,6 @@ $ npm start
 ```
 
 ## 🧗‍♀️ Challenge
-
----
 
 Audio Context (Web Api)
 
@@ -119,16 +117,14 @@ AWS
 
 ## ✍️ History
 
----
+
 
 ## Deploy
 
----
+
 
 - AWS
 
 - Netlify
 
 ## ✨ Contributor
-
----
