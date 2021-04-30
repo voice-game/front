@@ -6,7 +6,7 @@ class Game {
   constructor(ref, {
     pitchDetectorRef,
     staticDots,
-    interactionPoints,
+    interactionList,
     getNextMap,
     images,
   }) {
@@ -30,7 +30,7 @@ class Game {
     this.interactionController = new InteractionController(
       this.height,
       pitchDetectorRef,
-      interactionPoints,
+      interactionList,
       images
     );
 
@@ -58,7 +58,7 @@ class Game {
     this.dotsController.mergePadDots(dots, padDots);
 
     this.interactionController.drawPortal(this.ctx, this.characterController, timeStamp, this.getNextMap);
-    this.interactionController.drawObstacle(this.ctx, this.characterController);
+    this.interactionController.drawObstacle(this.ctx, this.characterController, timeStamp);
 
     this.characterController.draw(this.ctx, dots, timeStamp);
 

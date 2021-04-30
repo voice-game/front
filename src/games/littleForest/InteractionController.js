@@ -8,7 +8,7 @@ class InteractionController {
   constructor(
     canvasHeight,
     pitchDetectorRef,
-    interactions,
+    interactionList,
     images,
   ) {
     this.canvasHeight = canvasHeight;
@@ -18,47 +18,47 @@ class InteractionController {
 
     this.images = images;
 
-    this.interactions = this.setInteractions(interactions);
+    this.interactionList = this.setInteractionList(interactionList);
   }
 
-  setInteractions(interactions) {
-    const points = {
+  setInteractionList(interactionList) {
+    const myInteractionList = {
       [IMAGE_TYPE.PAD]: [],
       [IMAGE_TYPE.ROAD]: [],
       [IMAGE_TYPE.OBSTACLE]: [],
     };
 
-    for (const point of interactions) {
-      switch (point.type) {
+    for (const interaction of interactionList) {
+      switch (interaction.type) {
         case IMAGE_TYPE.ROAD:
-          points[IMAGE_TYPE.ROAD].push(
+          myInteractionList[IMAGE_TYPE.ROAD].push(
             new Road(
               this.canvasHeight,
               this.pitchDetectorRef,
-              point,
+              interaction,
               this.images,
             )
           );
 
           break;
         case IMAGE_TYPE.PAD:
-          points[IMAGE_TYPE.PAD].push(
+          myInteractionList[IMAGE_TYPE.PAD].push(
             new Pad(
               this.pitchDetectorRef,
-              point,
+              interaction,
               this.images,
             )
           );
 
           break;
         case IMAGE_TYPE.OBSTACLE:
-          points[IMAGE_TYPE.OBSTACLE].push(
-            new Obstacle(point)
+          myInteractionList[IMAGE_TYPE.OBSTACLE].push(
+            new Obstacle(interaction, this.images.obstacles)
           );
 
           break;
         case IMAGE_TYPE.PORTAL:
-          points[IMAGE_TYPE.PORTAL] = new Portal(point, this.images.portal);
+          myInteractionList[IMAGE_TYPE.PORTAL] = new Portal(interaction, this.images.portal);
 
           break;
         default:
@@ -66,13 +66,13 @@ class InteractionController {
       }
     }
 
-    return points;
+    return myInteractionList;
   }
 
   getRoadDots(ctx, characterX, characterY) {
     const roadDots = [];
 
-    for (const road of this.interactions[IMAGE_TYPE.ROAD]) {
+    for (const road of this.interactionList[IMAGE_TYPE.ROAD]) {
       roadDots.push(road.draw(ctx, characterX, characterY));
     }
 
@@ -82,21 +82,21 @@ class InteractionController {
   getPadDots(ctx, characterController) {
     const padDots = [];
 
-    for (const pad of this.interactions[IMAGE_TYPE.PAD]) {
+    for (const pad of this.interactionList[IMAGE_TYPE.PAD]) {
       padDots.push(pad.draw(ctx, characterController));
     }
 
     return padDots;
   }
 
-  drawObstacle(ctx, characterController) {
-    for (const obstacle of this.interactions[IMAGE_TYPE.OBSTACLE]) {
-      obstacle.draw(ctx, characterController);
+  drawObstacle(ctx, characterController, timeStamp) {
+    for (const obstacle of this.interactionList[IMAGE_TYPE.OBSTACLE]) {
+      obstacle.draw(ctx, characterController, timeStamp);
     }
   }
 
   drawPortal(ctx, characterController, timeStamp, getNextMap) {
-    this.interactions[IMAGE_TYPE.PORTAL].draw(ctx, characterController, timeStamp, getNextMap);
+    this.interactionList[IMAGE_TYPE.PORTAL].draw(ctx, characterController, timeStamp, getNextMap);
   }
 }
 

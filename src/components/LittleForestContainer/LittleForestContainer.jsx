@@ -30,7 +30,7 @@ const LittleForestContainer = () => {
   const WIDTH = TILE_SIZE * 43;
   const HEIGHT = TILE_SIZE * 19;
 
-  const { staticDots, staticMap, interactionPoints } = new GameMap(
+  const { staticDots, staticMap, interactionList } = new GameMap(
     TILE_SIZE,
     WIDTH,
     HEIGHT,
@@ -42,7 +42,7 @@ const LittleForestContainer = () => {
     {
       pitchDetectorRef,
       staticDots,
-      interactionPoints,
+      interactionList,
       getNextMap,
       images: image,
     },

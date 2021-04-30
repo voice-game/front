@@ -8,7 +8,7 @@ import { useState } from "react";
 const useNextMap = (mapList) => {
   const [currentMap, setCurrentMap] = useState(0);
 
-  const getNextMap =  () => {
+  const getNextMap = () => {
     if (mapList[currentMap + 1]) {
       setCurrentMap(currentMap + 1);
     }
