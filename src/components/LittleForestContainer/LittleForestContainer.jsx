@@ -14,7 +14,7 @@ import useLoadedImage from "../../hooks/useLoadedImage";
 import Canvas from "../shared/Canvas/Canvas";
 
 import manualImage from "../../images/manuals/manual_littleForest.png";
-import bgm from "../../audio/bgm.mp3";
+import bgm from "../../assets/audio/bgm.mp3";
 import Wrapper from "../shared/Wrapper/Wrapper";
 
 const LittleForestContainer = () => {
