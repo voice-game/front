@@ -14,7 +14,7 @@ import useLoadedImage from "../../hooks/useLoadedImage";
 import Canvas from "../shared/Canvas/Canvas";
 
 import manualImage from "../../images/manuals/manual_littleForest.png";
-import bgm from "../../assets/audio/bgm.mp3";
+import bgm from "../../audio/bgm.mp3";
 import Wrapper from "../shared/Wrapper/Wrapper";
 
 const LittleForestContainer = () => {
@@ -25,7 +25,7 @@ const LittleForestContainer = () => {
   );
 
   const TILE_SIZE = 32;
-  const WIDTH = TILE_SIZE * 35;
+  const WIDTH = TILE_SIZE * 43;
   const HEIGHT = TILE_SIZE * 19;
 
   const { staticDots, staticMap, interactionPoints } = new GameMap(
