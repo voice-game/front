@@ -3,7 +3,6 @@
  * @param {array} clickedInfo List of clicked position in canvas.
  * @param {array} buttonInfo List of button position, width, height in canvas
  */
-
 const getIsCanvasButtonClicked = (clickedInfo, buttonInfo) => {
   const [clickedPosX, clickedPosY] = clickedInfo;
   const [buttonPosX, buttonPosY, buttonWidth, buttonHeight] = buttonInfo;
