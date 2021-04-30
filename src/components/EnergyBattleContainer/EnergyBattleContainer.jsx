@@ -61,7 +61,7 @@ const EnergyBattleContainer = ({
 
   const gameResource = useRef(null);
   const canvasWidth = useRef(document.body.clientWidth * 0.8);
-  const canvasHeight = useRef(document.body.clientWidth * 0.4);
+  const canvasHeight = useRef(document.body.clientWidth * 0.38);
 
   const [volumeMeter, counter, playGame] = usePlayEnergyBattle(
     setRoomStatus,
@@ -87,7 +87,7 @@ const EnergyBattleContainer = ({
 
   useEffect(() => {
     canvasWidth.current = document.body.clientWidth * 0.8;
-    canvasHeight.current = document.body.clientWidth * 0.4;
+    canvasHeight.current = document.body.clientWidth * 0.38;
     socket.on("start-game", playGame);
     socket.on("close-other-modal", () => {
       setIsOtherModalClosed(true);
