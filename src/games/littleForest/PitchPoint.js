@@ -12,7 +12,9 @@ class PitchPoint {
     ctx.drawImage(
       this.img,
       this.posX,
-      this.posY + (this.range - this.img.height)
+      this.posY + (this.range - 40),
+      40,
+      40
     );
     ctx.restore();
   }
