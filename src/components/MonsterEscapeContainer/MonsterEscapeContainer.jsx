@@ -17,7 +17,7 @@ import gameMap from "../../games/monsterEscape/gameMap.json";
 import getMedia from "../../utils/getMedia";
 import VolumeMeter from "../../utils/VolumeMeter";
 import manualImage from "../../images/manuals/manual_monsterEscape.png";
-import bgm from "../../assets/audio/bgm.mp3";
+import bgm from "../../assets/audio/bgm_monsterEscape.mp3";
 
 const FPS = 36;
 const ASPECT_RATIO = 9 / 16;

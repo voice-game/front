@@ -75,7 +75,7 @@ const GameRoomCard = ({
 
 GameRoomCard.propTypes = {
   room: PropTypes.shape({
-    players: PropTypes.arrayOf(PropTypes.string).isRequired,
+    players: PropTypes.array.isRequired,
     createdAt: PropTypes.string.isRequired,
     status: PropTypes.string.isRequired,
     roomNumber: PropTypes.number,

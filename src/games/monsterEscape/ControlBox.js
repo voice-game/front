@@ -108,7 +108,7 @@ class ControlBox {
     const volumePosX = volBarPosX + 0.02 * ctrlBoxWidth;
     const volDisp = Math.round(10 * volume) / 10;
 
-    const volDispBar = volBarHeight * (volDisp / MAX_VOL_DISP);
+    const volDispBar = Math.max(MAX_VOL_DISP, volBarHeight * (volDisp / MAX_VOL_DISP));
     const settingVolDispBar = volBarHeight * (volThreshold / MAX_VOL_DISP);
 
     this.playBtnHeight = playBtnHeight;
@@ -163,7 +163,7 @@ class ControlBox {
     ctx.lineWidth = 2;
     ctx.strokeRect(volBarPosX, volBarPosY, volBarWidth, volBarHeight);
     ctx.fillStyle = "black";
-    ctx.fillRect(volBarPosX, volBarPosY + volBarHeight - volDispBar, volBarWidth, volDispBar);
+    ctx.fillRect(volBarPosX, volBarPosY + Math.max(0, volBarHeight - volDispBar), volBarWidth, volDispBar);
 
     ctx.beginPath();
     ctx.lineWidth = 3;

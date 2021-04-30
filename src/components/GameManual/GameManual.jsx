@@ -17,7 +17,7 @@ const ModalContainer = styled.div`
 
 const ManualImage = styled.img`
   display: block;
-  width: 50%;
+  width: 40%;
   max-width: 1000px;
   min-width: 600px;
   margin: 0 auto;

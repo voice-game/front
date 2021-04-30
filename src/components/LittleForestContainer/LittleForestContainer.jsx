@@ -14,7 +14,6 @@ import useLoadedImage from "../../hooks/useLoadedImage";
 import Canvas from "../shared/Canvas/Canvas";
 
 import manualImage from "../../images/manuals/manual_littleForest.png";
-import bgm from "../../assets/audio/bgm.mp3";
 import Wrapper from "../shared/Wrapper/Wrapper";
 
 const LittleForestContainer = () => {
@@ -77,9 +76,9 @@ const LittleForestContainer = () => {
             bgImage={image.backgrounds[currentMap].src}
           />
           <div>W: 점프 A: 좌 D: 우</div>
-          {/* <audio loop autoPlay={true}>
+          <audio loop autoPlay={true}>
             <source src={bgm} type="audio/mpeg" />
-          </audio> */}
+          </audio>
         </Wrapper>
       ) : (
         <Loading />
