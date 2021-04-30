@@ -53,17 +53,18 @@ const GameRoom = () => {
     }
   }, []);
 
-  const handlePlayerDisconnect = useCallback(async (playerData) => {
+  const handleOtherDisconnect = useCallback((playerData) => {
     if (playerData._id === currentRoom?.createdBy) {
       history.push({
         pathname: `/games/${gameTitle}`,
         state: "방장이 퇴장하였습니다.",
       });
     } else {
-      await dispatch(changeRoomStatus(gameTitle, roomId, "Enter"));
       const updatedPlayers = otherPlayers.filter(
         (player) => player._id !== playerData._id
       );
+
+      dispatch(changeRoomStatus(gameTitle, roomId, "Enter"));
       setOtherPlayers(updatedPlayers);
     }
   }, []);
@@ -79,11 +80,14 @@ const GameRoom = () => {
 
   useEffect(() => {
     setInitialRoom();
+    if (gameTitle === "littleForest") {
+      dispatch(changeRoomStatus(gameTitle, roomId, "Full"));
+    }
   }, [setInitialRoom]);
 
   useEffect(() => {
     socket.on("player-connected", handlePlayerConnect);
-    socket.on("player-disconnected", handlePlayerDisconnect);
+    socket.on("player-disconnected", handleOtherDisconnect);
 
     return () => {
       socket.emit("leave-player", playerData);

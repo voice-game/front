@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { HashRouter as Router, Route, Switch } from "react-router-dom";
+import { Route, Switch, useHistory } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import PropTypes from "prop-types";
 
@@ -17,63 +17,68 @@ const App = ({ authService }) => {
     (state) => state.authReducer
   );
   const dispatch = useDispatch();
+  const history = useHistory();
 
   useEffect(() => {
     if (!isUnAuthMode) {
       dispatch(checkAuthorization());
     }
-  }, [dispatch, isUnAuthMode]);
+
+    if (window.performance) {
+      if (performance.navigation.type === 1) {
+        history.push("/");
+      }
+    }
+  }, [dispatch, history, isUnAuthMode]);
 
   return (
-    <Router>
-      <Switch>
-        {!isUnAuthMode && !isAuthorized ? (
-          <Login authService={authService} />
-        ) : (
-          <>
-            <Route exact path="/">
-              <GameList />
-            </Route>
+    <Switch>
+      {!isUnAuthMode && !isAuthorized ? (
+        <Login authService={authService} />
+      ) : (
+        <>
+          <Route exact path="/">
+            <GameList />
+          </Route>
 
-            <Route exact path="/games">
-              <GameList />
-            </Route>
+          <Route exact path="/games">
+            <GameList />
+          </Route>
 
-            <Route exact path="/games/littleForest">
-              <GameRoomList />
-            </Route>
+          <Route exact path="/games/littleForest">
+            <GameRoomList />
+          </Route>
 
-            <Route path="/games/littleForest/:roomId">
-              <GameRoom />
-            </Route>
+          <Route path="/games/littleForest/:roomId">
+            <GameRoom />
+          </Route>
 
-            <Route exact path="/games/monsterEscape">
-              <GameRoomList />
-            </Route>
+          <Route exact path="/games/monsterEscape">
+            <GameRoomList />
+          </Route>
 
-            <Route path="/games/monsterEscape/:roomId">
-              <GameRoom />
-            </Route>
+          <Route path="/games/monsterEscape/:roomId">
+            <GameRoom />
+          </Route>
 
-            <Route exact path="/games/energyBattle">
-              <GameRoomList />
-            </Route>
+          <Route exact path="/games/energyBattle">
+            <GameRoomList />
+          </Route>
 
-            <Route path="/games/energyBattle/:roomId">
-              <GameRoom />
-            </Route>
+          <Route path="/games/energyBattle/:roomId">
+            <GameRoom />
+          </Route>
 
-            <Route path="/logout">
-              <Logout authService={authService} />
-            </Route>
+          <Route path="/logout">
+            <Logout authService={authService} />
+          </Route>
 
-            <Route path="/error">
-              <ErrorPage />
-            </Route>
-          </>
-        )}
-      </Switch>
-    </Router>
+          <Route path="/error">
+            <ErrorPage />
+          </Route>
+        </>
+      )}
+    </Switch>
   );
 };
 

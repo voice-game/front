@@ -1,5 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom";
+import { HashRouter as Router } from "react-router-dom";
 import { createStore, applyMiddleware } from "redux";
 import { Provider } from "react-redux";
 import thunk from "redux-thunk";
@@ -20,7 +21,9 @@ const authService = new AuthService();
 
 ReactDOM.render(
   <Provider store={store}>
-    <App authService={authService} />
+    <Router>
+      <App authService={authService} />
+    </Router>
   </Provider>,
   document.getElementById("root")
 );
