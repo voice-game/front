@@ -13,23 +13,23 @@ class GameMap {
     this.gameMap = {
       staticDots: [],
       staticMap: [],
-      interactionPoints: [],
+      interactionList: [],
     };
 
     this.currentMap = currentMap;
 
     this.fillTiles();
-    this.fillInteractionPoints();
+    this.fillInteractionList();
   }
 
-  fillInteractionPoints() {
-    for (const interactionPoint of mapList[this.currentMap].interactionPoints) {
-      this.fillInteractionPointsHelper(...interactionPoint);
+  fillInteractionList() {
+    for (const interactionPoint of mapList[this.currentMap].interactionList) {
+      this.fillInteractionListHelper(...interactionPoint);
     }
   }
 
-  fillInteractionPointsHelper(type, x, y, width, height, range, pointIndex, padIndex) {
-    const point = {
+  fillInteractionListHelper(type, x, y, width, height, range, pointerIndex, padIndex) {
+    const interaction = {
       type,
       posX: x * this.tileWidth,
       posY: y * this.tileHeight,
@@ -39,32 +39,33 @@ class GameMap {
 
     switch (type) {
       case IMAGE_TYPE.ROAD:
-        point.pointer = {
-          index: pointIndex,
+        interaction.pointer = {
+          index: pointerIndex,
           range: this.tileWidth * range,
         };
 
         break;
       case IMAGE_TYPE.PAD:
-        point.pointer = {
-          index: pointIndex,
+        interaction.pointer = {
+          index: pointerIndex,
           range: this.tileWidth,
         };
-        point.pad = {
+        interaction.pad = {
           index: padIndex,
           range: this.tileWidth * range,
         };
 
         break;
       case IMAGE_TYPE.OBSTACLE:
-        point.range = this.tileWidth * range;
+        interaction.range = this.tileWidth * range;
+        interaction.index = pointerIndex;
 
         break;
       default:
         break;
     }
 
-    this.gameMap.interactionPoints.push(point);
+    this.gameMap.interactionList.push(interaction);
   }
 
   fillTiles() {

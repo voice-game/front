@@ -11,6 +11,9 @@ import LittleForestContainer from "../LittleForestContainer/LittleForestContaine
 
 import useSetInitialRoom from "../../hooks/useSetInitialRoom";
 import useImageLoad from "../../hooks/useImageLoad";
+import energyBattleBGM from "../../assets/audio/bgm_energyBattle.mp3";
+import littleForestBGM from "../../assets/audio/bgm_littleForest.mp3";
+import monsterEscapeBGM from "../../assets/audio/bgm_monsterEscape.mp3";
 
 import {
   leaveRoomAction,
@@ -40,6 +43,12 @@ const GameRoom = () => {
     (room) => room.roomId === roomId
   )[0];
 
+  const bgm = {
+    energyBattle: energyBattleBGM,
+    monsterEscape: monsterEscapeBGM,
+    littleForest: littleForestBGM,
+  };
+
   const setInitialRoom = useSetInitialRoom(socket, setOtherPlayers);
   useImageLoad("gameManuals");
 
@@ -53,27 +62,29 @@ const GameRoom = () => {
     }
   }, []);
 
-  const handleOtherDisconnect = useCallback((playerData) => {
-    if (playerData._id === currentRoom?.createdBy) {
+  const handleOtherDisconnect = useCallback((disconnectedPlayer) => {
+    if (disconnectedPlayer._id === currentRoom?.createdBy) {
+      dispatch(leaveRoomAction(gameTitle, roomId, playerData));
+
       history.push({
         pathname: `/games/${gameTitle}`,
         state: "방장이 퇴장하였습니다.",
       });
     } else {
       const updatedPlayers = otherPlayers.filter(
-        (player) => player._id !== playerData._id
+        (player) => player._id !== disconnectedPlayer._id
       );
 
+      dispatch(leaveRoomAction(gameTitle, roomId, disconnectedPlayer));
       dispatch(changeRoomStatus(gameTitle, roomId, "Enter"));
       setOtherPlayers(updatedPlayers);
     }
   }, []);
 
-  const handlePlayerLeave = useCallback(async () => {
+  const handlePlayerLeave = useCallback(() => {
     if (playerData._id === currentRoom?.createdBy) {
-      await dispatch(deleteRoomAction(gameTitle, roomId, playerData));
+      dispatch(deleteRoomAction(gameTitle, roomId, playerData));
     } else {
-      dispatch(leaveRoomAction(gameTitle, roomId, playerData));
       history.push(`/games/${gameTitle}`);
     }
   }, []);
@@ -99,7 +110,7 @@ const GameRoom = () => {
 
   return (
     <>
-      <GameOption />
+      <GameOption bgm={bgm[gameTitle]} />
       {gameTitle === "energyBattle" && (
         <EnergyBattleContainer
           socket={socket}
