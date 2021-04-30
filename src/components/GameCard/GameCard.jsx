@@ -3,12 +3,12 @@ import styled from "styled-components";
 import PropTypes from "prop-types";
 
 const GameCardContainer = styled.div`
-  height: 40vh;
-  padding: 30px;
+  height: 35vh;
+  padding-top: 2vh;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
   background-color: #34495e;
   border-radius: 2px;
   box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
@@ -25,7 +25,7 @@ const GameThumbnailContainer = styled.div`
   justify-content: center;
   align-items: flex-start;
   max-width: 30vw;
-  max-height: 30vh;
+  max-height: 25vh;
 `;
 
 const GameThumbnailGif = styled.img`
