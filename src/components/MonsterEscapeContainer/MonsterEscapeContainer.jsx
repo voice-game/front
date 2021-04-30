@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
+import PropTypes from "prop-types";
 
 import GameManual from "../GameManual/GameManual";
 import MonsterEscape from "../MonsterEscape/MonsterEscape";
@@ -16,6 +17,7 @@ import gameMap from "../../games/monsterEscape/gameMap.json";
 import getMedia from "../../utils/getMedia";
 import VolumeMeter from "../../utils/VolumeMeter";
 import manualImage from "../../images/manuals/manual_monsterEscape.png";
+import bgm from "../../assets/audio/bgm.mp3";
 
 const FPS = 36;
 const ASPECT_RATIO = 9 / 16;
@@ -54,9 +56,24 @@ const MonsterEscapeContainer = ({ socket, roomId, player, otherPlayers }) => {
     if (!isLoaded) {
       return;
     }
-    const ceilingMap = new GameMap("ceiling", canvasWidth, canvasHeight, image.obstacles.ceiling);
-    const groundMap = new GameMap("ground", canvasWidth, canvasHeight, image.obstacles.ground);
-    const enemyMap = new GameMap("enemy", canvasWidth, canvasHeight, image.obstacles.enemy);
+    const ceilingMap = new GameMap(
+      "ceiling",
+      canvasWidth,
+      canvasHeight,
+      image.obstacles.ceiling
+    );
+    const groundMap = new GameMap(
+      "ground",
+      canvasWidth,
+      canvasHeight,
+      image.obstacles.ground
+    );
+    const enemyMap = new GameMap(
+      "enemy",
+      canvasWidth,
+      canvasHeight,
+      image.obstacles.enemy
+    );
 
     enemyMap.setGameMap(gameMap.enemy);
     groundMap.setGameMap(gameMap.ground);
@@ -99,12 +116,22 @@ const MonsterEscapeContainer = ({ socket, roomId, player, otherPlayers }) => {
             roomId={roomId}
             otherPlayers={otherPlayers}
           />
+          <audio loop autoPlay={true}>
+            <source src={bgm} type="audio/mpeg" />
+          </audio>
         </>
       ) : (
         <Loading />
       )}
     </>
   );
+};
+
+MonsterEscapeContainer.propTypes = {
+  socket: PropTypes.object.isRequired,
+  roomId: PropTypes.string.isRequired,
+  player: PropTypes.object.isRequired,
+  otherPlayers: PropTypes.array.isRequired,
 };
 
 export default MonsterEscapeContainer;

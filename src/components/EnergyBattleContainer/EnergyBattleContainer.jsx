@@ -1,6 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect, useCallback, useRef } from "react";
 import styled from "styled-components";
+import PropTypes from "prop-types";
 
 import EnergyBattle from "../EnergyBattle/EnergyBattle";
 import EnergyBattleController from "../EnergyBattleController/EnergyBattleController";
@@ -60,7 +61,7 @@ const EnergyBattleContainer = ({
 
   const gameResource = useRef(null);
   const canvasWidth = useRef(document.body.clientWidth * 0.8);
-  const canvasHeight = useRef(document.body.clientWidth * 0.4);
+  const canvasHeight = useRef(document.body.clientWidth * 0.38);
 
   const [volumeMeter, counter, playGame] = usePlayEnergyBattle(
     setRoomStatus,
@@ -86,7 +87,7 @@ const EnergyBattleContainer = ({
 
   useEffect(() => {
     canvasWidth.current = document.body.clientWidth * 0.8;
-    canvasHeight.current = document.body.clientWidth * 0.4;
+    canvasHeight.current = document.body.clientWidth * 0.38;
     socket.on("start-game", playGame);
     socket.on("close-other-modal", () => {
       setIsOtherModalClosed(true);
@@ -160,6 +161,14 @@ const EnergyBattleContainer = ({
       )}
     </>
   );
+};
+
+EnergyBattleContainer.propTypes = {
+  socket: PropTypes.object.isRequired,
+  roomId: PropTypes.string.isRequired,
+  roomNumber: PropTypes.number.isRequired,
+  player: PropTypes.object.isRequired,
+  otherPlayers: PropTypes.array,
 };
 
 export default EnergyBattleContainer;

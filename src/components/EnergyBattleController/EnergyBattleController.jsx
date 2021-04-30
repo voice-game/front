@@ -1,5 +1,6 @@
 import React from "react";
 import styled from "styled-components";
+import PropTypes from "prop-types";
 
 import Button from "../shared/Button/Button";
 import { ROOM_STATUS } from "../../constants/constants";
@@ -20,6 +21,12 @@ const EnergyBattleController = ({ counter, roomStatus, onClick }) => {
       )}
     </>
   );
+};
+
+EnergyBattleController.propTypes = {
+  counter: PropTypes.string.isRequired,
+  roomStatus: PropTypes.string.isRequired,
+  onClick: PropTypes.func.isRequired,
 };
 
 export default EnergyBattleController;

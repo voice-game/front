@@ -2,8 +2,10 @@ import { useEffect, useCallback } from "react";
 import { useDispatch } from "react-redux";
 import { playerMicOn } from "../actions/authActionCreators";
 import getMedia from "../utils/getMedia";
+
 /**
- * function for confirm mic input
+ *
+ * @param {func} showErrorMessage
  *
  */
 const useMicInput = (showErrorMessage) => {

@@ -1,6 +1,7 @@
 import React, { useCallback } from "react";
 import { useDispatch } from "react-redux";
 import styled from "styled-components";
+import PropTypes from "prop-types";
 import { v4 as uuidv4 } from "uuid";
 
 import ErrorMessage from "../ErrorMessage/ErrorMessage";
@@ -80,6 +81,10 @@ const Login = ({ authService }) => {
       </Button>
     </LoginContainer>
   );
+};
+
+Login.propTypes = {
+  authService: PropTypes.object.isRequired,
 };
 
 export default Login;

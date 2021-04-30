@@ -1,6 +1,7 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
+import PropTypes from "prop-types";
 import styled from "styled-components";
 
 import useErrorMessage from "../../hooks/useErrorMessage";
@@ -66,6 +67,10 @@ const Logout = ({ authService }) => {
       </Button>
     </LogoutContainer>
   );
+};
+
+Logout.propTypes = {
+  authService: PropTypes.object.isRequired,
 };
 
 export default Logout;

@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef, useCallback } from "react";
+import PropTypes from "prop-types";
 
 import Canvas from "../shared/Canvas/Canvas";
 import getIsCanvasButtonClicked from "../../utils/getIsCanvasButtonClicked";
@@ -20,9 +21,8 @@ const MonsterEscape = ({
   volumeMeter,
   socket,
   roomId,
-  otherPlayers
+  otherPlayers,
 }) => {
-  console.log(otherPlayers)
   const grndSpd = canvasWidth / (FPS * TIME_LEFT_TO_RIGHT);
   const verticalSpd = canvasHeight / (FPS * TIME_TOP_TO_BOTTOM);
 
@@ -244,7 +244,7 @@ const MonsterEscape = ({
 
         socket.emit("monsterescape-play", roomId, myDataRef?.current);
 
-        if (yourDataRef.current && otherPlayers.length !== 0 ) {
+        if (yourDataRef.current && otherPlayers.length !== 0) {
           yourMonster.animate(
             ctx,
             myDataRef.current,
@@ -263,7 +263,13 @@ const MonsterEscape = ({
         myMonster.animate(ctx, monsterSpd, volumeData, singleFrameRef.current);
 
         if (otherPlayers.length !== 0) {
-          yourMonster.animate(ctx, 0, 0, otherPlayers[0], singleFrameRef.current);
+          yourMonster.animate(
+            ctx,
+            0,
+            0,
+            otherPlayers[0],
+            singleFrameRef.current
+          );
         }
       }
 
@@ -291,7 +297,7 @@ const MonsterEscape = ({
     roomId,
     isFinished,
     setIsInitGame,
-    otherPlayers
+    otherPlayers,
   ]);
 
   useEffect(socketOn, [socketOn]);
@@ -307,6 +313,18 @@ const MonsterEscape = ({
       bgImage={background}
     />
   );
+};
+
+MonsterEscape.propTypes = {
+  isInitGame: PropTypes.bool.isRequired,
+  setIsInitGame: PropTypes.func.isRequired,
+  gameElement: PropTypes.object.isRequired,
+  canvasWidth: PropTypes.number.isRequired,
+  canvasHeight: PropTypes.number.isRequired,
+  volumeMeter: PropTypes.object,
+  socket: PropTypes.object.isRequired,
+  roomId: PropTypes.string.isRequired,
+  otherPlayers: PropTypes.array.isRequired,
 };
 
 export default MonsterEscape;
