@@ -17,6 +17,7 @@ import makeResource from "../../games/energyBattle/makeResouce";
 import { ROOM_STATUS } from "../../constants/constants";
 
 const GameTitle = styled.h1`
+  margin-top: 2vh;
   margin-bottom: 2vh;
   width: 100%;
   font-size: 3rem;

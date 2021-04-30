@@ -76,9 +76,6 @@ const LittleForestContainer = () => {
             bgImage={image.backgrounds[currentMap].src}
           />
           <div>W: 점프 A: 좌 D: 우</div>
-          <audio loop autoPlay={true}>
-            <source src={bgm} type="audio/mpeg" />
-          </audio>
         </Wrapper>
       ) : (
         <Loading />
