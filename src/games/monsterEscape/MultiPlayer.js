@@ -16,13 +16,13 @@ class MultiPlayer {
 
   animate(ctx, myData, yourData, player, frame) {
     const myNormDistance = myData?.normDistance ?? 0;
-    const { normPosX = 0.47, normPosY = 0.6, normDistance = 0, shieldTime = 0, life = 1 } = yourData;
+    const { normPosY = 0.6, normDistance = 0, shieldTime = 0, life = 1 } = yourData;
 
     let image = this.images.normal;
 
     const gap = image.width / this.fps;
     const distanceGap = (myNormDistance - normDistance) * this.canvasWidth;
-    const posX = normPosX * this.canvasWidth - distanceGap;
+    const posX = (0.5 * this.canvasWidth - 0.5 * this.width) - distanceGap;
     const posY = normPosY * this.canvasHeight;
 
     if (shieldTime) { image = this.images.collision }

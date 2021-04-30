@@ -2,8 +2,6 @@ import firebase from "firebase";
 import firebaseApp from "./firebaseAPIs";
 
 class AuthService {
-  constructor() {}
-
   login(providerName) {
     const authProvider = new firebase.auth[`${providerName}AuthProvider`]();
 
