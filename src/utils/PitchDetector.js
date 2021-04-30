@@ -64,10 +64,10 @@ class PitchDetector {
 
   toggleLiveInput(toggle) {
     if (!toggle) {
-      this.sourceNode.stop(0);
-      this.sourceNode = null;
+      // this.sourceNode.stop(0);
+      // this.sourceNode = null;
       // this.analyser = null;
-      this.mediaStreamSource.mediaStream.getTracks()[0].stop();
+      // this.mediaStreamSource.mediaStream.getTracks()[0].stop();
 
       window.cancelAnimationFrame(this.rafID);
 

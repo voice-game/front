@@ -26,7 +26,7 @@ const LittleForestContainer = () => {
   );
 
   const TILE_SIZE = 32;
-  const WIDTH = TILE_SIZE * 43;
+  const WIDTH = TILE_SIZE * 34;
   const HEIGHT = TILE_SIZE * 19;
 
   const { staticDots, staticMap, interactionList } = new GameMap(
