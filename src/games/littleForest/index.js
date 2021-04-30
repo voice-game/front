@@ -7,7 +7,7 @@ class Game {
     pitchDetectorRef,
     staticDots,
     interactionPoints,
-    setCurrentMap,
+    getNextMap,
     images,
   }) {
     this.canvas = ref.current;
@@ -16,6 +16,7 @@ class Game {
     this.height = this.canvas.height;
 
     this.staticDots = staticDots;
+    this.getNextMap = getNextMap;
 
     this.eventList = [];
 
@@ -56,10 +57,10 @@ class Game {
     this.dotsController.mergeRoadDots(this.ctx, dots, roadDots);
     this.dotsController.mergePadDots(dots, padDots);
 
-    this.characterController.draw(this.ctx, dots, timeStamp);
-
-    this.interactionController.drawPortal(this.ctx, this.characterController, timeStamp);
+    this.interactionController.drawPortal(this.ctx, this.characterController, timeStamp, this.getNextMap);
     this.interactionController.drawObstacle(this.ctx, this.characterController);
+
+    this.characterController.draw(this.ctx, dots, timeStamp);
 
     this.animationFrameId = window.requestAnimationFrame(
       this.animate.bind(this)

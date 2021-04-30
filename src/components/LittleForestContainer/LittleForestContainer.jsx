@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 
 import Game from "../../games/littleForest";
 import BackGround from "../../games/littleForest/Background";
@@ -10,14 +10,17 @@ import useAudio from "../../hooks/useAudio";
 import useCanvas from "../../hooks/useCanvas";
 import usePitchDetector from "../../hooks/usePitchDetector";
 import useLoadedImage from "../../hooks/useLoadedImage";
+import useNextMap from "../../hooks/useNextMap";
 
 import Canvas from "../shared/Canvas/Canvas";
-
-import manualImage from "../../images/manuals/manual_littleForest.png";
 import Wrapper from "../shared/Wrapper/Wrapper";
 
+import bgm from "../../assets/audio/bgm.mp3";
+import manualImage from "../../images/manuals/manual_littleForest.png";
+import mapList from "../../games/littleForest/mapList";
+
 const LittleForestContainer = () => {
-  const [currentMap, setCurrentMap] = useState(0);
+  const [currentMap, getNextMap] = useNextMap(mapList);
   const { image, isLoaded } = useLoadedImage("littleForest");
   const pitchDetectorRef = usePitchDetector(
     useAudio({ samplerate: 12000 }, { audio: true, video: false })
@@ -40,7 +43,7 @@ const LittleForestContainer = () => {
       pitchDetectorRef,
       staticDots,
       interactionPoints,
-      setCurrentMap,
+      getNextMap,
       images: image,
     },
     isLoaded

@@ -13,7 +13,7 @@ class CharacterController {
 
     this.character = new Character(pickRandom(this.images));
 
-    this.initialX = 100;
+    this.initialX = 1000;
     this.initialY = 100;
     this.posX = this.initialX;
     this.posY = this.initialY;

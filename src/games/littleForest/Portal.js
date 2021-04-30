@@ -17,7 +17,7 @@ class Portal {
     this.fpsTime = 1000 / this.frameSpeed;
   }
 
-  draw(ctx, characterController, timeStamp) {
+  draw(ctx, characterController, timeStamp, getNextMap) {
     if (!this.pivotTime) {
       this.pivotTime = timeStamp;
     }
@@ -33,7 +33,7 @@ class Portal {
       this.currentFrame = 0;
     }
 
-    this.checkReachedPortal(characterController);
+    this.checkReachedPortal(characterController, getNextMap);
     this.animate(ctx);
   }
 
@@ -58,7 +58,7 @@ class Portal {
     ctx.restore();
   }
 
-  checkReachedPortal(characterController) {
+  checkReachedPortal(characterController, getNextMap) {
     const characterX = characterController.characterCenterX;
     const characterY = characterController.posY - 20;
 
@@ -70,8 +70,10 @@ class Portal {
       characterY <= this.posY + this.height;
 
     if (checkX && checkY) {
-      characterController.posX = characterController.initialX;
-      characterController.posY = characterController.initialY;
+      // characterController.posX = characterController.initialX;
+      // characterController.posY = characterController.initialY;
+
+      getNextMap();
     }
   }
 }
