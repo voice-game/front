@@ -14,6 +14,7 @@ import useLoadedImage from "../../hooks/useLoadedImage";
 import Canvas from "../shared/Canvas/Canvas";
 
 import manualImage from "../../images/manuals/manual_littleForest.png";
+import bgm from "../../assets/audio/bgm.mp3";
 
 const LittleForestContainer = () => {
   const [currentMap, setCurrentMap] = useState(0);
@@ -21,7 +22,7 @@ const LittleForestContainer = () => {
   const pitchDetectorRef = usePitchDetector(
     useAudio({ samplerate: 12000 }, { audio: true, video: false })
   );
-  console.log(image);
+
   const TILE_SIZE = 32;
   const WIDTH = TILE_SIZE * 35;
   const HEIGHT = TILE_SIZE * 19;
@@ -75,6 +76,9 @@ const LittleForestContainer = () => {
             bgImage={image.backgrounds[currentMap].src}
           />
           <div>W: 점프 A: 좌 D: 우</div>
+          <audio loop autoPlay={true}>
+            <source src={bgm} type="audio/mpeg" />
+          </audio>
         </div>
       ) : (
         <Loading />

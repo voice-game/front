@@ -5,6 +5,7 @@ import { useDispatch } from "react-redux";
 import Canvas from "../shared/Canvas/Canvas";
 import pickRandom from "../../utils/pickRandom";
 import backgroundImages from "../../games/images/energyBattle/backgroundImages";
+import bgm from "../../assets/audio/bgm.mp3";
 import { ROOM_STATUS } from "../../constants/constants";
 import { gameResultAction } from "../../actions/gameActionCreators";
 
@@ -183,6 +184,9 @@ const EnergyBattle = ({
         margin={["20px", "auto", "0", "auto"]}
         bgImage={randomBackground}
       />
+      <audio loop autoPlay={true}>
+        <source src={bgm} type="audio/mpeg" />
+      </audio>
     </>
   );
 };

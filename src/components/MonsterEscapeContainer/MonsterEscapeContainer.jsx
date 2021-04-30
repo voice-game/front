@@ -23,7 +23,7 @@ const { innerWidth } = window;
 const canvasWidth = 0.8 * innerWidth;
 const canvasHeight = ASPECT_RATIO * canvasWidth;
 
-const MonsterEscapeContainer = ({ socket, creater, player, roomId }) => {
+const MonsterEscapeContainer = ({ socket, roomId, player, otherPlayers }) => {
   const [volumeMeter, setVolumeMeter] = useState(null);
   const [isInitGame, setIsInitGame] = useState(false);
   const [gameElement, setGameElement] = useState({});
@@ -82,21 +82,8 @@ const MonsterEscapeContainer = ({ socket, creater, player, roomId }) => {
     const ceiling = new Obstacle(ceilingMap.gameMap, canvasWidth);
     const ground = new Obstacle(groundMap.gameMap, canvasWidth);
     const enemy = new Obstacle(enemyMap.gameMap, canvasWidth);
-    const myMonster = new Monster(
-      canvasWidth,
-      canvasHeight,
-      image,
-      0.1,
-      3,
-      FPS
-    );
-    const yourMonster = new MultiPlayer(
-      canvasWidth,
-      canvasHeight,
-      image,
-      0.1,
-      FPS
-    );
+    const myMonster = new Monster(canvasWidth, canvasHeight, image, player, 0.1, 3, FPS, );
+    const yourMonster = new MultiPlayer(canvasWidth, canvasHeight, image, 0.06, FPS);
 
     setIsInitGame(true);
 
@@ -109,7 +96,7 @@ const MonsterEscapeContainer = ({ socket, creater, player, roomId }) => {
       myMonster,
       yourMonster,
     });
-  }, [isInitGame, isLoaded, image]);
+  }, [isInitGame, isLoaded, image, player, otherPlayers]);
 
   return (
     <>
@@ -125,8 +112,7 @@ const MonsterEscapeContainer = ({ socket, creater, player, roomId }) => {
             volumeMeter={volumeMeter}
             socket={socket}
             roomId={roomId}
-            creater={creater}
-            player={player}
+            otherPlayers={otherPlayers}
           />
         </>
       ) : (

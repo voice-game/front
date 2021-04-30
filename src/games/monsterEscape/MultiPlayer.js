@@ -14,9 +14,9 @@ class MultiPlayer {
     this.height = this.width * image.height / (image.width / this.fps);
   };
 
-  animate(ctx, myData, yourData, frame) {
-    const myNormDistance = myData.normDistance;
-    const { normPosX, normPosY, normDistance, shieldTime, life } = yourData;
+  animate(ctx, myData, yourData, player, frame) {
+    const myNormDistance = myData?.normDistance ?? 0;
+    const { normPosX = 0.47, normPosY = 0.6, normDistance = 0, shieldTime = 0, life = 1 } = yourData;
 
     let image = this.images.normal;
 
@@ -28,6 +28,16 @@ class MultiPlayer {
     if (shieldTime) { image = this.images.collision }
 
     if (!life) { image = this.images.dead }
+
+    ctx.font = `900 ${0.015 * this.canvasWidth}px sans-serif`;
+    ctx.fillStyle = "red";
+    ctx.textAlign = "center";
+
+    ctx.fillText(
+      player.name,
+      posX + 0.5 * this.width,
+      posY - 0.1 * this.height,
+    );
 
     ctx.drawImage(
       image,
