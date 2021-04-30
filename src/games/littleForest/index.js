@@ -56,8 +56,10 @@ class Game {
     this.dotsController.mergeRoadDots(this.ctx, dots, roadDots);
     this.dotsController.mergePadDots(dots, padDots);
 
-    this.interactionController.drawPortal(this.ctx, this.characterController);
     this.characterController.draw(this.ctx, dots, timeStamp);
+
+    this.interactionController.drawPortal(this.ctx, this.characterController);
+    this.interactionController.drawObstacle(this.ctx, this.characterController);
 
     this.animationFrameId = window.requestAnimationFrame(
       this.animate.bind(this)
