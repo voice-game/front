@@ -21,7 +21,7 @@ const PlayerCard = ({ player }) => {
 };
 
 PlayerCard.propTypes = {
-  player: PropTypes.object.isRequired,
+  player: PropTypes.object,
 };
 
 export default PlayerCard;

@@ -35,21 +35,6 @@ class SkillEffect {
     );
   }
 
-  spark2(ctx, spriteCount, volumeSum, myVolumeSum) {
-    ctx.drawImage(
-      this.imgObj.tesla,
-      (this.imgObj.tesla.width / 17) * (spriteCount % 17),
-      0,
-      this.imgObj.tesla.width / 17,
-      this.imgObj.tesla.height,
-      (myVolumeSum / volumeSum) * this.canvasWidth -
-        (this.canvasWidth / 8 / 10) * 6,
-      this.canvasHeight * 0.3,
-      this.canvasWidth / 8,
-      (this.canvasWidth / 8 / 10) * 9
-    );
-  }
-
   otherSkill(ctx, spriteCount, volumeSum, otherVolumeSum) {
     ctx.drawImage(
       this.imgObj.ice,

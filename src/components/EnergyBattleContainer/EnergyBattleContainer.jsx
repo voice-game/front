@@ -165,7 +165,7 @@ const EnergyBattleContainer = ({
 
 EnergyBattleContainer.propTypes = {
   socket: PropTypes.object.isRequired,
-  roomId: PropTypes.string.isRequired,
+  roomId: PropTypes.string,
   roomNumber: PropTypes.number.isRequired,
   player: PropTypes.object.isRequired,
   otherPlayers: PropTypes.array,

@@ -1,6 +1,6 @@
 export const MAX_PLAYER = {
-  littleForest: 5,
-  monsterEscape: 20,
+  littleForest: 1,
+  monsterEscape: 2,
   energyBattle: 2,
 };
 
