@@ -15,7 +15,6 @@ import useNextMap from "../../hooks/useNextMap";
 import Canvas from "../shared/Canvas/Canvas";
 import Wrapper from "../shared/Wrapper/Wrapper";
 
-import bgm from "../../assets/audio/bgm.mp3";
 import manualImage from "../../images/manuals/manual_littleForest.png";
 import mapList from "../../games/littleForest/mapList";
 
