@@ -1,6 +1,5 @@
 import mapList from "./mapList";
 
-import portal from "../../images/littleForest/portals/0.png";
 import { IMAGE_TYPE } from "../../constants/constants";
 
 class GameMap {
@@ -10,8 +9,6 @@ class GameMap {
 
     this.tileWidth = tileSize;
     this.tileHeight = tileSize;
-
-    this.portal = portal;
 
     this.gameMap = {
       staticDots: [],
@@ -59,10 +56,8 @@ class GameMap {
         };
 
         break;
-      case IMAGE_TYPE.PORTAL:
-        point.pointer = {
-          range: 64,
-        };
+      case IMAGE_TYPE.OBSTACLE:
+        point.range = this.tileWidth * range;
 
         break;
       default:
