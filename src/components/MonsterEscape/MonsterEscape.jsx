@@ -20,7 +20,9 @@ const MonsterEscape = ({
   volumeMeter,
   socket,
   roomId,
+  otherPlayers
 }) => {
+  console.log(otherPlayers)
   const grndSpd = canvasWidth / (FPS * TIME_LEFT_TO_RIGHT);
   const verticalSpd = canvasHeight / (FPS * TIME_TOP_TO_BOTTOM);
 
@@ -166,7 +168,6 @@ const MonsterEscape = ({
     });
 
     socket.on("monsterescape-finish", () => {
-      console.log("on finish");
       setIsFinished(true);
     });
     return () => {
@@ -243,11 +244,12 @@ const MonsterEscape = ({
 
         socket.emit("monsterescape-play", roomId, myDataRef?.current);
 
-        if (yourDataRef.current) {
+        if (yourDataRef.current && otherPlayers.length !== 0 ) {
           yourMonster.animate(
             ctx,
             myDataRef.current,
             yourDataRef.current,
+            otherPlayers[0],
             singleFrameRef.current
           );
         }
@@ -259,6 +261,10 @@ const MonsterEscape = ({
       } else {
         const monsterSpd = { spdX: 0, spdY: 0 };
         myMonster.animate(ctx, monsterSpd, volumeData, singleFrameRef.current);
+
+        if (otherPlayers.length !== 0) {
+          yourMonster.animate(ctx, 0, 0, otherPlayers[0], singleFrameRef.current);
+        }
       }
 
       controlBox.animate(ctx, isPlay, speed, volumeData);
@@ -285,6 +291,7 @@ const MonsterEscape = ({
     roomId,
     isFinished,
     setIsInitGame,
+    otherPlayers
   ]);
 
   useEffect(socketOn, [socketOn]);
