@@ -1,8 +1,9 @@
 import React from "react";
 import styled from "styled-components";
 
-import useErrorMessage from "../../hooks/useErrorMessage";
 import ErrorMessage from "../ErrorMessage/ErrorMessage";
+
+import useErrorMessage from "../../hooks/useErrorMessage";
 
 const GameRoomCardContainer = styled.div`
   display: flex;

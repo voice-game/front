@@ -16,6 +16,7 @@ import gameMap from "../../games/monsterEscape/gameMap.json";
 import getMedia from "../../utils/getMedia";
 import VolumeMeter from "../../utils/VolumeMeter";
 import manualImage from "../../images/manuals/manual_monsterEscape.png";
+import bgm from "../../assets/audio/bgm.mp3";
 
 const FPS = 36;
 const ASPECT_RATIO = 9 / 16;
@@ -114,6 +115,9 @@ const MonsterEscapeContainer = ({ socket, roomId, player, otherPlayers }) => {
             roomId={roomId}
             otherPlayers={otherPlayers}
           />
+          <audio loop autoPlay={true}>
+            <source src={bgm} type="audio/mpeg" />
+          </audio>
         </>
       ) : (
         <Loading />
