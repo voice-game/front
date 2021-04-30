@@ -9,14 +9,15 @@ import EnergyBattleContainer from "../EnergyBattleContainer/EnergyBattleContaine
 import MonsterEscapeContainer from "../MonsterEscapeContainer/MonsterEscapeContainer";
 import LittleForestContainer from "../LittleForestContainer/LittleForestContainer";
 
+import useSetInitialRoom from "../../hooks/useSetInitialRoom";
+import useImageLoad from "../../hooks/useImageLoad";
+
 import {
   leaveRoomAction,
   deleteRoomAction,
   changeRoomStatus,
 } from "../../actions/gameActionCreators";
-
 import { MAX_PLAYER } from "../../constants/constants";
-import useSetInitialRoom from "../../hooks/useSetInitialRoom";
 
 const socket = io(process.env.REACT_APP_USER_SERVER, {
   withCredential: true,
@@ -40,6 +41,7 @@ const GameRoom = () => {
   )[0];
 
   const setInitialRoom = useSetInitialRoom(socket, setOtherPlayers);
+  useImageLoad("gameManuals");
 
   const handlePlayerConnect = useCallback((data) => {
     if (data.playerData.playerId !== playerData.playerId) {
