@@ -54,9 +54,24 @@ const MonsterEscapeContainer = ({ socket, roomId, player, otherPlayers }) => {
     if (!isLoaded) {
       return;
     }
-    const ceilingMap = new GameMap("ceiling", canvasWidth, canvasHeight, image.obstacles.ceiling);
-    const groundMap = new GameMap("ground", canvasWidth, canvasHeight, image.obstacles.ground);
-    const enemyMap = new GameMap("enemy", canvasWidth, canvasHeight, image.obstacles.enemy);
+    const ceilingMap = new GameMap(
+      "ceiling",
+      canvasWidth,
+      canvasHeight,
+      image.obstacles.ceiling
+    );
+    const groundMap = new GameMap(
+      "ground",
+      canvasWidth,
+      canvasHeight,
+      image.obstacles.ground
+    );
+    const enemyMap = new GameMap(
+      "enemy",
+      canvasWidth,
+      canvasHeight,
+      image.obstacles.enemy
+    );
 
     enemyMap.setGameMap(gameMap.enemy);
     groundMap.setGameMap(gameMap.ground);

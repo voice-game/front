@@ -1,5 +1,3 @@
-import CharacterController from "./CharacterController";
-
 class Obstacle {
   constructor(info) {
     this.posX = info.posX;
@@ -12,10 +10,6 @@ class Obstacle {
     this.height = info.height;
 
     this.speed = 1;
-    this.minSpeed = 1;
-    this.maxSpeed = Math.ceil(Math.random() * 20);
-
-    this.direction = 1;
   }
 
   draw(ctx, characterController) {
@@ -74,7 +68,7 @@ class Obstacle {
       characterController.gravity -= 15;
       characterController.isHit = true;
 
-      characterController.reaction += speed * 2;
+      characterController.reaction += speed * 2 - 5;
     }
   }
 }

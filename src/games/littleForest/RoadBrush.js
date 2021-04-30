@@ -1,3 +1,5 @@
+import { ROAD_COLOR } from "../../constants/constants";
+
 class RoadBrush {
   constructor(point) {
     this.radius = 8;
@@ -18,7 +20,7 @@ class RoadBrush {
 
   draw(ctx) {
     ctx.beginPath();
-    ctx.fillStyle = "green";
+    ctx.fillStyle = ROAD_COLOR;
     ctx.arc(
       this.posX,
       this.posY,
