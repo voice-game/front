@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
+import PropTypes from "prop-types";
 
 import GameManual from "../GameManual/GameManual";
 import MonsterEscape from "../MonsterEscape/MonsterEscape";
@@ -124,6 +125,13 @@ const MonsterEscapeContainer = ({ socket, roomId, player, otherPlayers }) => {
       )}
     </>
   );
+};
+
+MonsterEscapeContainer.propTypes = {
+  socket: PropTypes.object.isRequired,
+  roomId: PropTypes.string.isRequired,
+  player: PropTypes.object.isRequired,
+  otherPlayers: PropTypes.array.isRequired,
 };
 
 export default MonsterEscapeContainer;

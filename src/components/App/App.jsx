@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import { HashRouter as Router, Route, Switch } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
+import PropTypes from "prop-types";
 
 import Login from "../Login/Login";
 import Logout from "../Logout/Logout";
@@ -74,6 +75,10 @@ const App = ({ authService }) => {
       </Switch>
     </Router>
   );
+};
+
+App.propTypes = {
+  authService: PropTypes.object.isRequired,
 };
 
 export default App;

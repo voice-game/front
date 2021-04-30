@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef, useCallback } from "react";
+import PropTypes from "prop-types";
 
 import Canvas from "../shared/Canvas/Canvas";
 import getIsCanvasButtonClicked from "../../utils/getIsCanvasButtonClicked";
@@ -312,6 +313,18 @@ const MonsterEscape = ({
       bgImage={background}
     />
   );
+};
+
+MonsterEscape.propTypes = {
+  isInitGame: PropTypes.bool.isRequired,
+  setIsInitGame: PropTypes.func.isRequired,
+  gameElement: PropTypes.object.isRequired,
+  canvasWidth: PropTypes.number.isRequired,
+  canvasHeight: PropTypes.number.isRequired,
+  volumeMeter: PropTypes.object,
+  socket: PropTypes.object.isRequired,
+  roomId: PropTypes.string.isRequired,
+  otherPlayers: PropTypes.array.isRequired,
 };
 
 export default MonsterEscape;

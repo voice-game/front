@@ -1,5 +1,6 @@
 import React from "react";
 import styled from "styled-components";
+import PropTypes from "prop-types";
 
 import ErrorMessage from "../ErrorMessage/ErrorMessage";
 
@@ -70,6 +71,17 @@ const GameRoomCard = ({
       </GameRoomCardContainer>
     </>
   );
+};
+
+GameRoomCard.propTypes = {
+  room: PropTypes.shape({
+    players: PropTypes.arrayOf(PropTypes.string).isRequired,
+    createdAt: PropTypes.string.isRequired,
+    status: PropTypes.string.isRequired,
+    roomNumber: PropTypes.number,
+  }),
+  onClick: PropTypes.func.isRequired,
+  gameTitle: PropTypes.string.isRequired,
 };
 
 export default GameRoomCard;
