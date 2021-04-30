@@ -1,5 +1,6 @@
 import React from "react";
 import styled from "styled-components";
+import PropTypes from "prop-types";
 
 const GameCardContainer = styled.div`
   height: 40vh;
@@ -46,6 +47,12 @@ const GameCard = ({ title, gif, onClick }) => {
       </GameThumbnailContainer>
     </GameCardContainer>
   );
+};
+
+GameCard.propTypes = {
+  title: PropTypes.string,
+  gif: PropTypes.string.isRequired,
+  onClick: PropTypes.func,
 };
 
 export default GameCard;

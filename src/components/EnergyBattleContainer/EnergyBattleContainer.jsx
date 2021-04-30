@@ -1,6 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect, useCallback, useRef } from "react";
 import styled from "styled-components";
+import PropTypes from "prop-types";
 
 import EnergyBattle from "../EnergyBattle/EnergyBattle";
 import EnergyBattleController from "../EnergyBattleController/EnergyBattleController";
@@ -160,6 +161,14 @@ const EnergyBattleContainer = ({
       )}
     </>
   );
+};
+
+EnergyBattleContainer.propTypes = {
+  socket: PropTypes.object.isRequired,
+  roomId: PropTypes.string.isRequired,
+  roomNumber: PropTypes.number.isRequired,
+  player: PropTypes.object.isRequired,
+  otherPlayers: PropTypes.array,
 };
 
 export default EnergyBattleContainer;

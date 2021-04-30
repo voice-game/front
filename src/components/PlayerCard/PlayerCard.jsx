@@ -1,5 +1,6 @@
 import React from "react";
 import styled from "styled-components";
+import PropTypes from "prop-types";
 
 const PlayerData = styled.span`
   width: 100%;
@@ -17,6 +18,10 @@ const PlayerCard = ({ player }) => {
       {player ? player.gameRecords.energyBattle : "😝"}승
     </PlayerData>
   );
+};
+
+PlayerCard.propTypes = {
+  player: PropTypes.object.isRequired,
 };
 
 export default PlayerCard;
