@@ -49,18 +49,18 @@ class Obstacle {
     }
 
     const width = characterController.character.width;
-    const characterFX = characterController.posX;
-    const characterBX = characterFX + width;
+    const characterLeftX = characterController.posX;
+    const characterRightX = characterLeftX + width;
 
     const height = characterController.character.height;
-    const characterBY = characterController.posY;
-    const characterFY = characterBY - height;
+    const characterBottomY = characterController.posY;
+    const characterUpperY = characterBottomY - height;
 
     const isXCollision =
-    (characterFX <= this.posX && this.posX <= characterBX);
+    (characterLeftX <= this.posX && this.posX <= characterRightX);
 
     const isYCollision =
-    (characterFY <= this.posY && this.posY <= characterBY);
+    (characterUpperY <= this.posY && this.posY <= characterBottomY);
 
     const speed = Math.floor(this.speed);
 
@@ -68,7 +68,7 @@ class Obstacle {
       characterController.gravity -= 15;
       characterController.isHit = true;
 
-      characterController.reaction += speed * 2 - 5;
+      characterController.reaction += speed * 2;
     }
   }
 }
