@@ -34,7 +34,7 @@ https://github.com/voice-game/back
 <br>
 
 ## 📖 Contents
----
+
 - 🤔 [Motivation](#-Motivation)
 - 📆 [Schedule](#-Schedule)
 - 🧑🏻‍💻 [Contributor](#-Contributor)
@@ -47,6 +47,21 @@ https://github.com/voice-game/back
 <br>
 
 ## 🤔 Motivation
+
+팀원 모두 게임 제작에 대한 흥미가 있어 게임 제작을 결정하게 되었습니다.
+
+서비스되고 있는 게임 중 음성인식 기반의 게임에 영감을 받아  
+음성을 다양하게 활용하기 위해서 음의 크기, 음의 높이 등으로 나누어 3가지 게임을 제작하였습니다.
+
+<br>
+
+## 🥁 Preview
+
+<p>
+  <img src="./readmeAssets/littleForest_gif.gif" alt="LittleForest" width="32%" />
+  <img src="./readmeAssets/monsterEscape_gif.gif" alt="MonsterEscape" width="32%" />
+  <img src="./readmeAssets/energyBattle_gif.gif" alt="EnergyBattle" width="32%" />
+</p>
 ---
 팀원 모두 언젠간 Canvas로 게임을 만들어보고 싶어했습니다. 이에 어떤 게임을 만들까 고민하면서, <span style="color: brown">게임은 꼭 키보드 / 마우스로 해야할까???</span>라는 생각이 들었습니다. 이러한 의문에서 시작하여 __음성 기반 게임__ 을 제작하기로 결정하였습니다.  
 소리는 높이, 크기, 모양 세 요소로 이루어져 있기때문에, 하나의 게임을 만들기보단 소리 높이, 크기의 특색을 각각 살리는게 좋다 생각하였습니다. 그 결과 미니게임 3종을 만들기로 하였습니다.
@@ -63,7 +78,7 @@ https://github.com/voice-game/back
 <br>
 
 ## 📆 Schedule
----
+
 2021.04.12 - 04.30 / 3주
 
 - 1주차 - 프로젝트 주제 선정, Mock-Up 제작, DB-Schema 설계, 구현 가능 여부 검토
@@ -120,6 +135,16 @@ https://github.com/voice-game/back
 <br>
 <br>
 
+## 😃 Installation
+
+Git Hub를 통해 플레이 해보실 수 있습니다.
+
+### Front
+```jsx
+$ git clone https://github.com/voice-game/front.git
+$ npm install
+$ npm start
+```
 ## 🔎 Feature
 ---
 게임설명 쓰기...
@@ -171,6 +196,13 @@ __이미지__
 
 <br>
 
+
+
+- AWS
+
+- Netlify
+
+## ✨ Contributor
 ## ✍️ History
 ---
 1주차  
