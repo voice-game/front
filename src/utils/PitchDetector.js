@@ -66,7 +66,7 @@ class PitchDetector {
     if (!toggle) {
       this.sourceNode.stop(0);
       this.sourceNode = null;
-      // this.analyser = null;
+      this.analyser = null;
       this.mediaStreamSource.mediaStream.getTracks()[0].stop();
 
       window.cancelAnimationFrame(this.rafID);
@@ -172,7 +172,9 @@ class PitchDetector {
   }
 
   updatePitch(time) {
-    this.analyser.getFloatTimeDomainData(this.buf);
+    if (this.analyser) {
+      this.analyser.getFloatTimeDomainData(this.buf);
+    }
 
     const ac = this.autoCorrelate(this.buf, this.audioContext.sampleRate);
 

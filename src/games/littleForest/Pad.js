@@ -80,11 +80,11 @@ class Pad {
 
     const pitch = this.pitchDetector.pitch;
 
-    if (pitch < 100 && this.minX < this.posX) {
+    if (pitch * 2 < this.posX - this.minX && this.minX < this.posX) {
       this.posX -= this.speed;
     }
 
-    if (100 <= pitch && this.posX < this.maxX) {
+    if (this.posX - this.minX <= pitch * 2 && this.posX < this.maxX) {
       this.posX += this.speed;
     }
   }

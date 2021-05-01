@@ -66,7 +66,7 @@ class Road {
 
     if (this.isDrawingRoad && this.brush.posX <= this.brush.maxX) {
       this.brush.posX += this.brush.speed;
-      this.brush.posY = this.brush.maxY - Math.floor(pitch / 2);
+      this.brush.posY = this.brush.maxY - Math.floor(pitch * 1.3);
 
       if (this.brush.posY < this.brush.minY) {
         this.brush.posY = this.brush.minY;

@@ -14,7 +14,7 @@ class CharacterController {
     this.character = new Character(pickRandom(this.images));
 
     this.initialX = 100;
-    this.initialY = 100;
+    this.initialY = 500;
     this.posX = this.initialX;
     this.posY = this.initialY;
 
@@ -22,6 +22,7 @@ class CharacterController {
     this.reaction = 0;
 
     this.isHit = false;
+    this.isInPortal = false;
     this.characterMove = {
       left: false,
       right: false,
@@ -74,7 +75,7 @@ class CharacterController {
     this.character.draw(
       ctx,
       this.posX,
-      this.posY - this.character.height,
+      this.posY,
       timeStamp
     );
   }
@@ -82,7 +83,11 @@ class CharacterController {
   getMaxY(dots, x) {
     if (dots[x]) {
       for (const y of dots[x]) {
-        if (this.posY - 10 <= y) {
+        if (!this.characterMove.isJumping && this.posY - 20 <= y) {
+          return y;
+        }
+
+        if (this.posY <= y) {
           return y;
         }
       }
@@ -90,6 +95,14 @@ class CharacterController {
   }
 
   handleKeyEvent(event) {
+    if (this.isInPortal) {
+      this.characterMove.left = false;
+      this.characterMove.right = false;
+      this.characterMove.jump = false;
+
+      return;
+    }
+
     const isKeyDown = event.type === "keydown" ? true : false;
 
     switch (event.keyCode) {
@@ -111,6 +124,10 @@ class CharacterController {
   }
 
   handleCharacterMovement() {
+    if (this.isInPortal) {
+      return;
+    }
+
     this.handleCharacterImage();
     this.character.frameSpeed = 10;
 

@@ -5,6 +5,9 @@ class BackGround {
     this.canvas = ref.current;
     this.ctx = this.canvas.getContext("2d");
 
+    this.width = this.canvas.width;
+    this.height = this.canvas.height;
+
     this.staticMap = staticMap;
     this.images = images;
 
