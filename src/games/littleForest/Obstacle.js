@@ -15,7 +15,7 @@ class Obstacle {
     this.minX = info.posX;
     this.maxX = info.posX + info.range;
 
-    this.speed = 1;
+    this.speed = Math.random() * 10;
 
     this.currentFrame = 0;
     this.frameSpeed = 20;
