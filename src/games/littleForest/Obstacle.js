@@ -12,10 +12,9 @@ class Obstacle {
     this.dWidth = info.width;
     this.dHeight = info.height;
 
-    this.minX = info.posX;
-    this.maxX = info.posX + info.range;
+    this.pivotX = info.posX + info.range;
 
-    this.speed = Math.random() * 10;
+    this.speed = info.speed;
 
     this.currentFrame = 0;
     this.frameSpeed = 20;
@@ -23,7 +22,7 @@ class Obstacle {
   }
 
   draw(ctx, characterController, timeStamp) {
-    if (this.posX <= this.maxX) {
+    if (this.posX <= this.pivotX) {
       this.speed += 0.1;
     } else {
       this.speed -= 0.1;

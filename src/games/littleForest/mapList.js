@@ -71,8 +71,8 @@ const mapList = [
       [IMAGE_TYPE.ROAD, 15, 17, 10, 5, 1, 0],
       [IMAGE_TYPE.ROAD, 11, 8, 10, 5, 1, 0],
 
-      [IMAGE_TYPE.OBSTACLE, 3, 12, 2, 2, 10, 0],
-      [IMAGE_TYPE.OBSTACLE, 5, 5, 2, 2, 10, 0],
+      [IMAGE_TYPE.OBSTACLE, 3, 12, 2, 2, 10, 0, 1],
+      [IMAGE_TYPE.OBSTACLE, 5, 5, 2, 2, 10, 0, 2],
 
       [IMAGE_TYPE.PAD, 25, 11, 5, 2, 10, 1, 0],
       [IMAGE_TYPE.PAD, 24, 5, 5, 2, 15, 1, 0],
