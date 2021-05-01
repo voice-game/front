@@ -176,6 +176,11 @@ class CharacterController {
   }
 
   handleCharacterImage() {
+    if (this.isHit) {
+      this.character.currentImg = this.character.imgList.hurt;
+      return;
+    }
+
     if (this.characterMove.left) {
       this.character.currentImg = this.character.imgList.walking;
       this.character.isFlipped = true;
