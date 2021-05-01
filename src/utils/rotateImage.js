@@ -1,3 +1,20 @@
+/**
+ *
+ * https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D/drawImage
+ *
+ * @param {number} deg rotation degree
+ * @param {object} ctx canvas context
+ * @param {object} img image node
+ * @param {number} dx
+ * @param {number} dy
+ * @param {number} dWidth
+ * @param {number} dHeight
+ * @param {number} sx
+ * @param {number} sy
+ * @param {number} sWidth
+ * @param {number} sHeight
+ * @param {number} currentFrame current frame of sprite image
+ */
 const rotateImage = (
   deg,
   ctx,
