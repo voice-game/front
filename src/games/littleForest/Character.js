@@ -1,4 +1,4 @@
-import rotateImage from "./rotateImage";
+import rotateImage from "../../utils/rotateImage";
 
 class Character {
   constructor(images) {

@@ -71,7 +71,6 @@ class Portal {
       characterController.isInPortal = true;
       characterController.character.isInPortal = true;
 
-
       setTimeout(() => {
         getNextMap();
       }, 3000);

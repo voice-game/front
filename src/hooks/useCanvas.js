@@ -25,6 +25,8 @@ const useCanvas = (CanvasConstructor, options, isLoaded) => {
       if (myCanvas.eventList) {
         removeEventHelper(myCanvas.eventList);
       }
+
+      myCanvas.ctx.clearRect(0, 0, myCanvas.width, myCanvas.height);
     };
   }, [CanvasConstructor, options, isLoaded]);
 
