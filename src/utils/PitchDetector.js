@@ -67,7 +67,10 @@ class PitchDetector {
       this.sourceNode.stop(0);
       this.sourceNode = null;
       this.analyser = null;
-      this.mediaStreamSource.mediaStream.getTracks()[0].stop();
+
+      if (this.mediaStreamSource) {
+        this.mediaStreamSource.mediaStream.getTracks()[0].stop();
+      }
 
       window.cancelAnimationFrame(this.rafID);
 
