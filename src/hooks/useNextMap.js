@@ -6,7 +6,7 @@ import { useState } from "react";
  * @returns A function to update to the next map if there is a next map
  */
 const useNextMap = (mapList) => {
-  const [currentMap, setCurrentMap] = useState(0);
+  const [currentMap, setCurrentMap] = useState(2);
 
   const getNextMap = () => {
     if (mapList[currentMap + 1]) {
