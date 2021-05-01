@@ -28,7 +28,7 @@ class GameMap {
     }
   }
 
-  fillInteractionListHelper(type, x, y, width, height, range, pointerIndex, padIndex) {
+  fillInteractionListHelper(type, x, y, width, height, range, option1, option2) {
     const interaction = {
       type,
       posX: x * this.tileWidth,
@@ -40,25 +40,26 @@ class GameMap {
     switch (type) {
       case IMAGE_TYPE.ROAD:
         interaction.pointer = {
-          index: pointerIndex,
+          index: option1,
           range: this.tileWidth * range,
         };
 
         break;
       case IMAGE_TYPE.PAD:
         interaction.pointer = {
-          index: pointerIndex,
+          index: option1,
           range: this.tileWidth,
         };
         interaction.pad = {
-          index: padIndex,
+          index: option2,
           range: this.tileWidth * range,
         };
 
         break;
       case IMAGE_TYPE.OBSTACLE:
         interaction.range = this.tileWidth * range;
-        interaction.index = pointerIndex;
+        interaction.index = option1;
+        interaction.speed = option2;
 
         break;
       default:
