@@ -12,18 +12,21 @@ voice game은 플레이어의 소리를 측정하여 플레이 할 수 있는 **
 
 ## 📌 &nbsp; Description
 
-### **`Little Forest`** 음정 높낮이로 길을 만들고, 지형을 움직여 고슴도치를 목표 지점까지 보내는 게임입니다.
+### **`Little Forest`**
 
-[How to Play]() ?  
+음정 높낮이로 길을 만들고, 지형을 움직여 고슴도치를 목표 지점까지 보내는 게임입니다.
+
 <img src="./README_assets/littleForest_gif.gif" alt="LittleForest" width="40%" />
 
-### **`Monster Escape`** 소리 크기로 적 몬스터들을 피해 요괴 소굴을 탈출하는 게임입니다.
+### **`Monster Escape`**
+
+소리 크기로 적 몬스터들을 피해 요괴 소굴을 탈출하는 게임입니다.
 
  <img src="./README_assets/monsterEscape_gif.gif" alt="MonsterEscape" width="40%" />
 
- <br>
+### **`Energy Battle`**
 
-### **`Energy Battle`** 소리 크기로 에너지파를 만들어 승부를 가르는 대전 게임입니다.
+소리 크기로 에너지파를 만들어 승부를 가르는 대전 게임입니다.
 
  <img src="./README_assets/energyBattle_gif.gif" alt="EnergyBattle" width="40%" />
 
@@ -99,9 +102,15 @@ voice game은 플레이어의 소리를 측정하여 플레이 할 수 있는 **
 
 ### **`서성주`**
 
+서성주의 역할에 대해 쓰면 됩니다.
+
 ### **`권민호`**
 
+권민호의 역할에 대해 쓰면 됩니다.
+
 ### **`김재덕`**
+
+김재덕의 역할에 대해 쓰면 됩니다.
 
 <br>
 
@@ -167,7 +176,7 @@ voice game은 플레이어의 소리를 측정하여 플레이 할 수 있는 **
 
 ### **`Pitch Detector`**
 
-Audio Context (Web Api)  
+**Audio Context (Web Api)**  
 음성인식을 위해 Web Api로 제공되는 Audio Context를 사용하였습니다.
 다만, Audio Context의 AnalyserNode를 통해 얻을 수 있는 주파수 데이터가 FFT로 변환되어 제공되는데 이를 원하는 형태로 가공하여 사용하는 것에 어려움이 있어 MIT의 Pitch Detector의 Source Code를 가공하여 사용하였습니다.
 
@@ -207,17 +216,17 @@ Audio Context (Web Api)
 
 ### **`Frontend`**
 
+Netlify 배포 관련 내용
+
 ### **`Backend`**
+
+AWS 배포 관련 내용
 
 <br>
 
 ## History
 
-### **`1주차`**
-
-### **`2주차`**
-
-### **`3주차`**
+영상으로 넣는다면 주차별로 구분하지 않아도 괜찮을 것 같습니다.
 
 <br>
 
