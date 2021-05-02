@@ -1,6 +1,6 @@
 # 🎙🎙 **Voice Game** 🎙🎙
 
-<!-- ![Main](./README_assets/logo.png) -->
+![Main](./README_assets/logo.png)
 
 ## 📌 &nbsp; What is Voice Game?
 
@@ -16,19 +16,19 @@ voice game은 플레이어의 소리를 측정하여 플레이 할 수 있는 **
 
 음정 높낮이로 길을 만들고, 지형을 움직여 고슴도치를 목표 지점까지 보내는 게임입니다.
 
-<img src="./README_assets/littleForest_gif.gif" alt="LittleForest" width="40%" />
+<img src="./README_assets/littleForest_gif.gif" alt="LittleForest" width="70%" />
 
 ### **`Monster Escape`**
 
 소리 크기로 적 몬스터들을 피해 요괴 소굴을 탈출하는 게임입니다.
 
- <img src="./README_assets/monsterEscape_gif.gif" alt="MonsterEscape" width="40%" />
+ <img src="./README_assets/monsterEscape_gif.gif" alt="MonsterEscape" width="70%" />
 
 ### **`Energy Battle`**
 
 소리 크기로 에너지파를 만들어 승부를 가르는 대전 게임입니다.
 
- <img src="./README_assets/energyBattle_gif.gif" alt="EnergyBattle" width="40%" />
+ <img src="./README_assets/energyBattle_gif.gif" alt="EnergyBattle" width="70%" />
 
 <br>
 
@@ -76,12 +76,6 @@ voice game은 플레이어의 소리를 측정하여 플레이 할 수 있는 **
 음성을 다양하게 활용하기 위해서 음의 크기, 음의 높이 등으로 나누어 3가지 게임을 제작하였습니다.
 
 <br>
-
-<p>
-  <img src="./README_assets/littleForest_gif.gif" alt="LittleForest" width="32%" />
-  <img src="./README_assets/monsterEscape_gif.gif" alt="MonsterEscape" width="32%" />
-  <img src="./README_assets/energyBattle_gif.gif" alt="EnergyBattle" width="32%" />
-</p>
 
 팀원 모두 Canvas로 게임을 만들어보고 싶어했습니다. 이에 어떤 게임을 만들까 고민하면서, <span style="color: brown; font-weight: 600 ">게임은 꼭 키보드 / 마우스로 해야할까???</span>라는 생각이 들었습니다. 이러한 의문에서 시작하여 **음성 기반 게임** 을 제작하기로 결정하였습니다.  
 소리는 높이, 크기, 모양 세 요소로 이루어져 있기때문에, 하나의 게임을 만들기보단 소리 높이, 크기의 특색을 각각 살리는게 좋다 생각하였습니다. 그 결과 미니게임 3종을 만들기로 하였습니다.
