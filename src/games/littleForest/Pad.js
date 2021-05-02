@@ -12,13 +12,13 @@ class Pad {
 
     this.img = images.pads[point.pad.index];
 
-    this.width = point.width;
-    this.height = point.height;
+    this.dWidth = point.width;
+    this.dHeight = point.height;
 
     this.posX = point.posX - point.pad.range;
     this.posY = point.posY;
     this.minX = this.posX;
-    this.maxX = this.posX + point.pad.range - this.width;
+    this.maxX = this.posX + point.pad.range - this.dWidth;
 
     this.pitchPivot = 100;
     this.speed = 1;
@@ -39,8 +39,8 @@ class Pad {
       this.img,
       this.posX,
       this.posY - this.correction,
-      this.width,
-      this.height
+      this.dWidth,
+      this.dHeight
     );
     ctx.restore();
 
@@ -67,7 +67,7 @@ class Pad {
     return {
       posX: this.posX,
       posY: this.posY,
-      width: this.width,
+      width: this.dWidth,
     };
   }
 
@@ -94,7 +94,7 @@ class Pad {
       return;
     }
 
-    if (this.posY < this.chracterX && this.chracterX < this.posX + this.width) {
+    if (this.posY < this.chracterX && this.chracterX < this.posX + this.dWidth) {
       characterController.posX -= this.speed;
     }
   }

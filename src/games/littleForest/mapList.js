@@ -14,6 +14,7 @@ const mapList = [
     ],
     interactionList: [
       [IMAGE_TYPE.ROAD, 9, 17, 14, 5, 1, 0],
+
       [IMAGE_TYPE.PORTAL, 28, 7, 5, 5],
     ],
   },
@@ -43,7 +44,9 @@ const mapList = [
     ],
     interactionList: [
       [IMAGE_TYPE.ROAD, 14, 15, 9, 5, 1, 0],
+
       [IMAGE_TYPE.PAD, 24, 5, 5, 2, 15, 1, 0],
+
       [IMAGE_TYPE.PORTAL, 9, 0, 5, 5],
     ],
   },
