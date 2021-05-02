@@ -21,7 +21,7 @@ const mapList = [
   {
     tiles: [
       [IMAGE_TYPE.TILE, 1, 0, 18, 1, 1, 7],
-      [IMAGE_TYPE.TILE, 1, 1, 16, 1, 1, 1],
+      [IMAGE_TYPE.TILE, 1, 3, 16, 1, 1, 1],
       [IMAGE_TYPE.TILE, 1, 3, 14, 1, 1, 1],
       [IMAGE_TYPE.TILE, 1, 5, 12, 1, 1, 1],
       [IMAGE_TYPE.TILE, 1, 7, 12, 1, 1, 1],

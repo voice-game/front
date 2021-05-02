@@ -9,6 +9,7 @@ class Game {
     interactionList,
     getNextMap,
     images,
+    characterIndex,
   }) {
     this.canvas = ref.current;
     this.ctx = this.canvas.getContext("2d");
@@ -25,7 +26,8 @@ class Game {
       this.eventList,
       this.width,
       this.height,
-      images
+      images,
+      characterIndex
     );
     this.interactionController = new InteractionController(
       this.height,

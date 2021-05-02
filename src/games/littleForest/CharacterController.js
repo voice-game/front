@@ -4,14 +4,14 @@ import pickRandom from "../../utils/pickRandom";
 import { KEY_CODE } from "../../constants/constants";
 
 class CharacterController {
-  constructor(eventList, canvasWidth, canvasHeight, images) {
+  constructor(eventList, canvasWidth, canvasHeight, images, characterIndex) {
     this.eventList = eventList;
 
     this.canvasWidth = canvasWidth;
     this.canvasHeight = canvasHeight;
-    this.images = images.characters;
+    this.images = images.characters[characterIndex];
 
-    this.character = new Character(pickRandom(this.images));
+    this.character = new Character(this.images);
 
     this.initialX = 100;
     this.initialY = 550;
