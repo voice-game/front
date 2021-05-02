@@ -34,9 +34,9 @@ Voice Game은 사용자의 목소리를 이용해 즐길 수있는 미니 게임
 
 ## 📌 &nbsp; Github Repository
 
-### 📁 &nbsp; [**Frontend** Repository](https://github.com/voice-game/front)
+📁 &nbsp; [**Frontend** Repository](https://github.com/voice-game/front)
 
-### 📁 &nbsp; [**Backend** Repository](https://github.com/voice-game/back)
+📁 &nbsp; [**Backend** Repository](https://github.com/voice-game/back)
 
 <br>
 
@@ -46,21 +46,21 @@ Voice Game은 사용자의 목소리를 이용해 즐길 수있는 미니 게임
 
 ## Project Description
 
-### 🤔 &nbsp; [Motivation](#-Motivation)
+🤔 &nbsp; [Motivation](#-Motivation)
 
-### 📆 &nbsp; [Schedule](#-Schedule)
+📆 &nbsp; [Schedule](#-Schedule)
 
-### 🧑🏻‍💻 &nbsp; [Contributor](#-Contributor)
+🧑🏻‍💻 &nbsp; [Contributor](#-Contributor)
 
-### 🛠 &nbsp; [Stack](#-TechStack)
+🛠 &nbsp; [Stack](#-TechStack)
 
-### 🔎 &nbsp; [Feature](#-Feature)
+🔎 &nbsp; [Feature](#-Feature)
 
-### 🧗‍♀️ &nbsp; [Challenge](#-Challenge)
+🧗‍♀️ &nbsp; [Challenge](#-Challenge)
 
-### ✍️ &nbsp; [History](#-Hisotry)
+✍️ &nbsp; [History](#-Hisotry)
 
-### 🙇🏻‍♂️ &nbsp; [Conclusion](#-Conclusion)
+🙇🏻‍♂️ &nbsp; [Conclusion](#-Conclusion)
 
 <br>
 
@@ -70,13 +70,15 @@ Voice Game은 사용자의 목소리를 이용해 즐길 수있는 미니 게임
 
 ## Motivation
 
-팀원 모두 게임 제작에 대한 흥미가 있어 주제를 게임으로 결정하였습니다.
+팀원 모두의 게임 제작과 Canvas에 대한 흥미로 게임을 주제로 결정하였습니다.
 
-특색있는 게임을 만들어보고자 하여 음성인식 기반으로 조작되는 게임이 아이디어로 나왔습니다.  
-영감을 받은 게임 [One Hand Clapping](https://www.youtube.com/watch?v=gRGI1Oj9wFc)
+보다 특색있는 게임을 만들어보고자 음성인식 기반으로 조작되는 게임을 아이디어로 채택했습니다.
 
-사용자의 음성을 다양하게 활용하기 위해서 목소리의 크기와 높낮이로 나누어 3가지 미니게임을 제작하게 되었습니다.  
-(높낮이, 크기, 높낮이+크기)
+- 영감을 받은 게임 [One Hand Clapping](https://www.youtube.com/watch?v=gRGI1Oj9wFc)
+
+사용자의 음성을 다양하게 활용하기 위해서 목소리의 크기와 높낮이로 나누어 3가지 미니게임을 제작하게 되었습니다.
+
+- 높낮이, 크기, 높낮이와 크기
 
 <br>
 
@@ -84,7 +86,7 @@ Voice Game은 사용자의 목소리를 이용해 즐길 수있는 미니 게임
 
 ### **`2021.04.12~04.30 총 제작기간 21일`**
 
-### **`1주차`**
+### **`1주차` - 설계 단계**
 
 - 프로젝트 주제 선정
 - Mock-Up 제작 [Mock-Up 보러가기](https://www.notion.so/canwefly89/Voice-Game-Mock-Up-38e0618894534a5c926a288ca185e467)
@@ -96,7 +98,7 @@ Voice Game은 사용자의 목소리를 이용해 즐길 수있는 미니 게임
 - 공통 컴포넌트 제작
 - DB 연결 및 라우팅 기초 설계
 
-### **`2주차`**
+### **`2주차` - 구현 단계**
 
 **Front End**
 
@@ -114,11 +116,13 @@ Voice Game은 사용자의 목소리를 이용해 즐길 수있는 미니 게임
 - Data 연결 및 방-유저 상호작용 설계
   - Pusher로 방 변화 상태 실시간 전달
 
-### **`3주차`**
+### **`3주차` - 마무리 단계**
 
 - 구현 마무리
   - 게임 완성도를 위한 게임 내부 엣지케이스 핸들
+  - 게임 맵 및 상호작용 추가 (little forest)
   - 방-유저 상호작용 이벤트 관련 엣지케이스 핸들
+  - UX 향상을 위한 이미지 로딩 과정 최적화 (Loading Page 추가)
 - 리팩토링
   - 전체 코드 일관성 유지
   - Prop-types 추가
@@ -150,20 +154,20 @@ Voice Game은 사용자의 목소리를 이용해 즐길 수있는 미니 게임
   <summary><span style="font-size: 16px; font-weight: 600">Front End</span></summary>
   <div markdown="1">
 
-| Stack                 | Remarks                                                |
-| :-------------------- | :----------------------------------------------------- |
-| ES2015+               | -                                                      |
-| React                 | MERN-STACK 기반 구현                                   |
-| React-router-dom      | -                                                      |
-| Redux-thunk           | Redux 스토어의 비동기 작업(서버요청, 이미지 로딩) 관리 |
-| Styled-components     | 공통 컴포넌트 재사용성                                 |
-| Firebase              | TBD                                                    |
-| Socket.io-client      | 게임 멀티플레이를 위한 실시간 통신                     |
-| Pusher-js             | 실시간 DB 변화 구독                                    |
-| Jest                  | React Component Test                                   |
-| Enzyme                | React Component Test                                   |
-| React-testing-library | TBD                                                    |
-| Redux-logger          | TBD                                                    |
+| Stack                 | Remarks                                              |
+| :-------------------- | :--------------------------------------------------- |
+| ES2015+               | -                                                    |
+| React                 | MERN-STACK 기반 구현                                 |
+| React-router-dom      | -                                                    |
+| Redux-thunk           | Redux Store 비동기 작업 (서버요청, 이미지 로딩) 관리 |
+| Styled-components     | 공통 컴포넌트 재사용성                               |
+| Firebase              | Social Login 구현                                    |
+| Socket.io-client      | 멀티플레이를 위한 실시간 통신                        |
+| Pusher-js             | 실시간 DB 변화 구독                                  |
+| Jest                  | React Component Test                                 |
+| Enzyme                | React Component Test                                 |
+| React-testing-library | TBD                                                  |
+| Redux-logger          | TBD                                                  |
 
   <br>
   </div>
@@ -173,18 +177,18 @@ Voice Game은 사용자의 목소리를 이용해 즐길 수있는 미니 게임
   <summary><span style="font-size: 16px; font-weight: 600">Back End<span> </summary>
   <div markdown="1">
 
-| Stack                | Remarks                            |
-| :------------------- | :--------------------------------- |
-| NodeJS               | JavaScript Runtime으로 npm         |
-| Express              | JavaScript 서버 애플리케이션       |
-| MongoDB              | MERN-STACK 기반 구현               |
-| Mongoose             | MongoDB JavaScript ODM             |
-| JWT (JSON Web Token) | 토큰 기반 인증                     |
-| Soket.io             | 게임 멀티플레이를 위한 실시간 통신 |
-| Pusher               | 실시간 DB 변화 알림                |
-| Mocha                | 서버 엔드포인트 테스트             |
-| supertest            | 서버 엔드포인트 테스트             |
-| AWS                  | TBD                                |
+| Stack                | Remarks                       |
+| :------------------- | :---------------------------- |
+| NodeJS               | JavaScript Runtime으로 npm    |
+| Express              | JavaScript 서버 애플리케이션  |
+| MongoDB              | MERN-STACK 기반 구현          |
+| Mongoose             | MongoDB JavaScript ODM        |
+| JWT (JSON Web Token) | 토큰 기반 인증                |
+| Soket.io             | 멀티플레이를 위한 실시간 통신 |
+| Pusher               | 실시간 DB 변화 알림           |
+| Mocha                | 서버 엔드포인트 테스트        |
+| supertest            | 서버 엔드포인트 테스트        |
+| AWS                  | TBD                           |
 
   <br>
   </div>
@@ -194,7 +198,13 @@ Voice Game은 사용자의 목소리를 이용해 즐길 수있는 미니 게임
 
 ## Feature
 
-게임설명 쓰기...
+### **`Game Platform`**
+
+### **`Little Forest`**
+
+### **`Monster Escape`**
+
+### **`Energy Battle`**
 
 <br>
 
@@ -233,12 +243,12 @@ Voice Game은 사용자의 목소리를 이용해 즐길 수있는 미니 게임
 
 ...
 
-### **`움직이는 이미지`**
+### **`움직이는 이미지 만들기`**
 
 ...  
 [움직이는 이미지 만들기](https://www.notion.so/canwefly89/sprite-Images-35c0cfc34e5340c1933d91f504a0a8f7)
 
-### **`이미지 경로`**
+### **`이미지 저장 위치`**
 
 이미지가  
 [이미지를 어디에 저장할까?](https://www.notion.so/canwefly89/AWS-S3-download-files-import-from-public-in-react-8eb1c34ddc0949b5b0d61af055e3aea4)
@@ -269,11 +279,13 @@ AWS 배포 관련 내용
 
 ## Conclusion
 
-### **`공통`**
-
 ### **`서성주`**
 
+서성주의 마무리 멘트
+
 ### **`권민호`**
+
+권민호의 마무리 멘트
 
 ### **`김재덕`**
 
