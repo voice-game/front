@@ -11,7 +11,11 @@ const useNextMap = (mapList) => {
   const getNextMap = () => {
     if (mapList[currentMap + 1]) {
       setCurrentMap(currentMap + 1);
+
+      return;
     }
+
+    setCurrentMap(0);
   };
 
   return [currentMap, getNextMap];
