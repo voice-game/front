@@ -4,13 +4,13 @@
 
 ## 📌 &nbsp; What is Voice Game?
 
-voice game은 플레이어의 소리를 측정하여 플레이 할 수 있는 **니 게임들로** 으로 구성되어 있으며, **웹에서 즐길 수 있습니다.**
+Voice Game은 사용자의 목소리를 이용해 즐길 수있는 미니 게임들로 으로 구성되어 있으며, 크롬 브라우저에서 즐길 수 있습니다.
 
 ### 🕹 &nbsp; **[Play Voice Game](https://voicegame.fun)**
 
 <br>
 
-## 📌 &nbsp; Description
+## 📌 &nbsp; Game Overview
 
 ### **`Little Forest`**
 
@@ -44,7 +44,7 @@ voice game은 플레이어의 소리를 측정하여 플레이 할 수 있는 **
 
 <br>
 
-## 👉 &nbsp; Index
+## Project Description
 
 ### 🤔 &nbsp; [Motivation](#-Motivation)
 
@@ -70,25 +70,61 @@ voice game은 플레이어의 소리를 측정하여 플레이 할 수 있는 **
 
 ## Motivation
 
-팀원 모두 게임 제작에 대한 흥미가 있어 게임 제작을 결정하게 되었습니다.
+팀원 모두 게임 제작에 대한 흥미가 있어 주제를 게임으로 결정하였습니다.
 
-서비스되고 있는 게임 중 음성인식 기반의 게임에 영감을 받아  
-음성을 다양하게 활용하기 위해서 음의 크기, 음의 높이 등으로 나누어 3가지 게임을 제작하였습니다.
+특색있는 게임을 만들어보고자 하여 음성인식 기반으로 조작되는 게임이 아이디어로 나왔습니다.  
+영감을 받은 게임 [One Hand Clapping](https://www.youtube.com/watch?v=gRGI1Oj9wFc)
 
-<br>
-
-팀원 모두 Canvas로 게임을 만들어보고 싶어했습니다. 이에 어떤 게임을 만들까 고민하면서, <span style="color: brown; font-weight: 600 ">게임은 꼭 키보드 / 마우스로 해야할까???</span>라는 생각이 들었습니다. 이러한 의문에서 시작하여 **음성 기반 게임** 을 제작하기로 결정하였습니다.  
-소리는 높이, 크기, 모양 세 요소로 이루어져 있기때문에, 하나의 게임을 만들기보단 소리 높이, 크기의 특색을 각각 살리는게 좋다 생각하였습니다. 그 결과 미니게임 3종을 만들기로 하였습니다.
+사용자의 음성을 다양하게 활용하기 위해서 목소리의 크기와 높낮이로 나누어 3가지 미니게임을 제작하게 되었습니다.  
+(높낮이, 크기, 높낮이+크기)
 
 <br>
 
 ## Schedule
 
-### **`2021.04.12~04.30 21일 프로젝트`**
+### **`2021.04.12~04.30 총 제작기간 21일`**
 
-- 1주차 - 프로젝트 주제 선정, Mock-Up 제작, DB-Schema 설계, 구현 가능 여부 검토
-- 2주차 - Audio Context(Web Api) 이용하여 음성 인식 기능 구현, Canvas Animation, Socket 통신 구현
-- 3주차 - Netlify & AWS 배포, 테스트 코드 작성, 코드 리팩터링
+### **`1주차`**
+
+- 프로젝트 주제 선정
+- Mock-Up 제작 [Mock-Up 보러가기](https://www.notion.so/canwefly89/Voice-Game-Mock-Up-38e0618894534a5c926a288ca185e467)
+- DB-Schema 및 Redux State 구조 설계
+- 구현 가능 여부 검토
+  - 음성 인식 Web API 스터디
+  - 주파수 인식 라이브러리 탐색
+  - Canvas 기초 스터디
+- 공통 컴포넌트 제작
+- DB 연결 및 라우팅 기초 설계
+
+### **`2주차`**
+
+**Front End**
+
+- 게임별 컴포넌트 제작
+- 기능 구현
+  - Audio Context(Web Api) 이용하여 음성 인식 기능 구현
+  - Canvas Animation 구현
+  - Socket 통신 구현
+- 게임 구현
+  - Sprite Image 제작
+  - 게임별 움직임 및 충돌 로직 등
+
+**Back End**
+
+- Data 연결 및 방-유저 상호작용 설계
+  - Pusher로 방 변화 상태 실시간 전달
+
+### **`3주차`**
+
+- 구현 마무리
+  - 게임 완성도를 위한 게임 내부 엣지케이스 핸들
+  - 방-유저 상호작용 이벤트 관련 엣지케이스 핸들
+- 리팩토링
+  - 전체 코드 일관성 유지
+  - Prop-types 추가
+- 테스트 코드 작성
+- 프론트엔드, 백엔드 배포
+  - Netlify, AWS Elastic Beanstalk
 
 <br>
 
@@ -116,9 +152,9 @@ voice game은 플레이어의 소리를 측정하여 플레이 할 수 있는 **
 
 | Stack                 | Remarks                                                |
 | :-------------------- | :----------------------------------------------------- |
-| ES2015+               | TBD(To Be Decided)                                     |
-| React                 | TBD                                                    |
-| React-router-dom      | TBD                                                    |
+| ES2015+               | -                                                      |
+| React                 | MERN-STACK 기반 구현                                   |
+| React-router-dom      | -                                                      |
 | Redux-thunk           | Redux 스토어의 비동기 작업(서버요청, 이미지 로딩) 관리 |
 | Styled-components     | 공통 컴포넌트 재사용성                                 |
 | Firebase              | TBD                                                    |
@@ -141,7 +177,7 @@ voice game은 플레이어의 소리를 측정하여 플레이 할 수 있는 **
 | :------------------- | :--------------------------------- |
 | NodeJS               | JavaScript Runtime으로 npm         |
 | Express              | JavaScript 서버 애플리케이션       |
-| MongoDB              | TBD                                |
+| MongoDB              | MERN-STACK 기반 구현               |
 | Mongoose             | MongoDB JavaScript ODM             |
 | JWT (JSON Web Token) | 토큰 기반 인증                     |
 | Soket.io             | 게임 멀티플레이를 위한 실시간 통신 |
@@ -188,19 +224,26 @@ voice game은 플레이어의 소리를 측정하여 플레이 할 수 있는 **
 
 이처럼 Canvas를 다루는게 까다롭고 어려웠지만, 게임, 웹 디자인 등에 쓰이는 Canvas의 활용도에 대해 배울 수 있었던 좋은 경험이었습니다.
 
-### **`Custom Hook`**
-
-...
-
 ### **`Socket IO`**
 
-...
+...  
+[방장이 나간 사실을 어떻게 감지할까? - socket.io](https://www.notion.so/canwefly89/disconnect-leave-socket-io-950fbef3ed9a4c789f4e850af2dad3e7)
 
 ### **`객체 지향 프로그램`**
 
 ...
 
 ### **`움직이는 이미지`**
+
+...  
+[움직이는 이미지 만들기](https://www.notion.so/canwefly89/sprite-Images-35c0cfc34e5340c1933d91f504a0a8f7)
+
+### **`이미지 경로`**
+
+이미지가  
+[이미지를 어디에 저장할까?](https://www.notion.so/canwefly89/AWS-S3-download-files-import-from-public-in-react-8eb1c34ddc0949b5b0d61af055e3aea4)
+
+### **`Custom Hook`**
 
 ...
 
