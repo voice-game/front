@@ -25,7 +25,7 @@ const LittleForestContainer = () => {
     useAudio({ samplerate: 12000 }, { audio: true, video: false })
     );
   const [currentMap, getNextMap] = useNextMap(mapList);
-  const characterIndex = useRandomCharacter(image.characters.length);
+  const characterIndex = useRandomCharacter(image);
 
   const TILE_SIZE = 32;
   const WIDTH = TILE_SIZE * 34;
