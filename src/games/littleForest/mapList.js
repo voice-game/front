@@ -14,13 +14,14 @@ const mapList = [
     ],
     interactionList: [
       [IMAGE_TYPE.ROAD, 9, 17, 14, 5, 1, 0],
+
       [IMAGE_TYPE.PORTAL, 28, 7, 5, 5],
     ],
   },
   {
     tiles: [
       [IMAGE_TYPE.TILE, 1, 0, 18, 1, 1, 7],
-      [IMAGE_TYPE.TILE, 1, 1, 16, 1, 1, 1],
+      [IMAGE_TYPE.TILE, 1, 3, 16, 1, 1, 1],
       [IMAGE_TYPE.TILE, 1, 3, 14, 1, 1, 1],
       [IMAGE_TYPE.TILE, 1, 5, 12, 1, 1, 1],
       [IMAGE_TYPE.TILE, 1, 7, 12, 1, 1, 1],
@@ -43,7 +44,9 @@ const mapList = [
     ],
     interactionList: [
       [IMAGE_TYPE.ROAD, 14, 15, 9, 5, 1, 0],
+
       [IMAGE_TYPE.PAD, 24, 5, 5, 2, 15, 1, 0],
+
       [IMAGE_TYPE.PORTAL, 9, 0, 5, 5],
     ],
   },

@@ -2,15 +2,16 @@ import React from "react";
 
 import Game from "../../games/littleForest";
 import BackGround from "../../games/littleForest/Background";
-import GameMap from "../../games/littleForest/GameMap";
-import GameManual from "../GameManual/GameManual";
 import Loading from "../Loading/Loading";
+import GameManual from "../GameManual/GameManual";
+import GameMap from "../../games/littleForest/GameMap";
 
 import useAudio from "../../hooks/useAudio";
 import useCanvas from "../../hooks/useCanvas";
-import usePitchDetector from "../../hooks/usePitchDetector";
-import useLoadedImage from "../../hooks/useLoadedImage";
 import useNextMap from "../../hooks/useNextMap";
+import useLoadedImage from "../../hooks/useLoadedImage";
+import usePitchDetector from "../../hooks/usePitchDetector";
+import useRandomCharacter from "../../hooks/useRandomCharacter";
 
 import Canvas from "../shared/Canvas/Canvas";
 import Wrapper from "../shared/Wrapper/Wrapper";
@@ -19,11 +20,12 @@ import manualImage from "../../images/manuals/manual_littleForest.png";
 import mapList from "../../games/littleForest/mapList";
 
 const LittleForestContainer = () => {
-  const [currentMap, getNextMap] = useNextMap(mapList);
   const { image, isLoaded } = useLoadedImage("littleForest");
   const pitchDetectorRef = usePitchDetector(
     useAudio({ samplerate: 12000 }, { audio: true, video: false })
-  );
+    );
+  const [currentMap, getNextMap] = useNextMap(mapList);
+  const characterIndex = useRandomCharacter(image.characters.length);
 
   const TILE_SIZE = 32;
   const WIDTH = TILE_SIZE * 34;
@@ -44,6 +46,7 @@ const LittleForestContainer = () => {
       interactionList,
       getNextMap,
       images: image,
+      characterIndex,
     },
     isLoaded
   );
