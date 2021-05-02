@@ -14,7 +14,7 @@ class CharacterController {
     this.character = new Character(pickRandom(this.images));
 
     this.initialX = 100;
-    this.initialY = 500;
+    this.initialY = 550;
     this.posX = this.initialX;
     this.posY = this.initialY;
 
@@ -47,7 +47,7 @@ class CharacterController {
   }
 
   draw(ctx, dots, timeStamp) {
-    this.characterCenterX = this.posX + (this.character.width / 2);
+    this.characterCenterX = Math.floor(this.posX + (this.character.width / 2));
 
     if (this.canvasHeight < this.posY - this.character.height) {
       this.posX = this.initialX;
@@ -59,6 +59,7 @@ class CharacterController {
     }
 
     if (this.maxY < this.posY) {
+
       this.posY = this.maxY;
       this.characterMove.isJumping = false;
 
@@ -176,6 +177,11 @@ class CharacterController {
   }
 
   handleCharacterImage() {
+    if (this.isHit) {
+      this.character.currentImg = this.character.imgList.hurt;
+      return;
+    }
+
     if (this.characterMove.left) {
       this.character.currentImg = this.character.imgList.walking;
       this.character.isFlipped = true;
