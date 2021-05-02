@@ -138,20 +138,23 @@ Voice Game은 크롬 브라우저에서 즐길 수 있습니다.
 
 ### **`서성주`** 유저 인증, 멀티플레이 환경 및 백엔드 구축, Energy Battle 구현
 
-- 유저 인증
-  - firebase를 활용한
-- 백엔드 구축
-  - Node.js, Express, MongoDB, Mongoose
-  - DB Model: Player, Room
-  - 모든 엔드포인트 로직
-- 멀티플레이 통신 구축
-  - Pusher: 모든 플레이어에게 방 상태 공유 (Full, Enter)
-  - socket: 멀티플레이 통신 구축
-- Energy Battle 게임 제작
-  - Web API로 Volume Input 활용
-  - 1:1 대전 멀티플레이 게임
-- 프론트엔드 서버 배포
-  - Netlify 활용
+1. **유저 인증**  
+   firebase를 활용한 구글 로그인  
+   비회원 이용 기능
+2. **백엔드 구축**  
+   Node.js, Express, MongoDB, Mongoose
+   DB Modeling: Player, Room
+   모든 엔드포인트 로직
+3. **멀티플레이 통신 구축**  
+   Pusher: 모든 플레이어에게 방 상태 공유 (Full, Enter)
+   socket: 멀티플레이 통신 구축
+4. **Energy Battle 게임 제작**  
+   Web API로 Volume Input 활용
+   1:1 대전 멀티플레이 게임
+5. **프론트엔드 서버 배포**  
+   Netlify 활용
+6. **전체 CSS Styling**  
+   Styled Component 활용
 
 ### **`권민호`** Volume Input 핸들 로직, 백엔드 배포, 백엔드 테스트 코드, Monster Escape 구현
 
