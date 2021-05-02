@@ -6,7 +6,7 @@ import { useState } from "react";
  * @returns ramdom index under character list length
  */
 const useRandomCharacter = (image) => {
-  const listLength = image ? image.characters.length : 0;
+  const listLength = image.characters ? image.characters.length : 0;
 
   const randomIndex = Math.random() * listLength;
   const floored = Math.floor(randomIndex);
