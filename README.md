@@ -4,9 +4,11 @@
 
 ## 📌 &nbsp; What is Voice Game?
 
-Voice Game은 사용자의 목소리를 이용해 즐길 수있는 미니 게임들로 으로 구성되어 있으며, 크롬 브라우저에서 즐길 수 있습니다.
+Voice Game은 사용자의 목소리를 이용해 즐길 수있는 미니 게임들로 으로 구성된 게임 플랫폼입니다.
 
-### 🕹 &nbsp; **[Play Voice Game](https://voicegame.fun)**
+Voice Game은 크롬 브라우저에서 즐길 수 있습니다.
+
+### 🕹 &nbsp; **[Go to Play Voice Game](https://voicegame.fun)**
 
 <br>
 
@@ -134,15 +136,28 @@ Voice Game은 사용자의 목소리를 이용해 즐길 수있는 미니 게임
 
 ## Contributor
 
-### **`서성주`**
+### **`서성주`** 유저 인증, 멀티플레이 환경 및 백엔드 구축, Energy Battle 구현
 
-서성주의 역할에 대해 쓰면 됩니다.
+- 유저 인증
+  - firebase를 활용한
+- 백엔드 구축
+  - Node.js, Express, MongoDB, Mongoose
+  - DB Model: Player, Room
+  - 모든 엔드포인트 로직
+- 멀티플레이 통신 구축
+  - Pusher: 모든 플레이어에게 방 상태 공유 (Full, Enter)
+  - socket: 멀티플레이 통신 구축
+- Energy Battle 게임 제작
+  - Web API로 Volume Input 활용
+  - 1:1 대전 멀티플레이 게임
+- 프론트엔드 서버 배포
+  - Netlify 활용
 
-### **`권민호`**
+### **`권민호`** Volume Input 핸들 로직, 백엔드 배포, 백엔드 테스트 코드, Monster Escape 구현
 
 권민호의 역할에 대해 쓰면 됩니다.
 
-### **`김재덕`**
+### **`김재덕`** (한 줄 요약)
 
 김재덕의 역할에 대해 쓰면 됩니다.
 
@@ -199,6 +214,8 @@ Voice Game은 사용자의 목소리를 이용해 즐길 수있는 미니 게임
 ## Feature
 
 ### **`Game Platform`**
+
+-
 
 ### **`Little Forest`**
 
