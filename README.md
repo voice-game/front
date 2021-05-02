@@ -6,11 +6,9 @@
 
 voice game은 플레이어의 소리를 측정하여 플레이 할 수 있는 **니 게임들로** 으로 구성되어 있으며, **웹에서 즐길 수 있습니다.**
 
+### 🕹 &nbsp; **[Play Voice Game](https://voicegame.fun)**
+
 <br>
-
-## 🕹 &nbsp; **[Play Voice Game](https://voicegame.fun)**
-
-## <br>
 
 ## 📌 &nbsp; Description
 
@@ -29,7 +27,7 @@ voice game은 플레이어의 소리를 측정하여 플레이 할 수 있는 **
 
  <img src="./README_assets/energyBattle_gif.gif" alt="EnergyBattle" width="40%" />
 
-## <br>
+<br>
 
 ## 📌 &nbsp; Github Repository
 
@@ -37,11 +35,10 @@ voice game은 플레이어의 소리를 측정하여 플레이 할 수 있는 **
 
 ### 📁 &nbsp; [**Backend** Repository](https://github.com/voice-game/back)
 
-## <br>
+<br>
 
 ---
 
-<br>
 <br>
 
 ## 👉 &nbsp; Index
@@ -62,11 +59,10 @@ voice game은 플레이어의 소리를 측정하여 플레이 할 수 있는 **
 
 ### 🙇🏻‍♂️ &nbsp; [Conclusion](#-Conclusion)
 
-## <br>
+<br>
 
 ---
 
-<br>
 <br>
 
 ## Motivation
@@ -76,7 +72,6 @@ voice game은 플레이어의 소리를 측정하여 플레이 할 수 있는 **
 서비스되고 있는 게임 중 음성인식 기반의 게임에 영감을 받아  
 음성을 다양하게 활용하기 위해서 음의 크기, 음의 높이 등으로 나누어 3가지 게임을 제작하였습니다.
 
-<br>
 <br>
 
 <p>
@@ -89,7 +84,6 @@ voice game은 플레이어의 소리를 측정하여 플레이 할 수 있는 **
 소리는 높이, 크기, 모양 세 요소로 이루어져 있기때문에, 하나의 게임을 만들기보단 소리 높이, 크기의 특색을 각각 살리는게 좋다 생각하였습니다. 그 결과 미니게임 3종을 만들기로 하였습니다.
 
 <br>
-<br>
 
 ## Schedule
 
@@ -100,7 +94,6 @@ voice game은 플레이어의 소리를 측정하여 플레이 할 수 있는 **
 - 3주차 - Netlify & AWS 배포, 테스트 코드 작성, 코드 리팩터링
 
 <br>
-<br>
 
 ## Contributor
 
@@ -110,7 +103,6 @@ voice game은 플레이어의 소리를 측정하여 플레이 할 수 있는 **
 
 ### **`김재덕`**
 
-<br>
 <br>
 
 ## TechStack
@@ -160,13 +152,11 @@ voice game은 플레이어의 소리를 측정하여 플레이 할 수 있는 **
 </details>
 
 <br>
-<br>
 
 ## Feature
 
 게임설명 쓰기...
 
-<br>
 <br>
 
 ## Challenge
@@ -212,7 +202,6 @@ Audio Context (Web Api)
 ...
 
 <br>
-<br>
 
 ## Deploy
 
@@ -220,7 +209,6 @@ Audio Context (Web Api)
 
 ### **`Backend`**
 
-<br>
 <br>
 
 ## History
@@ -231,7 +219,6 @@ Audio Context (Web Api)
 
 ### **`3주차`**
 
-<br>
 <br>
 
 ## Conclusion
@@ -246,7 +233,6 @@ Audio Context (Web Api)
 
 캔버스 로직이 vanilla javascript로 되어 있고 각각의 요소들이 독립적이어야 했기 때문에 평소보다 OOP에 더 신경을 써야 했습니다. 어려움도 많이 느꼈지만 OOP의 확실한 장점을 전보다 더 체감할 수 있는 계기가 되었습니다.
 
-<br>
 <br>
 
 ## Contact
