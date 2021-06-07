@@ -316,7 +316,7 @@ FFT(Fast Fourier Transformation)란 시간영역의 디지털 신호를 주파�
 음성인식을 위해 Web Api로 제공되는 Audio Context를 사용하였습니다.  
 다만, Audio Context의 AnalyserNode를 통해 얻을 수 있는 주파수 데이터가 FFT로 변환되어 제공되는데  
 이를 원하는 형태로 가공하여 사용하는 것에 어려움이 있어 Ml5라는 라이브러리를 사용했지만  
-이 또한 성능 문제가 있어 MIT의 Source Code를 가공하여 사용하였습니다.
+이 또한 성능 문제가 있어 음의 Pitch 값을 얻을 수 있는 오픈소스를 개량해서 사용했습니다.
 
 ### **`Canvas`**
 
