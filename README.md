@@ -164,7 +164,7 @@ Voice Game은 크롬 브라우저에서 즐길 수 있습니다.
 4. **Backend Test Code**  
   서버 각 엔드포인트에 대한 Test Code 작성
 
-### **`김재덕`** (한 줄 요약)
+### **`김재덕`**
 
 1. **Little Forest 게임 제작**  
   Web API 기반 Pitch Detector 활용  
@@ -206,7 +206,7 @@ Voice Game은 크롬 브라우저에서 즐길 수 있습니다.
 
 | Stack                | Remarks                       |
 | :------------------- | :---------------------------- |
-| NodeJS               | JavaScript Runtime으로 npm     |
+| NodeJS               | JavaScript Runtime            |
 | Express              | JavaScript 서버 애플리케이션      |
 | MongoDB              | MERN-STACK 기반 구현            |
 | Mongoose             | MongoDB JavaScript ODM        |
@@ -215,7 +215,7 @@ Voice Game은 크롬 브라우저에서 즐길 수 있습니다.
 | Pusher               | 실시간 DB 변화 알림               |
 | Mocha                | 서버 엔드포인트 테스트              |
 | supertest            | 서버 엔드포인트 테스트              |
-| AWS                  | TBD                           |
+| AWS                  | 서버 배포                       |
 
   <br>
   </div>
